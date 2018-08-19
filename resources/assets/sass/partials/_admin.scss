@@ -1,0 +1,196 @@
+
+//Formulários
+@import "partials/forms";
+
+body {
+    margin: 0;
+    background-color: white;
+    font-family: $fonte-admin-light;
+    font-size: $font-size-base;
+    overflow-x: hidden;
+}
+
+ul {
+    list-style: none;
+}
+
+#app {
+    margin: 0;
+    width: 100%;
+    height: 100vh;
+
+    #principal {
+
+        width: 100%;
+        height: 100%;
+        background-color: $cor_fundo;
+
+        #cabecalho {
+            width: 100%;
+            height: $cabecalho;
+            background-color: $cor_fundo;
+            border-bottom: 1px solid $cinza_borda;
+
+            a {
+                color: $laranja;
+                text-decoration: none;
+            }
+    
+            .container {
+                width: 100%;
+                height: 100%;
+                padding: 14px 30px;
+                box-sizing: border-box;
+
+                .logo {
+                    float: left;
+
+                    img {
+                        width: 115px;
+                        height: auto;
+                    }
+                }   
+    
+                .usuario {
+                    float: right;
+                    width: 400px;
+                    height: 100%;
+                    text-align: right;
+                    color: white;
+    
+                    .login,
+                    .nome_usuario,
+                    .registrar,
+                    .logout {
+                        display: inline-block;
+                    }
+                }
+    
+            }
+        }
+
+        #sidebar {
+            float: left;
+            background-color: $cinza_claro;
+            width: $sidebar_w;
+            height: calc(100% - #{$cabecalho});
+            padding: 20px 0 0 0;
+            border-right: 1px solid $cinza_borda;
+            box-sizing: border-box;
+
+            ul {
+                padding: 0;
+
+                li {
+                    
+                    line-height: 1em;
+                    padding: 12px 10px 12px 0;
+                    text-align: right;
+
+                    &.grupo {
+                        // 
+
+                        span {
+                            color: $cinza_escuro;
+                            font-family: $fonte-admin-medium;
+                        }
+                    }
+
+                    &.opcao {
+
+                        &:hover {
+                            background-color: #f7f7f7;
+                        }
+                    }
+
+                    a {
+                        text-decoration: none;
+                        color: $cinza_escuro;
+                    }
+                } //li
+
+                
+            }
+
+            #inferior {
+                position: absolute;
+                bottom: 0;
+                width: 100%;
+                margin: 0 0 20px 0;
+            }
+        }
+
+        #conteudo {
+            float: left;
+            width: calc(100% - #{$sidebar_w});
+            height: calc(100% - #{$cabecalho});
+            background-color: $cor_fundo;
+            padding: 30px 50px;
+            box-sizing: border-box;
+
+            #container_conteudo {
+
+                .titulo {
+                    color: $cinza_escuro;
+                    font-size: 2.5em;
+                }
+
+                form {
+                    // 
+
+                    label {
+                        color: $cinza;
+                    }
+
+                    .grupo {
+                        // 
+
+                        input,
+                        .nome_grupo {
+                            margin-bottom: 20px;
+                        }
+    
+                        .nome_grupo {
+                            font-size: 1.313em;
+                            margin-top: 32px;
+                        }
+            
+                        input {}
+    
+                    } //.grupo
+                } //form
+
+                .resumo {
+
+                    .nome_grupo {
+                        margin-bottom: 20px;
+                        font-size: 1.313em;
+                        margin-top: 32px;
+                    }
+
+                    .campo,
+                    .valor {
+                        display: inline-block;
+                    }
+
+                    .campo {
+                        width: 150px;
+                        margin-bottom: 12px;
+                        color: $cinza;
+                        margin-right: 20px;
+                        text-align: right;
+                    }
+
+                    .valor {
+
+                    }
+                }
+
+                
+                
+
+
+            } //#container_conteudo
+        } //#conteudo
+    } //#principal
+} //#app

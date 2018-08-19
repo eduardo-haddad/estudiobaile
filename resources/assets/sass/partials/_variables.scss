@@ -1,0 +1,70 @@
+
+// Cores
+$cinza: #999999;
+$cinza_claro: #e6e7e8;
+$cinza_borda: #d4d4d4;
+$cinza_escuro: #58595b;
+$cor_fundo: #ffffff;
+$laranja: #f59921;
+$vermelho: #e80017;
+$magenta: #ed2487;
+
+
+//Dimensões
+$sidebar_w: 225px;
+$cabecalho: 61px;
+
+// Typography
+$font-size-base: 16px;
+$line-height-base: 1.6;
+$fonte-projeto-regular: 'GTWalsheimProRegular';
+$fonte-projeto-bold: 'GTWalsheimProBold';
+$fonte-admin-light: 'HelveticaNeueLTStd45Light';
+$fonte-admin-medium: 'HelveticaNeueLTStd65Medium';
+
+@font-face {
+    font-family: 'GTWalsheimProRegular';
+    src: url('../fonts/GTWalsheimPro/GTWalsheimProRegular.eot');
+    src: url('../fonts/GTWalsheimPro/GTWalsheimProRegular.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/GTWalsheimPro/GTWalsheimProRegular.woff2') format('woff2'),
+        url('../fonts/GTWalsheimPro/GTWalsheimProRegular.woff') format('woff'),
+        url('../fonts/GTWalsheimPro/GTWalsheimProRegular.ttf') format('truetype'),
+        url('../fonts/GTWalsheimPro/GTWalsheimProRegular.svg#GTWalsheimProRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'GTWalsheimProBold';
+    src: url('../fonts/GTWalsheimPro/GTWalsheimProBold.eot');
+    src: url('../fonts/GTWalsheimPro/GTWalsheimProBold.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/GTWalsheimPro/GTWalsheimProBold.woff2') format('woff2'),
+        url('../fonts/GTWalsheimPro/GTWalsheimProBold.woff') format('woff'),
+        url('../fonts/GTWalsheimPro/GTWalsheimProBold.ttf') format('truetype'),
+        url('../fonts/GTWalsheimPro/GTWalsheimProBold.svg#GTWalsheimProBold') format('svg');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+	font-family: 'HelveticaNeueLTStd45Light';
+    src: url('../fonts/HelveticaNeueLTStd45Light/HelveticaNeueLTStd45Light.eot');
+    src: url('../fonts/HelveticaNeueLTStd45Light/HelveticaNeueLTStd45Light.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/HelveticaNeueLTStd45Light/HelveticaNeueLTStd45Light.woff') format('woff'),
+        url('../fonts/HelveticaNeueLTStd45Light/HelveticaNeueLTStd45Light.ttf') format('truetype'),
+        url('../fonts/HelveticaNeueLTStd45Light/HelveticaNeueLTStd45Light.svg#HelveticaNeueLTStd45Light') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+    font-family: 'HelveticaNeueLTStd65Medium';
+    src: url('../fonts/HelveticaNeueLTStd65Medium/HelveticaNeueLTStd65Medium.eot');
+    src: url('../fonts/HelveticaNeueLTStd65Medium/HelveticaNeueLTStd65Medium.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/HelveticaNeueLTStd65Medium/HelveticaNeueLTStd65Medium.woff2') format('woff2'),
+        url('../fonts/HelveticaNeueLTStd65Medium/HelveticaNeueLTStd65Medium.woff') format('woff'),
+        url('../fonts/HelveticaNeueLTStd65Medium/HelveticaNeueLTStd65Medium.ttf') format('truetype'),
+        url('../fonts/HelveticaNeueLTStd65Medium/HelveticaNeueLTStd65Medium.svg#HelveticaNeueLTStd65Medium') format('svg');
+    font-weight: 500;
+    font-style: normal;
+}
