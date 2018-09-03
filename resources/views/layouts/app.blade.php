@@ -12,11 +12,7 @@
     
         <!-- Scripts -->
         <script src="{{ asset('js/app.js') }}" defer></script>
-    
-        <!-- Fonts -->
-        <link rel="dns-prefetch" href="https://fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,600" rel="stylesheet" type="text/css">
-    
+
         <!-- Styles -->
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
         <link href="{{ asset('css/bootstrap/bootstrap.css') }}" rel="stylesheet">
@@ -26,29 +22,36 @@
 
     <div id="app">
 
-        
-
         <div id="principal">
+
+            <div id="container_geral">
 
                 <header id="cabecalho">
                     @include('admin/elements/cabecalho')
                 </header>
 
-            <nav id="sidebar">
-                @include('admin/elements/sidebar')
-            </nav>
+                {{--<div style="clear: both"></div>--}}
 
-            
+                <nav id="sidebar">
+                    @include('admin/elements/sidebar')
+                </nav>
 
-            <div id="conteudo">
-                @yield('content')
+                <div id="conteudo_geral">
+                    {{--@include('admin/elements/lista')--}}
+                    <router-view name="lista"></router-view>
+                </div>
+
             </div>
 
         </div>
 
 
     </div>
-    
+
+    <script>
+
+    </script>
+
 
     
 </body>

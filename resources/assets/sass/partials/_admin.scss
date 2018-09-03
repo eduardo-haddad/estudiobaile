@@ -17,13 +17,28 @@ ul {
 #app {
     margin: 0;
     width: 100%;
-    height: 100vh;
+    //height: 100%;
+    //display: inline-block;
+    float: left;
+    overflow:hidden;
+    position:relative;
 
     #principal {
 
         width: 100%;
-        height: 100%;
+        //height: 100%;
+        //display: inline-block;
+        float: left;
+        position:relative;
         background-color: $cor_fundo;
+
+        #container_geral {
+            //display: inline-block;
+            float: left;
+            position:relative;
+            width: 100%;
+            min-height: 100vh;
+        }
 
         #cabecalho {
             width: 100%;
@@ -56,7 +71,8 @@ ul {
                     width: 400px;
                     height: 100%;
                     text-align: right;
-                    color: white;
+                    color: black;
+                    margin-top: 10px;
     
                     .login,
                     .nome_usuario,
@@ -74,9 +90,11 @@ ul {
             background-color: $cinza_claro;
             width: $sidebar_w;
             height: calc(100% - #{$cabecalho});
+            min-height: 100vh;
             padding: 20px 0 0 0;
             border-right: 1px solid $cinza_borda;
             box-sizing: border-box;
+            position:relative;
 
             ul {
                 padding: 0;
@@ -120,13 +138,15 @@ ul {
             }
         }
 
-        #conteudo {
+        #conteudo_geral {
             float: left;
             width: calc(100% - #{$sidebar_w});
             height: calc(100% - #{$cabecalho});
             background-color: $cor_fundo;
-            padding: 30px 50px;
+            padding: 0;
             box-sizing: border-box;
+            position:relative;
+            min-height: 100vh;
 
             #container_conteudo {
 
@@ -136,27 +156,28 @@ ul {
                 }
 
                 form {
-                    // 
+                    //
 
                     label {
                         color: $cinza;
                     }
 
                     .grupo {
-                        // 
+                        //
 
                         input,
+                        select,
                         .nome_grupo {
                             margin-bottom: 20px;
                         }
-    
+
                         .nome_grupo {
                             font-size: 1.313em;
                             margin-top: 32px;
                         }
-            
+
                         input {}
-    
+
                     } //.grupo
                 } //form
 
@@ -166,6 +187,18 @@ ul {
                         margin-bottom: 20px;
                         font-size: 1.313em;
                         margin-top: 32px;
+                    }
+
+                    .editar {
+                        font-size: 0.6em;
+                        display: inline-block;
+                        text-transform: lowercase;
+                        margin: 5px 0 0 10px;
+                        position: absolute;
+
+                        a {
+                            color: $cinza;
+                        }
                     }
 
                     .campo,
@@ -184,13 +217,52 @@ ul {
                     .valor {
 
                     }
+
+                    .botoes {
+                        margin-left: 8px;
+                        display: inline-block;
+
+                        .btn_edit,
+                        .btn_delete {
+                            width: 12px;
+                            height: auto;
+                            margin-right: 5px;
+                        }
+                    }
                 }
 
-                
-                
+
+
 
 
             } //#container_conteudo
+
+            .lista {
+                float: left;
+                width: $lista_w;
+                min-height: 100vh;
+                max-height: 100vh;
+                overflow-y: auto;
+
+                ul {
+                    display: inline;
+
+                    li {
+                        height: 30px;
+
+                        a {
+                            color: $cinza;
+                            text-decoration: none;
+                            cursor: pointer;
+                        }
+                    } //li
+                } //ul
+            } //lista
+
+            .conteudo {
+                width: calc(100% - #{$lista_w});
+                height: 100%;
+            }
         } //#conteudo
     } //#principal
 } //#app

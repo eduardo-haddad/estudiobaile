@@ -5,13 +5,8 @@ mix.js('resources/assets/js/app.js', 'public/js')
         .options({
             processCssUrls: false
         })
-   .extract([
-       'jquery',
-       'vue',
-       'lodash'
-   ])
    .autoload({
-        jquery: ['$', 'jQuery']
+        jquery: ['$', 'window.jQuery', 'jQuery']
     })
    .sourceMaps()
    .webpackConfig({

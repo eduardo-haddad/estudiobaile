@@ -11,7 +11,7 @@
 
         <hr>
 
-        <form action="{{ route('pf.update', ['id' => $pessoa_fisica->id]) }}" method="post" enctype="multipart/form-data">
+        <form action="{{ route('pf.dadosgerais.update', ['id' => $pessoa_fisica->id]) }}" method="post" enctype="multipart/form-data">
             
             {{ csrf_field() }}
 
@@ -128,6 +128,6 @@
 
     </div>
 
-   
+
 
 @stop

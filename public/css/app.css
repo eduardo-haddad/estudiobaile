@@ -45,13 +45,23 @@ ul {
 #app {
   margin: 0;
   width: 100%;
-  height: 100vh;
+  float: left;
+  overflow: hidden;
+  position: relative;
 }
 
 #app #principal {
   width: 100%;
-  height: 100%;
+  float: left;
+  position: relative;
   background-color: #ffffff;
+}
+
+#app #principal #container_geral {
+  float: left;
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
 }
 
 #app #principal #cabecalho {
@@ -88,7 +98,8 @@ ul {
   width: 400px;
   height: 100%;
   text-align: right;
-  color: white;
+  color: black;
+  margin-top: 10px;
 }
 
 #app #principal #cabecalho .container .usuario .login,
@@ -103,10 +114,12 @@ ul {
   background-color: #e6e7e8;
   width: 225px;
   height: calc(100% - 61px);
+  min-height: 100vh;
   padding: 20px 0 0 0;
   border-right: 1px solid #d4d4d4;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
+  position: relative;
 }
 
 #app #principal #sidebar ul {
@@ -140,52 +153,106 @@ ul {
   margin: 0 0 20px 0;
 }
 
-#app #principal #conteudo {
+#app #principal #conteudo_geral {
   float: left;
   width: calc(100% - 225px);
   height: calc(100% - 61px);
   background-color: #ffffff;
-  padding: 30px 50px;
+  padding: 0;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
+  position: relative;
+  min-height: 100vh;
 }
 
-#app #principal #conteudo #container_conteudo .titulo {
+#app #principal #conteudo_geral #container_conteudo .titulo {
   color: #58595b;
   font-size: 2.5em;
 }
 
-#app #principal #conteudo #container_conteudo form label {
+#app #principal #conteudo_geral #container_conteudo form label {
   color: #999999;
 }
 
-#app #principal #conteudo #container_conteudo form .grupo input,
-#app #principal #conteudo #container_conteudo form .grupo .nome_grupo {
+#app #principal #conteudo_geral #container_conteudo form .grupo input,
+#app #principal #conteudo_geral #container_conteudo form .grupo select,
+#app #principal #conteudo_geral #container_conteudo form .grupo .nome_grupo {
   margin-bottom: 20px;
 }
 
-#app #principal #conteudo #container_conteudo form .grupo .nome_grupo {
+#app #principal #conteudo_geral #container_conteudo form .grupo .nome_grupo {
   font-size: 1.313em;
   margin-top: 32px;
 }
 
-#app #principal #conteudo #container_conteudo .resumo .nome_grupo {
+#app #principal #conteudo_geral #container_conteudo .resumo .nome_grupo {
   margin-bottom: 20px;
   font-size: 1.313em;
   margin-top: 32px;
 }
 
-#app #principal #conteudo #container_conteudo .resumo .campo,
-#app #principal #conteudo #container_conteudo .resumo .valor {
+#app #principal #conteudo_geral #container_conteudo .resumo .editar {
+  font-size: 0.6em;
+  display: inline-block;
+  text-transform: lowercase;
+  margin: 5px 0 0 10px;
+  position: absolute;
+}
+
+#app #principal #conteudo_geral #container_conteudo .resumo .editar a {
+  color: #999999;
+}
+
+#app #principal #conteudo_geral #container_conteudo .resumo .campo,
+#app #principal #conteudo_geral #container_conteudo .resumo .valor {
   display: inline-block;
 }
 
-#app #principal #conteudo #container_conteudo .resumo .campo {
+#app #principal #conteudo_geral #container_conteudo .resumo .campo {
   width: 150px;
   margin-bottom: 12px;
   color: #999999;
   margin-right: 20px;
   text-align: right;
+}
+
+#app #principal #conteudo_geral #container_conteudo .resumo .botoes {
+  margin-left: 8px;
+  display: inline-block;
+}
+
+#app #principal #conteudo_geral #container_conteudo .resumo .botoes .btn_edit,
+#app #principal #conteudo_geral #container_conteudo .resumo .botoes .btn_delete {
+  width: 12px;
+  height: auto;
+  margin-right: 5px;
+}
+
+#app #principal #conteudo_geral .lista {
+  float: left;
+  width: 300px;
+  min-height: 100vh;
+  max-height: 100vh;
+  overflow-y: auto;
+}
+
+#app #principal #conteudo_geral .lista ul {
+  display: inline;
+}
+
+#app #principal #conteudo_geral .lista ul li {
+  height: 30px;
+}
+
+#app #principal #conteudo_geral .lista ul li a {
+  color: #999999;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+#app #principal #conteudo_geral .conteudo {
+  width: calc(100% - 300px);
+  height: 100%;
 }
 
 /*# sourceMappingURL=app.css.map*/

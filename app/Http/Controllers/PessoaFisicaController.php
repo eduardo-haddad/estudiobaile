@@ -48,15 +48,15 @@ class PessoaFisicaController extends Controller
      */
     public function store(Request $request)
     {
-        //dd($request->user()->name);
 
-        $this->validate($request, [
-            'nome' => 'required|max:255',
-            'nome_adotado' => 'required|max:255',
-            'dt_nascimento' => 'nullable|date',
-        ]);  
+//        $this->validate($request, [
+//            'nome' => 'required|max:255',
+//            'nome_adotado' => 'required|max:255',
+//            'dt_nascimento' => 'nullable|date',
+//        ]);
 
-        PessoaFisica::create([
+
+        $pf = PessoaFisica::create([
             'nome' => $request->nome,
             'nome_adotado' => $request->nome_adotado,
             'genero_id' => $request->genero_id,
@@ -73,7 +73,7 @@ class PessoaFisicaController extends Controller
 
         Session::flash('success', 'Pessoa cadastrada');
 
-        return redirect()->back();
+        return redirect()->route('pf.view', ['id' => $pf->id]);
     }
 
     /**
@@ -91,7 +91,7 @@ class PessoaFisicaController extends Controller
 
         //Contatos
         $contatos = DB::select("
-            select tc.nome as tipo, c.valor from contatos c
+            select tc.nome as tipo, c.valor, c.id from contatos c
             inner join tipos_contato tc
             on c.tipo_contato_id = tc.id
             left join pessoas_fisicas p
@@ -99,10 +99,13 @@ class PessoaFisicaController extends Controller
             where p.id = $id
         ");
 
+        $estado_civil = (new EstadoCivil)->find($pf->estado_civil_id);
+        $estado_civil = !empty($estado_civil->valor) ? $estado_civil->valor : null;
+
         return view('admin.pessoaFisica.view', [
             'pessoa_fisica' => $pf,
             'genero' => $genero,
-            'estado_civil' => (new EstadoCivil)->find($pf->estado_civil_id)->valor,
+            'estado_civil' => $estado_civil,
             'contatos' => $contatos
         ]);
     }
@@ -113,9 +116,9 @@ class PessoaFisicaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function dadosGeraisEdit($id)
     {
-        return view('admin.pessoaFisica.edit', [
+        return view('admin.pessoaFisica.dadosGeraisEdit', [
             'pessoa_fisica' => (new PessoaFisica)->find($id),
             'tipos_contato' => TipoContato::all(),
             'generos' => Genero::all(),
@@ -131,7 +134,7 @@ class PessoaFisicaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function dadosGeraisUpdate(Request $request, $id)
     {
         
         $this->validate($request, [
@@ -158,7 +161,38 @@ class PessoaFisicaController extends Controller
         
         Session::flash('success', 'Registro alterado');
 
-        return redirect()->route('pf.index');
+        return redirect()->route('pf.view', ['id' => $id]);
+
+    }
+
+    public function contatosUpdate(Request $request, $id)
+    {
+
+        $this->validate($request, [
+            'nome' => 'required|max:255',
+            'nome_adotado' => 'required|max:255',
+            'dt_nascimento' => 'nullable|date',
+        ]);
+
+        $pf = (new PessoaFisica)->find($id);
+
+        $pf->nome = $request->nome;
+        $pf->nome_adotado = $request->nome_adotado;
+        $pf->genero_id = $request->genero_id;
+        $pf->estado_civil_id = $request->estado_civil_id;
+        $pf->dt_nascimento = $request->dt_nascimento;
+        $pf->nacionalidade = $request->nacionalidade;
+        $pf->naturalidade = $request->naturalidade;
+        $pf->rg = $request->rg;
+        $pf->passaporte = $request->passaporte;
+        $pf->cpf = $request->cpf;
+        $pf->modificado_por = $request->user()->name;
+
+        $pf->save();
+
+        Session::flash('success', 'Registro alterado');
+
+        return redirect()->route('pf.view', ['id' => $id]);
 
     }
 
@@ -171,5 +205,38 @@ class PessoaFisicaController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function ajaxIndex()
+    {
+        return PessoaFisica::all();
+    }
+
+    public function ajaxView($id)
+    {
+        //return $id;
+        $pf = (new PessoaFisica)->find($id);
+        //Gênero
+        $genero = (new Genero)->find($pf->genero_id)->valor == "F" ? "Feminino" : "Masculino";
+
+        //Contatos
+        $contatos = DB::select("
+            select tc.nome as tipo, c.valor, c.id from contatos c
+            inner join tipos_contato tc
+            on c.tipo_contato_id = tc.id
+            left join pessoas_fisicas p
+            on c.pessoa_fisica_id = p.id
+            where p.id = $id
+        ");
+
+        $estado_civil = (new EstadoCivil)->find($pf->estado_civil_id);
+        $estado_civil = !empty($estado_civil->valor) ? $estado_civil->valor : null;
+
+        return [
+            'pessoa_fisica' => $pf,
+            'genero' => $genero,
+            'estado_civil' => $estado_civil,
+            'contatos' => $contatos
+        ];
     }
 }

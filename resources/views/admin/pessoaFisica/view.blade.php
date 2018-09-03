@@ -7,13 +7,14 @@
 
     <div id="container_conteudo" class="formulario">
 
-        <div class="titulo">Pessoa Física - {{ $pessoa_fisica->nome_adotado }}</div>
+        <div class="titulo">{{ $pessoa_fisica->nome_adotado }}</div>
 
         <hr>
 
         <div class="resumo">
 
-            <h2 class="nome_grupo">Dados Gerais</h2>
+            {{-- DADOS GERAIS --}}
+            <h2 class="nome_grupo">Dados Gerais <div class="editar"><a href="{{ route('pf.dadosgerais.edit', ['id' => $pessoa_fisica->id]) }}">Editar</a></div></h2>
 
             <span class="campo">Nome</span><div class="valor">{{ ucwords($pessoa_fisica->nome) }}</div><br>
 
@@ -41,7 +42,8 @@
             <span class="campo">Naturalidade</span><div class="valor">{{ ucfirst($pessoa_fisica->naturalidade) }}</div>
             @endif
 
-            <h2 class="nome_grupo">Documentos</h2>
+            {{-- DOCUMENTOS --}}
+            <h2 class="nome_grupo">Documentos <div class="editar"><a href="{{ route('pf.dadosgerais.edit', ['id' => $pessoa_fisica->id]) }}">Editar</a></div></h2>
 
             @if(empty($pessoa_fisica->rg) && empty($pessoa_fisica->cpf) && empty($pessoa_fisica->passaporte))
                 <div class="valor">Nenhum documento cadastrado</div>
@@ -59,6 +61,23 @@
 
             @endif
 
+            {{-- CONTATOS --}}
+            <h2 class="nome_grupo">Contatos <div class="editar"><a href="{{ route('pf.contatos.create', ['pf' => $pessoa_fisica->id]) }}">Adicionar</a></div></h2>
+
+            @if(empty($contatos))
+                <div class="valor">Nenhum contato cadastrado</div>
+            @else
+                @foreach($contatos as $contato)
+                    <span class="campo">{{ ucwords($contato->tipo) }}</span><div class="valor">{{ $contato->valor }}</div>
+                    <div class="botoes">
+                        <a href="{{ route('pf.contatos.edit', ['id' => $contato->id]) . '?pf=' . $pessoa_fisica->id }}"><img src="{{ asset('img/btn_pencil-edit_gray.png') }}" class="btn_edit" /></a>
+                        <a href="{{ route('pf.contatos.delete', ['id' => $contato->id]) . '?pf=' . $pessoa_fisica->id }}"><img src="{{ asset('img/btn_delete_gray.png') }}" class="btn_delete" /></a>
+                        {{ method_field('DELETE') }}
+                    </div>
+                    <br>
+                @endforeach
+            @endif
+
         </div>
 
         
@@ -68,6 +87,6 @@
 
     </div>
 
-   
+
 
 @stop

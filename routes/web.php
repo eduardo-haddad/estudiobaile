@@ -46,6 +46,18 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles']], function(
     $padrao = ['administrador', 'usuario'];
     $admin = ['administrador'];
 
+    // Ajax
+    Route::get('/ajax/pf/index', [
+        'uses' => 'PessoaFisicaController@ajaxIndex',
+        'as' => 'ajax.pf.index',
+        'roles' => $padrao
+    ]);
+    Route::get('/ajax/pf/{id}', [
+        'uses' => 'PessoaFisicaController@ajaxView',
+        'as' => 'ajax.pf.view',
+        'roles' => $padrao
+    ]);
+
     // Home
     Route::get('/home', [
         'uses' => 'HomeController@index',
@@ -59,31 +71,60 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles']], function(
         'as' => 'pf.create',
         'roles' => $padrao
     ]);
-    Route::get('/pf', [
+    Route::get('/pf/index', [
         'uses' => 'PessoaFisicaController@index',
         'as' => 'pf.index',
         'roles' => $padrao
     ]);
-    Route::get('/pf/edit/{id}', [
-        'uses' => 'PessoaFisicaController@edit',
-        'as' => 'pf.edit',
+    Route::get('/pf/edit/dadosgerais/{id}', [
+        'uses' => 'PessoaFisicaController@dadosGeraisEdit',
+        'as' => 'pf.dadosgerais.edit',
         'roles' => $padrao
     ]);
-    Route::post('/pf/update/{id}', [
-        'uses' => 'PessoaFisicaController@update',
-        'as' => 'pf.update',
+    Route::post('/pf/update/dadosgerais/{id}', [
+        'uses' => 'PessoaFisicaController@dadosGeraisUpdate',
+        'as' => 'pf.dadosgerais.update',
         'roles' => $padrao
     ]);
+
     Route::post('/pf/store', [
         'uses' => 'PessoaFisicaController@store',
         'as' => 'pf.store',
         'roles' => $padrao
     ]);
-    Route::get('/pf/{id}', [
+    Route::get('/pf/view/{id}', [
         'uses' => 'PessoaFisicaController@view',
         'as' => 'pf.view',
         'roles' => $padrao
     ]);
+
+    //Contatos - PF
+    Route::get('/pf/create/contato/', [
+        'uses' => 'ContatoController@create',
+        'as' => 'pf.contatos.create',
+        'roles' => $padrao
+    ]);
+    Route::get('/pf/edit/contato/{id}', [
+        'uses' => 'ContatoController@edit',
+        'as' => 'pf.contatos.edit',
+        'roles' => $padrao
+    ]);
+    Route::post('/pf/update/contatos/{id}', [
+        'uses' => 'ContatoController@update',
+        'as' => 'pf.contatos.update',
+        'roles' => $padrao
+    ]);
+    Route::post('/pf/store/contato/', [
+        'uses' => 'ContatoController@store',
+        'as' => 'pf.contatos.store',
+        'roles' => $padrao
+    ]);
+    Route::delete('/pf/delete/contato/{id}', [
+        'uses' => 'ContatoController@delete',
+        'as' => 'pf.contatos.delete',
+        'roles' => $padrao
+    ]);
+
     
     // Posts
     Route::get('/post/create', [

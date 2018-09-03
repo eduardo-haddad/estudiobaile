@@ -42,7 +42,7 @@
                             <select name="genero_id" class="form-control">
                                 @foreach ($generos as $genero)
                                     @php
-                                        $genero_valor = $genero->valor == "M" ? "Feminino" : "Masculino";
+                                        $genero_valor = $genero->valor == "F" ? "Feminino" : "Masculino";
                                     @endphp
                                     <option value="{{ $genero->id }}">{{ $genero_valor }}</option>
                                 @endforeach
