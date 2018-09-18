@@ -1,24 +1,17 @@
 import VueRouter from 'vue-router';
 
 let routes = [
-    //PessoaFisica Index
+
     {   path: '/pf',
-        name: 'ajax-pf-index', components: {lista: require('./components/pessoaFisica/pf-index')},
-
+        name: 'pf-index', component: require('./components/pessoaFisica/pf-index'),
         children: [
-            {   name: 'ajax-pf-view',
-                path: ':id',
-            },
+            {
+                path: 'view/:id',
+                name: 'pf-view',
+                component: require('./components/pessoaFisica/pf-view')
+            }
         ]
-
-
-
     },
-
-    //PessoaFisica View
-    // {   path: '/ajax/pf/view/:id',
-    //     name: 'ajax-pf-view', components: {conteudo: require('./components/pessoaFisica/pf-view')} }
-
 ];
 
 

@@ -214,21 +214,25 @@ class PessoaFisicaController extends Controller
 
     public function ajaxView($id)
     {
-        //return $id;
         $pf = (new PessoaFisica)->find($id);
+
         //Gênero
-        $genero = (new Genero)->find($pf->genero_id)->valor == "F" ? "Feminino" : "Masculino";
-
-        //Contatos
-        $contatos = DB::select("
-            select tc.nome as tipo, c.valor, c.id from contatos c
-            inner join tipos_contato tc
-            on c.tipo_contato_id = tc.id
-            left join pessoas_fisicas p
-            on c.pessoa_fisica_id = p.id
-            where p.id = $id
-        ");
-
+        if(!empty($pf->genero_id)){
+            $genero = (new Genero)->find($pf->genero_id)->valor;
+        } else {
+            $genero = null;
+        }
+//
+//        //Contatos
+//        $contatos = DB::select("
+//            select tc.nome as tipo, c.valor, c.id from contatos c
+//            inner join tipos_contato tc
+//            on c.tipo_contato_id = tc.id
+//            left join pessoas_fisicas p
+//            on c.pessoa_fisica_id = p.id
+//            where p.id = $id
+//        ");
+//
         $estado_civil = (new EstadoCivil)->find($pf->estado_civil_id);
         $estado_civil = !empty($estado_civil->valor) ? $estado_civil->valor : null;
 
@@ -236,7 +240,36 @@ class PessoaFisicaController extends Controller
             'pessoa_fisica' => $pf,
             'genero' => $genero,
             'estado_civil' => $estado_civil,
-            'contatos' => $contatos
+            //'contatos' => $contatos
+            'atributos' => [
+                'tipos_contato' => TipoContato::all(),
+                'generos' => Genero::all(),
+                'estados_civis' => EstadoCivil::all()
+            ]
         ];
     }
+
+    public function ajaxSave(Request $r){
+
+        $request = request('pessoa');
+
+        $pf = (new PessoaFisica)->find($request['id']);
+
+        $pf->nome = $request['nome'];
+        $pf->nome_adotado = $request['nome_adotado'];
+        $pf->genero_id = $request['genero_id'];
+        $pf->estado_civil_id = $request['estado_civil_id'];
+        $pf->dt_nascimento = $request['dt_nascimento'];
+        $pf->nacionalidade = $request['nacionalidade'];
+        $pf->naturalidade = $request['naturalidade'];
+        $pf->rg = $request['rg'];
+        $pf->passaporte = $request['passaporte'];
+        $pf->cpf = $request['cpf'];
+        $pf->modificado_por = $r->user()->name;
+
+        $pf->save();
+
+        return $pf;
+    }
+
 }

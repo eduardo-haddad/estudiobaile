@@ -8,7 +8,7 @@
     {{-- Pessoa física --}}
     <li class="opcao">
         {{--<a href="{{ route('pf.create') }}">Cadastrar</a>--}}
-        <router-link :to="{ name: 'ajax-pf-index'}">Lista</router-link>
+        <router-link :to="{ name: 'pf-index'}">Lista</router-link>
     </li>
     <li class="opcao">
         {{--<a href="{{ route('pf.index') }}">(ver todas)</a>--}}

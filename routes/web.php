@@ -45,11 +45,22 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles']], function(
     // Permissões de usuário
     $padrao = ['administrador', 'usuario'];
     $admin = ['administrador'];
+    $usuario = ['usuario'];
 
     // Ajax
     Route::get('/ajax/pf/index', [
         'uses' => 'PessoaFisicaController@ajaxIndex',
         'as' => 'ajax.pf.index',
+        'roles' => $padrao
+    ]);
+    Route::get('/ajax/pf/atributos', [
+        'uses' => 'PessoaFisicaController@ajaxAtributos',
+        'as' => 'ajax.pf.create',
+        'roles' => $padrao
+    ]);
+    Route::post('/ajax/pf/save', [
+        'uses' => 'PessoaFisicaController@ajaxSave',
+        'as' => 'ajax.pf.save',
         'roles' => $padrao
     ]);
     Route::get('/ajax/pf/{id}', [

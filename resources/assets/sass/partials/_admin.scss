@@ -90,7 +90,7 @@ ul {
             background-color: $cinza_claro;
             width: $sidebar_w;
             height: calc(100% - #{$cabecalho});
-            min-height: 100vh;
+            min-height: calc(100vh - #{$cabecalho});
             padding: 20px 0 0 0;
             border-right: 1px solid $cinza_borda;
             box-sizing: border-box;
@@ -141,18 +141,20 @@ ul {
         #conteudo_geral {
             float: left;
             width: calc(100% - #{$sidebar_w});
-            height: calc(100% - #{$cabecalho});
+            //height: calc(100% - #{$cabecalho});
             background-color: $cor_fundo;
             padding: 0;
             box-sizing: border-box;
             position:relative;
-            min-height: 100vh;
+            min-height: calc(100vh - #{$cabecalho});
 
             #container_conteudo {
 
                 .titulo {
                     color: $cinza_escuro;
                     font-size: 2.5em;
+                    min-height: 48px;
+                    display: block;
                 }
 
                 form {
@@ -203,7 +205,7 @@ ul {
 
                     .campo,
                     .valor {
-                        display: inline-block;
+                        float: left;
                     }
 
                     .campo {
@@ -215,7 +217,33 @@ ul {
                     }
 
                     .valor {
+                        width: calc(100% - 170px);
+                    }
 
+                    br {
+                        clear: both;
+                    }
+                    
+                    form {
+                        display: block;
+                    }
+
+                    input[type=text] {
+                        outline: none;
+                        border: none;
+                        display: inline-block;
+                        box-sizing: border-box;
+                        width: 100%;
+                    }
+
+                    input[type=text]:focus {
+                        box-shadow: $cor_fundo;
+                        border: none;
+                    }
+
+                    select {
+                        background-color: $cor_fundo;
+                        border: none;
                     }
 
                     .botoes {
@@ -240,8 +268,8 @@ ul {
             .lista {
                 float: left;
                 width: $lista_w;
-                min-height: 100vh;
-                max-height: 100vh;
+                min-height: calc(100vh - #{$cabecalho});
+                max-height: calc(100vh - #{$cabecalho});
                 overflow-y: auto;
 
                 ul {
@@ -262,6 +290,7 @@ ul {
             .conteudo {
                 width: calc(100% - #{$lista_w});
                 height: 100%;
+                float: left;
             }
         } //#conteudo
     } //#principal

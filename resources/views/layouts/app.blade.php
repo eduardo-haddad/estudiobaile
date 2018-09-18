@@ -38,7 +38,10 @@
 
                 <div id="conteudo_geral">
                     {{--@include('admin/elements/lista')--}}
-                    <router-view name="lista"></router-view>
+                    @if(!Auth::check())
+                        @yield('login')
+                    @endif
+                    <router-view></router-view>
                 </div>
 
             </div>
@@ -48,11 +51,5 @@
 
     </div>
 
-    <script>
-
-    </script>
-
-
-    
 </body>
 </html>
