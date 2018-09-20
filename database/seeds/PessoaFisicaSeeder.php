@@ -8,6 +8,7 @@ use App\Categoria;
 use App\Endereco;
 use App\Genero;
 use App\EstadoCivil;
+use App\DadoBancario;
 
 class PessoaFisicaSeeder extends Seeder
 {
@@ -22,6 +23,8 @@ class PessoaFisicaSeeder extends Seeder
         $pf1->nome = 'Eduardo Alfredo Bozza Haddad Junior';
         $pf1->nome_adotado = 'Eduardo Haddad';
         $pf1->cpf = '123.456.789-00';
+        $pf1->rg = '24.896.342-9';
+        $pf1->passaporte = '12345';
         $pf1->dt_nascimento = '1987-03-26';
         $pf1->nacionalidade = 'Brasileiro';
         $pf1->naturalidade = 'São Paulo, SP';
@@ -34,5 +37,6 @@ class PessoaFisicaSeeder extends Seeder
         $pf1->pessoas_juridicas()->attach(PessoaJuridica::all()->first());
         $pf1->categorias()->attach(Categoria::find(2));
         $pf1->enderecos()->attach(Endereco::find(1));
+        $pf1->dados_bancarios()->attach(DadoBancario::find(1));
     }
 }

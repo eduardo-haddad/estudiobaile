@@ -22,7 +22,7 @@ class PessoaFisicaController extends Controller
     public function index()
     {
         return view('admin.pessoaFisica.index', [
-            'pessoas_fisicas' => PessoaFisica::all()
+            'pessoas_fisicas' => PessoaFisica::orderBy('nome_adotado')->get()
         ]);
     }
 
@@ -209,7 +209,7 @@ class PessoaFisicaController extends Controller
 
     public function ajaxIndex()
     {
-        return PessoaFisica::all();
+        return (new PessoaFisica)->orderBy('nome_adotado')->get();
     }
 
     public function ajaxView($id)
@@ -222,17 +222,19 @@ class PessoaFisicaController extends Controller
         } else {
             $genero = null;
         }
-//
-//        //Contatos
-//        $contatos = DB::select("
-//            select tc.nome as tipo, c.valor, c.id from contatos c
-//            inner join tipos_contato tc
-//            on c.tipo_contato_id = tc.id
-//            left join pessoas_fisicas p
-//            on c.pessoa_fisica_id = p.id
-//            where p.id = $id
-//        ");
-//
+
+        //Contatos
+        $contatos = DB::select("
+            SELECT TipoContato.nome AS tipo, Contatos.valor, Contatos.id FROM contatos Contatos
+                INNER JOIN tipos_contato TipoContato
+                ON Contatos.tipo_contato_id = TipoContato.id
+                LEFT JOIN pessoas_fisicas PessoaFisica
+                ON Contatos.pessoa_fisica_id = PessoaFisica.id
+            WHERE PessoaFisica.id = $id
+            GROUP BY tipo
+            ORDER BY tipo ASC
+        ");
+
         $estado_civil = (new EstadoCivil)->find($pf->estado_civil_id);
         $estado_civil = !empty($estado_civil->valor) ? $estado_civil->valor : null;
 
@@ -240,7 +242,7 @@ class PessoaFisicaController extends Controller
             'pessoa_fisica' => $pf,
             'genero' => $genero,
             'estado_civil' => $estado_civil,
-            //'contatos' => $contatos
+            'contatos' => $contatos,
             'atributos' => [
                 'tipos_contato' => TipoContato::all(),
                 'generos' => Genero::all(),

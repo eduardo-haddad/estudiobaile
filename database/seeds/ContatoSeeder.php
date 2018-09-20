@@ -12,8 +12,14 @@ class ContatoSeeder extends Seeder
      */
     public function run()
     {
+        $contato0 = new Contato();
+        $contato0->valor = 'eduardo.torquemada@gmail.com';
+        $contato0->tipo_contato_id = 1;
+        $contato0->pessoa_fisica_id = 1;
+        $contato0->pessoa_juridica_id = 0;
+        $contato0->save();
         $contato1 = new Contato();
-        $contato1->valor = 'eduardo.torquemada@gmail.com';
+        $contato1->valor = 'edu.haddad@icloud.com';
         $contato1->tipo_contato_id = 1;
         $contato1->pessoa_fisica_id = 1;
         $contato1->pessoa_juridica_id = 0;

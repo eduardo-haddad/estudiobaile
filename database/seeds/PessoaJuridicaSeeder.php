@@ -18,7 +18,6 @@ class PessoaJuridicaSeeder extends Seeder
         $pj->razao_social = 'Estúdio Baile';
         $pj->cnpj = '00.000000/0001-00';
         $pj->website = 'http://estudiobaile.org';
-        $pj->dados_bancarios = 'Banco do Brasil';
         $pj->criado_por = 'Eduardo Haddad';
         $pj->modificado_por = 'Eduardo Haddad';
         $pj->save();

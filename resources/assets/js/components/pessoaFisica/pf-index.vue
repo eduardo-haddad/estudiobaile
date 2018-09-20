@@ -20,12 +20,11 @@
 
     import { eventBus } from '../../estudiobaile';
 
-    console.log(eventBus);
-
     export default {
         mounted() {
             axios.get('/admin/ajax/pf/index').then(res => {
                 this.pessoas = res.data;
+                //console.log(this.pessoas);
             });
 
             //evento - registro salvo em pf-view

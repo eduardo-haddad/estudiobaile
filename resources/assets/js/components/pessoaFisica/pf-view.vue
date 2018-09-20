@@ -74,8 +74,34 @@
                 <!-- DOCUMENTOS -->
                 <h2 class="nome_grupo">Documentos <div class="editar"><a href="#">Editar</a></div></h2>
 
+                <span class="campo">RG</span>
+                <div class="valor">
+                    <input autocomplete="off" type="text"
+                           v-model="pessoa.rg"
+                           name="rg"
+                    />
+                </div><br>
+
+                <span class="campo">CPF</span>
+                <div class="valor">
+                    <input autocomplete="off" type="text"
+                           v-model="pessoa.cpf"
+                           name="cpf"
+                    />
+                </div><br>
+
+                <span class="campo">Passaporte</span>
+                <div class="valor">
+                    <input autocomplete="off" type="text"
+                           v-model="pessoa.passaporte"
+                           name="passaporte"
+                    />
+                </div><br>
 
                 <h2 class="nome_grupo">Contatos <div class="editar"><a href="#">Adicionar</a></div></h2>
+                <div v-for="contato in contatos">
+                    <span v-if="contato.tipo === 'celular'" class="campo"></span>
+                </div>
 
                 <button>Salvar</button>
 
@@ -105,6 +131,7 @@
                 pessoa: {
                     genero: '', estado_civil: '',
                 },
+                contatos: [],
                 atributos: [],
                 estados_civis: {},
                 generos: {},
@@ -117,7 +144,9 @@
                     this.pessoa = dados.pessoa_fisica;
                     this.pessoa.genero = dados.genero;
                     this.pessoa.estado_civil = dados.estado_civil;
+                    this.contatos = dados.contatos;
                     this.atributos = dados.atributos;
+                    console.log(dados);
                 } );
             },
             salvaForm: function(){
