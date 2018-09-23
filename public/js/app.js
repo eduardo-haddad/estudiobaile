@@ -33122,6 +33122,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -33132,22 +33145,28 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     watch: {
-        '$route': function $route(to) {
-            this.getPessoa(to.params.id);
+        '$route': function $route(destino) {
+            this.getPessoa(destino.params.id);
         }
     },
     data: function data() {
         return {
-            pessoa: {
-                genero: '', estado_civil: ''
-            },
+            pessoa: {},
             contatos: [],
             atributos: [],
             estados_civis: {},
-            generos: {}
+            generos: {},
+            novo_email: ''
         };
     },
 
+    computed: {
+        emails: function emails() {
+            return this.contatos.filter(function (x) {
+                return x.tipo == "e-mail";
+            });
+        }
+    },
     methods: {
         getPessoa: function getPessoa(id) {
             var _this = this;
@@ -33166,12 +33185,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this2 = this;
 
             axios.post('/admin/ajax/pf/save', {
-                pessoa: this.pessoa
+                pessoa: this.pessoa,
+                contatos: this.contatos
             }).then(function (res) {
                 _this2.pessoa = res.data;
                 __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$emit('foiSalvo', _this2.pessoa);
             });
-        }
+        },
+        adicionaEmail: function adicionaEmail() {}
+
     }
 });
 
@@ -33542,17 +33564,97 @@ var render = function() {
             _vm._v(" "),
             _vm._m(2),
             _vm._v(" "),
-            _vm._l(_vm.contatos, function(contato) {
-              return _c("div", [
-                contato.tipo === "celular"
-                  ? _c("span", { staticClass: "campo" })
-                  : _vm._e()
-              ])
-            }),
+            _c(
+              "div",
+              [
+                _vm._l(_vm.emails, function(email) {
+                  return _c("div", { staticClass: "valor" }, [
+                    _c("span", { staticClass: "campo" }, [
+                      _vm._v(_vm._s(email.tipo))
+                    ]),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: email.valor,
+                          expression: "email.valor"
+                        }
+                      ],
+                      attrs: { type: "text", id: email.id, name: "email" },
+                      domProps: { value: email.valor },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(email, "valor", $event.target.value)
+                        }
+                      }
+                    })
+                  ])
+                }),
+                _vm._v(" "),
+                _c("br", { staticStyle: { clear: "both" } }),
+                _c("br"),
+                _c("br"),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.novoEmail,
+                      expression: "novoEmail"
+                    }
+                  ],
+                  staticClass: "adiciona_email",
+                  attrs: {
+                    type: "text",
+                    name: "adiciona_email",
+                    placeholder: "adicionar email"
+                  },
+                  domProps: { value: _vm.novoEmail },
+                  on: {
+                    input: [
+                      function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.novoEmail = $event.target.value
+                      },
+                      function($event) {
+                        _vm.novo_email = $event.target.value
+                      }
+                    ]
+                  }
+                }),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    on: {
+                      click: function($event) {
+                        $event.preventDefault()
+                        return _vm.adicionaEmail($event)
+                      }
+                    }
+                  },
+                  [_vm._v("+email")]
+                )
+              ],
+              2
+            ),
+            _vm._v(" "),
+            _c("br"),
+            _vm._v(" "),
+            _c("br"),
+            _vm._v(" "),
+            _c("br"),
             _vm._v(" "),
             _c("button", [_vm._v("Salvar")])
-          ],
-          2
+          ]
         )
       ])
     ]

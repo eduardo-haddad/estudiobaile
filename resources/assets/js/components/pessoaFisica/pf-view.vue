@@ -99,10 +99,23 @@
                 </div><br>
 
                 <h2 class="nome_grupo">Contatos <div class="editar"><a href="#">Adicionar</a></div></h2>
-                <div v-for="contato in contatos">
-                    <span v-if="contato.tipo === 'celular'" class="campo"></span>
+
+
+                <div>
+                        <div v-for="email in emails" class="valor">
+                            <span class="campo">{{ email.tipo }}</span>
+                            <input type="text" :id="email.id" v-model="email.valor" name="email" />
+                        </div>
+                    <!--<span class="campo">adicionar email:</span>-->
+                    <br style="clear: both;"><br><br>
+                    <input @input="novo_email = $event.target.value" type="text" class="adiciona_email" name="adiciona_email" v-model="novoEmail" placeholder="adicionar email" />
+                    <button @click.prevent="adicionaEmail">+email</button>
+
                 </div>
 
+                <br>
+                <br>
+                <br>
                 <button>Salvar</button>
 
             </form>
@@ -122,19 +135,25 @@
             this.getPessoa(this.$route.params.id);
           },
         watch: {
-            '$route' (to) {
-                this.getPessoa(to.params.id);
+            '$route' (destino) {
+                this.getPessoa(destino.params.id);
             }
         },
         data() {
             return {
-                pessoa: {
-                    genero: '', estado_civil: '',
-                },
+                pessoa: {},
                 contatos: [],
                 atributos: [],
                 estados_civis: {},
                 generos: {},
+                novo_email: '',
+            }
+        },
+        computed: {
+            emails: function() {
+                return this.contatos.filter(function(x){
+                    return x.tipo == "e-mail";
+                });
             }
         },
         methods: {
@@ -152,11 +171,16 @@
             salvaForm: function(){
                 axios.post('/admin/ajax/pf/save', {
                     pessoa: this.pessoa,
+                    contatos: this.contatos
                 }).then(res => {
                     this.pessoa = res.data;
                     eventBus.$emit('foiSalvo', this.pessoa);
                 });
             },
+            adicionaEmail: function(){
+
+            },
+
         }
     }
 </script>

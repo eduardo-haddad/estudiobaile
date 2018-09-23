@@ -225,16 +225,57 @@ class PessoaFisicaController extends Controller
 
         //Contatos
         $contatos = DB::select("
-            SELECT TipoContato.nome AS tipo, Contatos.valor, Contatos.id FROM contatos Contatos
+            SELECT 
+                TipoContato.nome AS tipo, 
+                Contatos.valor, 
+                Contatos.id 
+            FROM contatos Contatos
                 INNER JOIN tipos_contato TipoContato
                 ON Contatos.tipo_contato_id = TipoContato.id
                 LEFT JOIN pessoas_fisicas PessoaFisica
                 ON Contatos.pessoa_fisica_id = PessoaFisica.id
             WHERE PessoaFisica.id = $id
-            GROUP BY tipo
             ORDER BY tipo ASC
         ");
 
+        //Endereços
+        $enderecos = DB::select("
+            SELECT * FROM enderecos Enderecos
+                INNER JOIN pessoa_endereco Pessoa_Endereco
+                ON Enderecos.id = Pessoa_Endereco.endereco_id
+                LEFT JOIN pessoas_fisicas PessoaFisica
+                ON Pessoa_Endereco.pessoa_fisica_id = PessoaFisica.id
+            WHERE PessoaFisica.id = $id
+            ORDER BY Enderecos.id
+        ");
+
+        //Pessoas Jurídicas
+        $pessoas_juridicas = DB::select("
+            SELECT 
+                PessoaJuridica.id,
+                PessoaJuridica.nome_fantasia,
+                PessoaJuridica.razao_social
+            FROM pessoas_juridicas PessoaJuridica
+                INNER JOIN pf_pj PessoaFisicaJuridica
+                ON PessoaJuridica.id = PessoaFisicaJuridica.pessoa_juridica_id
+                AND PessoaFisicaJuridica.pessoa_fisica_id = $id
+        ");
+
+        //Dados Bancários
+        $dados_bancarios = DB::select("
+            SELECT 
+                TiposContaBancaria.id AS tipo_conta_id,
+                TiposContaBancaria.valor AS tipo_conta,
+                DadosBancarios.* 
+            FROM tipos_conta_bancaria TiposContaBancaria
+                INNER JOIN dados_bancarios DadosBancarios
+                ON TiposContaBancaria.id = DadosBancarios.tipo_conta_id
+                LEFT JOIN pessoa_dados_bancarios PessoaDadosBancarios
+                ON DadosBancarios.id = PessoaDadosBancarios.dado_bancario_id
+                AND PessoaDadosBancarios.pessoa_fisica_id = $id
+        ");
+
+        //Estado Civil
         $estado_civil = (new EstadoCivil)->find($pf->estado_civil_id);
         $estado_civil = !empty($estado_civil->valor) ? $estado_civil->valor : null;
 
@@ -243,6 +284,9 @@ class PessoaFisicaController extends Controller
             'genero' => $genero,
             'estado_civil' => $estado_civil,
             'contatos' => $contatos,
+            'enderecos' => $enderecos,
+            'dados_bancarios' => $dados_bancarios,
+            'pessoas_juridicas' => $pessoas_juridicas,
             'atributos' => [
                 'tipos_contato' => TipoContato::all(),
                 'generos' => Genero::all(),
@@ -253,24 +297,30 @@ class PessoaFisicaController extends Controller
 
     public function ajaxSave(Request $r){
 
-        $request = request('pessoa');
+        $request['pessoa'] = request('pessoa');
+        $request['contatos'] = request('contatos');
 
-        $pf = (new PessoaFisica)->find($request['id']);
-
-        $pf->nome = $request['nome'];
-        $pf->nome_adotado = $request['nome_adotado'];
-        $pf->genero_id = $request['genero_id'];
-        $pf->estado_civil_id = $request['estado_civil_id'];
-        $pf->dt_nascimento = $request['dt_nascimento'];
-        $pf->nacionalidade = $request['nacionalidade'];
-        $pf->naturalidade = $request['naturalidade'];
-        $pf->rg = $request['rg'];
-        $pf->passaporte = $request['passaporte'];
-        $pf->cpf = $request['cpf'];
+        //Pessoa Física
+        $pf = (new PessoaFisica)->find($request['pessoa']['id']);
+        $pf->nome = $request['pessoa']['nome'];
+        $pf->nome_adotado = $request['pessoa']['nome_adotado'];
+        $pf->genero_id = $request['pessoa']['genero_id'];
+        $pf->estado_civil_id = $request['pessoa']['estado_civil_id'];
+        $pf->dt_nascimento = $request['pessoa']['dt_nascimento'];
+        $pf->nacionalidade = $request['pessoa']['nacionalidade'];
+        $pf->naturalidade = $request['pessoa']['naturalidade'];
+        $pf->rg = $request['pessoa']['rg'];
+        $pf->passaporte = $request['pessoa']['passaporte'];
+        $pf->cpf = $request['pessoa']['cpf'];
         $pf->modificado_por = $r->user()->name;
-
         $pf->save();
 
+        //Contatos
+        foreach($request['contatos'] as $i => $contato){
+            $contato = (new Contato)->find($request['contatos'][$i]['id']);
+            $contato->valor = $request['contatos'][$i]['valor'];
+            $contato->save();
+        }
         return $pf;
     }
 

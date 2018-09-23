@@ -38,5 +38,27 @@ class PessoaFisicaSeeder extends Seeder
         $pf1->categorias()->attach(Categoria::find(2));
         $pf1->enderecos()->attach(Endereco::find(1));
         $pf1->dados_bancarios()->attach(DadoBancario::find(1));
+        
+        for($i = 0; $i <= 20; $i++){
+            $var = "pf" . $i;
+
+            $zero = $i < 10 ? "0" : "";
+
+            $$var = new PessoaFisica();
+            $$var->nome = 'Pessoa' . $zero . $i;
+            $$var->nome_adotado = 'Pessoa' . $zero . $i;
+            $$var->cpf = '123.456.789-00';
+            $$var->rg = '12.123.123-1';
+            $$var->passaporte = '12345';
+            $$var->dt_nascimento = '1987-03-26';
+            $$var->nacionalidade = 'Brasileiro';
+            $$var->naturalidade = 'São Paulo, SP';
+            $$var->criado_por = 'Eduardo Haddad';
+            $$var->modificado_por = 'Eduardo Haddad';
+            $$var->genero_id = Genero::find(2)->id;
+            $$var->estado_civil_id = EstadoCivil::find(2)->id;
+            $$var->save();
+        }
+        
     }
 }
