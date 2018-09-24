@@ -33135,6 +33135,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -33151,12 +33152,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     data: function data() {
         return {
+            novo_contato: '',
             pessoa: {},
             contatos: [],
             atributos: [],
             estados_civis: {},
-            generos: {},
-            novo_email: ''
+            generos: {}
         };
     },
 
@@ -33178,7 +33179,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 _this.pessoa.estado_civil = dados.estado_civil;
                 _this.contatos = dados.contatos;
                 _this.atributos = dados.atributos;
-                console.log(dados);
+                console.log(_this.contatos);
             });
         },
         salvaForm: function salvaForm() {
@@ -33192,8 +33193,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$emit('foiSalvo', _this2.pessoa);
             });
         },
-        adicionaEmail: function adicionaEmail() {}
+        adicionaContato: function adicionaContato() {
+            var _this3 = this;
 
+            axios.post('/admin/ajax/pf/addContato', {
+                email: this.novo_contato
+            }).then(function (res) {
+                _this3.contatos = res.data;
+                _this3.novo_contato = '';
+            });
+        },
+        removeContato: function removeContato(id) {
+            var _this4 = this;
+
+            axios.post('/admin/ajax/pf/removeContato', {
+                id: id
+            }).then(function (res) {
+                _this4.contatos = res.data;
+            });
+        }
     }
 });
 
@@ -33592,7 +33610,20 @@ var render = function() {
                           _vm.$set(email, "valor", $event.target.value)
                         }
                       }
-                    })
+                    }),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        on: {
+                          click: function($event) {
+                            $event.preventDefault()
+                            _vm.removeContato(email.id)
+                          }
+                        }
+                      },
+                      [_vm._v("X")]
+                    )
                   ])
                 }),
                 _vm._v(" "),
@@ -33605,27 +33636,23 @@ var render = function() {
                     {
                       name: "model",
                       rawName: "v-model",
-                      value: _vm.novoEmail,
-                      expression: "novoEmail"
+                      value: _vm.novo_contato,
+                      expression: "novo_contato"
                     }
                   ],
-                  staticClass: "adiciona_email",
-                  attrs: {
-                    type: "text",
-                    name: "adiciona_email",
-                    placeholder: "adicionar email"
-                  },
-                  domProps: { value: _vm.novoEmail },
+                  staticClass: "adiciona_contato",
+                  attrs: { type: "text", placeholder: "adicionar email" },
+                  domProps: { value: _vm.novo_contato },
                   on: {
                     input: [
                       function($event) {
                         if ($event.target.composing) {
                           return
                         }
-                        _vm.novoEmail = $event.target.value
+                        _vm.novo_contato = $event.target.value
                       },
                       function($event) {
-                        _vm.novo_email = $event.target.value
+                        _vm.novo_contato = $event.target.value
                       }
                     ]
                   }
@@ -33637,7 +33664,7 @@ var render = function() {
                     on: {
                       click: function($event) {
                         $event.preventDefault()
-                        return _vm.adicionaEmail($event)
+                        return _vm.adicionaContato($event)
                       }
                     }
                   },

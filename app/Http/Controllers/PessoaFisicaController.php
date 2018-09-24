@@ -207,10 +207,30 @@ class PessoaFisicaController extends Controller
         //
     }
 
+    public function getContatosPessoaFisicaPorId($id) {
+        $contatos = DB::select("
+            SELECT 
+                TipoContato.nome AS tipo, 
+                Contatos.valor, 
+                Contatos.id 
+            FROM contatos Contatos
+                INNER JOIN tipos_contato TipoContato
+                ON Contatos.tipo_contato_id = TipoContato.id
+                LEFT JOIN pessoas_fisicas PessoaFisica
+                ON Contatos.pessoa_fisica_id = PessoaFisica.id
+            WHERE PessoaFisica.id = $id
+            ORDER BY Contatos.id ASC
+        ");
+
+        return $contatos;
+    }
+
+
     public function ajaxIndex()
     {
         return (new PessoaFisica)->orderBy('nome_adotado')->get();
     }
+
 
     public function ajaxView($id)
     {
@@ -224,19 +244,7 @@ class PessoaFisicaController extends Controller
         }
 
         //Contatos
-        $contatos = DB::select("
-            SELECT 
-                TipoContato.nome AS tipo, 
-                Contatos.valor, 
-                Contatos.id 
-            FROM contatos Contatos
-                INNER JOIN tipos_contato TipoContato
-                ON Contatos.tipo_contato_id = TipoContato.id
-                LEFT JOIN pessoas_fisicas PessoaFisica
-                ON Contatos.pessoa_fisica_id = PessoaFisica.id
-            WHERE PessoaFisica.id = $id
-            ORDER BY tipo ASC
-        ");
+        $contatos = $this->getContatosPessoaFisicaPorId($id);
 
         //Endereços
         $enderecos = DB::select("
@@ -322,6 +330,56 @@ class PessoaFisicaController extends Controller
             $contato->save();
         }
         return $pf;
+    }
+
+    public function ajaxAddContato(Request $r) {
+
+        $request['email'] = request('email');
+        $id = $r->user()->id;
+
+        $contato = new Contato();
+        $contato->tipo_contato_id = 1;
+        $contato->pessoa_fisica_id = $id;
+        $contato->pessoa_juridica_id = 0;
+        $contato->valor = $request['email'];
+
+        try {
+            $contato->save();
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+
+        $contatos = $this->getContatosPessoaFisicaPorId($id);
+
+        return $contatos;
+
+    }
+
+    public function ajaxRemoveContato(Request $r) {
+
+        $contato_id = request('id');
+        $user_id = $r->user()->id;
+
+        $contato = (new Contato)->find($contato_id);
+        $contato->delete();
+
+        $contatos = DB::select("
+            SELECT 
+                TipoContato.nome AS tipo, 
+                Contatos.valor, 
+                Contatos.id 
+            FROM contatos Contatos
+                INNER JOIN tipos_contato TipoContato
+                ON Contatos.tipo_contato_id = TipoContato.id
+                LEFT JOIN pessoas_fisicas PessoaFisica
+                ON Contatos.pessoa_fisica_id = PessoaFisica.id
+            WHERE PessoaFisica.id = $user_id
+            ORDER BY Contatos.id ASC
+        ");
+
+        return $contatos;
+
+
     }
 
 }

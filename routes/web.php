@@ -63,11 +63,24 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles']], function(
         'as' => 'ajax.pf.save',
         'roles' => $padrao
     ]);
+    Route::post('/ajax/pf/addContato', [
+        'uses' => 'PessoaFisicaController@ajaxAddContato',
+        'as' => 'ajax.pf.addContato',
+        'roles' => $padrao
+    ]);
+    Route::post('/ajax/pf/removeContato', [
+        'uses' => 'PessoaFisicaController@ajaxRemoveContato',
+        'as' => 'ajax.pf.removeContato',
+        'roles' => $padrao
+    ]);
     Route::get('/ajax/pf/{id}', [
         'uses' => 'PessoaFisicaController@ajaxView',
         'as' => 'ajax.pf.view',
         'roles' => $padrao
     ]);
+
+
+
 
     // Home
     Route::get('/home', [

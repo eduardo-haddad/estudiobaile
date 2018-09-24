@@ -105,11 +105,12 @@
                         <div v-for="email in emails" class="valor">
                             <span class="campo">{{ email.tipo }}</span>
                             <input type="text" :id="email.id" v-model="email.valor" name="email" />
+                            <button @click.prevent="removeContato(email.id)">X</button>
                         </div>
                     <!--<span class="campo">adicionar email:</span>-->
                     <br style="clear: both;"><br><br>
-                    <input @input="novo_email = $event.target.value" type="text" class="adiciona_email" name="adiciona_email" v-model="novoEmail" placeholder="adicionar email" />
-                    <button @click.prevent="adicionaEmail">+email</button>
+                    <input @input="novo_contato = $event.target.value" type="text" class="adiciona_contato" v-model="novo_contato" placeholder="adicionar email" />
+                    <button @click.prevent="adicionaContato">+email</button>
 
                 </div>
 
@@ -141,12 +142,12 @@
         },
         data() {
             return {
+                novo_contato: '',
                 pessoa: {},
                 contatos: [],
                 atributos: [],
                 estados_civis: {},
                 generos: {},
-                novo_email: '',
             }
         },
         computed: {
@@ -165,7 +166,7 @@
                     this.pessoa.estado_civil = dados.estado_civil;
                     this.contatos = dados.contatos;
                     this.atributos = dados.atributos;
-                    console.log(dados);
+                    console.log(this.contatos);
                 } );
             },
             salvaForm: function(){
@@ -177,10 +178,21 @@
                     eventBus.$emit('foiSalvo', this.pessoa);
                 });
             },
-            adicionaEmail: function(){
-
+            adicionaContato: function(){
+                axios.post('/admin/ajax/pf/addContato', {
+                    email: this.novo_contato
+                }).then(res => {
+                    this.contatos = res.data;
+                    this.novo_contato = '';
+                });
             },
-
+            removeContato: function(id){
+                axios.post('/admin/ajax/pf/removeContato', {
+                    id: id
+                }).then(res => {
+                    this.contatos = res.data;
+                });
+            },
         }
     }
 </script>
