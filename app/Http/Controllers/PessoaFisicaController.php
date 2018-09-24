@@ -363,19 +363,7 @@ class PessoaFisicaController extends Controller
         $contato = (new Contato)->find($contato_id);
         $contato->delete();
 
-        $contatos = DB::select("
-            SELECT 
-                TipoContato.nome AS tipo, 
-                Contatos.valor, 
-                Contatos.id 
-            FROM contatos Contatos
-                INNER JOIN tipos_contato TipoContato
-                ON Contatos.tipo_contato_id = TipoContato.id
-                LEFT JOIN pessoas_fisicas PessoaFisica
-                ON Contatos.pessoa_fisica_id = PessoaFisica.id
-            WHERE PessoaFisica.id = $user_id
-            ORDER BY Contatos.id ASC
-        ");
+        $contatos = $this->getContatosPessoaFisicaPorId($user_id);
 
         return $contatos;
 
