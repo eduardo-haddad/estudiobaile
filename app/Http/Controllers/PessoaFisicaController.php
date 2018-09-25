@@ -332,16 +332,27 @@ class PessoaFisicaController extends Controller
         return $pf;
     }
 
-    public function ajaxAddContato(Request $r) {
+    public function ajaxAddContato() {
 
         $request['email'] = request('email');
-        $id = $r->user()->id;
+        $request['telefone'] = request('telefone');
 
+        if(empty($request['email']) && empty($request['telefone'])) {
+            return "Contato inválido";
+        }
+
+        $pessoa_id = request('pessoa_id');
         $contato = new Contato();
-        $contato->tipo_contato_id = 1;
-        $contato->pessoa_fisica_id = $id;
+        $contato->pessoa_fisica_id = $pessoa_id;
         $contato->pessoa_juridica_id = 0;
-        $contato->valor = $request['email'];
+
+        if(!empty($request['email'])){
+            $contato->tipo_contato_id = 1;
+            $contato->valor = $request['email'];
+        } else {
+            $contato->tipo_contato_id = 2;
+            $contato->valor = $request['telefone'];
+        }
 
         try {
             $contato->save();
@@ -349,25 +360,22 @@ class PessoaFisicaController extends Controller
             return $e->getMessage();
         }
 
-        $contatos = $this->getContatosPessoaFisicaPorId($id);
+        $contatos = $this->getContatosPessoaFisicaPorId($pessoa_id);
 
         return $contatos;
-
     }
 
     public function ajaxRemoveContato(Request $r) {
 
-        $contato_id = request('id');
-        $user_id = $r->user()->id;
+        $contato_id = request('contato_id');
+        $pessoa_id = request('pessoa_id');
 
         $contato = (new Contato)->find($contato_id);
         $contato->delete();
 
-        $contatos = $this->getContatosPessoaFisicaPorId($user_id);
+        $contatos = $this->getContatosPessoaFisicaPorId($pessoa_id);
 
         return $contatos;
-
-
     }
 
 }

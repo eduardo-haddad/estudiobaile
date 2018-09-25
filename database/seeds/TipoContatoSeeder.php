@@ -18,11 +18,7 @@ class TipoContatoSeeder extends Seeder
         $tipo_contato_email->save();
         //2
         $tipo_contato_telefone = new TipoContato();
-        $tipo_contato_telefone->nome = 'residencial';
+        $tipo_contato_telefone->nome = 'telefone';
         $tipo_contato_telefone->save();
-        //3
-        $tipo_contato_celular = new TipoContato();
-        $tipo_contato_celular->nome = 'celular';
-        $tipo_contato_celular->save();
     }
 }

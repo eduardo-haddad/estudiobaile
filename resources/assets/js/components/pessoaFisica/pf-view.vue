@@ -105,12 +105,25 @@
                         <div v-for="email in emails" class="valor">
                             <span class="campo">{{ email.tipo }}</span>
                             <input type="text" :id="email.id" v-model="email.valor" name="email" />
-                            <button @click.prevent="removeContato(email.id)">X</button>
+                            <a @click.prevent="removeContato(email.id)">X</a>
                         </div>
                     <!--<span class="campo">adicionar email:</span>-->
                     <br style="clear: both;"><br><br>
-                    <input @input="novo_contato = $event.target.value" type="text" class="adiciona_contato" v-model="novo_contato" placeholder="adicionar email" />
-                    <button @click.prevent="adicionaContato">+email</button>
+                    <input @input="novo_contato = $event.target.value" type="text" class="adiciona_contato" v-model="novo_email" placeholder="adicionar email" />
+                    <a @click.prevent="adicionaContato()">+email</a>
+
+                </div>
+
+                <div>
+                        <div v-for="telefone in telefones" class="valor">
+                            <span class="campo">{{ telefone.tipo }}</span>
+                            <input type="text" :id="telefone.id" v-model="telefone.valor" name="telefone" />
+                            <a @click.prevent="removeContato(telefone.id)">X</a>
+                        </div>
+                    <!--<span class="campo">adicionar email:</span>-->
+                    <br style="clear: both;"><br><br>
+                    <input @input="novo_contato = $event.target.value" type="text" class="adiciona_contato" v-model="novo_telefone" placeholder="adicionar telefone" />
+                    <a @click.prevent="adicionaContato">+telefone</a>
 
                 </div>
 
@@ -142,7 +155,8 @@
         },
         data() {
             return {
-                novo_contato: '',
+                novo_email: '',
+                novo_telefone: '',
                 pessoa: {},
                 contatos: [],
                 atributos: [],
@@ -155,6 +169,11 @@
                 return this.contatos.filter(function(x){
                     return x.tipo == "e-mail";
                 });
+            },
+            telefones: function() {
+                return this.contatos.filter(function(x){
+                    return x.tipo == "telefone";
+                });
             }
         },
         methods: {
@@ -166,7 +185,7 @@
                     this.pessoa.estado_civil = dados.estado_civil;
                     this.contatos = dados.contatos;
                     this.atributos = dados.atributos;
-                    console.log(this.contatos);
+                    console.log(dados);
                 } );
             },
             salvaForm: function(){
@@ -180,17 +199,25 @@
             },
             adicionaContato: function(){
                 axios.post('/admin/ajax/pf/addContato', {
-                    email: this.novo_contato
+                    pessoa_id: this.$route.params.id,
+                    email: this.novo_email,
+                    telefone: this.novo_telefone
                 }).then(res => {
-                    this.contatos = res.data;
-                    this.novo_contato = '';
+                    if(typeof res.data !== "string") {
+                        this.contatos = res.data;
+                    }
+                    this.novo_email = '';
+                    this.novo_telefone = '';
                 });
             },
             removeContato: function(id){
                 axios.post('/admin/ajax/pf/removeContato', {
-                    id: id
+                    contato_id: id,
+                    pessoa_id: this.$route.params.id,
                 }).then(res => {
-                    this.contatos = res.data;
+                    if(typeof res.data !== "string") {
+                        this.contatos = res.data;
+                    }
                 });
             },
         }

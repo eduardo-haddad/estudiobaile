@@ -33136,6 +33136,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -33152,7 +33165,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     data: function data() {
         return {
-            novo_contato: '',
+            novo_email: '',
+            novo_telefone: '',
             pessoa: {},
             contatos: [],
             atributos: [],
@@ -33165,6 +33179,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         emails: function emails() {
             return this.contatos.filter(function (x) {
                 return x.tipo == "e-mail";
+            });
+        },
+        telefones: function telefones() {
+            return this.contatos.filter(function (x) {
+                return x.tipo == "telefone";
             });
         }
     },
@@ -33179,7 +33198,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 _this.pessoa.estado_civil = dados.estado_civil;
                 _this.contatos = dados.contatos;
                 _this.atributos = dados.atributos;
-                console.log(_this.contatos);
+                console.log(dados);
             });
         },
         salvaForm: function salvaForm() {
@@ -33197,19 +33216,27 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this3 = this;
 
             axios.post('/admin/ajax/pf/addContato', {
-                email: this.novo_contato
+                pessoa_id: this.$route.params.id,
+                email: this.novo_email,
+                telefone: this.novo_telefone
             }).then(function (res) {
-                _this3.contatos = res.data;
-                _this3.novo_contato = '';
+                if (typeof res.data !== "string") {
+                    _this3.contatos = res.data;
+                }
+                _this3.novo_email = '';
+                _this3.novo_telefone = '';
             });
         },
         removeContato: function removeContato(id) {
             var _this4 = this;
 
             axios.post('/admin/ajax/pf/removeContato', {
-                id: id
+                contato_id: id,
+                pessoa_id: this.$route.params.id
             }).then(function (res) {
-                _this4.contatos = res.data;
+                if (typeof res.data !== "string") {
+                    _this4.contatos = res.data;
+                }
             });
         }
     }
@@ -33613,7 +33640,7 @@ var render = function() {
                     }),
                     _vm._v(" "),
                     _c(
-                      "button",
+                      "a",
                       {
                         on: {
                           click: function($event) {
@@ -33636,20 +33663,20 @@ var render = function() {
                     {
                       name: "model",
                       rawName: "v-model",
-                      value: _vm.novo_contato,
-                      expression: "novo_contato"
+                      value: _vm.novo_email,
+                      expression: "novo_email"
                     }
                   ],
                   staticClass: "adiciona_contato",
                   attrs: { type: "text", placeholder: "adicionar email" },
-                  domProps: { value: _vm.novo_contato },
+                  domProps: { value: _vm.novo_email },
                   on: {
                     input: [
                       function($event) {
                         if ($event.target.composing) {
                           return
                         }
-                        _vm.novo_contato = $event.target.value
+                        _vm.novo_email = $event.target.value
                       },
                       function($event) {
                         _vm.novo_contato = $event.target.value
@@ -33659,7 +33686,103 @@ var render = function() {
                 }),
                 _vm._v(" "),
                 _c(
-                  "button",
+                  "a",
+                  {
+                    on: {
+                      click: function($event) {
+                        $event.preventDefault()
+                        _vm.adicionaContato()
+                      }
+                    }
+                  },
+                  [_vm._v("+email")]
+                )
+              ],
+              2
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              [
+                _vm._l(_vm.telefones, function(telefone) {
+                  return _c("div", { staticClass: "valor" }, [
+                    _c("span", { staticClass: "campo" }, [
+                      _vm._v(_vm._s(telefone.tipo))
+                    ]),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: telefone.valor,
+                          expression: "telefone.valor"
+                        }
+                      ],
+                      attrs: {
+                        type: "text",
+                        id: telefone.id,
+                        name: "telefone"
+                      },
+                      domProps: { value: telefone.valor },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(telefone, "valor", $event.target.value)
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c(
+                      "a",
+                      {
+                        on: {
+                          click: function($event) {
+                            $event.preventDefault()
+                            _vm.removeContato(telefone.id)
+                          }
+                        }
+                      },
+                      [_vm._v("X")]
+                    )
+                  ])
+                }),
+                _vm._v(" "),
+                _c("br", { staticStyle: { clear: "both" } }),
+                _c("br"),
+                _c("br"),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.novo_telefone,
+                      expression: "novo_telefone"
+                    }
+                  ],
+                  staticClass: "adiciona_contato",
+                  attrs: { type: "text", placeholder: "adicionar telefone" },
+                  domProps: { value: _vm.novo_telefone },
+                  on: {
+                    input: [
+                      function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.novo_telefone = $event.target.value
+                      },
+                      function($event) {
+                        _vm.novo_contato = $event.target.value
+                      }
+                    ]
+                  }
+                }),
+                _vm._v(" "),
+                _c(
+                  "a",
                   {
                     on: {
                       click: function($event) {
@@ -33668,7 +33791,7 @@ var render = function() {
                       }
                     }
                   },
-                  [_vm._v("+email")]
+                  [_vm._v("+telefone")]
                 )
               ],
               2
