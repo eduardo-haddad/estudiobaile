@@ -100,7 +100,7 @@
 
                 <h2 class="nome_grupo">Contatos <div class="editar"><a href="#">Adicionar</a></div></h2>
 
-
+                <!-- Emails -->
                 <div>
                         <div v-for="email in emails" class="valor">
                             <span class="campo">{{ email.tipo }}</span>
@@ -114,6 +114,7 @@
 
                 </div>
 
+                <!-- Telefones -->
                 <div>
                         <div v-for="telefone in telefones" class="valor">
                             <span class="campo">{{ telefone.tipo }}</span>
@@ -124,6 +125,86 @@
                     <br style="clear: both;"><br><br>
                     <input @input="novo_contato = $event.target.value" type="text" class="adiciona_contato" v-model="novo_telefone" placeholder="adicionar telefone" />
                     <a @click.prevent="adicionaContato">+telefone</a>
+
+                </div>
+
+                <br>
+                <br>
+                <br>
+                <br>
+                <!-- Endereços -->
+                <div v-for="(endereco, index) in enderecos" :key="endereco.id">
+                    <span class="campo">--- Endereço {{index+1}}</span> <a @click="removeEndereco(endereco.id)">[x]</a> <br>
+                    <span class="campo">Logradouro</span>
+                    <div class="valor">
+                        <input autocomplete="off" type="text" v-model="endereco.rua" />
+                    </div><br>
+                    <span class="campo">Número</span>
+                    <div class="valor">
+                        <input autocomplete="off" type="text" v-model="endereco.numero" />
+                    </div><br>
+                    <span class="campo">Complemento</span>
+                    <div class="valor">
+                        <input autocomplete="off" type="text" v-model="endereco.complemento" />
+                    </div><br>
+                    <span class="campo">Bairro</span>
+                    <div class="valor">
+                        <input autocomplete="off" type="text" v-model="endereco.bairro" />
+                    </div><br>
+                    <span class="campo">cep</span>
+                    <div class="valor">
+                        <input autocomplete="off" type="text" v-model="endereco.cep" />
+                    </div><br>
+                    <span class="campo">cidade</span>
+                    <div class="valor">
+                        <input autocomplete="off" type="text" v-model="endereco.cidade" />
+                    </div><br>
+                    <span class="campo">uf</span>
+                    <div class="valor">
+                        <input autocomplete="off" type="text" v-model="endereco.estado" />
+                    </div><br>
+                    <span class="campo">País</span>
+                    <div class="valor">
+                        <input autocomplete="off" type="text" v-model="endereco.pais" />
+                    </div><br>
+                </div>
+                <!--Add novo endereço-->
+                <a @click="mostraEnderecoBox = true">[novo endereço]</a>
+                <div v-if="mostraEnderecoBox">
+                    <span class="campo">--- Novo Endereço</span><br>
+                    <span class="campo">Logradouro</span>
+                    <div class="valor">
+                        <input @input="novo_endereco.rua = $event.target.value" autocomplete="off" type="text" v-model="novo_endereco.rua" />
+                    </div><br>
+                    <span class="campo">Número</span>
+                    <div class="valor">
+                        <input @input="novo_endereco.numero = $event.target.value" autocomplete="off" type="text" v-model="novo_endereco.numero" />
+                    </div><br>
+                    <span class="campo">Complemento</span>
+                    <div class="valor">
+                        <input @input="novo_endereco.complemento = $event.target.value" autocomplete="off" type="text" v-model="novo_endereco.complemento" />
+                    </div><br>
+                    <span class="campo">Bairro</span>
+                    <div class="valor">
+                        <input @input="novo_endereco.bairro = $event.target.value" autocomplete="off" type="text" v-model="novo_endereco.bairro" />
+                    </div><br>
+                    <span class="campo">cep</span>
+                    <div class="valor">
+                        <input @input="novo_endereco.cep = $event.target.value" autocomplete="off" type="text" v-model="novo_endereco.cep" />
+                    </div><br>
+                    <span class="campo">cidade</span>
+                    <div class="valor">
+                        <input @input="novo_endereco.cidade = $event.target.value" autocomplete="off" type="text" v-model="novo_endereco.cidade" />
+                    </div><br>
+                    <span class="campo">uf</span>
+                    <div class="valor">
+                        <input @input="novo_endereco.estado = $event.target.value" autocomplete="off" type="text" v-model="novo_endereco.estado" />
+                    </div><br>
+                    <span class="campo">País</span>
+                    <div class="valor">
+                        <input @input="novo_endereco.pais = $event.target.value" autocomplete="off" type="text" v-model="novo_endereco.pais" />
+                    </div><br>
+                    <a @click.prevent="adicionaEndereco">[+]</a>
 
                 </div>
 
@@ -155,25 +236,27 @@
         },
         data() {
             return {
-                novo_email: '',
-                novo_telefone: '',
+                //Models
                 pessoa: {},
                 contatos: [],
+                enderecos: [],
                 atributos: [],
                 estados_civis: {},
                 generos: {},
+                //Campos de inclusão
+                novo_email: '',
+                novo_telefone: '',
+                novo_endereco: {rua:'',numero:'',complemento:'',bairro:'',cep:'',cidade:'',estado:'',pais:''},
+                //Condicionais
+                mostraEnderecoBox: false
             }
         },
         computed: {
             emails: function() {
-                return this.contatos.filter(function(x){
-                    return x.tipo == "e-mail";
-                });
+                return this.contatos.filter(x => x.tipo == "e-mail");
             },
             telefones: function() {
-                return this.contatos.filter(function(x){
-                    return x.tipo == "telefone";
-                });
+                return this.contatos.filter(x => x.tipo == "telefone");
             }
         },
         methods: {
@@ -184,6 +267,7 @@
                     this.pessoa.genero = dados.genero;
                     this.pessoa.estado_civil = dados.estado_civil;
                     this.contatos = dados.contatos;
+                    this.enderecos = dados.enderecos;
                     this.atributos = dados.atributos;
                     console.log(dados);
                 } );
@@ -191,7 +275,8 @@
             salvaForm: function(){
                 axios.post('/admin/ajax/pf/save', {
                     pessoa: this.pessoa,
-                    contatos: this.contatos
+                    contatos: this.contatos,
+                    enderecos: this.enderecos
                 }).then(res => {
                     this.pessoa = res.data;
                     eventBus.$emit('foiSalvo', this.pessoa);
@@ -220,6 +305,27 @@
                     }
                 });
             },
+            adicionaEndereco: function(){
+                axios.post('/admin/ajax/pf/addEndereco', {
+                    pessoa_id: this.$route.params.id,
+                    endereco: this.novo_endereco
+                }).then(res => {
+                    if(typeof res.data !== "string") {
+                        this.enderecos = res.data;
+                        this.novo_endereco = {};
+                        this.mostraEnderecoBox = false;
+                    }
+                });
+            },
+            removeEndereco: function(id){
+                axios.post('/admin/ajax/pf/removeEndereco', {
+                    endereco_id: id,
+                    pessoa_id: this.$route.params.id,
+                }).then(res => {
+                    console.log(res.data);
+                    this.enderecos = res.data;
+                });
+            }
         }
     }
 </script>

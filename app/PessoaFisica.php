@@ -25,6 +25,8 @@ class PessoaFisica extends Model
         'genero_id'
     ];
 
+    //Relacionamentos
+
     public function contatos() 
     {
         return $this->hasMany('App\Contato');
@@ -64,4 +66,52 @@ class PessoaFisica extends Model
     {
         return $this->belongsTo('App\EstadoCivil', 'estado_civil_id');
     }
+
+    //Métodos - Helpers
+
+    public static function getContatosPessoaFisicaPorId($id) {
+        return \DB::select("
+            SELECT 
+                TipoContato.nome AS tipo, 
+                Contatos.valor, 
+                Contatos.id 
+            FROM contatos Contatos
+                INNER JOIN tipos_contato TipoContato
+                ON Contatos.tipo_contato_id = TipoContato.id
+                LEFT JOIN pessoas_fisicas PessoaFisica
+                ON Contatos.pessoa_fisica_id = PessoaFisica.id
+            WHERE PessoaFisica.id = $id
+            ORDER BY Contatos.id ASC
+        ");
+    }
+
+    public static function getPessoasJuridicasRelacionadasPorId($id) {
+        return \DB::select("
+            SELECT 
+                PessoaJuridica.id,
+                PessoaJuridica.nome_fantasia,
+                PessoaJuridica.razao_social
+            FROM pessoas_juridicas PessoaJuridica
+                INNER JOIN pf_pj PessoaFisicaJuridica
+                ON PessoaJuridica.id = PessoaFisicaJuridica.pessoa_juridica_id
+                AND PessoaFisicaJuridica.pessoa_fisica_id = $id
+        ");
+    }
+
+    public static function getDadosBancariosPessoaFisicaPorId($id) {
+        return \DB::select("
+            SELECT 
+                TiposContaBancaria.id AS tipo_conta_id,
+                TiposContaBancaria.valor AS tipo_conta,
+                DadosBancarios.* 
+            FROM tipos_conta_bancaria TiposContaBancaria
+                INNER JOIN dados_bancarios DadosBancarios
+                ON TiposContaBancaria.id = DadosBancarios.tipo_conta_id
+                LEFT JOIN pessoa_dados_bancarios PessoaDadosBancarios
+                ON DadosBancarios.id = PessoaDadosBancarios.dado_bancario_id
+                AND PessoaDadosBancarios.pessoa_fisica_id = $id
+        ");
+    }
+
+
 }

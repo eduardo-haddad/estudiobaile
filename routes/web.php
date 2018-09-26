@@ -48,21 +48,34 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles']], function(
     $usuario = ['usuario'];
 
     // Ajax
+
+    // ** Pessoa Física **
+
+    //Lista
     Route::get('/ajax/pf/index', [
         'uses' => 'PessoaFisicaController@ajaxIndex',
         'as' => 'ajax.pf.index',
         'roles' => $padrao
     ]);
+    //View
+    Route::get('/ajax/pf/{id}', [
+        'uses' => 'PessoaFisicaController@ajaxView',
+        'as' => 'ajax.pf.view',
+        'roles' => $padrao
+    ]);
+    //Atributos View
     Route::get('/ajax/pf/atributos', [
         'uses' => 'PessoaFisicaController@ajaxAtributos',
         'as' => 'ajax.pf.create',
         'roles' => $padrao
     ]);
+    //Salva formulário
     Route::post('/ajax/pf/save', [
         'uses' => 'PessoaFisicaController@ajaxSave',
         'as' => 'ajax.pf.save',
         'roles' => $padrao
     ]);
+    //Contatos
     Route::post('/ajax/pf/addContato', [
         'uses' => 'PessoaFisicaController@ajaxAddContato',
         'as' => 'ajax.pf.addContato',
@@ -73,12 +86,17 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles']], function(
         'as' => 'ajax.pf.removeContato',
         'roles' => $padrao
     ]);
-    Route::get('/ajax/pf/{id}', [
-        'uses' => 'PessoaFisicaController@ajaxView',
-        'as' => 'ajax.pf.view',
+    //Endereços
+    Route::post('/ajax/pf/addEndereco', [
+        'uses' => 'PessoaFisicaController@ajaxaddEndereco',
+        'as' => 'ajax.pf.addEndereco',
         'roles' => $padrao
     ]);
-
+    Route::post('/ajax/pf/removeEndereco', [
+        'uses' => 'PessoaFisicaController@ajaxRemoveEndereco',
+        'as' => 'ajax.pf.removeEndereco',
+        'roles' => $padrao
+    ]);
 
 
 

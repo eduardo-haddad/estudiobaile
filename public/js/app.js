@@ -33149,6 +33149,87 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -33165,13 +33246,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     data: function data() {
         return {
-            novo_email: '',
-            novo_telefone: '',
+            //Models
             pessoa: {},
             contatos: [],
+            enderecos: [],
             atributos: [],
             estados_civis: {},
-            generos: {}
+            generos: {},
+            //Campos de inclusão
+            novo_email: '',
+            novo_telefone: '',
+            novo_endereco: { rua: '', numero: '', complemento: '', bairro: '', cep: '', cidade: '', estado: '', pais: '' },
+            //Condicionais
+            mostraEnderecoBox: false
         };
     },
 
@@ -33197,6 +33284,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 _this.pessoa.genero = dados.genero;
                 _this.pessoa.estado_civil = dados.estado_civil;
                 _this.contatos = dados.contatos;
+                _this.enderecos = dados.enderecos;
                 _this.atributos = dados.atributos;
                 console.log(dados);
             });
@@ -33206,7 +33294,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             axios.post('/admin/ajax/pf/save', {
                 pessoa: this.pessoa,
-                contatos: this.contatos
+                contatos: this.contatos,
+                enderecos: this.enderecos
             }).then(function (res) {
                 _this2.pessoa = res.data;
                 __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$emit('foiSalvo', _this2.pessoa);
@@ -33237,6 +33326,31 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 if (typeof res.data !== "string") {
                     _this4.contatos = res.data;
                 }
+            });
+        },
+        adicionaEndereco: function adicionaEndereco() {
+            var _this5 = this;
+
+            axios.post('/admin/ajax/pf/addEndereco', {
+                pessoa_id: this.$route.params.id,
+                endereco: this.novo_endereco
+            }).then(function (res) {
+                if (typeof res.data !== "string") {
+                    _this5.enderecos = res.data;
+                    _this5.novo_endereco = {};
+                    _this5.mostraEnderecoBox = false;
+                }
+            });
+        },
+        removeEndereco: function removeEndereco(id) {
+            var _this6 = this;
+
+            axios.post('/admin/ajax/pf/removeEndereco', {
+                endereco_id: id,
+                pessoa_id: this.$route.params.id
+            }).then(function (res) {
+                console.log(res.data);
+                _this6.enderecos = res.data;
             });
         }
     }
@@ -33803,8 +33917,561 @@ var render = function() {
             _vm._v(" "),
             _c("br"),
             _vm._v(" "),
+            _c("br"),
+            _vm._v(" "),
+            _vm._l(_vm.enderecos, function(endereco, index) {
+              return _c("div", { key: endereco.id }, [
+                _c("span", { staticClass: "campo" }, [
+                  _vm._v("--- Endereço " + _vm._s(index + 1))
+                ]),
+                _vm._v(" "),
+                _c(
+                  "a",
+                  {
+                    on: {
+                      click: function($event) {
+                        _vm.removeEndereco(endereco.id)
+                      }
+                    }
+                  },
+                  [_vm._v("[x]")]
+                ),
+                _vm._v(" "),
+                _c("br"),
+                _vm._v(" "),
+                _c("span", { staticClass: "campo" }, [_vm._v("Logradouro")]),
+                _vm._v(" "),
+                _c("div", { staticClass: "valor" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: endereco.rua,
+                        expression: "endereco.rua"
+                      }
+                    ],
+                    attrs: { autocomplete: "off", type: "text" },
+                    domProps: { value: endereco.rua },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(endereco, "rua", $event.target.value)
+                      }
+                    }
+                  })
+                ]),
+                _c("br"),
+                _vm._v(" "),
+                _c("span", { staticClass: "campo" }, [_vm._v("Número")]),
+                _vm._v(" "),
+                _c("div", { staticClass: "valor" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: endereco.numero,
+                        expression: "endereco.numero"
+                      }
+                    ],
+                    attrs: { autocomplete: "off", type: "text" },
+                    domProps: { value: endereco.numero },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(endereco, "numero", $event.target.value)
+                      }
+                    }
+                  })
+                ]),
+                _c("br"),
+                _vm._v(" "),
+                _c("span", { staticClass: "campo" }, [_vm._v("Complemento")]),
+                _vm._v(" "),
+                _c("div", { staticClass: "valor" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: endereco.complemento,
+                        expression: "endereco.complemento"
+                      }
+                    ],
+                    attrs: { autocomplete: "off", type: "text" },
+                    domProps: { value: endereco.complemento },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(endereco, "complemento", $event.target.value)
+                      }
+                    }
+                  })
+                ]),
+                _c("br"),
+                _vm._v(" "),
+                _c("span", { staticClass: "campo" }, [_vm._v("Bairro")]),
+                _vm._v(" "),
+                _c("div", { staticClass: "valor" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: endereco.bairro,
+                        expression: "endereco.bairro"
+                      }
+                    ],
+                    attrs: { autocomplete: "off", type: "text" },
+                    domProps: { value: endereco.bairro },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(endereco, "bairro", $event.target.value)
+                      }
+                    }
+                  })
+                ]),
+                _c("br"),
+                _vm._v(" "),
+                _c("span", { staticClass: "campo" }, [_vm._v("cep")]),
+                _vm._v(" "),
+                _c("div", { staticClass: "valor" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: endereco.cep,
+                        expression: "endereco.cep"
+                      }
+                    ],
+                    attrs: { autocomplete: "off", type: "text" },
+                    domProps: { value: endereco.cep },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(endereco, "cep", $event.target.value)
+                      }
+                    }
+                  })
+                ]),
+                _c("br"),
+                _vm._v(" "),
+                _c("span", { staticClass: "campo" }, [_vm._v("cidade")]),
+                _vm._v(" "),
+                _c("div", { staticClass: "valor" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: endereco.cidade,
+                        expression: "endereco.cidade"
+                      }
+                    ],
+                    attrs: { autocomplete: "off", type: "text" },
+                    domProps: { value: endereco.cidade },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(endereco, "cidade", $event.target.value)
+                      }
+                    }
+                  })
+                ]),
+                _c("br"),
+                _vm._v(" "),
+                _c("span", { staticClass: "campo" }, [_vm._v("uf")]),
+                _vm._v(" "),
+                _c("div", { staticClass: "valor" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: endereco.estado,
+                        expression: "endereco.estado"
+                      }
+                    ],
+                    attrs: { autocomplete: "off", type: "text" },
+                    domProps: { value: endereco.estado },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(endereco, "estado", $event.target.value)
+                      }
+                    }
+                  })
+                ]),
+                _c("br"),
+                _vm._v(" "),
+                _c("span", { staticClass: "campo" }, [_vm._v("País")]),
+                _vm._v(" "),
+                _c("div", { staticClass: "valor" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: endereco.pais,
+                        expression: "endereco.pais"
+                      }
+                    ],
+                    attrs: { autocomplete: "off", type: "text" },
+                    domProps: { value: endereco.pais },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(endereco, "pais", $event.target.value)
+                      }
+                    }
+                  })
+                ]),
+                _c("br")
+              ])
+            }),
+            _vm._v(" "),
+            _c(
+              "a",
+              {
+                on: {
+                  click: function($event) {
+                    _vm.mostraEnderecoBox = true
+                  }
+                }
+              },
+              [_vm._v("[novo endereço]")]
+            ),
+            _vm._v(" "),
+            _vm.mostraEnderecoBox
+              ? _c("div", [
+                  _c("span", { staticClass: "campo" }, [
+                    _vm._v("--- Novo Endereço")
+                  ]),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "campo" }, [_vm._v("Logradouro")]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "valor" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.novo_endereco.rua,
+                          expression: "novo_endereco.rua"
+                        }
+                      ],
+                      attrs: { autocomplete: "off", type: "text" },
+                      domProps: { value: _vm.novo_endereco.rua },
+                      on: {
+                        input: [
+                          function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.novo_endereco,
+                              "rua",
+                              $event.target.value
+                            )
+                          },
+                          function($event) {
+                            _vm.novo_endereco.rua = $event.target.value
+                          }
+                        ]
+                      }
+                    })
+                  ]),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "campo" }, [_vm._v("Número")]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "valor" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.novo_endereco.numero,
+                          expression: "novo_endereco.numero"
+                        }
+                      ],
+                      attrs: { autocomplete: "off", type: "text" },
+                      domProps: { value: _vm.novo_endereco.numero },
+                      on: {
+                        input: [
+                          function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.novo_endereco,
+                              "numero",
+                              $event.target.value
+                            )
+                          },
+                          function($event) {
+                            _vm.novo_endereco.numero = $event.target.value
+                          }
+                        ]
+                      }
+                    })
+                  ]),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "campo" }, [_vm._v("Complemento")]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "valor" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.novo_endereco.complemento,
+                          expression: "novo_endereco.complemento"
+                        }
+                      ],
+                      attrs: { autocomplete: "off", type: "text" },
+                      domProps: { value: _vm.novo_endereco.complemento },
+                      on: {
+                        input: [
+                          function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.novo_endereco,
+                              "complemento",
+                              $event.target.value
+                            )
+                          },
+                          function($event) {
+                            _vm.novo_endereco.complemento = $event.target.value
+                          }
+                        ]
+                      }
+                    })
+                  ]),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "campo" }, [_vm._v("Bairro")]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "valor" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.novo_endereco.bairro,
+                          expression: "novo_endereco.bairro"
+                        }
+                      ],
+                      attrs: { autocomplete: "off", type: "text" },
+                      domProps: { value: _vm.novo_endereco.bairro },
+                      on: {
+                        input: [
+                          function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.novo_endereco,
+                              "bairro",
+                              $event.target.value
+                            )
+                          },
+                          function($event) {
+                            _vm.novo_endereco.bairro = $event.target.value
+                          }
+                        ]
+                      }
+                    })
+                  ]),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "campo" }, [_vm._v("cep")]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "valor" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.novo_endereco.cep,
+                          expression: "novo_endereco.cep"
+                        }
+                      ],
+                      attrs: { autocomplete: "off", type: "text" },
+                      domProps: { value: _vm.novo_endereco.cep },
+                      on: {
+                        input: [
+                          function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.novo_endereco,
+                              "cep",
+                              $event.target.value
+                            )
+                          },
+                          function($event) {
+                            _vm.novo_endereco.cep = $event.target.value
+                          }
+                        ]
+                      }
+                    })
+                  ]),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "campo" }, [_vm._v("cidade")]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "valor" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.novo_endereco.cidade,
+                          expression: "novo_endereco.cidade"
+                        }
+                      ],
+                      attrs: { autocomplete: "off", type: "text" },
+                      domProps: { value: _vm.novo_endereco.cidade },
+                      on: {
+                        input: [
+                          function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.novo_endereco,
+                              "cidade",
+                              $event.target.value
+                            )
+                          },
+                          function($event) {
+                            _vm.novo_endereco.cidade = $event.target.value
+                          }
+                        ]
+                      }
+                    })
+                  ]),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "campo" }, [_vm._v("uf")]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "valor" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.novo_endereco.estado,
+                          expression: "novo_endereco.estado"
+                        }
+                      ],
+                      attrs: { autocomplete: "off", type: "text" },
+                      domProps: { value: _vm.novo_endereco.estado },
+                      on: {
+                        input: [
+                          function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.novo_endereco,
+                              "estado",
+                              $event.target.value
+                            )
+                          },
+                          function($event) {
+                            _vm.novo_endereco.estado = $event.target.value
+                          }
+                        ]
+                      }
+                    })
+                  ]),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "campo" }, [_vm._v("País")]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "valor" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.novo_endereco.pais,
+                          expression: "novo_endereco.pais"
+                        }
+                      ],
+                      attrs: { autocomplete: "off", type: "text" },
+                      domProps: { value: _vm.novo_endereco.pais },
+                      on: {
+                        input: [
+                          function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.novo_endereco,
+                              "pais",
+                              $event.target.value
+                            )
+                          },
+                          function($event) {
+                            _vm.novo_endereco.pais = $event.target.value
+                          }
+                        ]
+                      }
+                    })
+                  ]),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c(
+                    "a",
+                    {
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          return _vm.adicionaEndereco($event)
+                        }
+                      }
+                    },
+                    [_vm._v("[+]")]
+                  )
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _c("br"),
+            _vm._v(" "),
+            _c("br"),
+            _vm._v(" "),
+            _c("br"),
+            _vm._v(" "),
             _c("button", [_vm._v("Salvar")])
-          ]
+          ],
+          2
         )
       ])
     ]

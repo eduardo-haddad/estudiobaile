@@ -9,6 +9,7 @@ use App\Contato;
 use App\Projeto;
 use App\Genero;
 use App\EstadoCivil;
+use App\Endereco;
 use Session;
 use DB;
 
@@ -207,25 +208,6 @@ class PessoaFisicaController extends Controller
         //
     }
 
-    public function getContatosPessoaFisicaPorId($id) {
-        $contatos = DB::select("
-            SELECT 
-                TipoContato.nome AS tipo, 
-                Contatos.valor, 
-                Contatos.id 
-            FROM contatos Contatos
-                INNER JOIN tipos_contato TipoContato
-                ON Contatos.tipo_contato_id = TipoContato.id
-                LEFT JOIN pessoas_fisicas PessoaFisica
-                ON Contatos.pessoa_fisica_id = PessoaFisica.id
-            WHERE PessoaFisica.id = $id
-            ORDER BY Contatos.id ASC
-        ");
-
-        return $contatos;
-    }
-
-
     public function ajaxIndex()
     {
         return (new PessoaFisica)->orderBy('nome_adotado')->get();
@@ -234,61 +216,28 @@ class PessoaFisicaController extends Controller
 
     public function ajaxView($id)
     {
-        $pf = (new PessoaFisica)->find($id);
+        $pessoa_fisica = (new PessoaFisica)->find($id);
 
         //Gênero
-        if(!empty($pf->genero_id)){
-            $genero = (new Genero)->find($pf->genero_id)->valor;
-        } else {
-            $genero = null;
-        }
+        $genero = !empty($pessoa_fisica->genero_id) ? (new Genero)->find($pessoa_fisica->genero_id)->valor : null;
 
         //Contatos
-        $contatos = $this->getContatosPessoaFisicaPorId($id);
+        $contatos = $pessoa_fisica->contatos()->get();
 
         //Endereços
-        $enderecos = DB::select("
-            SELECT * FROM enderecos Enderecos
-                INNER JOIN pessoa_endereco Pessoa_Endereco
-                ON Enderecos.id = Pessoa_Endereco.endereco_id
-                LEFT JOIN pessoas_fisicas PessoaFisica
-                ON Pessoa_Endereco.pessoa_fisica_id = PessoaFisica.id
-            WHERE PessoaFisica.id = $id
-            ORDER BY Enderecos.id
-        ");
+        $enderecos = $pessoa_fisica->enderecos()->get();
 
         //Pessoas Jurídicas
-        $pessoas_juridicas = DB::select("
-            SELECT 
-                PessoaJuridica.id,
-                PessoaJuridica.nome_fantasia,
-                PessoaJuridica.razao_social
-            FROM pessoas_juridicas PessoaJuridica
-                INNER JOIN pf_pj PessoaFisicaJuridica
-                ON PessoaJuridica.id = PessoaFisicaJuridica.pessoa_juridica_id
-                AND PessoaFisicaJuridica.pessoa_fisica_id = $id
-        ");
+        $pessoas_juridicas = $pessoa_fisica->pessoas_juridicas()->get();
 
         //Dados Bancários
-        $dados_bancarios = DB::select("
-            SELECT 
-                TiposContaBancaria.id AS tipo_conta_id,
-                TiposContaBancaria.valor AS tipo_conta,
-                DadosBancarios.* 
-            FROM tipos_conta_bancaria TiposContaBancaria
-                INNER JOIN dados_bancarios DadosBancarios
-                ON TiposContaBancaria.id = DadosBancarios.tipo_conta_id
-                LEFT JOIN pessoa_dados_bancarios PessoaDadosBancarios
-                ON DadosBancarios.id = PessoaDadosBancarios.dado_bancario_id
-                AND PessoaDadosBancarios.pessoa_fisica_id = $id
-        ");
+        $dados_bancarios = $pessoa_fisica->dados_bancarios()->get();
 
         //Estado Civil
-        $estado_civil = (new EstadoCivil)->find($pf->estado_civil_id);
-        $estado_civil = !empty($estado_civil->valor) ? $estado_civil->valor : null;
+        $estado_civil = !empty($pessoa_fisica->estado_civil_id) ? (new EstadoCivil)->find($pessoa_fisica->estado_civil_id)->valor : null;
 
         return [
-            'pessoa_fisica' => $pf,
+            'pessoa_fisica' => $pessoa_fisica,
             'genero' => $genero,
             'estado_civil' => $estado_civil,
             'contatos' => $contatos,
@@ -303,33 +252,52 @@ class PessoaFisicaController extends Controller
         ];
     }
 
-    public function ajaxSave(Request $r){
+    public function ajaxSave(Request $r) {
 
         $request['pessoa'] = request('pessoa');
         $request['contatos'] = request('contatos');
+        $request['enderecos'] = request('enderecos');
+
+
 
         //Pessoa Física
-        $pf = (new PessoaFisica)->find($request['pessoa']['id']);
-        $pf->nome = $request['pessoa']['nome'];
-        $pf->nome_adotado = $request['pessoa']['nome_adotado'];
-        $pf->genero_id = $request['pessoa']['genero_id'];
-        $pf->estado_civil_id = $request['pessoa']['estado_civil_id'];
-        $pf->dt_nascimento = $request['pessoa']['dt_nascimento'];
-        $pf->nacionalidade = $request['pessoa']['nacionalidade'];
-        $pf->naturalidade = $request['pessoa']['naturalidade'];
-        $pf->rg = $request['pessoa']['rg'];
-        $pf->passaporte = $request['pessoa']['passaporte'];
-        $pf->cpf = $request['pessoa']['cpf'];
-        $pf->modificado_por = $r->user()->name;
-        $pf->save();
+        $pessoa_fisica = (new PessoaFisica)->find($request['pessoa']['id']);
+
+        foreach(json_decode($pessoa_fisica) as $chave => $valor):
+            if($chave == "modificado_por") {
+                $pessoa_fisica->$chave = $r->user()->name;
+            }
+            else {
+                if(!empty($request['pessoa'][$chave])) {
+                    $pessoa_fisica->$chave = $request['pessoa'][$chave];
+                }
+            }
+        endforeach;
+
+        $pessoa_fisica->save();
 
         //Contatos
-        foreach($request['contatos'] as $i => $contato){
+        foreach($request['contatos'] as $i => $contato) {
             $contato = (new Contato)->find($request['contatos'][$i]['id']);
             $contato->valor = $request['contatos'][$i]['valor'];
             $contato->save();
         }
-        return $pf;
+
+        //Endereços
+        foreach($request['enderecos'] as $j => $endereco):
+
+            $endereco_atual = (new Endereco)->find($endereco['id']);
+
+            foreach(json_decode($endereco_atual) as $key => $value):
+                if(!empty($request['enderecos'][$j][$key])) {
+                    $endereco_atual->$key = $request['enderecos'][$j][$key];
+                }
+            endforeach;
+            $endereco_atual->save();
+
+        endforeach;
+
+        return $pessoa_fisica;
     }
 
     public function ajaxAddContato() {
@@ -341,9 +309,8 @@ class PessoaFisicaController extends Controller
             return "Contato inválido";
         }
 
-        $pessoa_id = request('pessoa_id');
         $contato = new Contato();
-        $contato->pessoa_fisica_id = $pessoa_id;
+        $contato->pessoa_fisica_id = request('pessoa_id');
         $contato->pessoa_juridica_id = 0;
 
         if(!empty($request['email'])){
@@ -360,7 +327,7 @@ class PessoaFisicaController extends Controller
             return $e->getMessage();
         }
 
-        $contatos = $this->getContatosPessoaFisicaPorId($pessoa_id);
+        $contatos = PessoaFisica::getContatosPessoaFisicaPorId(request('pessoa_id'));
 
         return $contatos;
     }
@@ -373,9 +340,68 @@ class PessoaFisicaController extends Controller
         $contato = (new Contato)->find($contato_id);
         $contato->delete();
 
-        $contatos = $this->getContatosPessoaFisicaPorId($pessoa_id);
+        $contatos = PessoaFisica::getContatosPessoaFisicaPorId($pessoa_id);
 
         return $contatos;
     }
+
+    public function ajaxAddEndereco() {
+
+        $endereco = request('endereco');
+        $pessoa_id = request('pessoa_id');
+
+        if(empty($endereco['rua'])) {
+            return "Endereço inválido";
+        }
+
+        $novo_endereco = new Endereco();
+        $novo_endereco->rua = !empty($endereco['rua']) ? $endereco['rua'] : '';
+        $novo_endereco->numero = !empty($endereco['numero']) ? $endereco['numero'] : '';
+        $novo_endereco->complemento = !empty($endereco['complemento']) ? $endereco['complemento'] : '';
+        $novo_endereco->bairro = !empty($endereco['bairro']) ? $endereco['bairro'] : '';
+        $novo_endereco->cep = !empty($endereco['cep']) ? $endereco['cep'] : '';
+        $novo_endereco->cidade = !empty($endereco['cidade']) ? $endereco['cidade'] : '';
+        $novo_endereco->estado = !empty($endereco['estado']) ? $endereco['estado'] : '';
+        $novo_endereco->pais = !empty($endereco['pais']) ? $endereco['pais'] : '';
+
+        try {
+            $novo_endereco->save();
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+
+        $pessoa = (new PessoaFisica)->find($pessoa_id);
+        $pessoa->enderecos()->attach($novo_endereco->id);
+
+        $enderecos = $pessoa->enderecos()->get();
+
+        return $enderecos;
+    }
+
+    public function ajaxRemoveEndereco() {
+
+        $endereco_id = request('endereco_id');
+        $pessoa_id = request('pessoa_id');
+
+        $endereco = (new Endereco)->find($endereco_id);
+        $pessoa_fisica = (new PessoaFisica)->find($pessoa_id);
+
+        try {
+            $pessoa_fisica->enderecos()->detach($endereco_id);
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+
+        try {
+            $endereco->delete();
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+
+        $enderecos = $pessoa_fisica->enderecos()->get();
+
+        return $enderecos;
+    }
+
 
 }
