@@ -103,7 +103,7 @@
                 <!-- Emails -->
                 <div>
                         <div v-for="email in emails" class="valor">
-                            <span class="campo">{{ email.tipo }}</span>
+                            <span class="campo">E-mail</span>
                             <input type="text" :id="email.id" v-model="email.valor" name="email" />
                             <a @click.prevent="removeContato(email.id)">X</a>
                         </div>
@@ -117,7 +117,7 @@
                 <!-- Telefones -->
                 <div>
                         <div v-for="telefone in telefones" class="valor">
-                            <span class="campo">{{ telefone.tipo }}</span>
+                            <span class="campo">Telefone</span>
                             <input type="text" :id="telefone.id" v-model="telefone.valor" name="telefone" />
                             <a @click.prevent="removeContato(telefone.id)">X</a>
                         </div>
@@ -253,10 +253,10 @@
         },
         computed: {
             emails: function() {
-                return this.contatos.filter(x => x.tipo == "e-mail");
+                return this.contatos.filter(x => x.tipo_contato_id == 1);
             },
             telefones: function() {
-                return this.contatos.filter(x => x.tipo == "telefone");
+                return this.contatos.filter(x => x.tipo_contato_id == 2);
             }
         },
         methods: {

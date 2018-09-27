@@ -72,7 +72,7 @@ class PessoaFisica extends Model
     public static function getContatosPessoaFisicaPorId($id) {
         return \DB::select("
             SELECT 
-                TipoContato.nome AS tipo, 
+                TipoContato.tipo, 
                 Contatos.valor, 
                 Contatos.id 
             FROM contatos Contatos

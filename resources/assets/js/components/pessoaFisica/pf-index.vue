@@ -29,8 +29,9 @@
 
             //evento - registro salvo em pf-view
             eventBus.$on('foiSalvo', pessoa => {
+
                 let id_atual = this.$route.params.id;
-                this.$set(this.pessoas, this.pessoas.findIndex(p => p.id === id_atual), {
+                this.$set(this.pessoas, this.pessoas.findIndex(p => p.id == id_atual), {
                     nome_adotado: pessoa.nome_adotado,
                     id: pessoa.id
                 });

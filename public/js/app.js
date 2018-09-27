@@ -32886,9 +32886,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
         //evento - registro salvo em pf-view
         __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$on('foiSalvo', function (pessoa) {
+
             var id_atual = _this.$route.params.id;
             _this.$set(_this.pessoas, _this.pessoas.findIndex(function (p) {
-                return p.id === id_atual;
+                return p.id == id_atual;
             }), {
                 nome_adotado: pessoa.nome_adotado,
                 id: pessoa.id
@@ -33265,12 +33266,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     computed: {
         emails: function emails() {
             return this.contatos.filter(function (x) {
-                return x.tipo == "e-mail";
+                return x.tipo_contato_id == 1;
             });
         },
         telefones: function telefones() {
             return this.contatos.filter(function (x) {
-                return x.tipo == "telefone";
+                return x.tipo_contato_id == 2;
             });
         }
     },
@@ -33728,9 +33729,7 @@ var render = function() {
               [
                 _vm._l(_vm.emails, function(email) {
                   return _c("div", { staticClass: "valor" }, [
-                    _c("span", { staticClass: "campo" }, [
-                      _vm._v(_vm._s(email.tipo))
-                    ]),
+                    _c("span", { staticClass: "campo" }, [_vm._v("E-mail")]),
                     _vm._v(" "),
                     _c("input", {
                       directives: [
@@ -33820,9 +33819,7 @@ var render = function() {
               [
                 _vm._l(_vm.telefones, function(telefone) {
                   return _c("div", { staticClass: "valor" }, [
-                    _c("span", { staticClass: "campo" }, [
-                      _vm._v(_vm._s(telefone.tipo))
-                    ]),
+                    _c("span", { staticClass: "campo" }, [_vm._v("Telefone")]),
                     _vm._v(" "),
                     _c("input", {
                       directives: [
