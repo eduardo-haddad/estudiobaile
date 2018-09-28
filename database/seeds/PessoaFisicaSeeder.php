@@ -28,6 +28,7 @@ class PessoaFisicaSeeder extends Seeder
         $pf1->dt_nascimento = '1987-03-26';
         $pf1->nacionalidade = 'Brasileiro';
         $pf1->naturalidade = 'São Paulo, SP';
+        $pf1->website = 'http://google.com';
         $pf1->criado_por = 'Eduardo Haddad';
         $pf1->modificado_por = 'Eduardo Haddad';
         $pf1->genero_id = Genero::find(2)->id;
@@ -37,7 +38,7 @@ class PessoaFisicaSeeder extends Seeder
         $pf1->pessoas_juridicas()->attach(PessoaJuridica::all()->first());
         $pf1->categorias()->attach(Categoria::find(2));
         $pf1->enderecos()->attach(Endereco::find(1));
-        $pf1->dados_bancarios()->attach(DadoBancario::find(1));
+        $pf1->dados_bancarios()->attach([DadoBancario::find(1)->id, DadoBancario::find(2)->id]);
         
         for($i = 0; $i <= 20; $i++){
             $var = "pf" . $i;

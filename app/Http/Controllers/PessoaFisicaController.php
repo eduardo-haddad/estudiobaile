@@ -10,6 +10,7 @@ use App\Projeto;
 use App\Genero;
 use App\EstadoCivil;
 use App\Endereco;
+use App\TipoContaBancaria;
 use Session;
 use DB;
 
@@ -247,7 +248,8 @@ class PessoaFisicaController extends Controller
             'atributos' => [
                 'tipos_contato' => TipoContato::all(),
                 'generos' => Genero::all(),
-                'estados_civis' => EstadoCivil::all()
+                'estados_civis' => EstadoCivil::all(),
+                'tipos_conta_bancaria' => TipoContaBancaria::all(),
             ]
         ];
     }

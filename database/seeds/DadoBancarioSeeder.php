@@ -18,5 +18,11 @@ class DadoBancarioSeeder extends Seeder
         $dado_bancario1->conta = "16.574-3";
         $dado_bancario1->tipo_conta_id = 1;
         $dado_bancario1->save();
+        $dado_bancario2 = new DadoBancario();
+        $dado_bancario2->nome_banco = "Bradesco";
+        $dado_bancario2->agencia = "12345-8";
+        $dado_bancario2->conta = "54331-3";
+        $dado_bancario2->tipo_conta_id = 2;
+        $dado_bancario2->save();
     }
 }
