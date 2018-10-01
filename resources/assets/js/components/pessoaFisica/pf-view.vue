@@ -32,7 +32,7 @@
                 <span class="campo">Gênero</span>
                 <div class="valor">
                     <select name="genero" v-model="pessoa.genero_id">
-                        <option v-for="genero in atributos.generos" :value="genero.id">
+                        <option v-for="genero in atributos.generos" :value="genero.id" :key="genero.id">
                             {{ genero.valor == 'F' ? 'Feminino' : 'Masculino' }}
                         </option>
                     </select>
@@ -41,7 +41,7 @@
                 <span class="campo">Estado civil</span>
                 <div class="valor">
                     <select name="estado_civil" v-model="pessoa.estado_civil_id">
-                        <option v-for="estado_civil in atributos.estados_civis" :value="estado_civil.id">
+                        <option v-for="estado_civil in atributos.estados_civis" :value="estado_civil.id" :key="estado_civil.id">
                             {{ estado_civil.valor }}
                         </option>
                     </select>
@@ -110,7 +110,7 @@
 
                 <!-- Emails -->
                 <div>
-                        <div v-for="email in emails" class="valor">
+                        <div v-for="email in emails" class="valor" :key="email.id">
                             <span class="campo">E-mail</span>
                             <input type="text" :id="email.id" v-model="email.valor" name="email" />
                             <a @click.prevent="removeContato(email.id)">X</a>
@@ -124,7 +124,7 @@
 
                 <!-- Telefones -->
                 <div>
-                        <div v-for="telefone in telefones" class="valor">
+                        <div v-for="telefone in telefones" class="valor" :key="telefone.id">
                             <span class="campo">Telefone</span>
                             <input type="text" :id="telefone.id" v-model="telefone.valor" name="telefone" />
                             <a @click.prevent="removeContato(telefone.id)">X</a>
@@ -226,7 +226,7 @@
 
 
 
-                <div v-for="(dado_bancario, index) in dados_bancarios" :key="dado_bancario.id">
+                <div v-for="(dado_bancario, index) in dados_bancarios">
                     <span class="campo">--- Dados Bancários #{{index+1}}</span> <a @click="removeDadosBancarios(dado_bancario.id)">[x]</a> <br>
                     <span class="campo">Banco</span>
                     <div class="valor">
@@ -243,21 +243,51 @@
                     <span class="campo">Tipo</span>
                     <div class="valor">
                         <select name="dado_bancario.tipo_conta_id" v-model="dado_bancario.tipo_conta_id">
-                            <option v-for="tipo_conta in atributos.tipos_conta_bancaria" :value="tipo_conta.id" :key="tipo_conta.id">
+                            <option v-for="tipo_conta in atributos.tipos_conta_bancaria" :value="tipo_conta.id">
                                 {{ tipo_conta.valor }}
                             </option>
                         </select>
                     </div><br>
                 </div>
                 <!-- Add novos dados bancários -->
-                <!--<a @click="mostraDadosBancariosBox = true">[novos dados bancários]</a>-->
-                <!--<div v-if="mostraDadosBancariosBox">-->
-                    <!--<span class="campo">-&#45;&#45; Novos Dados Bancários</span><br>-->
-                    <!--<span class="campo">x</span>-->
+                <a @click="mostraDadosBancariosBox = true">[novos dados bancários]</a>
+                <div v-if="mostraDadosBancariosBox">
+                    <span class="campo">--- Novos Dados Bancários</span><br>
+                    <span class="campo">Banco</span>
+                    <div class="valor">
+                        <input @input="novos_dados_bancarios.nome_banco = $event.target.value" autocomplete="off" type="text" name="novos_dados_bancarios.nome_banco" v-model="novos_dados_bancarios.nome_banco" />
+                    </div><br>
+                    <span class="campo">Agência</span>
+                    <div class="valor">
+                        <input @input="novos_dados_bancarios.agencia = $event.target.value" autocomplete="off" type="text" name="novos_dados_bancarios.agencia" v-model="novos_dados_bancarios.agencia" />
+                    </div><br>
+                    <span class="campo">Conta</span>
+                    <div class="valor">
+                        <input @input="novos_dados_bancarios.conta = $event.target.value" autocomplete="off" type="text" name="novos_dados_bancarios.conta" v-model="novos_dados_bancarios.conta" />
+                    </div><br>
+                    <!--<span class="campo">Tipo</span>-->
                     <!--<div class="valor">-->
-                        <!--<input @input="novo_endereco.rua = $event.target.value" autocomplete="off" type="text" name="novo_endereco.rua" v-model="novo_endereco.rua" />-->
+                        <!--<input @input="novos_dados_bancarios.tipo_conta_id = $event.target.value" autocomplete="off" type="text" name="novos_dados_bancarios.tipo_conta_id" v-model="novos_dados_bancarios.tipo_conta_id" />-->
                     <!--</div><br>-->
-                <!--</div>-->
+                    <span class="campo">Tipo</span>
+                    <div class="valor">
+                        <select @change="novos_dados_bancarios.tipo_conta_id = $event.target.value" name="dado_bancario.tipo_conta_id" v-model="novos_dados_bancarios.tipo_conta_id">
+                            <option v-for="tipo_conta in atributos.tipos_conta_bancaria" :value="tipo_conta.id">
+                                {{ tipo_conta.valor }}
+                            </option>
+                        </select>
+                    </div>
+
+                    <a @click.prevent="adicionaDadosBancarios">[+]</a>
+
+                </div>
+                <br>
+                <br>
+                <br>
+                <!-- Tags -->
+                <select name="tags" id="tags_list" class="js-example-basic-single">
+                    <option v-for="tag in tags" :value="tag.id" v-model="tag.id">{{ tag.valor }}</option>
+                </select>
 
                 <br>
                 <br>
@@ -292,6 +322,7 @@
                 contatos: [],
                 enderecos: [],
                 dados_bancarios: [],
+                tags: [],
                 atributos: [],
                 estados_civis: {},
                 generos: {},
@@ -299,7 +330,7 @@
                 novo_email: '',
                 novo_telefone: '',
                 novo_endereco: {rua:'',numero:'',complemento:'',bairro:'',cep:'',cidade:'',estado:'',pais:''},
-                novo_dado_bancario: {nome_banco:'',agencia:'',conta:'',tipo_conta_id:''},
+                novos_dados_bancarios: {nome_banco:'',agencia:'',conta:'',tipo_conta_id:''},
                 //Condicionais
                 mostraEnderecoBox: false,
                 mostraDadosBancariosBox: false,
@@ -323,6 +354,7 @@
                     this.contatos = dados.contatos;
                     this.enderecos = dados.enderecos;
                     this.dados_bancarios = dados.dados_bancarios;
+                    this.tags = dados.tags;
                     this.atributos = dados.atributos;
                     console.log(dados);
                 } );
@@ -331,7 +363,9 @@
                 axios.post('/admin/ajax/pf/save', {
                     pessoa: this.pessoa,
                     contatos: this.contatos,
-                    enderecos: this.enderecos
+                    enderecos: this.enderecos,
+                    dados_bancarios: this.dados_bancarios,
+                    tags: this.tags,
                 }).then(res => {
                     this.pessoa = res.data;
                     eventBus.$emit('foiSalvo', this.pessoa);
@@ -379,6 +413,26 @@
                 }).then(res => {
                     console.log(res.data);
                     this.enderecos = res.data;
+                });
+            },
+            adicionaDadosBancarios: function(){
+                axios.post('/admin/ajax/pf/addDadosBancarios', {
+                    pessoa_id: this.$route.params.id,
+                    dados_bancarios: this.novos_dados_bancarios
+                }).then(res => {
+                    if(typeof res.data !== "string") {
+                        this.dados_bancarios = res.data;
+                        this.novos_dados_bancarios = {};
+                        this.mostraDadosBancariosBox = false;
+                    }
+                });
+            },
+            removeDadosBancarios: function(id){
+                axios.post('/admin/ajax/pf/removeDadosBancarios', {
+                    dados_bancarios_id: id,
+                    pessoa_id: this.$route.params.id,
+                }).then(res => {
+                    this.dados_bancarios = res.data;
                 });
             }
         }

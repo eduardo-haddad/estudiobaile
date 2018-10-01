@@ -301,3 +301,8 @@ a {
         } //#conteudo
     } //#principal
 } //#app
+
+//Select2 overrides
+.select2-container {
+    min-width: 300px;
+}

@@ -88,13 +88,24 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles']], function(
     ]);
     //Endereços
     Route::post('/ajax/pf/addEndereco', [
-        'uses' => 'PessoaFisicaController@ajaxaddEndereco',
+        'uses' => 'PessoaFisicaController@ajaxAddEndereco',
         'as' => 'ajax.pf.addEndereco',
         'roles' => $padrao
     ]);
     Route::post('/ajax/pf/removeEndereco', [
         'uses' => 'PessoaFisicaController@ajaxRemoveEndereco',
         'as' => 'ajax.pf.removeEndereco',
+        'roles' => $padrao
+    ]);
+    //Dados bancários
+    Route::post('/ajax/pf/addDadosBancarios', [
+        'uses' => 'PessoaFisicaController@ajaxAddDadosBancarios',
+        'as' => 'ajax.pf.addDadosBancarios',
+        'roles' => $padrao
+    ]);
+    Route::post('/ajax/pf/removeDadosBancarios', [
+        'uses' => 'PessoaFisicaController@ajaxRemoveDadosBancarios',
+        'as' => 'ajax.pf.removeDadosBancarios',
         'roles' => $padrao
     ]);
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\DadoBancario;
 use Illuminate\Http\Request;
 use App\PessoaFisica;
 use App\TipoContato;
@@ -233,6 +234,10 @@ class PessoaFisicaController extends Controller
 
         //Dados Bancários
         $dados_bancarios = $pessoa_fisica->dados_bancarios()->get();
+        //$dados_bancarios = PessoaFisica::getDadosBancariosPessoaFisicaPorId($id);
+
+        //Dados Bancários
+        $tags = $pessoa_fisica->tags()->get();
 
         //Estado Civil
         $estado_civil = !empty($pessoa_fisica->estado_civil_id) ? (new EstadoCivil)->find($pessoa_fisica->estado_civil_id)->valor : null;
@@ -244,6 +249,7 @@ class PessoaFisicaController extends Controller
             'contatos' => $contatos,
             'enderecos' => $enderecos,
             'dados_bancarios' => $dados_bancarios,
+            'tags' => $tags,
             'pessoas_juridicas' => $pessoas_juridicas,
             'atributos' => [
                 'tipos_contato' => TipoContato::all(),
@@ -259,8 +265,8 @@ class PessoaFisicaController extends Controller
         $request['pessoa'] = request('pessoa');
         $request['contatos'] = request('contatos');
         $request['enderecos'] = request('enderecos');
-
-
+        $request['dados_bancarios'] = request('dados_bancarios');
+        $request['tags'] = request('tags');
 
         //Pessoa Física
         $pessoa_fisica = (new PessoaFisica)->find($request['pessoa']['id']);
@@ -287,16 +293,24 @@ class PessoaFisicaController extends Controller
 
         //Endereços
         foreach($request['enderecos'] as $j => $endereco):
-
             $endereco_atual = (new Endereco)->find($endereco['id']);
-
             foreach(json_decode($endereco_atual) as $key => $value):
                 if(!empty($request['enderecos'][$j][$key])) {
                     $endereco_atual->$key = $request['enderecos'][$j][$key];
                 }
             endforeach;
             $endereco_atual->save();
+        endforeach;
 
+        //Dados Bancários
+        foreach($request['dados_bancarios'] as $k => $dados_bancarios):
+            $dados_atuais = (new DadoBancario)->find($dados_bancarios['id']);
+            foreach(json_decode($dados_atuais) as $chave_dados => $valor_dados):
+                if(!empty($request['dados_bancarios'][$k][$chave_dados])) {
+                    $dados_atuais->$chave_dados = $request['dados_bancarios'][$k][$chave_dados];
+                }
+            endforeach;
+            $dados_atuais->save();
         endforeach;
 
         return $pessoa_fisica;
@@ -404,6 +418,62 @@ class PessoaFisicaController extends Controller
 
         return $enderecos;
     }
+
+
+public function ajaxAddDadosBancarios() {
+
+    $dados_bancarios = request('dados_bancarios');
+    $pessoa_id = request('pessoa_id');
+
+    if(empty($dados_bancarios['conta'])) {
+        return "Conta inválida";
+    }
+
+    $novos_dados_bancarios = new DadoBancario();
+    $novos_dados_bancarios->nome_banco = !empty($dados_bancarios['nome_banco']) ? $dados_bancarios['nome_banco'] : '';
+    $novos_dados_bancarios->agencia = !empty($dados_bancarios['agencia']) ? $dados_bancarios['agencia'] : '';
+    $novos_dados_bancarios->conta = !empty($dados_bancarios['conta']) ? $dados_bancarios['conta'] : '';
+    $novos_dados_bancarios->tipo_conta_id = !empty($dados_bancarios['tipo_conta_id']) ? $dados_bancarios['tipo_conta_id'] : '';
+
+    try {
+        $novos_dados_bancarios->save();
+    } catch (\Exception $e) {
+        return $e->getMessage();
+    }
+
+    $pessoa = (new PessoaFisica)->find($pessoa_id);
+    $pessoa->dados_bancarios()->attach($novos_dados_bancarios->id);
+
+    $todos_dados_bancarios = $pessoa->dados_bancarios()->get();
+    return $todos_dados_bancarios;
+}
+
+
+public function ajaxRemoveDadosBancarios() {
+
+    $dados_bancarios_id = request('dados_bancarios_id');
+    $pessoa_id = request('pessoa_id');
+
+    $dados_bancarios = (new DadoBancario)->find($dados_bancarios_id);
+    $pessoa = (new PessoaFisica)->find($pessoa_id);
+
+    try {
+        $pessoa->dados_bancarios()->detach($dados_bancarios_id);
+    } catch (\Exception $e) {
+        return $e->getMessage();
+    }
+
+    try {
+        $dados_bancarios->delete();
+    } catch (\Exception $e) {
+        return $e->getMessage();
+    }
+
+    $todos_dados_bancarios = $pessoa->dados_bancarios()->get();
+    return $todos_dados_bancarios;
+}
+
+
 
 
 }

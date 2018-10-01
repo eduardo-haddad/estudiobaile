@@ -4,8 +4,11 @@
 
 // Variables
 @import "partials/variables";
-
+// Select2
+@import "../../../node_modules/select2/dist/css/select2.css";
+// Main file
 @import "partials/admin";
+
 
 //Bootstrap
 // @import '~bootstrap/scss/bootstrap';

@@ -57,6 +57,11 @@ class PessoaFisica extends Model
         return $this->belongsToMany('App\DadoBancario', 'pessoa_dados_bancarios', 'pessoa_fisica_id', 'dado_bancario_id');
     }
 
+    public function tags()
+    {
+        return $this->belongsToMany('App\Tag', 'pessoa_tag', 'pessoa_fisica_id', 'tag_id');
+    }
+
     public function genero()
     {
         return $this->belongsTo('App\Genero', 'genero_id');

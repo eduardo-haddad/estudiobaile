@@ -27,6 +27,8 @@ class DatabaseSeeder extends Seeder
         $this->call(TipoContaBancariaSeeder::class);
         //Dados Bancários
         $this->call(DadoBancarioSeeder::class);
+        //Tags
+        $this->call(TagSeeder::class);
         // Pessoa Jurídica
         $this->call(PessoaJuridicaSeeder::class);
         // Pessoa Física
