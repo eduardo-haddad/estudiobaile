@@ -791,7 +791,14 @@ a {
 }
 
 .select2-container {
-  min-width: 300px;
+  min-width: 400px;
+  margin-top: -8px;
+}
+
+.select2-container--default,
+.select2-selection,
+.select2-selection--multiple {
+  border: none !important;
 }
 
 /*# sourceMappingURL=app.css.map*/

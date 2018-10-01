@@ -108,6 +108,17 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles']], function(
         'as' => 'ajax.pf.removeDadosBancarios',
         'roles' => $padrao
     ]);
+    //Tags
+    Route::get('/ajax/pf/getTags', [
+        'uses' => 'PessoaFisicaController@ajaxGetTags',
+        'as' => 'ajax.pf.getTags',
+        'roles' => $padrao
+    ]);
+    Route::get('/ajax/pf/getTagsSelecionadas/{id}', [
+        'uses' => 'PessoaFisicaController@ajaxGetTagsSelecionadas',
+        'as' => 'ajax.pf.getTagsSelecionadas',
+        'roles' => $padrao
+    ]);
 
 
 

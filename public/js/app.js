@@ -10881,7 +10881,7 @@ module.exports = defaults;
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return eventBus; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__routes__ = __webpack_require__(41);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__routes__ = __webpack_require__(42);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_pessoaFisica_pf_index__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_pessoaFisica_pf_index___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_pessoaFisica_pf_index__);
 /* Vue */
@@ -13996,9 +13996,9 @@ module.exports = Cancel;
 var disposed = false
 var normalizeComponent = __webpack_require__(13)
 /* script */
-var __vue_script__ = __webpack_require__(42)
+var __vue_script__ = __webpack_require__(43)
 /* template */
-var __vue_template__ = __webpack_require__(43)
+var __vue_template__ = __webpack_require__(44)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -14150,7 +14150,7 @@ module.exports = function normalizeComponent (
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(15);
-module.exports = __webpack_require__(47);
+module.exports = __webpack_require__(49);
 
 
 /***/ }),
@@ -14161,7 +14161,7 @@ module.exports = __webpack_require__(47);
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__bootstrap__ = __webpack_require__(16);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__estudiobaile__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__forms__ = __webpack_require__(53);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__forms__ = __webpack_require__(48);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__forms___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__forms__);
 
 
@@ -14177,7 +14177,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_router__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_axios__ = __webpack_require__(22);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_axios__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_select2__ = __webpack_require__(52);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_select2__ = __webpack_require__(41);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_select2___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_select2__);
 //jQuery, Bootstrap
 try {
@@ -32824,2350 +32824,6 @@ module.exports = function spread(callback) {
 
 /***/ }),
 /* 41 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_router__ = __webpack_require__(6);
-
-
-var routes = [{ path: '/pf',
-    name: 'pf-index', component: __webpack_require__(12),
-    children: [{
-        path: 'view/:id',
-        name: 'pf-view',
-        component: __webpack_require__(44)
-    }]
-}];
-
-/* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({
-    routes: routes
-}));
-
-/***/ }),
-/* 42 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__estudiobaile__ = __webpack_require__(4);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    mounted: function mounted() {
-        var _this = this;
-
-        axios.get('/admin/ajax/pf/index').then(function (res) {
-            _this.pessoas = res.data;
-            //console.log(this.pessoas);
-        });
-
-        //evento - registro salvo em pf-view
-        __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$on('foiSalvo', function (pessoa) {
-
-            var id_atual = _this.$route.params.id;
-            _this.$set(_this.pessoas, _this.pessoas.findIndex(function (p) {
-                return p.id == id_atual;
-            }), {
-                nome_adotado: pessoa.nome_adotado,
-                id: pessoa.id
-            });
-        });
-    },
-    data: function data() {
-        return {
-            pessoas: []
-        };
-    },
-
-    methods: {}
-});
-
-/***/ }),
-/* 43 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "lista_conteudo" }, [
-    _c("nav", { staticClass: "lista" }, [
-      _c(
-        "ul",
-        _vm._l(_vm.pessoas, function(pessoa, index) {
-          return _c(
-            "li",
-            { key: pessoa.id },
-            [
-              pessoa
-                ? _c(
-                    "router-link",
-                    {
-                      attrs: {
-                        id: pessoa.id,
-                        to: { name: "pf-view", params: { id: pessoa.id } }
-                      }
-                    },
-                    [_vm._v(_vm._s(pessoa.nome_adotado))]
-                  )
-                : _vm._e()
-            ],
-            1
-          )
-        })
-      )
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "conteudo" }, [_c("router-view")], 1)
-  ])
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-53da92b6", module.exports)
-  }
-}
-
-/***/ }),
-/* 44 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__(13)
-/* script */
-var __vue_script__ = __webpack_require__(45)
-/* template */
-var __vue_template__ = __webpack_require__(46)
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/assets/js/components/pessoaFisica/pf-view.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-1e1f8b22", Component.options)
-  } else {
-    hotAPI.reload("data-v-1e1f8b22", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 45 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__estudiobaile__ = __webpack_require__(4);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    created: function created() {
-        this.getPessoa(this.$route.params.id);
-    },
-
-    watch: {
-        '$route': function $route(destino) {
-            this.getPessoa(destino.params.id);
-        }
-    },
-    data: function data() {
-        return {
-            //Models
-            pessoa: {},
-            contatos: [],
-            enderecos: [],
-            dados_bancarios: [],
-            tags: [],
-            atributos: [],
-            estados_civis: {},
-            generos: {},
-            //Campos de inclusão
-            novo_email: '',
-            novo_telefone: '',
-            novo_endereco: { rua: '', numero: '', complemento: '', bairro: '', cep: '', cidade: '', estado: '', pais: '' },
-            novos_dados_bancarios: { nome_banco: '', agencia: '', conta: '', tipo_conta_id: '' },
-            //Condicionais
-            mostraEnderecoBox: false,
-            mostraDadosBancariosBox: false
-        };
-    },
-
-    computed: {
-        emails: function emails() {
-            return this.contatos.filter(function (x) {
-                return x.tipo_contato_id == 1;
-            });
-        },
-        telefones: function telefones() {
-            return this.contatos.filter(function (x) {
-                return x.tipo_contato_id == 2;
-            });
-        }
-    },
-    methods: {
-        getPessoa: function getPessoa(id) {
-            var _this = this;
-
-            axios.get('/admin/ajax/pf/' + id).then(function (res) {
-                var dados = res.data;
-                _this.pessoa = dados.pessoa_fisica;
-                _this.pessoa.genero = dados.genero;
-                _this.pessoa.estado_civil = dados.estado_civil;
-                _this.contatos = dados.contatos;
-                _this.enderecos = dados.enderecos;
-                _this.dados_bancarios = dados.dados_bancarios;
-                _this.tags = dados.tags;
-                _this.atributos = dados.atributos;
-                console.log(dados);
-            });
-        },
-        salvaForm: function salvaForm() {
-            var _this2 = this;
-
-            axios.post('/admin/ajax/pf/save', {
-                pessoa: this.pessoa,
-                contatos: this.contatos,
-                enderecos: this.enderecos,
-                dados_bancarios: this.dados_bancarios,
-                tags: this.tags
-            }).then(function (res) {
-                _this2.pessoa = res.data;
-                __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$emit('foiSalvo', _this2.pessoa);
-            });
-        },
-        adicionaContato: function adicionaContato() {
-            var _this3 = this;
-
-            axios.post('/admin/ajax/pf/addContato', {
-                pessoa_id: this.$route.params.id,
-                email: this.novo_email,
-                telefone: this.novo_telefone
-            }).then(function (res) {
-                if (typeof res.data !== "string") {
-                    _this3.contatos = res.data;
-                }
-                _this3.novo_email = '';
-                _this3.novo_telefone = '';
-            });
-        },
-        removeContato: function removeContato(id) {
-            var _this4 = this;
-
-            axios.post('/admin/ajax/pf/removeContato', {
-                contato_id: id,
-                pessoa_id: this.$route.params.id
-            }).then(function (res) {
-                if (typeof res.data !== "string") {
-                    _this4.contatos = res.data;
-                }
-            });
-        },
-        adicionaEndereco: function adicionaEndereco() {
-            var _this5 = this;
-
-            axios.post('/admin/ajax/pf/addEndereco', {
-                pessoa_id: this.$route.params.id,
-                endereco: this.novo_endereco
-            }).then(function (res) {
-                if (typeof res.data !== "string") {
-                    _this5.enderecos = res.data;
-                    _this5.novo_endereco = {};
-                    _this5.mostraEnderecoBox = false;
-                }
-            });
-        },
-        removeEndereco: function removeEndereco(id) {
-            var _this6 = this;
-
-            axios.post('/admin/ajax/pf/removeEndereco', {
-                endereco_id: id,
-                pessoa_id: this.$route.params.id
-            }).then(function (res) {
-                console.log(res.data);
-                _this6.enderecos = res.data;
-            });
-        },
-        adicionaDadosBancarios: function adicionaDadosBancarios() {
-            var _this7 = this;
-
-            axios.post('/admin/ajax/pf/addDadosBancarios', {
-                pessoa_id: this.$route.params.id,
-                dados_bancarios: this.novos_dados_bancarios
-            }).then(function (res) {
-                if (typeof res.data !== "string") {
-                    _this7.dados_bancarios = res.data;
-                    _this7.novos_dados_bancarios = {};
-                    _this7.mostraDadosBancariosBox = false;
-                }
-            });
-        },
-        removeDadosBancarios: function removeDadosBancarios(id) {
-            var _this8 = this;
-
-            axios.post('/admin/ajax/pf/removeDadosBancarios', {
-                dados_bancarios_id: id,
-                pessoa_id: this.$route.params.id
-            }).then(function (res) {
-                _this8.dados_bancarios = res.data;
-            });
-        }
-    }
-});
-
-/***/ }),
-/* 46 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "formulario", attrs: { id: "container_conteudo" } },
-    [
-      _c("div", { staticClass: "titulo" }, [
-        _vm._v(_vm._s(this.pessoa.nome_adotado))
-      ]),
-      _vm._v(" "),
-      _c("hr"),
-      _vm._v(" "),
-      _c("div", { staticClass: "resumo" }, [
-        _vm._m(0),
-        _vm._v(" "),
-        _c(
-          "form",
-          {
-            attrs: { method: "POST" },
-            on: {
-              submit: function($event) {
-                $event.preventDefault()
-                return _vm.salvaForm($event)
-              }
-            }
-          },
-          [
-            _c("span", { staticClass: "campo" }, [_vm._v("Nome")]),
-            _vm._v(" "),
-            _c("div", { staticClass: "valor" }, [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.pessoa.nome,
-                    expression: "pessoa.nome"
-                  }
-                ],
-                attrs: { autocomplete: "off", type: "text", name: "nome" },
-                domProps: { value: _vm.pessoa.nome },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.pessoa, "nome", $event.target.value)
-                  }
-                }
-              })
-            ]),
-            _c("br"),
-            _vm._v(" "),
-            _c("span", { staticClass: "campo" }, [_vm._v("Nome adotado")]),
-            _vm._v(" "),
-            _c("div", { staticClass: "valor" }, [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.pessoa.nome_adotado,
-                    expression: "pessoa.nome_adotado"
-                  }
-                ],
-                attrs: {
-                  autocomplete: "off",
-                  type: "text",
-                  name: "nome_adotado"
-                },
-                domProps: { value: _vm.pessoa.nome_adotado },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.pessoa, "nome_adotado", $event.target.value)
-                  }
-                }
-              })
-            ]),
-            _c("br"),
-            _vm._v(" "),
-            _c("span", { staticClass: "campo" }, [_vm._v("Gênero")]),
-            _vm._v(" "),
-            _c("div", { staticClass: "valor" }, [
-              _c(
-                "select",
-                {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.pessoa.genero_id,
-                      expression: "pessoa.genero_id"
-                    }
-                  ],
-                  attrs: { name: "genero" },
-                  on: {
-                    change: function($event) {
-                      var $$selectedVal = Array.prototype.filter
-                        .call($event.target.options, function(o) {
-                          return o.selected
-                        })
-                        .map(function(o) {
-                          var val = "_value" in o ? o._value : o.value
-                          return val
-                        })
-                      _vm.$set(
-                        _vm.pessoa,
-                        "genero_id",
-                        $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
-                      )
-                    }
-                  }
-                },
-                _vm._l(_vm.atributos.generos, function(genero) {
-                  return _c(
-                    "option",
-                    { key: genero.id, domProps: { value: genero.id } },
-                    [
-                      _vm._v(
-                        "\n                        " +
-                          _vm._s(
-                            genero.valor == "F" ? "Feminino" : "Masculino"
-                          ) +
-                          "\n                    "
-                      )
-                    ]
-                  )
-                })
-              )
-            ]),
-            _c("br"),
-            _vm._v(" "),
-            _c("span", { staticClass: "campo" }, [_vm._v("Estado civil")]),
-            _vm._v(" "),
-            _c("div", { staticClass: "valor" }, [
-              _c(
-                "select",
-                {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.pessoa.estado_civil_id,
-                      expression: "pessoa.estado_civil_id"
-                    }
-                  ],
-                  attrs: { name: "estado_civil" },
-                  on: {
-                    change: function($event) {
-                      var $$selectedVal = Array.prototype.filter
-                        .call($event.target.options, function(o) {
-                          return o.selected
-                        })
-                        .map(function(o) {
-                          var val = "_value" in o ? o._value : o.value
-                          return val
-                        })
-                      _vm.$set(
-                        _vm.pessoa,
-                        "estado_civil_id",
-                        $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
-                      )
-                    }
-                  }
-                },
-                _vm._l(_vm.atributos.estados_civis, function(estado_civil) {
-                  return _c(
-                    "option",
-                    {
-                      key: estado_civil.id,
-                      domProps: { value: estado_civil.id }
-                    },
-                    [
-                      _vm._v(
-                        "\n                        " +
-                          _vm._s(estado_civil.valor) +
-                          "\n                    "
-                      )
-                    ]
-                  )
-                })
-              )
-            ]),
-            _c("br"),
-            _vm._v(" "),
-            _c("span", { staticClass: "campo" }, [
-              _vm._v("Data de nascimento")
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "valor" }, [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.pessoa.dt_nascimento,
-                    expression: "pessoa.dt_nascimento"
-                  }
-                ],
-                attrs: {
-                  autocomplete: "off",
-                  type: "text",
-                  name: "dt_nascimento"
-                },
-                domProps: { value: _vm.pessoa.dt_nascimento },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.pessoa, "dt_nascimento", $event.target.value)
-                  }
-                }
-              })
-            ]),
-            _c("br"),
-            _vm._v(" "),
-            _c("span", { staticClass: "campo" }, [_vm._v("Nacionalidade")]),
-            _vm._v(" "),
-            _c("div", { staticClass: "valor" }, [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.pessoa.nacionalidade,
-                    expression: "pessoa.nacionalidade"
-                  }
-                ],
-                attrs: {
-                  autocomplete: "off",
-                  type: "text",
-                  name: "nacionalidade"
-                },
-                domProps: { value: _vm.pessoa.nacionalidade },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.pessoa, "nacionalidade", $event.target.value)
-                  }
-                }
-              })
-            ]),
-            _c("br"),
-            _vm._v(" "),
-            _c("span", { staticClass: "campo" }, [_vm._v("Naturalidade")]),
-            _vm._v(" "),
-            _c("div", { staticClass: "valor" }, [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.pessoa.naturalidade,
-                    expression: "pessoa.naturalidade"
-                  }
-                ],
-                attrs: {
-                  autocomplete: "off",
-                  type: "text",
-                  name: "naturalidade"
-                },
-                domProps: { value: _vm.pessoa.naturalidade },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.pessoa, "naturalidade", $event.target.value)
-                  }
-                }
-              })
-            ]),
-            _c("br"),
-            _vm._v(" "),
-            _c("span", { staticClass: "campo" }, [_vm._v("Website")]),
-            _vm._v(" "),
-            _c("div", { staticClass: "valor" }, [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.pessoa.website,
-                    expression: "pessoa.website"
-                  }
-                ],
-                attrs: { autocomplete: "off", type: "text", name: "website" },
-                domProps: { value: _vm.pessoa.website },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.pessoa, "website", $event.target.value)
-                  }
-                }
-              })
-            ]),
-            _c("br"),
-            _vm._v(" "),
-            _vm._m(1),
-            _vm._v(" "),
-            _c("span", { staticClass: "campo" }, [_vm._v("RG")]),
-            _vm._v(" "),
-            _c("div", { staticClass: "valor" }, [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.pessoa.rg,
-                    expression: "pessoa.rg"
-                  }
-                ],
-                attrs: { autocomplete: "off", type: "text", name: "rg" },
-                domProps: { value: _vm.pessoa.rg },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.pessoa, "rg", $event.target.value)
-                  }
-                }
-              })
-            ]),
-            _c("br"),
-            _vm._v(" "),
-            _c("span", { staticClass: "campo" }, [_vm._v("CPF")]),
-            _vm._v(" "),
-            _c("div", { staticClass: "valor" }, [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.pessoa.cpf,
-                    expression: "pessoa.cpf"
-                  }
-                ],
-                attrs: { autocomplete: "off", type: "text", name: "cpf" },
-                domProps: { value: _vm.pessoa.cpf },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.pessoa, "cpf", $event.target.value)
-                  }
-                }
-              })
-            ]),
-            _c("br"),
-            _vm._v(" "),
-            _c("span", { staticClass: "campo" }, [_vm._v("Passaporte")]),
-            _vm._v(" "),
-            _c("div", { staticClass: "valor" }, [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.pessoa.passaporte,
-                    expression: "pessoa.passaporte"
-                  }
-                ],
-                attrs: {
-                  autocomplete: "off",
-                  type: "text",
-                  name: "passaporte"
-                },
-                domProps: { value: _vm.pessoa.passaporte },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.pessoa, "passaporte", $event.target.value)
-                  }
-                }
-              })
-            ]),
-            _c("br"),
-            _vm._v(" "),
-            _vm._m(2),
-            _vm._v(" "),
-            _c(
-              "div",
-              [
-                _vm._l(_vm.emails, function(email) {
-                  return _c("div", { key: email.id, staticClass: "valor" }, [
-                    _c("span", { staticClass: "campo" }, [_vm._v("E-mail")]),
-                    _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: email.valor,
-                          expression: "email.valor"
-                        }
-                      ],
-                      attrs: { type: "text", id: email.id, name: "email" },
-                      domProps: { value: email.valor },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(email, "valor", $event.target.value)
-                        }
-                      }
-                    }),
-                    _vm._v(" "),
-                    _c(
-                      "a",
-                      {
-                        on: {
-                          click: function($event) {
-                            $event.preventDefault()
-                            _vm.removeContato(email.id)
-                          }
-                        }
-                      },
-                      [_vm._v("X")]
-                    )
-                  ])
-                }),
-                _vm._v(" "),
-                _c("br", { staticStyle: { clear: "both" } }),
-                _c("br"),
-                _c("br"),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.novo_email,
-                      expression: "novo_email"
-                    }
-                  ],
-                  staticClass: "adiciona_contato",
-                  attrs: {
-                    type: "text",
-                    name: "novo_email",
-                    placeholder: "adicionar email"
-                  },
-                  domProps: { value: _vm.novo_email },
-                  on: {
-                    input: [
-                      function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.novo_email = $event.target.value
-                      },
-                      function($event) {
-                        _vm.novo_contato = $event.target.value
-                      }
-                    ]
-                  }
-                }),
-                _vm._v(" "),
-                _c(
-                  "a",
-                  {
-                    on: {
-                      click: function($event) {
-                        $event.preventDefault()
-                        _vm.adicionaContato()
-                      }
-                    }
-                  },
-                  [_vm._v("+email")]
-                )
-              ],
-              2
-            ),
-            _vm._v(" "),
-            _c(
-              "div",
-              [
-                _vm._l(_vm.telefones, function(telefone) {
-                  return _c("div", { key: telefone.id, staticClass: "valor" }, [
-                    _c("span", { staticClass: "campo" }, [_vm._v("Telefone")]),
-                    _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: telefone.valor,
-                          expression: "telefone.valor"
-                        }
-                      ],
-                      attrs: {
-                        type: "text",
-                        id: telefone.id,
-                        name: "telefone"
-                      },
-                      domProps: { value: telefone.valor },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(telefone, "valor", $event.target.value)
-                        }
-                      }
-                    }),
-                    _vm._v(" "),
-                    _c(
-                      "a",
-                      {
-                        on: {
-                          click: function($event) {
-                            $event.preventDefault()
-                            _vm.removeContato(telefone.id)
-                          }
-                        }
-                      },
-                      [_vm._v("X")]
-                    )
-                  ])
-                }),
-                _vm._v(" "),
-                _c("br", { staticStyle: { clear: "both" } }),
-                _c("br"),
-                _c("br"),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.novo_telefone,
-                      expression: "novo_telefone"
-                    }
-                  ],
-                  staticClass: "adiciona_contato",
-                  attrs: {
-                    type: "text",
-                    name: "novo_telefone",
-                    placeholder: "adicionar telefone"
-                  },
-                  domProps: { value: _vm.novo_telefone },
-                  on: {
-                    input: [
-                      function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.novo_telefone = $event.target.value
-                      },
-                      function($event) {
-                        _vm.novo_contato = $event.target.value
-                      }
-                    ]
-                  }
-                }),
-                _vm._v(" "),
-                _c(
-                  "a",
-                  {
-                    on: {
-                      click: function($event) {
-                        $event.preventDefault()
-                        return _vm.adicionaContato($event)
-                      }
-                    }
-                  },
-                  [_vm._v("+telefone")]
-                )
-              ],
-              2
-            ),
-            _vm._v(" "),
-            _c("br"),
-            _vm._v(" "),
-            _c("br"),
-            _vm._v(" "),
-            _c("br"),
-            _vm._v(" "),
-            _c("br"),
-            _vm._v(" "),
-            _vm._l(_vm.enderecos, function(endereco, index) {
-              return _c("div", { key: endereco.id }, [
-                _c("span", { staticClass: "campo" }, [
-                  _vm._v("--- Endereço " + _vm._s(index + 1))
-                ]),
-                _vm._v(" "),
-                _c(
-                  "a",
-                  {
-                    on: {
-                      click: function($event) {
-                        _vm.removeEndereco(endereco.id)
-                      }
-                    }
-                  },
-                  [_vm._v("[x]")]
-                ),
-                _vm._v(" "),
-                _c("br"),
-                _vm._v(" "),
-                _c("span", { staticClass: "campo" }, [_vm._v("Logradouro")]),
-                _vm._v(" "),
-                _c("div", { staticClass: "valor" }, [
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: endereco.rua,
-                        expression: "endereco.rua"
-                      }
-                    ],
-                    attrs: {
-                      autocomplete: "off",
-                      type: "text",
-                      name: "endereco.rua"
-                    },
-                    domProps: { value: endereco.rua },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(endereco, "rua", $event.target.value)
-                      }
-                    }
-                  })
-                ]),
-                _c("br"),
-                _vm._v(" "),
-                _c("span", { staticClass: "campo" }, [_vm._v("Número")]),
-                _vm._v(" "),
-                _c("div", { staticClass: "valor" }, [
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: endereco.numero,
-                        expression: "endereco.numero"
-                      }
-                    ],
-                    attrs: {
-                      autocomplete: "off",
-                      type: "text",
-                      name: "endereco.numero"
-                    },
-                    domProps: { value: endereco.numero },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(endereco, "numero", $event.target.value)
-                      }
-                    }
-                  })
-                ]),
-                _c("br"),
-                _vm._v(" "),
-                _c("span", { staticClass: "campo" }, [_vm._v("Complemento")]),
-                _vm._v(" "),
-                _c("div", { staticClass: "valor" }, [
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: endereco.complemento,
-                        expression: "endereco.complemento"
-                      }
-                    ],
-                    attrs: {
-                      autocomplete: "off",
-                      type: "text",
-                      name: "endereco.complemento"
-                    },
-                    domProps: { value: endereco.complemento },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(endereco, "complemento", $event.target.value)
-                      }
-                    }
-                  })
-                ]),
-                _c("br"),
-                _vm._v(" "),
-                _c("span", { staticClass: "campo" }, [_vm._v("Bairro")]),
-                _vm._v(" "),
-                _c("div", { staticClass: "valor" }, [
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: endereco.bairro,
-                        expression: "endereco.bairro"
-                      }
-                    ],
-                    attrs: {
-                      autocomplete: "off",
-                      type: "text",
-                      name: "endereco.bairro"
-                    },
-                    domProps: { value: endereco.bairro },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(endereco, "bairro", $event.target.value)
-                      }
-                    }
-                  })
-                ]),
-                _c("br"),
-                _vm._v(" "),
-                _c("span", { staticClass: "campo" }, [_vm._v("cep")]),
-                _vm._v(" "),
-                _c("div", { staticClass: "valor" }, [
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: endereco.cep,
-                        expression: "endereco.cep"
-                      }
-                    ],
-                    attrs: {
-                      autocomplete: "off",
-                      type: "text",
-                      name: "endereco.cep"
-                    },
-                    domProps: { value: endereco.cep },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(endereco, "cep", $event.target.value)
-                      }
-                    }
-                  })
-                ]),
-                _c("br"),
-                _vm._v(" "),
-                _c("span", { staticClass: "campo" }, [_vm._v("cidade")]),
-                _vm._v(" "),
-                _c("div", { staticClass: "valor" }, [
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: endereco.cidade,
-                        expression: "endereco.cidade"
-                      }
-                    ],
-                    attrs: {
-                      autocomplete: "off",
-                      type: "text",
-                      name: "endereco.cidade"
-                    },
-                    domProps: { value: endereco.cidade },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(endereco, "cidade", $event.target.value)
-                      }
-                    }
-                  })
-                ]),
-                _c("br"),
-                _vm._v(" "),
-                _c("span", { staticClass: "campo" }, [_vm._v("uf")]),
-                _vm._v(" "),
-                _c("div", { staticClass: "valor" }, [
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: endereco.estado,
-                        expression: "endereco.estado"
-                      }
-                    ],
-                    attrs: {
-                      autocomplete: "off",
-                      type: "text",
-                      name: "endereco.estado"
-                    },
-                    domProps: { value: endereco.estado },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(endereco, "estado", $event.target.value)
-                      }
-                    }
-                  })
-                ]),
-                _c("br"),
-                _vm._v(" "),
-                _c("span", { staticClass: "campo" }, [_vm._v("País")]),
-                _vm._v(" "),
-                _c("div", { staticClass: "valor" }, [
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: endereco.pais,
-                        expression: "endereco.pais"
-                      }
-                    ],
-                    attrs: {
-                      autocomplete: "off",
-                      type: "text",
-                      name: "endereco.pais"
-                    },
-                    domProps: { value: endereco.pais },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(endereco, "pais", $event.target.value)
-                      }
-                    }
-                  })
-                ]),
-                _c("br")
-              ])
-            }),
-            _vm._v(" "),
-            _c(
-              "a",
-              {
-                on: {
-                  click: function($event) {
-                    _vm.mostraEnderecoBox = true
-                  }
-                }
-              },
-              [_vm._v("[novo endereço]")]
-            ),
-            _vm._v(" "),
-            _vm.mostraEnderecoBox
-              ? _c("div", [
-                  _c("span", { staticClass: "campo" }, [
-                    _vm._v("--- Novo Endereço")
-                  ]),
-                  _c("br"),
-                  _vm._v(" "),
-                  _c("span", { staticClass: "campo" }, [_vm._v("Logradouro")]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "valor" }, [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.novo_endereco.rua,
-                          expression: "novo_endereco.rua"
-                        }
-                      ],
-                      attrs: {
-                        autocomplete: "off",
-                        type: "text",
-                        name: "novo_endereco.rua"
-                      },
-                      domProps: { value: _vm.novo_endereco.rua },
-                      on: {
-                        input: [
-                          function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.novo_endereco,
-                              "rua",
-                              $event.target.value
-                            )
-                          },
-                          function($event) {
-                            _vm.novo_endereco.rua = $event.target.value
-                          }
-                        ]
-                      }
-                    })
-                  ]),
-                  _c("br"),
-                  _vm._v(" "),
-                  _c("span", { staticClass: "campo" }, [_vm._v("Número")]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "valor" }, [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.novo_endereco.numero,
-                          expression: "novo_endereco.numero"
-                        }
-                      ],
-                      attrs: {
-                        autocomplete: "off",
-                        type: "text",
-                        name: "novo_endereco.numero"
-                      },
-                      domProps: { value: _vm.novo_endereco.numero },
-                      on: {
-                        input: [
-                          function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.novo_endereco,
-                              "numero",
-                              $event.target.value
-                            )
-                          },
-                          function($event) {
-                            _vm.novo_endereco.numero = $event.target.value
-                          }
-                        ]
-                      }
-                    })
-                  ]),
-                  _c("br"),
-                  _vm._v(" "),
-                  _c("span", { staticClass: "campo" }, [_vm._v("Complemento")]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "valor" }, [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.novo_endereco.complemento,
-                          expression: "novo_endereco.complemento"
-                        }
-                      ],
-                      attrs: {
-                        autocomplete: "off",
-                        type: "text",
-                        name: "novo_endereco.complemento"
-                      },
-                      domProps: { value: _vm.novo_endereco.complemento },
-                      on: {
-                        input: [
-                          function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.novo_endereco,
-                              "complemento",
-                              $event.target.value
-                            )
-                          },
-                          function($event) {
-                            _vm.novo_endereco.complemento = $event.target.value
-                          }
-                        ]
-                      }
-                    })
-                  ]),
-                  _c("br"),
-                  _vm._v(" "),
-                  _c("span", { staticClass: "campo" }, [_vm._v("Bairro")]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "valor" }, [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.novo_endereco.bairro,
-                          expression: "novo_endereco.bairro"
-                        }
-                      ],
-                      attrs: {
-                        autocomplete: "off",
-                        type: "text",
-                        name: "novo_endereco.bairro"
-                      },
-                      domProps: { value: _vm.novo_endereco.bairro },
-                      on: {
-                        input: [
-                          function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.novo_endereco,
-                              "bairro",
-                              $event.target.value
-                            )
-                          },
-                          function($event) {
-                            _vm.novo_endereco.bairro = $event.target.value
-                          }
-                        ]
-                      }
-                    })
-                  ]),
-                  _c("br"),
-                  _vm._v(" "),
-                  _c("span", { staticClass: "campo" }, [_vm._v("cep")]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "valor" }, [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.novo_endereco.cep,
-                          expression: "novo_endereco.cep"
-                        }
-                      ],
-                      attrs: {
-                        autocomplete: "off",
-                        type: "text",
-                        name: "novo_endereco.cep"
-                      },
-                      domProps: { value: _vm.novo_endereco.cep },
-                      on: {
-                        input: [
-                          function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.novo_endereco,
-                              "cep",
-                              $event.target.value
-                            )
-                          },
-                          function($event) {
-                            _vm.novo_endereco.cep = $event.target.value
-                          }
-                        ]
-                      }
-                    })
-                  ]),
-                  _c("br"),
-                  _vm._v(" "),
-                  _c("span", { staticClass: "campo" }, [_vm._v("cidade")]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "valor" }, [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.novo_endereco.cidade,
-                          expression: "novo_endereco.cidade"
-                        }
-                      ],
-                      attrs: {
-                        autocomplete: "off",
-                        type: "text",
-                        name: "novo_endereco.cidade"
-                      },
-                      domProps: { value: _vm.novo_endereco.cidade },
-                      on: {
-                        input: [
-                          function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.novo_endereco,
-                              "cidade",
-                              $event.target.value
-                            )
-                          },
-                          function($event) {
-                            _vm.novo_endereco.cidade = $event.target.value
-                          }
-                        ]
-                      }
-                    })
-                  ]),
-                  _c("br"),
-                  _vm._v(" "),
-                  _c("span", { staticClass: "campo" }, [_vm._v("uf")]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "valor" }, [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.novo_endereco.estado,
-                          expression: "novo_endereco.estado"
-                        }
-                      ],
-                      attrs: {
-                        autocomplete: "off",
-                        type: "text",
-                        name: "novo_endereco.estado"
-                      },
-                      domProps: { value: _vm.novo_endereco.estado },
-                      on: {
-                        input: [
-                          function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.novo_endereco,
-                              "estado",
-                              $event.target.value
-                            )
-                          },
-                          function($event) {
-                            _vm.novo_endereco.estado = $event.target.value
-                          }
-                        ]
-                      }
-                    })
-                  ]),
-                  _c("br"),
-                  _vm._v(" "),
-                  _c("span", { staticClass: "campo" }, [_vm._v("País")]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "valor" }, [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.novo_endereco.pais,
-                          expression: "novo_endereco.pais"
-                        }
-                      ],
-                      attrs: {
-                        autocomplete: "off",
-                        type: "text",
-                        name: "novo_endereco.pais"
-                      },
-                      domProps: { value: _vm.novo_endereco.pais },
-                      on: {
-                        input: [
-                          function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.novo_endereco,
-                              "pais",
-                              $event.target.value
-                            )
-                          },
-                          function($event) {
-                            _vm.novo_endereco.pais = $event.target.value
-                          }
-                        ]
-                      }
-                    })
-                  ]),
-                  _c("br"),
-                  _vm._v(" "),
-                  _c(
-                    "a",
-                    {
-                      on: {
-                        click: function($event) {
-                          $event.preventDefault()
-                          return _vm.adicionaEndereco($event)
-                        }
-                      }
-                    },
-                    [_vm._v("[+]")]
-                  )
-                ])
-              : _vm._e(),
-            _vm._v(" "),
-            _c("br"),
-            _vm._v(" "),
-            _c("br"),
-            _vm._v(" "),
-            _c("br"),
-            _vm._v(" "),
-            _c("br"),
-            _vm._v(" "),
-            _vm._l(_vm.dados_bancarios, function(dado_bancario, index) {
-              return _c("div", [
-                _c("span", { staticClass: "campo" }, [
-                  _vm._v("--- Dados Bancários #" + _vm._s(index + 1))
-                ]),
-                _vm._v(" "),
-                _c(
-                  "a",
-                  {
-                    on: {
-                      click: function($event) {
-                        _vm.removeDadosBancarios(dado_bancario.id)
-                      }
-                    }
-                  },
-                  [_vm._v("[x]")]
-                ),
-                _vm._v(" "),
-                _c("br"),
-                _vm._v(" "),
-                _c("span", { staticClass: "campo" }, [_vm._v("Banco")]),
-                _vm._v(" "),
-                _c("div", { staticClass: "valor" }, [
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: dado_bancario.nome_banco,
-                        expression: "dado_bancario.nome_banco"
-                      }
-                    ],
-                    attrs: {
-                      autocomplete: "off",
-                      type: "text",
-                      name: "dado_bancario.nome_banco"
-                    },
-                    domProps: { value: dado_bancario.nome_banco },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(
-                          dado_bancario,
-                          "nome_banco",
-                          $event.target.value
-                        )
-                      }
-                    }
-                  })
-                ]),
-                _c("br"),
-                _vm._v(" "),
-                _c("span", { staticClass: "campo" }, [_vm._v("Agência")]),
-                _vm._v(" "),
-                _c("div", { staticClass: "valor" }, [
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: dado_bancario.agencia,
-                        expression: "dado_bancario.agencia"
-                      }
-                    ],
-                    attrs: {
-                      autocomplete: "off",
-                      type: "text",
-                      name: "dado_bancario.agencia"
-                    },
-                    domProps: { value: dado_bancario.agencia },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(dado_bancario, "agencia", $event.target.value)
-                      }
-                    }
-                  })
-                ]),
-                _c("br"),
-                _vm._v(" "),
-                _c("span", { staticClass: "campo" }, [_vm._v("Conta")]),
-                _vm._v(" "),
-                _c("div", { staticClass: "valor" }, [
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: dado_bancario.conta,
-                        expression: "dado_bancario.conta"
-                      }
-                    ],
-                    attrs: {
-                      autocomplete: "off",
-                      type: "text",
-                      name: "dado_bancario.conta"
-                    },
-                    domProps: { value: dado_bancario.conta },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(dado_bancario, "conta", $event.target.value)
-                      }
-                    }
-                  })
-                ]),
-                _c("br"),
-                _vm._v(" "),
-                _c("span", { staticClass: "campo" }, [_vm._v("Tipo")]),
-                _vm._v(" "),
-                _c("div", { staticClass: "valor" }, [
-                  _c(
-                    "select",
-                    {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: dado_bancario.tipo_conta_id,
-                          expression: "dado_bancario.tipo_conta_id"
-                        }
-                      ],
-                      attrs: { name: "dado_bancario.tipo_conta_id" },
-                      on: {
-                        change: function($event) {
-                          var $$selectedVal = Array.prototype.filter
-                            .call($event.target.options, function(o) {
-                              return o.selected
-                            })
-                            .map(function(o) {
-                              var val = "_value" in o ? o._value : o.value
-                              return val
-                            })
-                          _vm.$set(
-                            dado_bancario,
-                            "tipo_conta_id",
-                            $event.target.multiple
-                              ? $$selectedVal
-                              : $$selectedVal[0]
-                          )
-                        }
-                      }
-                    },
-                    _vm._l(_vm.atributos.tipos_conta_bancaria, function(
-                      tipo_conta
-                    ) {
-                      return _c(
-                        "option",
-                        { domProps: { value: tipo_conta.id } },
-                        [
-                          _vm._v(
-                            "\n                            " +
-                              _vm._s(tipo_conta.valor) +
-                              "\n                        "
-                          )
-                        ]
-                      )
-                    })
-                  )
-                ]),
-                _c("br")
-              ])
-            }),
-            _vm._v(" "),
-            _c(
-              "a",
-              {
-                on: {
-                  click: function($event) {
-                    _vm.mostraDadosBancariosBox = true
-                  }
-                }
-              },
-              [_vm._v("[novos dados bancários]")]
-            ),
-            _vm._v(" "),
-            _vm.mostraDadosBancariosBox
-              ? _c("div", [
-                  _c("span", { staticClass: "campo" }, [
-                    _vm._v("--- Novos Dados Bancários")
-                  ]),
-                  _c("br"),
-                  _vm._v(" "),
-                  _c("span", { staticClass: "campo" }, [_vm._v("Banco")]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "valor" }, [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.novos_dados_bancarios.nome_banco,
-                          expression: "novos_dados_bancarios.nome_banco"
-                        }
-                      ],
-                      attrs: {
-                        autocomplete: "off",
-                        type: "text",
-                        name: "novos_dados_bancarios.nome_banco"
-                      },
-                      domProps: { value: _vm.novos_dados_bancarios.nome_banco },
-                      on: {
-                        input: [
-                          function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.novos_dados_bancarios,
-                              "nome_banco",
-                              $event.target.value
-                            )
-                          },
-                          function($event) {
-                            _vm.novos_dados_bancarios.nome_banco =
-                              $event.target.value
-                          }
-                        ]
-                      }
-                    })
-                  ]),
-                  _c("br"),
-                  _vm._v(" "),
-                  _c("span", { staticClass: "campo" }, [_vm._v("Agência")]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "valor" }, [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.novos_dados_bancarios.agencia,
-                          expression: "novos_dados_bancarios.agencia"
-                        }
-                      ],
-                      attrs: {
-                        autocomplete: "off",
-                        type: "text",
-                        name: "novos_dados_bancarios.agencia"
-                      },
-                      domProps: { value: _vm.novos_dados_bancarios.agencia },
-                      on: {
-                        input: [
-                          function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.novos_dados_bancarios,
-                              "agencia",
-                              $event.target.value
-                            )
-                          },
-                          function($event) {
-                            _vm.novos_dados_bancarios.agencia =
-                              $event.target.value
-                          }
-                        ]
-                      }
-                    })
-                  ]),
-                  _c("br"),
-                  _vm._v(" "),
-                  _c("span", { staticClass: "campo" }, [_vm._v("Conta")]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "valor" }, [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.novos_dados_bancarios.conta,
-                          expression: "novos_dados_bancarios.conta"
-                        }
-                      ],
-                      attrs: {
-                        autocomplete: "off",
-                        type: "text",
-                        name: "novos_dados_bancarios.conta"
-                      },
-                      domProps: { value: _vm.novos_dados_bancarios.conta },
-                      on: {
-                        input: [
-                          function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.novos_dados_bancarios,
-                              "conta",
-                              $event.target.value
-                            )
-                          },
-                          function($event) {
-                            _vm.novos_dados_bancarios.conta =
-                              $event.target.value
-                          }
-                        ]
-                      }
-                    })
-                  ]),
-                  _c("br"),
-                  _vm._v(" "),
-                  _c("span", { staticClass: "campo" }, [_vm._v("Tipo")]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "valor" }, [
-                    _c(
-                      "select",
-                      {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.novos_dados_bancarios.tipo_conta_id,
-                            expression: "novos_dados_bancarios.tipo_conta_id"
-                          }
-                        ],
-                        attrs: { name: "dado_bancario.tipo_conta_id" },
-                        on: {
-                          change: [
-                            function($event) {
-                              var $$selectedVal = Array.prototype.filter
-                                .call($event.target.options, function(o) {
-                                  return o.selected
-                                })
-                                .map(function(o) {
-                                  var val = "_value" in o ? o._value : o.value
-                                  return val
-                                })
-                              _vm.$set(
-                                _vm.novos_dados_bancarios,
-                                "tipo_conta_id",
-                                $event.target.multiple
-                                  ? $$selectedVal
-                                  : $$selectedVal[0]
-                              )
-                            },
-                            function($event) {
-                              _vm.novos_dados_bancarios.tipo_conta_id =
-                                $event.target.value
-                            }
-                          ]
-                        }
-                      },
-                      _vm._l(_vm.atributos.tipos_conta_bancaria, function(
-                        tipo_conta
-                      ) {
-                        return _c(
-                          "option",
-                          { domProps: { value: tipo_conta.id } },
-                          [
-                            _vm._v(
-                              "\n                            " +
-                                _vm._s(tipo_conta.valor) +
-                                "\n                        "
-                            )
-                          ]
-                        )
-                      })
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "a",
-                    {
-                      on: {
-                        click: function($event) {
-                          $event.preventDefault()
-                          return _vm.adicionaDadosBancarios($event)
-                        }
-                      }
-                    },
-                    [_vm._v("[+]")]
-                  )
-                ])
-              : _vm._e(),
-            _vm._v(" "),
-            _c("br"),
-            _vm._v(" "),
-            _c("br"),
-            _vm._v(" "),
-            _c("br"),
-            _vm._v(" "),
-            _c(
-              "select",
-              {
-                staticClass: "js-example-basic-single",
-                attrs: { name: "tags", id: "tags_list" }
-              },
-              _vm._l(_vm.tags, function(tag) {
-                return _c(
-                  "option",
-                  {
-                    domProps: { value: tag.id },
-                    model: {
-                      value: tag.id,
-                      callback: function($$v) {
-                        _vm.$set(tag, "id", $$v)
-                      },
-                      expression: "tag.id"
-                    }
-                  },
-                  [_vm._v(_vm._s(tag.valor))]
-                )
-              })
-            ),
-            _vm._v(" "),
-            _c("br"),
-            _vm._v(" "),
-            _c("br"),
-            _vm._v(" "),
-            _c("br"),
-            _vm._v(" "),
-            _c("button", [_vm._v("Salvar")])
-          ],
-          2
-        )
-      ])
-    ]
-  )
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("h2", { staticClass: "nome_grupo" }, [
-      _vm._v("Dados Gerais "),
-      _c("div", { staticClass: "editar" }, [
-        _c("a", { attrs: { href: "#" } }, [_vm._v("Editar")])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("h2", { staticClass: "nome_grupo" }, [
-      _vm._v("Documentos "),
-      _c("div", { staticClass: "editar" }, [
-        _c("a", { attrs: { href: "#" } }, [_vm._v("Editar")])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("h2", { staticClass: "nome_grupo" }, [
-      _vm._v("Contatos "),
-      _c("div", { staticClass: "editar" }, [
-        _c("a", { attrs: { href: "#" } }, [_vm._v("Adicionar")])
-      ])
-    ])
-  }
-]
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-1e1f8b22", module.exports)
-  }
-}
-
-/***/ }),
-/* 47 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 48 */,
-/* 49 */,
-/* 50 */,
-/* 51 */,
-/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function($) {var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var require;var require;/*!
@@ -41024,28 +38680,2410 @@ S2.define('jquery.select2',[
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 53 */
+/* 42 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_router__ = __webpack_require__(6);
+
+
+var routes = [{ path: '/pf',
+    name: 'pf-index', component: __webpack_require__(12),
+    children: [{
+        path: 'view/:id',
+        name: 'pf-view',
+        component: __webpack_require__(45)
+    }]
+}];
+
+/* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({
+    routes: routes
+}));
+
+/***/ }),
+/* 43 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__estudiobaile__ = __webpack_require__(4);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    mounted: function mounted() {
+        var _this = this;
+
+        axios.get('/admin/ajax/pf/index').then(function (res) {
+            _this.pessoas = res.data;
+            //console.log(this.pessoas);
+        });
+
+        //evento - registro salvo em pf-view
+        __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$on('foiSalvo', function (pessoa) {
+
+            var id_atual = _this.$route.params.id;
+            _this.$set(_this.pessoas, _this.pessoas.findIndex(function (p) {
+                return p.id == id_atual;
+            }), {
+                nome_adotado: pessoa.nome_adotado,
+                id: pessoa.id
+            });
+        });
+    },
+    data: function data() {
+        return {
+            pessoas: []
+        };
+    },
+
+    methods: {}
+});
+
+/***/ }),
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function($) {$(document).ready(function () {
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "lista_conteudo" }, [
+    _c("nav", { staticClass: "lista" }, [
+      _c(
+        "ul",
+        _vm._l(_vm.pessoas, function(pessoa, index) {
+          return _c(
+            "li",
+            { key: pessoa.id },
+            [
+              pessoa
+                ? _c(
+                    "router-link",
+                    {
+                      attrs: {
+                        id: pessoa.id,
+                        to: { name: "pf-view", params: { id: pessoa.id } }
+                      }
+                    },
+                    [_vm._v(_vm._s(pessoa.nome_adotado))]
+                  )
+                : _vm._e()
+            ],
+            1
+          )
+        })
+      )
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "conteudo" }, [_c("router-view")], 1)
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-53da92b6", module.exports)
+  }
+}
 
-    $('#tags_list').select2({
-        placeholder: "Select or add tags",
-        tags: true,
-        multiple: true,
-        tokenSeparators: [",", " "],
-        createTag: function createTag(newTag) {
-            if ($.trim(newTag.term) === '') {
-                return null;
-            }
-            return {
-                id: 'new:' + newTag.term,
-                text: newTag.term + ' (novo)'
-            };
+/***/ }),
+/* 45 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(13)
+/* script */
+var __vue_script__ = __webpack_require__(46)
+/* template */
+var __vue_template__ = __webpack_require__(47)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/pessoaFisica/pf-view.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-1e1f8b22", Component.options)
+  } else {
+    hotAPI.reload("data-v-1e1f8b22", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 46 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__estudiobaile__ = __webpack_require__(4);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    created: function created() {
+        this.getPessoa(this.$route.params.id);
+        this.jQuery();
+    },
+    data: function data() {
+        return {
+            //Models
+            pessoa: {},
+            contatos: [],
+            enderecos: [],
+            dados_bancarios: [],
+            tags: [],
+            atributos: [],
+            estados_civis: {},
+            generos: {},
+            //Campos de inclusão
+            novo_email: '',
+            novo_telefone: '',
+            novo_endereco: { rua: '', numero: '', complemento: '', bairro: '', cep: '', cidade: '', estado: '', pais: '' },
+            novos_dados_bancarios: { nome_banco: '', agencia: '', conta: '', tipo_conta_id: '' },
+            tags_atuais: [],
+            //Condicionais
+            mostraEnderecoBox: false,
+            mostraDadosBancariosBox: false
+        };
+    },
+
+    watch: {
+        '$route': function $route(destino) {
+            this.getPessoa(destino.params.id);
+            this.jQuery();
         }
-    });
+    },
+    computed: {
+        emails: function emails() {
+            return this.contatos.filter(function (x) {
+                return x.tipo_contato_id == 1;
+            });
+        },
+        telefones: function telefones() {
+            return this.contatos.filter(function (x) {
+                return x.tipo_contato_id == 2;
+            });
+        }
+    },
+    methods: {
+        getPessoa: function getPessoa(id) {
+            var _this = this;
+
+            axios.get('/admin/ajax/pf/' + id).then(function (res) {
+                var dados = res.data;
+                _this.pessoa = dados.pessoa_fisica;
+                _this.pessoa.genero = dados.genero;
+                _this.pessoa.estado_civil = dados.estado_civil;
+                _this.contatos = dados.contatos;
+                _this.enderecos = dados.enderecos;
+                _this.dados_bancarios = dados.dados_bancarios;
+                _this.tags = dados.tags;
+                _this.atributos = dados.atributos;
+                console.log(dados);
+            });
+        },
+        salvaForm: function salvaForm() {
+            var _this2 = this;
+
+            axios.post('/admin/ajax/pf/save', {
+                pessoa: this.pessoa,
+                contatos: this.contatos,
+                enderecos: this.enderecos,
+                dados_bancarios: this.dados_bancarios,
+                tags: this.tags_atuais
+            }).then(function (res) {
+                _this2.pessoa = res.data;
+                __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$emit('foiSalvo', _this2.pessoa);
+            });
+        },
+        adicionaContato: function adicionaContato() {
+            var _this3 = this;
+
+            axios.post('/admin/ajax/pf/addContato', {
+                pessoa_id: this.$route.params.id,
+                email: this.novo_email,
+                telefone: this.novo_telefone
+            }).then(function (res) {
+                console.log(res.data);
+                if (typeof res.data !== "string") {
+                    _this3.contatos = res.data;
+                }
+                console.log(_this3.contatos);
+                _this3.novo_email = '';
+                _this3.novo_telefone = '';
+            });
+        },
+        removeContato: function removeContato(id) {
+            var _this4 = this;
+
+            axios.post('/admin/ajax/pf/removeContato', {
+                contato_id: id,
+                pessoa_id: this.$route.params.id
+            }).then(function (res) {
+                if (typeof res.data !== "string") {
+                    _this4.contatos = res.data;
+                }
+            });
+        },
+        adicionaEndereco: function adicionaEndereco() {
+            var _this5 = this;
+
+            axios.post('/admin/ajax/pf/addEndereco', {
+                pessoa_id: this.$route.params.id,
+                endereco: this.novo_endereco
+            }).then(function (res) {
+                if (typeof res.data !== "string") {
+                    _this5.enderecos = res.data;
+                    _this5.novo_endereco = {};
+                    _this5.mostraEnderecoBox = false;
+                }
+            });
+        },
+        removeEndereco: function removeEndereco(id) {
+            var _this6 = this;
+
+            axios.post('/admin/ajax/pf/removeEndereco', {
+                endereco_id: id,
+                pessoa_id: this.$route.params.id
+            }).then(function (res) {
+                console.log(res.data);
+                _this6.enderecos = res.data;
+            });
+        },
+        adicionaDadosBancarios: function adicionaDadosBancarios() {
+            var _this7 = this;
+
+            axios.post('/admin/ajax/pf/addDadosBancarios', {
+                pessoa_id: this.$route.params.id,
+                dados_bancarios: this.novos_dados_bancarios
+            }).then(function (res) {
+                if (typeof res.data !== "string") {
+                    _this7.dados_bancarios = res.data;
+                    _this7.novos_dados_bancarios = {};
+                    _this7.mostraDadosBancariosBox = false;
+                }
+            });
+        },
+        removeDadosBancarios: function removeDadosBancarios(id) {
+            var _this8 = this;
+
+            axios.post('/admin/ajax/pf/removeDadosBancarios', {
+                dados_bancarios_id: id,
+                pessoa_id: this.$route.params.id
+            }).then(function (res) {
+                _this8.dados_bancarios = res.data;
+            });
+        },
+        selecionaTags: function selecionaTags(data) {
+            console.log(data);
+        },
+        jQuery: function jQuery() {
+
+            var Vue = this;
+
+            $(document).ready(function () {
+                //Carrega select2 de tags
+                $('#tags_list').select2({
+                    placeholder: "Digite as tags",
+                    tags: true,
+                    multiple: true,
+                    tokenSeparators: [","],
+                    createTag: function createTag(newTag) {
+                        if ($.trim(newTag.term) === '') {
+                            return null;
+                        }
+                        return {
+                            id: 'new:' + newTag.term,
+                            text: newTag.term + ' (novo)'
+                        };
+                    }
+                });
+
+                //Preenche tags selecionadas (timeout 1,5s)
+                var id_atual = window.location.href.split('/view/')[1];
+                var tags_selecionadas = [];
+                $.get('/admin/ajax/pf/getTagsSelecionadas/' + id_atual).done(function (data) {
+                    setTimeout(function () {
+                        tags_selecionadas = data;
+                        var tags_ids = [];
+                        for (var i = 0; i < tags_selecionadas.length; i++) {
+                            tags_ids.push(tags_selecionadas[i]['id']);
+                        }
+                        $('#tags_list').val(tags_ids).trigger('change');
+                    }, 1000);
+                }).fail(function () {
+                    return false;
+                });
+
+                $('#tags_list').on('change', function () {
+                    Vue.tags_atuais = $(this).val();
+                });
+            });
+        }
+    }
 });
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(1)))
+
+/***/ }),
+/* 47 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "formulario", attrs: { id: "container_conteudo" } },
+    [
+      _c("div", { staticClass: "titulo" }, [
+        _vm._v(_vm._s(this.pessoa.nome_adotado))
+      ]),
+      _vm._v(" "),
+      _c("hr"),
+      _vm._v(" "),
+      _c("div", { staticClass: "resumo" }, [
+        _vm._m(0),
+        _vm._v(" "),
+        _c(
+          "form",
+          {
+            attrs: { method: "POST" },
+            on: {
+              submit: function($event) {
+                $event.preventDefault()
+                return _vm.salvaForm($event)
+              }
+            }
+          },
+          [
+            _c("span", { staticClass: "campo" }, [_vm._v("Nome")]),
+            _vm._v(" "),
+            _c("div", { staticClass: "valor" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.pessoa.nome,
+                    expression: "pessoa.nome"
+                  }
+                ],
+                attrs: { autocomplete: "off", type: "text", name: "nome" },
+                domProps: { value: _vm.pessoa.nome },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.pessoa, "nome", $event.target.value)
+                  }
+                }
+              })
+            ]),
+            _c("br"),
+            _vm._v(" "),
+            _c("span", { staticClass: "campo" }, [_vm._v("Nome adotado")]),
+            _vm._v(" "),
+            _c("div", { staticClass: "valor" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.pessoa.nome_adotado,
+                    expression: "pessoa.nome_adotado"
+                  }
+                ],
+                attrs: {
+                  autocomplete: "off",
+                  type: "text",
+                  name: "nome_adotado"
+                },
+                domProps: { value: _vm.pessoa.nome_adotado },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.pessoa, "nome_adotado", $event.target.value)
+                  }
+                }
+              })
+            ]),
+            _c("br"),
+            _vm._v(" "),
+            _c("span", { staticClass: "campo" }, [_vm._v("Gênero")]),
+            _vm._v(" "),
+            _c("div", { staticClass: "valor" }, [
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.pessoa.genero_id,
+                      expression: "pessoa.genero_id"
+                    }
+                  ],
+                  attrs: { name: "genero" },
+                  on: {
+                    change: function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.$set(
+                        _vm.pessoa,
+                        "genero_id",
+                        $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      )
+                    }
+                  }
+                },
+                _vm._l(_vm.atributos.generos, function(genero) {
+                  return _c(
+                    "option",
+                    { key: genero.id, domProps: { value: genero.id } },
+                    [
+                      _vm._v(
+                        "\n                        " +
+                          _vm._s(
+                            genero.valor == "F" ? "Feminino" : "Masculino"
+                          ) +
+                          "\n                    "
+                      )
+                    ]
+                  )
+                })
+              )
+            ]),
+            _c("br"),
+            _vm._v(" "),
+            _c("span", { staticClass: "campo" }, [_vm._v("Estado civil")]),
+            _vm._v(" "),
+            _c("div", { staticClass: "valor" }, [
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.pessoa.estado_civil_id,
+                      expression: "pessoa.estado_civil_id"
+                    }
+                  ],
+                  attrs: { name: "estado_civil" },
+                  on: {
+                    change: function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.$set(
+                        _vm.pessoa,
+                        "estado_civil_id",
+                        $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      )
+                    }
+                  }
+                },
+                _vm._l(_vm.atributos.estados_civis, function(estado_civil) {
+                  return _c(
+                    "option",
+                    {
+                      key: estado_civil.id,
+                      domProps: { value: estado_civil.id }
+                    },
+                    [
+                      _vm._v(
+                        "\n                        " +
+                          _vm._s(estado_civil.valor) +
+                          "\n                    "
+                      )
+                    ]
+                  )
+                })
+              )
+            ]),
+            _c("br"),
+            _vm._v(" "),
+            _c("span", { staticClass: "campo" }, [
+              _vm._v("Data de nascimento")
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "valor" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.pessoa.dt_nascimento,
+                    expression: "pessoa.dt_nascimento"
+                  }
+                ],
+                attrs: {
+                  autocomplete: "off",
+                  type: "text",
+                  name: "dt_nascimento"
+                },
+                domProps: { value: _vm.pessoa.dt_nascimento },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.pessoa, "dt_nascimento", $event.target.value)
+                  }
+                }
+              })
+            ]),
+            _c("br"),
+            _vm._v(" "),
+            _c("span", { staticClass: "campo" }, [_vm._v("Nacionalidade")]),
+            _vm._v(" "),
+            _c("div", { staticClass: "valor" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.pessoa.nacionalidade,
+                    expression: "pessoa.nacionalidade"
+                  }
+                ],
+                attrs: {
+                  autocomplete: "off",
+                  type: "text",
+                  name: "nacionalidade"
+                },
+                domProps: { value: _vm.pessoa.nacionalidade },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.pessoa, "nacionalidade", $event.target.value)
+                  }
+                }
+              })
+            ]),
+            _c("br"),
+            _vm._v(" "),
+            _c("span", { staticClass: "campo" }, [_vm._v("Naturalidade")]),
+            _vm._v(" "),
+            _c("div", { staticClass: "valor" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.pessoa.naturalidade,
+                    expression: "pessoa.naturalidade"
+                  }
+                ],
+                attrs: {
+                  autocomplete: "off",
+                  type: "text",
+                  name: "naturalidade"
+                },
+                domProps: { value: _vm.pessoa.naturalidade },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.pessoa, "naturalidade", $event.target.value)
+                  }
+                }
+              })
+            ]),
+            _c("br"),
+            _vm._v(" "),
+            _c("span", { staticClass: "campo" }, [_vm._v("Website")]),
+            _vm._v(" "),
+            _c("div", { staticClass: "valor" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.pessoa.website,
+                    expression: "pessoa.website"
+                  }
+                ],
+                attrs: { autocomplete: "off", type: "text", name: "website" },
+                domProps: { value: _vm.pessoa.website },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.pessoa, "website", $event.target.value)
+                  }
+                }
+              })
+            ]),
+            _c("br"),
+            _vm._v(" "),
+            _vm._m(1),
+            _vm._v(" "),
+            _c("span", { staticClass: "campo" }, [_vm._v("RG")]),
+            _vm._v(" "),
+            _c("div", { staticClass: "valor" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.pessoa.rg,
+                    expression: "pessoa.rg"
+                  }
+                ],
+                attrs: { autocomplete: "off", type: "text", name: "rg" },
+                domProps: { value: _vm.pessoa.rg },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.pessoa, "rg", $event.target.value)
+                  }
+                }
+              })
+            ]),
+            _c("br"),
+            _vm._v(" "),
+            _c("span", { staticClass: "campo" }, [_vm._v("CPF")]),
+            _vm._v(" "),
+            _c("div", { staticClass: "valor" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.pessoa.cpf,
+                    expression: "pessoa.cpf"
+                  }
+                ],
+                attrs: { autocomplete: "off", type: "text", name: "cpf" },
+                domProps: { value: _vm.pessoa.cpf },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.pessoa, "cpf", $event.target.value)
+                  }
+                }
+              })
+            ]),
+            _c("br"),
+            _vm._v(" "),
+            _c("span", { staticClass: "campo" }, [_vm._v("Passaporte")]),
+            _vm._v(" "),
+            _c("div", { staticClass: "valor" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.pessoa.passaporte,
+                    expression: "pessoa.passaporte"
+                  }
+                ],
+                attrs: {
+                  autocomplete: "off",
+                  type: "text",
+                  name: "passaporte"
+                },
+                domProps: { value: _vm.pessoa.passaporte },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.pessoa, "passaporte", $event.target.value)
+                  }
+                }
+              })
+            ]),
+            _c("br"),
+            _vm._v(" "),
+            _vm._m(2),
+            _vm._v(" "),
+            _c(
+              "div",
+              [
+                _vm._l(_vm.emails, function(email) {
+                  return _c("div", { key: email.id, staticClass: "valor" }, [
+                    _c("span", { staticClass: "campo" }, [_vm._v("E-mail")]),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: email.valor,
+                          expression: "email.valor"
+                        }
+                      ],
+                      attrs: { type: "text", id: email.id, name: "email" },
+                      domProps: { value: email.valor },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(email, "valor", $event.target.value)
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c(
+                      "a",
+                      {
+                        on: {
+                          click: function($event) {
+                            $event.preventDefault()
+                            _vm.removeContato(email.id)
+                          }
+                        }
+                      },
+                      [_vm._v("X")]
+                    )
+                  ])
+                }),
+                _vm._v(" "),
+                _c("br", { staticStyle: { clear: "both" } }),
+                _c("br"),
+                _c("br"),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.novo_email,
+                      expression: "novo_email"
+                    }
+                  ],
+                  staticClass: "adiciona_contato",
+                  attrs: {
+                    type: "text",
+                    name: "novo_email",
+                    placeholder: "adicionar email"
+                  },
+                  domProps: { value: _vm.novo_email },
+                  on: {
+                    input: [
+                      function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.novo_email = $event.target.value
+                      },
+                      function($event) {
+                        _vm.novo_contato = $event.target.value
+                      }
+                    ]
+                  }
+                }),
+                _vm._v(" "),
+                _c(
+                  "a",
+                  {
+                    on: {
+                      click: function($event) {
+                        $event.preventDefault()
+                        _vm.adicionaContato()
+                      }
+                    }
+                  },
+                  [_vm._v("+email")]
+                )
+              ],
+              2
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              [
+                _vm._l(_vm.telefones, function(telefone) {
+                  return _c("div", { key: telefone.id, staticClass: "valor" }, [
+                    _c("span", { staticClass: "campo" }, [_vm._v("Telefone")]),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: telefone.valor,
+                          expression: "telefone.valor"
+                        }
+                      ],
+                      attrs: {
+                        type: "text",
+                        id: telefone.id,
+                        name: "telefone"
+                      },
+                      domProps: { value: telefone.valor },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(telefone, "valor", $event.target.value)
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c(
+                      "a",
+                      {
+                        on: {
+                          click: function($event) {
+                            $event.preventDefault()
+                            _vm.removeContato(telefone.id)
+                          }
+                        }
+                      },
+                      [_vm._v("X")]
+                    )
+                  ])
+                }),
+                _vm._v(" "),
+                _c("br", { staticStyle: { clear: "both" } }),
+                _c("br"),
+                _c("br"),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.novo_telefone,
+                      expression: "novo_telefone"
+                    }
+                  ],
+                  staticClass: "adiciona_contato",
+                  attrs: {
+                    type: "text",
+                    name: "novo_telefone",
+                    placeholder: "adicionar telefone"
+                  },
+                  domProps: { value: _vm.novo_telefone },
+                  on: {
+                    input: [
+                      function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.novo_telefone = $event.target.value
+                      },
+                      function($event) {
+                        _vm.novo_contato = $event.target.value
+                      }
+                    ]
+                  }
+                }),
+                _vm._v(" "),
+                _c(
+                  "a",
+                  {
+                    on: {
+                      click: function($event) {
+                        $event.preventDefault()
+                        return _vm.adicionaContato($event)
+                      }
+                    }
+                  },
+                  [_vm._v("+telefone")]
+                )
+              ],
+              2
+            ),
+            _vm._v(" "),
+            _c("br"),
+            _vm._v(" "),
+            _c("br"),
+            _vm._v(" "),
+            _c("br"),
+            _vm._v(" "),
+            _c("br"),
+            _vm._v(" "),
+            _vm._l(_vm.enderecos, function(endereco, index) {
+              return _c("div", { key: endereco.id }, [
+                _c("span", { staticClass: "campo" }, [
+                  _vm._v("--- Endereço " + _vm._s(index + 1))
+                ]),
+                _vm._v(" "),
+                _c(
+                  "a",
+                  {
+                    on: {
+                      click: function($event) {
+                        _vm.removeEndereco(endereco.id)
+                      }
+                    }
+                  },
+                  [_vm._v("[x]")]
+                ),
+                _vm._v(" "),
+                _c("br"),
+                _vm._v(" "),
+                _c("span", { staticClass: "campo" }, [_vm._v("Logradouro")]),
+                _vm._v(" "),
+                _c("div", { staticClass: "valor" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: endereco.rua,
+                        expression: "endereco.rua"
+                      }
+                    ],
+                    attrs: {
+                      autocomplete: "off",
+                      type: "text",
+                      name: "endereco.rua"
+                    },
+                    domProps: { value: endereco.rua },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(endereco, "rua", $event.target.value)
+                      }
+                    }
+                  })
+                ]),
+                _c("br"),
+                _vm._v(" "),
+                _c("span", { staticClass: "campo" }, [_vm._v("Número")]),
+                _vm._v(" "),
+                _c("div", { staticClass: "valor" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: endereco.numero,
+                        expression: "endereco.numero"
+                      }
+                    ],
+                    attrs: {
+                      autocomplete: "off",
+                      type: "text",
+                      name: "endereco.numero"
+                    },
+                    domProps: { value: endereco.numero },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(endereco, "numero", $event.target.value)
+                      }
+                    }
+                  })
+                ]),
+                _c("br"),
+                _vm._v(" "),
+                _c("span", { staticClass: "campo" }, [_vm._v("Complemento")]),
+                _vm._v(" "),
+                _c("div", { staticClass: "valor" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: endereco.complemento,
+                        expression: "endereco.complemento"
+                      }
+                    ],
+                    attrs: {
+                      autocomplete: "off",
+                      type: "text",
+                      name: "endereco.complemento"
+                    },
+                    domProps: { value: endereco.complemento },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(endereco, "complemento", $event.target.value)
+                      }
+                    }
+                  })
+                ]),
+                _c("br"),
+                _vm._v(" "),
+                _c("span", { staticClass: "campo" }, [_vm._v("Bairro")]),
+                _vm._v(" "),
+                _c("div", { staticClass: "valor" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: endereco.bairro,
+                        expression: "endereco.bairro"
+                      }
+                    ],
+                    attrs: {
+                      autocomplete: "off",
+                      type: "text",
+                      name: "endereco.bairro"
+                    },
+                    domProps: { value: endereco.bairro },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(endereco, "bairro", $event.target.value)
+                      }
+                    }
+                  })
+                ]),
+                _c("br"),
+                _vm._v(" "),
+                _c("span", { staticClass: "campo" }, [_vm._v("cep")]),
+                _vm._v(" "),
+                _c("div", { staticClass: "valor" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: endereco.cep,
+                        expression: "endereco.cep"
+                      }
+                    ],
+                    attrs: {
+                      autocomplete: "off",
+                      type: "text",
+                      name: "endereco.cep"
+                    },
+                    domProps: { value: endereco.cep },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(endereco, "cep", $event.target.value)
+                      }
+                    }
+                  })
+                ]),
+                _c("br"),
+                _vm._v(" "),
+                _c("span", { staticClass: "campo" }, [_vm._v("cidade")]),
+                _vm._v(" "),
+                _c("div", { staticClass: "valor" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: endereco.cidade,
+                        expression: "endereco.cidade"
+                      }
+                    ],
+                    attrs: {
+                      autocomplete: "off",
+                      type: "text",
+                      name: "endereco.cidade"
+                    },
+                    domProps: { value: endereco.cidade },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(endereco, "cidade", $event.target.value)
+                      }
+                    }
+                  })
+                ]),
+                _c("br"),
+                _vm._v(" "),
+                _c("span", { staticClass: "campo" }, [_vm._v("uf")]),
+                _vm._v(" "),
+                _c("div", { staticClass: "valor" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: endereco.estado,
+                        expression: "endereco.estado"
+                      }
+                    ],
+                    attrs: {
+                      autocomplete: "off",
+                      type: "text",
+                      name: "endereco.estado"
+                    },
+                    domProps: { value: endereco.estado },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(endereco, "estado", $event.target.value)
+                      }
+                    }
+                  })
+                ]),
+                _c("br"),
+                _vm._v(" "),
+                _c("span", { staticClass: "campo" }, [_vm._v("País")]),
+                _vm._v(" "),
+                _c("div", { staticClass: "valor" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: endereco.pais,
+                        expression: "endereco.pais"
+                      }
+                    ],
+                    attrs: {
+                      autocomplete: "off",
+                      type: "text",
+                      name: "endereco.pais"
+                    },
+                    domProps: { value: endereco.pais },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(endereco, "pais", $event.target.value)
+                      }
+                    }
+                  })
+                ]),
+                _c("br")
+              ])
+            }),
+            _vm._v(" "),
+            _c(
+              "a",
+              {
+                on: {
+                  click: function($event) {
+                    _vm.mostraEnderecoBox = true
+                  }
+                }
+              },
+              [_vm._v("[novo endereço]")]
+            ),
+            _vm._v(" "),
+            _vm.mostraEnderecoBox
+              ? _c("div", [
+                  _c("span", { staticClass: "campo" }, [
+                    _vm._v("--- Novo Endereço")
+                  ]),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "campo" }, [_vm._v("Logradouro")]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "valor" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.novo_endereco.rua,
+                          expression: "novo_endereco.rua"
+                        }
+                      ],
+                      attrs: {
+                        autocomplete: "off",
+                        type: "text",
+                        name: "novo_endereco.rua"
+                      },
+                      domProps: { value: _vm.novo_endereco.rua },
+                      on: {
+                        input: [
+                          function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.novo_endereco,
+                              "rua",
+                              $event.target.value
+                            )
+                          },
+                          function($event) {
+                            _vm.novo_endereco.rua = $event.target.value
+                          }
+                        ]
+                      }
+                    })
+                  ]),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "campo" }, [_vm._v("Número")]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "valor" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.novo_endereco.numero,
+                          expression: "novo_endereco.numero"
+                        }
+                      ],
+                      attrs: {
+                        autocomplete: "off",
+                        type: "text",
+                        name: "novo_endereco.numero"
+                      },
+                      domProps: { value: _vm.novo_endereco.numero },
+                      on: {
+                        input: [
+                          function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.novo_endereco,
+                              "numero",
+                              $event.target.value
+                            )
+                          },
+                          function($event) {
+                            _vm.novo_endereco.numero = $event.target.value
+                          }
+                        ]
+                      }
+                    })
+                  ]),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "campo" }, [_vm._v("Complemento")]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "valor" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.novo_endereco.complemento,
+                          expression: "novo_endereco.complemento"
+                        }
+                      ],
+                      attrs: {
+                        autocomplete: "off",
+                        type: "text",
+                        name: "novo_endereco.complemento"
+                      },
+                      domProps: { value: _vm.novo_endereco.complemento },
+                      on: {
+                        input: [
+                          function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.novo_endereco,
+                              "complemento",
+                              $event.target.value
+                            )
+                          },
+                          function($event) {
+                            _vm.novo_endereco.complemento = $event.target.value
+                          }
+                        ]
+                      }
+                    })
+                  ]),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "campo" }, [_vm._v("Bairro")]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "valor" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.novo_endereco.bairro,
+                          expression: "novo_endereco.bairro"
+                        }
+                      ],
+                      attrs: {
+                        autocomplete: "off",
+                        type: "text",
+                        name: "novo_endereco.bairro"
+                      },
+                      domProps: { value: _vm.novo_endereco.bairro },
+                      on: {
+                        input: [
+                          function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.novo_endereco,
+                              "bairro",
+                              $event.target.value
+                            )
+                          },
+                          function($event) {
+                            _vm.novo_endereco.bairro = $event.target.value
+                          }
+                        ]
+                      }
+                    })
+                  ]),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "campo" }, [_vm._v("cep")]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "valor" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.novo_endereco.cep,
+                          expression: "novo_endereco.cep"
+                        }
+                      ],
+                      attrs: {
+                        autocomplete: "off",
+                        type: "text",
+                        name: "novo_endereco.cep"
+                      },
+                      domProps: { value: _vm.novo_endereco.cep },
+                      on: {
+                        input: [
+                          function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.novo_endereco,
+                              "cep",
+                              $event.target.value
+                            )
+                          },
+                          function($event) {
+                            _vm.novo_endereco.cep = $event.target.value
+                          }
+                        ]
+                      }
+                    })
+                  ]),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "campo" }, [_vm._v("cidade")]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "valor" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.novo_endereco.cidade,
+                          expression: "novo_endereco.cidade"
+                        }
+                      ],
+                      attrs: {
+                        autocomplete: "off",
+                        type: "text",
+                        name: "novo_endereco.cidade"
+                      },
+                      domProps: { value: _vm.novo_endereco.cidade },
+                      on: {
+                        input: [
+                          function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.novo_endereco,
+                              "cidade",
+                              $event.target.value
+                            )
+                          },
+                          function($event) {
+                            _vm.novo_endereco.cidade = $event.target.value
+                          }
+                        ]
+                      }
+                    })
+                  ]),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "campo" }, [_vm._v("uf")]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "valor" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.novo_endereco.estado,
+                          expression: "novo_endereco.estado"
+                        }
+                      ],
+                      attrs: {
+                        autocomplete: "off",
+                        type: "text",
+                        name: "novo_endereco.estado"
+                      },
+                      domProps: { value: _vm.novo_endereco.estado },
+                      on: {
+                        input: [
+                          function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.novo_endereco,
+                              "estado",
+                              $event.target.value
+                            )
+                          },
+                          function($event) {
+                            _vm.novo_endereco.estado = $event.target.value
+                          }
+                        ]
+                      }
+                    })
+                  ]),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "campo" }, [_vm._v("País")]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "valor" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.novo_endereco.pais,
+                          expression: "novo_endereco.pais"
+                        }
+                      ],
+                      attrs: {
+                        autocomplete: "off",
+                        type: "text",
+                        name: "novo_endereco.pais"
+                      },
+                      domProps: { value: _vm.novo_endereco.pais },
+                      on: {
+                        input: [
+                          function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.novo_endereco,
+                              "pais",
+                              $event.target.value
+                            )
+                          },
+                          function($event) {
+                            _vm.novo_endereco.pais = $event.target.value
+                          }
+                        ]
+                      }
+                    })
+                  ]),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c(
+                    "a",
+                    {
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          return _vm.adicionaEndereco($event)
+                        }
+                      }
+                    },
+                    [_vm._v("[+]")]
+                  )
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _c("br"),
+            _vm._v(" "),
+            _c("br"),
+            _vm._v(" "),
+            _c("br"),
+            _vm._v(" "),
+            _c("br"),
+            _vm._v(" "),
+            _vm._l(_vm.dados_bancarios, function(dado_bancario, index) {
+              return _c("div", [
+                _c("span", { staticClass: "campo" }, [
+                  _vm._v("--- Dados Bancários #" + _vm._s(index + 1))
+                ]),
+                _vm._v(" "),
+                _c(
+                  "a",
+                  {
+                    on: {
+                      click: function($event) {
+                        _vm.removeDadosBancarios(dado_bancario.id)
+                      }
+                    }
+                  },
+                  [_vm._v("[x]")]
+                ),
+                _vm._v(" "),
+                _c("br"),
+                _vm._v(" "),
+                _c("span", { staticClass: "campo" }, [_vm._v("Banco")]),
+                _vm._v(" "),
+                _c("div", { staticClass: "valor" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: dado_bancario.nome_banco,
+                        expression: "dado_bancario.nome_banco"
+                      }
+                    ],
+                    attrs: {
+                      autocomplete: "off",
+                      type: "text",
+                      name: "dado_bancario.nome_banco"
+                    },
+                    domProps: { value: dado_bancario.nome_banco },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          dado_bancario,
+                          "nome_banco",
+                          $event.target.value
+                        )
+                      }
+                    }
+                  })
+                ]),
+                _c("br"),
+                _vm._v(" "),
+                _c("span", { staticClass: "campo" }, [_vm._v("Agência")]),
+                _vm._v(" "),
+                _c("div", { staticClass: "valor" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: dado_bancario.agencia,
+                        expression: "dado_bancario.agencia"
+                      }
+                    ],
+                    attrs: {
+                      autocomplete: "off",
+                      type: "text",
+                      name: "dado_bancario.agencia"
+                    },
+                    domProps: { value: dado_bancario.agencia },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(dado_bancario, "agencia", $event.target.value)
+                      }
+                    }
+                  })
+                ]),
+                _c("br"),
+                _vm._v(" "),
+                _c("span", { staticClass: "campo" }, [_vm._v("Conta")]),
+                _vm._v(" "),
+                _c("div", { staticClass: "valor" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: dado_bancario.conta,
+                        expression: "dado_bancario.conta"
+                      }
+                    ],
+                    attrs: {
+                      autocomplete: "off",
+                      type: "text",
+                      name: "dado_bancario.conta"
+                    },
+                    domProps: { value: dado_bancario.conta },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(dado_bancario, "conta", $event.target.value)
+                      }
+                    }
+                  })
+                ]),
+                _c("br"),
+                _vm._v(" "),
+                _c("span", { staticClass: "campo" }, [_vm._v("Tipo")]),
+                _vm._v(" "),
+                _c("div", { staticClass: "valor" }, [
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: dado_bancario.tipo_conta_id,
+                          expression: "dado_bancario.tipo_conta_id"
+                        }
+                      ],
+                      attrs: { name: "dado_bancario.tipo_conta_id" },
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.$set(
+                            dado_bancario,
+                            "tipo_conta_id",
+                            $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          )
+                        }
+                      }
+                    },
+                    _vm._l(_vm.atributos.tipos_conta_bancaria, function(
+                      tipo_conta
+                    ) {
+                      return _c(
+                        "option",
+                        { domProps: { value: tipo_conta.id } },
+                        [
+                          _vm._v(
+                            "\n                            " +
+                              _vm._s(tipo_conta.valor) +
+                              "\n                        "
+                          )
+                        ]
+                      )
+                    })
+                  )
+                ]),
+                _c("br")
+              ])
+            }),
+            _vm._v(" "),
+            _c(
+              "a",
+              {
+                on: {
+                  click: function($event) {
+                    _vm.mostraDadosBancariosBox = true
+                  }
+                }
+              },
+              [_vm._v("[novos dados bancários]")]
+            ),
+            _vm._v(" "),
+            _vm.mostraDadosBancariosBox
+              ? _c("div", [
+                  _c("span", { staticClass: "campo" }, [
+                    _vm._v("--- Novos Dados Bancários")
+                  ]),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "campo" }, [_vm._v("Banco")]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "valor" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.novos_dados_bancarios.nome_banco,
+                          expression: "novos_dados_bancarios.nome_banco"
+                        }
+                      ],
+                      attrs: {
+                        autocomplete: "off",
+                        type: "text",
+                        name: "novos_dados_bancarios.nome_banco"
+                      },
+                      domProps: { value: _vm.novos_dados_bancarios.nome_banco },
+                      on: {
+                        input: [
+                          function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.novos_dados_bancarios,
+                              "nome_banco",
+                              $event.target.value
+                            )
+                          },
+                          function($event) {
+                            _vm.novos_dados_bancarios.nome_banco =
+                              $event.target.value
+                          }
+                        ]
+                      }
+                    })
+                  ]),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "campo" }, [_vm._v("Agência")]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "valor" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.novos_dados_bancarios.agencia,
+                          expression: "novos_dados_bancarios.agencia"
+                        }
+                      ],
+                      attrs: {
+                        autocomplete: "off",
+                        type: "text",
+                        name: "novos_dados_bancarios.agencia"
+                      },
+                      domProps: { value: _vm.novos_dados_bancarios.agencia },
+                      on: {
+                        input: [
+                          function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.novos_dados_bancarios,
+                              "agencia",
+                              $event.target.value
+                            )
+                          },
+                          function($event) {
+                            _vm.novos_dados_bancarios.agencia =
+                              $event.target.value
+                          }
+                        ]
+                      }
+                    })
+                  ]),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "campo" }, [_vm._v("Conta")]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "valor" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.novos_dados_bancarios.conta,
+                          expression: "novos_dados_bancarios.conta"
+                        }
+                      ],
+                      attrs: {
+                        autocomplete: "off",
+                        type: "text",
+                        name: "novos_dados_bancarios.conta"
+                      },
+                      domProps: { value: _vm.novos_dados_bancarios.conta },
+                      on: {
+                        input: [
+                          function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.novos_dados_bancarios,
+                              "conta",
+                              $event.target.value
+                            )
+                          },
+                          function($event) {
+                            _vm.novos_dados_bancarios.conta =
+                              $event.target.value
+                          }
+                        ]
+                      }
+                    })
+                  ]),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "campo" }, [_vm._v("Tipo")]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "valor" }, [
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.novos_dados_bancarios.tipo_conta_id,
+                            expression: "novos_dados_bancarios.tipo_conta_id"
+                          }
+                        ],
+                        attrs: { name: "dado_bancario.tipo_conta_id" },
+                        on: {
+                          change: [
+                            function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.novos_dados_bancarios,
+                                "tipo_conta_id",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            },
+                            function($event) {
+                              _vm.novos_dados_bancarios.tipo_conta_id =
+                                $event.target.value
+                            }
+                          ]
+                        }
+                      },
+                      _vm._l(_vm.atributos.tipos_conta_bancaria, function(
+                        tipo_conta
+                      ) {
+                        return _c(
+                          "option",
+                          { domProps: { value: tipo_conta.id } },
+                          [
+                            _vm._v(
+                              "\n                            " +
+                                _vm._s(tipo_conta.valor) +
+                                "\n                        "
+                            )
+                          ]
+                        )
+                      })
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "a",
+                    {
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          return _vm.adicionaDadosBancarios($event)
+                        }
+                      }
+                    },
+                    [_vm._v("[+]")]
+                  )
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _c("br"),
+            _vm._v(" "),
+            _c("br"),
+            _vm._v(" "),
+            _c("br"),
+            _vm._v(" "),
+            _c("span", { staticClass: "campo" }, [_vm._v("Tags")]),
+            _vm._v(" "),
+            _c(
+              "select",
+              {
+                staticClass: "js-example-basic-single",
+                attrs: { name: "tags", id: "tags_list" },
+                on: {
+                  change: function($event) {
+                    _vm.tags_atuais = $event.target.value
+                  }
+                }
+              },
+              _vm._l(_vm.tags, function(tag) {
+                return _c(
+                  "option",
+                  {
+                    domProps: { value: tag.id },
+                    model: {
+                      value: tag.id,
+                      callback: function($$v) {
+                        _vm.$set(tag, "id", $$v)
+                      },
+                      expression: "tag.id"
+                    }
+                  },
+                  [_vm._v(_vm._s(tag.text))]
+                )
+              })
+            ),
+            _vm._v(" "),
+            _c("br"),
+            _vm._v(" "),
+            _c("br"),
+            _vm._v(" "),
+            _c("br"),
+            _vm._v(" "),
+            _c("button", [_vm._v("Salvar")])
+          ],
+          2
+        )
+      ])
+    ]
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h2", { staticClass: "nome_grupo" }, [
+      _vm._v("Dados Gerais "),
+      _c("div", { staticClass: "editar" }, [
+        _c("a", { attrs: { href: "#" } }, [_vm._v("Editar")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h2", { staticClass: "nome_grupo" }, [
+      _vm._v("Documentos "),
+      _c("div", { staticClass: "editar" }, [
+        _c("a", { attrs: { href: "#" } }, [_vm._v("Editar")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h2", { staticClass: "nome_grupo" }, [
+      _vm._v("Contatos "),
+      _c("div", { staticClass: "editar" }, [
+        _c("a", { attrs: { href: "#" } }, [_vm._v("Adicionar")])
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-1e1f8b22", module.exports)
+  }
+}
+
+/***/ }),
+/* 48 */
+/***/ (function(module, exports) {
+
+
+
+/***/ }),
+/* 49 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ })
 /******/ ]);

@@ -285,9 +285,11 @@
                 <br>
                 <br>
                 <!-- Tags -->
-                <select name="tags" id="tags_list" class="js-example-basic-single">
-                    <option v-for="tag in tags" :value="tag.id" v-model="tag.id">{{ tag.valor }}</option>
+                <span class="campo">Tags</span>
+                <select @change="tags_atuais = $event.target.value" name="tags" id="tags_list" class="js-example-basic-single">
+                    <option v-for="tag in tags" :value="tag.id" v-model="tag.id">{{ tag.text }}</option>
                 </select>
+
 
                 <br>
                 <br>
@@ -309,12 +311,8 @@
     export default {
         created() {
             this.getPessoa(this.$route.params.id);
+            this.jQuery();
           },
-        watch: {
-            '$route' (destino) {
-                this.getPessoa(destino.params.id);
-            }
-        },
         data() {
             return {
                 //Models
@@ -331,10 +329,17 @@
                 novo_telefone: '',
                 novo_endereco: {rua:'',numero:'',complemento:'',bairro:'',cep:'',cidade:'',estado:'',pais:''},
                 novos_dados_bancarios: {nome_banco:'',agencia:'',conta:'',tipo_conta_id:''},
+                tags_atuais: [],
                 //Condicionais
                 mostraEnderecoBox: false,
                 mostraDadosBancariosBox: false,
             }
+        },
+        watch: {
+            '$route' (destino) {
+                this.getPessoa(destino.params.id);
+                this.jQuery();
+            },
         },
         computed: {
             emails: function() {
@@ -365,7 +370,7 @@
                     contatos: this.contatos,
                     enderecos: this.enderecos,
                     dados_bancarios: this.dados_bancarios,
-                    tags: this.tags,
+                    tags: this.tags_atuais,
                 }).then(res => {
                     this.pessoa = res.data;
                     eventBus.$emit('foiSalvo', this.pessoa);
@@ -377,9 +382,11 @@
                     email: this.novo_email,
                     telefone: this.novo_telefone
                 }).then(res => {
+                    console.log(res.data);
                     if(typeof res.data !== "string") {
                         this.contatos = res.data;
                     }
+                    console.log(this.contatos);
                     this.novo_email = '';
                     this.novo_telefone = '';
                 });
@@ -434,7 +441,52 @@
                 }).then(res => {
                     this.dados_bancarios = res.data;
                 });
-            }
+            },
+            selecionaTags: function(data){
+                console.log(data);
+            },
+            jQuery: function(){
+
+                let Vue = this;
+
+                $(document).ready(function(){
+                    //Carrega select2 de tags
+                    $('#tags_list').select2({
+                        placeholder: "Digite as tags",
+                        tags: true,
+                        multiple: true,
+                        tokenSeparators: [","],
+                        createTag: function(newTag) {
+                            if ($.trim(newTag.term) === '') { return null; }
+                            return {
+                                id: 'new:' + newTag.term,
+                                text: newTag.term + ' (novo)'
+                            };
+                        }
+                    });
+
+                    //Preenche tags selecionadas (timeout 1,5s)
+                    let id_atual = window.location.href.split('/view/')[1];
+                    let tags_selecionadas = [];
+                    $.get('/admin/ajax/pf/getTagsSelecionadas/' + id_atual).done(function(data) {
+                        setTimeout(function(){
+                            tags_selecionadas = data;
+                            let tags_ids = [];
+                            for (let i = 0; i < tags_selecionadas.length; i++) {
+                                tags_ids.push(tags_selecionadas[i]['id']);
+                            }
+                            $('#tags_list').val(tags_ids).trigger('change');
+                        }, 1000);
+                    }).fail(function() {
+                        return false;
+                    });
+
+                    $('#tags_list').on('change', function(){
+                        Vue.tags_atuais = $(this).val();
+                    });
+
+                });
+            },
         }
     }
 </script>

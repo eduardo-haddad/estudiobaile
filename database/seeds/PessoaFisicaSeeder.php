@@ -37,10 +37,10 @@ class PessoaFisicaSeeder extends Seeder
         $pf1->save();
         $pf1->projetos()->attach(Projeto::all()->first());
         $pf1->pessoas_juridicas()->attach(PessoaJuridica::all()->first());
-        $pf1->categorias()->attach(Categoria::find(2));
-        $pf1->enderecos()->attach(Endereco::find(1));
+        $pf1->categorias()->attach(Categoria::find(2)->id);
+        $pf1->enderecos()->attach(Endereco::find(1)->id);
         $pf1->dados_bancarios()->attach([DadoBancario::find(1)->id, DadoBancario::find(2)->id]);
-        $pf1->tags()->attach([Tag::find(1)->id, Tag::find(2)->id, Tag::find(3)->id]);
+        $pf1->tags()->attach([Tag::find(2)->id, Tag::find(3)->id]);
         
         for($i = 0; $i <= 20; $i++){
             $var = "pf" . $i;

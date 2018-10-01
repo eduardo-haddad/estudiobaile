@@ -12,6 +12,7 @@ use App\Genero;
 use App\EstadoCivil;
 use App\Endereco;
 use App\TipoContaBancaria;
+use App\Tag;
 use Session;
 use DB;
 
@@ -236,8 +237,8 @@ class PessoaFisicaController extends Controller
         $dados_bancarios = $pessoa_fisica->dados_bancarios()->get();
         //$dados_bancarios = PessoaFisica::getDadosBancariosPessoaFisicaPorId($id);
 
-        //Dados Bancários
-        $tags = $pessoa_fisica->tags()->get();
+        //Tags
+        $tags = Tag::all();
 
         //Estado Civil
         $estado_civil = !empty($pessoa_fisica->estado_civil_id) ? (new EstadoCivil)->find($pessoa_fisica->estado_civil_id)->valor : null;
@@ -256,6 +257,7 @@ class PessoaFisicaController extends Controller
                 'generos' => Genero::all(),
                 'estados_civis' => EstadoCivil::all(),
                 'tipos_conta_bancaria' => TipoContaBancaria::all(),
+                //'lista_tags' => Tag::all()
             ]
         ];
     }
@@ -313,6 +315,29 @@ class PessoaFisicaController extends Controller
             $dados_atuais->save();
         endforeach;
 
+        //Tags
+        if(empty($request['tags'])) {
+            $pessoa_fisica->tags()->detach();
+        } else {
+
+            $tags_ids = array();
+
+            foreach ($request['tags'] as $tag)
+            {
+                if (substr($tag, 0, 4) == 'new:')
+                {
+                    $nova_tag = Tag::create(['text' => substr($tag, 4)]);
+                    $tags_ids[] = $nova_tag->id;
+                    continue;
+                }
+                $tags_ids[] = $tag;
+            }
+
+            $pessoa_fisica->tags()->sync($tags_ids);
+
+        }
+
+
         return $pessoa_fisica;
     }
 
@@ -343,7 +368,11 @@ class PessoaFisicaController extends Controller
             return $e->getMessage();
         }
 
-        $contatos = PessoaFisica::getContatosPessoaFisicaPorId(request('pessoa_id'));
+        $pessoa_fisica = (new PessoaFisica)->find(request('pessoa_id'));
+        $contatos = $pessoa_fisica->contatos()->get();
+
+//        $contatos = PessoaFisica::getContatosPessoaFisicaPorId(request('pessoa_id'));
+
 
         return $contatos;
     }
@@ -351,12 +380,14 @@ class PessoaFisicaController extends Controller
     public function ajaxRemoveContato(Request $r) {
 
         $contato_id = request('contato_id');
-        $pessoa_id = request('pessoa_id');
 
         $contato = (new Contato)->find($contato_id);
         $contato->delete();
 
-        $contatos = PessoaFisica::getContatosPessoaFisicaPorId($pessoa_id);
+        $pessoa_fisica = (new PessoaFisica)->find(request('pessoa_id'));
+        $contatos = $pessoa_fisica->contatos()->get();
+
+//        $contatos = PessoaFisica::getContatosPessoaFisicaPorId($pessoa_id);
 
         return $contatos;
     }
@@ -420,58 +451,72 @@ class PessoaFisicaController extends Controller
     }
 
 
-public function ajaxAddDadosBancarios() {
+    public function ajaxAddDadosBancarios() {
 
-    $dados_bancarios = request('dados_bancarios');
-    $pessoa_id = request('pessoa_id');
+        $dados_bancarios = request('dados_bancarios');
+        $pessoa_id = request('pessoa_id');
 
-    if(empty($dados_bancarios['conta'])) {
-        return "Conta inválida";
+        if(empty($dados_bancarios['conta'])) {
+            return "Conta inválida";
+        }
+
+        $novos_dados_bancarios = new DadoBancario();
+        $novos_dados_bancarios->nome_banco = !empty($dados_bancarios['nome_banco']) ? $dados_bancarios['nome_banco'] : '';
+        $novos_dados_bancarios->agencia = !empty($dados_bancarios['agencia']) ? $dados_bancarios['agencia'] : '';
+        $novos_dados_bancarios->conta = !empty($dados_bancarios['conta']) ? $dados_bancarios['conta'] : '';
+        $novos_dados_bancarios->tipo_conta_id = !empty($dados_bancarios['tipo_conta_id']) ? $dados_bancarios['tipo_conta_id'] : '';
+
+        try {
+            $novos_dados_bancarios->save();
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+
+        $pessoa = (new PessoaFisica)->find($pessoa_id);
+        $pessoa->dados_bancarios()->attach($novos_dados_bancarios->id);
+
+        $todos_dados_bancarios = $pessoa->dados_bancarios()->get();
+        return $todos_dados_bancarios;
     }
 
-    $novos_dados_bancarios = new DadoBancario();
-    $novos_dados_bancarios->nome_banco = !empty($dados_bancarios['nome_banco']) ? $dados_bancarios['nome_banco'] : '';
-    $novos_dados_bancarios->agencia = !empty($dados_bancarios['agencia']) ? $dados_bancarios['agencia'] : '';
-    $novos_dados_bancarios->conta = !empty($dados_bancarios['conta']) ? $dados_bancarios['conta'] : '';
-    $novos_dados_bancarios->tipo_conta_id = !empty($dados_bancarios['tipo_conta_id']) ? $dados_bancarios['tipo_conta_id'] : '';
 
-    try {
-        $novos_dados_bancarios->save();
-    } catch (\Exception $e) {
-        return $e->getMessage();
+    public function ajaxRemoveDadosBancarios() {
+
+        $dados_bancarios_id = request('dados_bancarios_id');
+        $pessoa_id = request('pessoa_id');
+
+        $dados_bancarios = (new DadoBancario)->find($dados_bancarios_id);
+        $pessoa = (new PessoaFisica)->find($pessoa_id);
+
+        try {
+            $pessoa->dados_bancarios()->detach($dados_bancarios_id);
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+
+        try {
+            $dados_bancarios->delete();
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+
+        $todos_dados_bancarios = $pessoa->dados_bancarios()->get();
+        return $todos_dados_bancarios;
     }
 
-    $pessoa = (new PessoaFisica)->find($pessoa_id);
-    $pessoa->dados_bancarios()->attach($novos_dados_bancarios->id);
+    public function ajaxGetTags() {
 
-    $todos_dados_bancarios = $pessoa->dados_bancarios()->get();
-    return $todos_dados_bancarios;
-}
+        return Tag::all();
 
-
-public function ajaxRemoveDadosBancarios() {
-
-    $dados_bancarios_id = request('dados_bancarios_id');
-    $pessoa_id = request('pessoa_id');
-
-    $dados_bancarios = (new DadoBancario)->find($dados_bancarios_id);
-    $pessoa = (new PessoaFisica)->find($pessoa_id);
-
-    try {
-        $pessoa->dados_bancarios()->detach($dados_bancarios_id);
-    } catch (\Exception $e) {
-        return $e->getMessage();
     }
 
-    try {
-        $dados_bancarios->delete();
-    } catch (\Exception $e) {
-        return $e->getMessage();
-    }
+    public function ajaxGetTagsSelecionadas($id) {
 
-    $todos_dados_bancarios = $pessoa->dados_bancarios()->get();
-    return $todos_dados_bancarios;
-}
+        $pessoa = (new PessoaFisica)->find($id);
+        $tags = $pessoa->tags()->get();
+        return $tags;
+
+    }
 
 
 
