@@ -39332,6 +39332,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         jQuery: function jQuery() {
 
+            //Instancia atual do Vue
             var Vue = this;
 
             $(document).ready(function () {

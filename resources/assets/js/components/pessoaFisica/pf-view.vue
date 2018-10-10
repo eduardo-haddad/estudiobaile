@@ -447,6 +447,7 @@
             },
             jQuery: function(){
 
+                //Instancia atual do Vue
                 let Vue = this;
 
                 $(document).ready(function(){

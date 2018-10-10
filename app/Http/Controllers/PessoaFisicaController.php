@@ -315,6 +315,7 @@ class PessoaFisicaController extends Controller
             $dados_atuais->save();
         endforeach;
 
+
         //Tags
         if(empty($request['tags'])) {
             $pessoa_fisica->tags()->detach();
@@ -326,8 +327,14 @@ class PessoaFisicaController extends Controller
             {
                 if (substr($tag, 0, 4) == 'new:')
                 {
-                    $nova_tag = Tag::create(['text' => substr($tag, 4)]);
-                    $tags_ids[] = $nova_tag->id;
+                    $tag = strtolower(substr($tag,4));
+                    $tagObj = Tag::where('text', $tag)->first();
+                    if(empty($tagObj)){
+                        $nova_tag = Tag::create(['text' => $tag]);
+                        $tags_ids[] = $nova_tag->id;
+                    } else {
+                        $tags_ids[] = $tagObj->id;
+                    }
                     continue;
                 }
                 $tags_ids[] = $tag;
@@ -336,7 +343,11 @@ class PessoaFisicaController extends Controller
             $pessoa_fisica->tags()->sync($tags_ids);
 
         }
-
+        //Deleta tags não atribuídas a ninguém
+        $tags_nao_atribuidas = array_map(function($t){ return $t->id; }, Tag::getTagsNaoAtribuidas());
+        if(!empty($tags_nao_atribuidas)){
+            \DB::table('tags')->whereIn('id', $tags_nao_atribuidas)->delete();
+        }
 
         return $pessoa_fisica;
     }
