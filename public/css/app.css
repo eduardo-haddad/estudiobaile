@@ -539,7 +539,6 @@ ul {
 
 a {
   cursor: pointer;
-  cursor: pointer;
 }
 
 #app {
@@ -710,15 +709,19 @@ a {
 }
 
 #app #principal #conteudo_geral #container_conteudo .resumo .campo {
-  width: 150px;
+  width: auto;
   margin-bottom: 12px;
   color: #999999;
   margin-right: 20px;
-  text-align: right;
+  text-align: left;
 }
 
 #app #principal #conteudo_geral #container_conteudo .resumo .valor {
-  width: calc(100% - 170px);
+  width: 100%;
+}
+
+#app #principal #conteudo_geral #container_conteudo .resumo .adiciona_contato {
+  display: inline-block;
 }
 
 #app #principal #conteudo_geral #container_conteudo .resumo br {
@@ -735,7 +738,8 @@ a {
   display: inline-block;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
-  width: 100%;
+  width: auto;
+  min-width: 350px;
   border-bottom: 1px solid lightgray;
 }
 

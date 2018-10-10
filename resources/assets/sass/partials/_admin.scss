@@ -16,7 +16,6 @@ ul {
 
 a {
     cursor: pointer;
-    cursor: pointer;
 }
 
 #app {
@@ -214,21 +213,25 @@ a {
                     }
 
                     .campo {
-                        width: 150px;
+                        width: auto;
                         margin-bottom: 12px;
                         color: $cinza;
                         margin-right: 20px;
-                        text-align: right;
+                        text-align: left;
                     }
 
                     .valor {
-                        width: calc(100% - 170px);
+                        width: 100%;
+                    }
+
+                    .adiciona_contato {
+                        display: inline-block;
                     }
 
                     br {
                         clear: both;
                     }
-                    
+
                     form {
                         display: block;
                     }
@@ -238,7 +241,8 @@ a {
                         border: none;
                         display: inline-block;
                         box-sizing: border-box;
-                        width: 100%;
+                        width: auto;
+                        min-width: 350px;
                         border-bottom: 1px solid lightgray;
                     }
 
