@@ -1,17 +1,17 @@
 @if(Auth::check()) 
 <ul>
     {{-- Home --}}
-    <li class="grupo">
-        <span>Pessoas físicas</span>
-    </li>
+    {{--<li class="grupo">--}}
+        {{--<span>Pessoas físicas</span>--}}
+    {{--</li>--}}
 
     {{-- Pessoa física --}}
     <li class="opcao">
         {{--<a href="{{ route('pf.create') }}">Cadastrar</a>--}}
-        <router-link :to="{ name: 'pf-index'}">Lista</router-link>
+        <router-link :to="{ name: 'pf-index'}">Pessoas Físicas</router-link>
     </li>
     <li class="opcao">
-        {{--<a href="{{ route('pf.index') }}">(ver todas)</a>--}}
+        <router-link :to="{ name: 'projetos-index'}">Projetos</router-link>
     </li>
     
     {{-- Post --}}

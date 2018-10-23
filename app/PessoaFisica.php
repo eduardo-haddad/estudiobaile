@@ -118,5 +118,20 @@ class PessoaFisica extends Model
         ");
     }
 
+    public static function getProjetosCargosPorId($id) {
+        return \DB::select("
+            SELECT 
+                Projeto.nome AS projeto,
+                Projeto.id AS id,
+                Cargo.valor AS cargo
+            FROM projetos Projeto
+                INNER JOIN pf_projeto PfProjeto
+                ON PfProjeto.projeto_id = Projeto.id AND PfProjeto.pessoa_fisica_id = $id
+                LEFT JOIN cargos Cargo
+                ON Cargo.id = PfProjeto.cargo_id
+            ORDER BY Projeto.dt_inicio DESC
+        ");
+    }
+
 
 }

@@ -49,7 +49,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles']], function(
 
     // Ajax
 
-    // ** Pessoa Física **
+    // ** PESSOA FÍSICA **
 
     //Lista
     Route::get('/ajax/pf/index', [
@@ -119,6 +119,52 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles']], function(
         'as' => 'ajax.pf.getTagsSelecionadas',
         'roles' => $padrao
     ]);
+
+    // ** PROJETOS **
+
+    //Lista
+    Route::get('/ajax/projetos/index', [
+        'uses' => 'ProjetoController@ajaxIndex',
+        'as' => 'ajax.projetos.index',
+        'roles' => $padrao
+    ]);
+    //View
+    Route::get('/ajax/projetos/{id}', [
+        'uses' => 'ProjetoController@ajaxView',
+        'as' => 'ajax.projetos.view',
+        'roles' => $padrao
+    ]);
+    //Salva formulário
+    Route::post('/ajax/projetos/save', [
+        'uses' => 'ProjetoController@ajaxSave',
+        'as' => 'ajax.projetos.save',
+        'roles' => $padrao
+    ]);
+    //Pessoas físicas selecionadas
+    Route::get('/ajax/projetos/getPfSelecionadas/{id}', [
+        'uses' => 'ProjetoController@ajaxGetPfSelecionadas',
+        'as' => 'ajax.projetos.getPfSelecionadas',
+        'roles' => $padrao
+    ]);
+    //Cargos selecionados
+    Route::get('/ajax/projetos/getCargosSelecionados/{id}', [
+        'uses' => 'ProjetoController@ajaxGetCargosSelecionados',
+        'as' => 'ajax.projetos.ajaxGetCargosSelecionados',
+        'roles' => $padrao
+    ]);
+    Route::post('/ajax/projetos/ajaxAddCargoPf', [
+        'uses' => 'ProjetoController@ajaxAddCargoPf',
+        'as' => 'ajax.projetos.addCargoPf',
+        'roles' => $padrao
+    ]);
+    Route::post('/ajax/projetos/ajaxRemoveCargoPf', [
+        'uses' => 'ProjetoController@ajaxRemoveCargoPf',
+        'as' => 'ajax.projetos.removeCargoPf',
+        'roles' => $padrao
+    ]);
+
+
+
 
 
 

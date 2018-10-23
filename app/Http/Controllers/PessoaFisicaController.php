@@ -243,6 +243,11 @@ class PessoaFisicaController extends Controller
         //Estado Civil
         $estado_civil = !empty($pessoa_fisica->estado_civil_id) ? (new EstadoCivil)->find($pessoa_fisica->estado_civil_id)->valor : null;
 
+        //Projetos
+//      $projetos = $pessoa_fisica->projetos()->get();
+        $projetos = PessoaFisica::getProjetosCargosPorId($id);
+
+
         return [
             'pessoa_fisica' => $pessoa_fisica,
             'genero' => $genero,
@@ -252,6 +257,7 @@ class PessoaFisicaController extends Controller
             'dados_bancarios' => $dados_bancarios,
             'tags' => $tags,
             'pessoas_juridicas' => $pessoas_juridicas,
+            'projetos' => $projetos,
             'atributos' => [
                 'tipos_contato' => TipoContato::all(),
                 'generos' => Genero::all(),

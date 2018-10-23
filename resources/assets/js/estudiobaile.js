@@ -3,7 +3,7 @@
 //vue-router
 import router from './routes';
 //components
-import pfIndex from './components/pessoaFisica/pf-index';
+import pfIndex from './components/pessoaFisica/index';
 //event bus
 export const eventBus = new Vue();
 //main instance

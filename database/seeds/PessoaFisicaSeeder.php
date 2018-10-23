@@ -10,6 +10,7 @@ use App\Genero;
 use App\EstadoCivil;
 use App\DadoBancario;
 use App\Tag;
+use App\Cargo;
 
 class PessoaFisicaSeeder extends Seeder
 {
@@ -35,7 +36,7 @@ class PessoaFisicaSeeder extends Seeder
         $pf1->genero_id = Genero::find(2)->id;
         $pf1->estado_civil_id = EstadoCivil::find(2)->id;
         $pf1->save();
-        $pf1->projetos()->attach(Projeto::all()->first());
+        //$pf1->projetos()->attach(Projeto::find(2), ['teste' => 'ooo']);
         $pf1->pessoas_juridicas()->attach(PessoaJuridica::all()->first());
         $pf1->categorias()->attach(Categoria::find(2)->id);
         $pf1->enderecos()->attach(Endereco::find(1)->id);

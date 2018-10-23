@@ -17,6 +17,8 @@ class DatabaseSeeder extends Seeder
         $this->call(UserTableSeeder::class);
         // Categoria
         $this->call(CategoriaSeeder::class);
+        // Cargo
+        $this->call(CargoSeeder::class);
         // Genero
         $this->call(GeneroSeeder::class);
         // Estado Civil

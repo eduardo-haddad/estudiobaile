@@ -2,139 +2,138 @@
 
     <div id="container_conteudo" class="formulario">
 
-        <div class="titulo">{{ this.pessoa.nome_adotado }}</div>
-        <div class="titulo">{{ this.pessoa.nome }}</div>
-        <br>
-        <br>
-        <br>
-        <!-- Tags -->
-        <span class="campo">Tags</span>
-        <select @change="tags_atuais = $event.target.value" name="tags" id="tags_list" class="js-example-basic-single">
-            <option v-for="tag in tags" :value="tag.id" v-model="tag.id">{{ tag.text }}</option>
-        </select>
+            <div class="titulo">{{ this.pessoa.nome_adotado }}</div>
+            <br>
+            <br>
+            <br>
+            <!-- Tags -->
+            <span class="campo">Tags</span>
+            <select @change="tags_atuais = $event.target.value" name="tags" id="tags_list" class="js-example-basic-single">
+                <option v-for="tag in tags" :value="tag.id" v-model="tag.id">{{ tag.text }}</option>
+            </select>
 
-        <hr>
+            <hr>
 
-        <div class="resumo">
+            <div class="resumo">
 
-            <!-- Emails -->
-            <div>
-                <div v-for="email in emails" class="valor" :key="email.id">
-                    <span class="campo">E-mail</span>
-                    <input type="text" :id="email.id" v-model="email.valor" name="email" />
-                    <a @click.prevent="removeContato(email.id)">X</a>
+                <!-- Emails -->
+                <div>
+                    <div v-for="email in emails" class="valor" :key="email.id">
+                        <span class="campo">E-mail</span>
+                        <input type="text" :id="email.id" v-model="email.valor" name="email" />
+                        <a @click.prevent="removeContato(email.id)">X</a>
+                    </div>
+                    <!--<span class="campo">adicionar email:</span>-->
+                    <br>
+                    <a @click.prevent="adicionaEmail = true">adicionar email</a>
+                    <div v-if="adicionaEmail" class="adiciona_contato">
+                        <input @input="novo_contato = $event.target.value" type="text" class="adiciona_contato" v-model="novo_email" name="novo_email" placeholder="adicionar email" />
+                        <a @click.prevent="adicionaContato()">+</a>
+                    </div>
                 </div>
-                <!--<span class="campo">adicionar email:</span>-->
+
+                <!-- Telefones -->
                 <br>
-                <a @click.prevent="adicionaEmail = true">adicionar email</a>
-                <div v-if="adicionaEmail" class="adiciona_contato">
-                    <input @input="novo_contato = $event.target.value" type="text" class="adiciona_contato" v-model="novo_email" name="novo_email" placeholder="adicionar email" />
-                    <a @click.prevent="adicionaContato()">+</a>
-                </div>
-            </div>
+                <br>
+                <div>
+                    <div v-for="telefone in telefones" class="valor" :key="telefone.id">
+                        <span class="campo">Telefone</span>
+                        <input type="text" :id="telefone.id" v-model="telefone.valor" name="telefone" />
+                        <a @click.prevent="removeContato(telefone.id)">X</a>
+                    </div>
 
-            <!-- Telefones -->
-            <br>
-            <br>
-            <div>
-                <div v-for="telefone in telefones" class="valor" :key="telefone.id">
-                    <span class="campo">Telefone</span>
-                    <input type="text" :id="telefone.id" v-model="telefone.valor" name="telefone" />
-                    <a @click.prevent="removeContato(telefone.id)">X</a>
-                </div>
+                    <a @click.prevent="adicionaTel = true">adicionar telefone</a>
+                    <div v-if="adicionaTel" class="adiciona_contato">
+                        <input @input="novo_contato = $event.target.value" type="text" class="adiciona_contato" v-model="novo_telefone" name="novo_telefone" placeholder="adicionar telefone" />
+                        <a @click.prevent="adicionaContato()">+</a>
+                    </div>
 
-                <a @click.prevent="adicionaTel = true">adicionar telefone</a>
-                <div v-if="adicionaTel" class="adiciona_contato">
-                    <input @input="novo_contato = $event.target.value" type="text" class="adiciona_contato" v-model="novo_telefone" name="novo_telefone" placeholder="adicionar telefone" />
-                    <a @click.prevent="adicionaContato()">+</a>
                 </div>
 
-            </div>
+                <br>
+                <br>
+                <br>
+                <br>
 
-            <br>
-            <br>
-            <br>
-            <br>
+                <!-- Endereços -->
+                <div v-for="(endereco, index) in enderecos" :key="endereco.id">
+                    <span class="campo">--- Endereço {{index+1}}</span> <a @click="removeEndereco(endereco.id)">[x]</a> <br>
+                    <span class="campo">Logradouro</span>
+                    <div class="valor">
+                        <input autocomplete="off" type="text" name="endereco.rua" v-model="endereco.rua" />
+                    </div><br>
+                    <span class="campo">Número</span>
+                    <div class="valor">
+                        <input autocomplete="off" type="text" name="endereco.numero" v-model="endereco.numero" />
+                    </div><br>
+                    <span class="campo">Complemento</span>
+                    <div class="valor">
+                        <input autocomplete="off" type="text" name="endereco.complemento" v-model="endereco.complemento" />
+                    </div><br>
+                    <span class="campo">Bairro</span>
+                    <div class="valor">
+                        <input autocomplete="off" type="text" name="endereco.bairro" v-model="endereco.bairro" />
+                    </div><br>
+                    <span class="campo">cep</span>
+                    <div class="valor">
+                        <input autocomplete="off" type="text" name="endereco.cep" v-model="endereco.cep" />
+                    </div><br>
+                    <span class="campo">cidade</span>
+                    <div class="valor">
+                        <input autocomplete="off" type="text" name="endereco.cidade" v-model="endereco.cidade" />
+                    </div><br>
+                    <span class="campo">uf</span>
+                    <div class="valor">
+                        <input autocomplete="off" type="text" name="endereco.estado" v-model="endereco.estado" />
+                    </div><br>
+                    <span class="campo">País</span>
+                    <div class="valor">
+                        <input autocomplete="off" type="text" name="endereco.pais" v-model="endereco.pais" />
+                    </div><br>
+                </div>
+                <!--Add novo endereço-->
+                <a @click="mostraEnderecoBox = true">[novo endereço]</a>
+                <div v-if="mostraEnderecoBox">
+                    <span class="campo">--- Novo Endereço</span><br>
+                    <span class="campo">Logradouro</span>
+                    <div class="valor">
+                        <input @input="novo_endereco.rua = $event.target.value" autocomplete="off" type="text" name="novo_endereco.rua" v-model="novo_endereco.rua" />
+                    </div><br>
+                    <span class="campo">Número</span>
+                    <div class="valor">
+                        <input @input="novo_endereco.numero = $event.target.value" autocomplete="off" type="text" name="novo_endereco.numero" v-model="novo_endereco.numero" />
+                    </div><br>
+                    <span class="campo">Complemento</span>
+                    <div class="valor">
+                        <input @input="novo_endereco.complemento = $event.target.value" autocomplete="off" type="text" name="novo_endereco.complemento" v-model="novo_endereco.complemento" />
+                    </div><br>
+                    <span class="campo">Bairro</span>
+                    <div class="valor">
+                        <input @input="novo_endereco.bairro = $event.target.value" autocomplete="off" type="text" name="novo_endereco.bairro" v-model="novo_endereco.bairro" />
+                    </div><br>
+                    <span class="campo">cep</span>
+                    <div class="valor">
+                        <input @input="novo_endereco.cep = $event.target.value" autocomplete="off" type="text" name="novo_endereco.cep" v-model="novo_endereco.cep" />
+                    </div><br>
+                    <span class="campo">cidade</span>
+                    <div class="valor">
+                        <input @input="novo_endereco.cidade = $event.target.value" autocomplete="off" type="text" name="novo_endereco.cidade" v-model="novo_endereco.cidade" />
+                    </div><br>
+                    <span class="campo">uf</span>
+                    <div class="valor">
+                        <input @input="novo_endereco.estado = $event.target.value" autocomplete="off" type="text" name="novo_endereco.estado" v-model="novo_endereco.estado" />
+                    </div><br>
+                    <span class="campo">País</span>
+                    <div class="valor">
+                        <input @input="novo_endereco.pais = $event.target.value" autocomplete="off" type="text" name="novo_endereco.pais" v-model="novo_endereco.pais" />
+                    </div><br>
+                    <a @click.prevent="adicionaEndereco">[+]</a>
 
-            <!-- Endereços -->
-            <div v-for="(endereco, index) in enderecos" :key="endereco.id">
-                <span class="campo">--- Endereço {{index+1}}</span> <a @click="removeEndereco(endereco.id)">[x]</a> <br>
-                <span class="campo">Logradouro</span>
-                <div class="valor">
-                    <input autocomplete="off" type="text" name="endereco.rua" v-model="endereco.rua" />
-                </div><br>
-                <span class="campo">Número</span>
-                <div class="valor">
-                    <input autocomplete="off" type="text" name="endereco.numero" v-model="endereco.numero" />
-                </div><br>
-                <span class="campo">Complemento</span>
-                <div class="valor">
-                    <input autocomplete="off" type="text" name="endereco.complemento" v-model="endereco.complemento" />
-                </div><br>
-                <span class="campo">Bairro</span>
-                <div class="valor">
-                    <input autocomplete="off" type="text" name="endereco.bairro" v-model="endereco.bairro" />
-                </div><br>
-                <span class="campo">cep</span>
-                <div class="valor">
-                    <input autocomplete="off" type="text" name="endereco.cep" v-model="endereco.cep" />
-                </div><br>
-                <span class="campo">cidade</span>
-                <div class="valor">
-                    <input autocomplete="off" type="text" name="endereco.cidade" v-model="endereco.cidade" />
-                </div><br>
-                <span class="campo">uf</span>
-                <div class="valor">
-                    <input autocomplete="off" type="text" name="endereco.estado" v-model="endereco.estado" />
-                </div><br>
-                <span class="campo">País</span>
-                <div class="valor">
-                    <input autocomplete="off" type="text" name="endereco.pais" v-model="endereco.pais" />
-                </div><br>
-            </div>
-            <!--Add novo endereço-->
-            <a @click="mostraEnderecoBox = true">[novo endereço]</a>
-            <div v-if="mostraEnderecoBox">
-                <span class="campo">--- Novo Endereço</span><br>
-                <span class="campo">Logradouro</span>
-                <div class="valor">
-                    <input @input="novo_endereco.rua = $event.target.value" autocomplete="off" type="text" name="novo_endereco.rua" v-model="novo_endereco.rua" />
-                </div><br>
-                <span class="campo">Número</span>
-                <div class="valor">
-                    <input @input="novo_endereco.numero = $event.target.value" autocomplete="off" type="text" name="novo_endereco.numero" v-model="novo_endereco.numero" />
-                </div><br>
-                <span class="campo">Complemento</span>
-                <div class="valor">
-                    <input @input="novo_endereco.complemento = $event.target.value" autocomplete="off" type="text" name="novo_endereco.complemento" v-model="novo_endereco.complemento" />
-                </div><br>
-                <span class="campo">Bairro</span>
-                <div class="valor">
-                    <input @input="novo_endereco.bairro = $event.target.value" autocomplete="off" type="text" name="novo_endereco.bairro" v-model="novo_endereco.bairro" />
-                </div><br>
-                <span class="campo">cep</span>
-                <div class="valor">
-                    <input @input="novo_endereco.cep = $event.target.value" autocomplete="off" type="text" name="novo_endereco.cep" v-model="novo_endereco.cep" />
-                </div><br>
-                <span class="campo">cidade</span>
-                <div class="valor">
-                    <input @input="novo_endereco.cidade = $event.target.value" autocomplete="off" type="text" name="novo_endereco.cidade" v-model="novo_endereco.cidade" />
-                </div><br>
-                <span class="campo">uf</span>
-                <div class="valor">
-                    <input @input="novo_endereco.estado = $event.target.value" autocomplete="off" type="text" name="novo_endereco.estado" v-model="novo_endereco.estado" />
-                </div><br>
-                <span class="campo">País</span>
-                <div class="valor">
-                    <input @input="novo_endereco.pais = $event.target.value" autocomplete="off" type="text" name="novo_endereco.pais" v-model="novo_endereco.pais" />
-                </div><br>
-                <a @click.prevent="adicionaEndereco">[+]</a>
-
-            </div>
-            <br>
-            <br>
-            <br>
-            <br>
+                </div>
+                <br>
+                <br>
+                <br>
+                <br>
             <!--DADOS GERAIS-->
             <form @submit.prevent="salvaForm" method="POST">
 
@@ -298,7 +297,25 @@
 
                 </div>
 
+                <br>
+                <br>
+                <br>
 
+                <span class="campo">Participação no(s) projeto(s) Estúdio Baile</span><br>
+                <div id="projetos">
+                    <table>
+                        <tr v-for="projeto in projetos" v-model="projetos">
+                            <td>
+                                <router-link
+                                        :id="projeto.id"
+                                        :to="{ name: 'projetos-view', params: { id: projeto.id }}">
+                                    {{ projeto['projeto'] }}
+                                </router-link>
+                            </td>
+                            <td>{{ projeto['cargo'] }}</td>
+                        </tr>
+                    </table>
+                </div>
 
                 <br>
                 <br>
@@ -333,6 +350,7 @@
                 atributos: [],
                 estados_civis: {},
                 generos: {},
+                projetos: [],
                 //Campos de inclusão
                 novo_email: '',
                 novo_telefone: '',
@@ -371,6 +389,7 @@
                     this.enderecos = dados.enderecos;
                     this.dados_bancarios = dados.dados_bancarios;
                     this.tags = dados.tags;
+                    this.projetos = dados.projetos;
                     this.atributos = dados.atributos;
                     console.log(dados);
                 } );
@@ -397,7 +416,6 @@
                     if(typeof res.data !== "string") {
                         this.contatos = res.data;
                     }
-                    console.log(this.contatos);
                     this.novo_email = '';
                     this.novo_telefone = '';
                     this.adicionaEmail = false;
@@ -456,7 +474,7 @@
                 });
             },
             selecionaTags: function(data){
-                console.log(data);
+                //console.log(data);
             },
             jQuery: function(){
 
@@ -479,7 +497,7 @@
                         }
                     });
 
-                    //Preenche tags selecionadas (timeout 1,5s)
+                    //Preenche tags selecionadas (timeout 1s)
                     let id_atual = window.location.href.split('/view/')[1];
                     let tags_selecionadas = [];
                     $.get('/admin/ajax/pf/getTagsSelecionadas/' + id_atual).done(function(data) {
@@ -490,7 +508,7 @@
                                 tags_ids.push(tags_selecionadas[i]['id']);
                             }
                             $('#tags_list').val(tags_ids).trigger('change');
-                        }, 1000);
+                        }, 0);
                     }).fail(function() {
                         return false;
                     });
