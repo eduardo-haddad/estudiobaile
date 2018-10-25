@@ -12,6 +12,16 @@ let routes = [
             }
         ]
     },
+    {   path: '/pj',
+        name: 'pj-index', component: require('./components/pessoaJuridica/index'),
+        children: [
+            {
+                path: 'view/:id',
+                name: 'pj-view',
+                component: require('./components/pessoaJuridica/view')
+            }
+        ]
+    },
     {   path: '/projetos',
         name: 'projetos-index', component: require('./components/projetos/index'),
         children: [

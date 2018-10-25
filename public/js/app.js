@@ -38694,6 +38694,13 @@ var routes = [{ path: '/pf',
         name: 'pf-view',
         component: __webpack_require__(45)
     }]
+}, { path: '/pj',
+    name: 'pj-index', component: __webpack_require__(61),
+    children: [{
+        path: 'view/:id',
+        name: 'pj-view',
+        component: __webpack_require__(64)
+    }]
 }, { path: '/projetos',
     name: 'projetos-index', component: __webpack_require__(48),
     children: [{
@@ -41478,6 +41485,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 
@@ -41543,8 +41552,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 projeto_id: this.$route.params.id,
                 novo_cargo: this.novo_cargo_pf
             }).then(function (res) {
-                if (typeof res.data !== "string") {
-                    _this3.pessoas_fisicas_cargos_relacionados = res.data;
+                if (typeof res.data[0] !== "string") {
+                    _this3.pessoas_fisicas_cargos_relacionados = res.data[0];
+                    _this3.atributos.cargos = res.data[1];
                     _this3.novo_cargo_pf = {};
                     _this3.mostraCargoPfBox = false;
                 }
@@ -41560,6 +41570,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }).then(function (res) {
                 _this4.pessoas_fisicas_cargos_relacionados = res.data;
             });
+        },
+        mostraCargoPfBoxMetodo: function mostraCargoPfBoxMetodo() {
+            this.mostraCargoPfBox = true;
+            this.jQuery();
         },
         jQuery: function jQuery() {
 
@@ -41588,25 +41602,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     }
                 });
 
-                //Preenche pf selecionadas (timeout 1s)
-                var id_atual = window.location.href.split('/view/')[1];
-                var pf_selecionadas = [];
-                $.get('/admin/ajax/projetos/getPfSelecionadas/' + id_atual).done(function (data) {
-                    setTimeout(function () {
-                        pf_selecionadas = data;
-                        console.log(pf_selecionadas);
-                        var pf_ids = [];
-                        for (var i = 0; i < pf_selecionadas.length; i++) {
-                            pf_ids.push(pf_selecionadas[i]['id']);
-                        }
-                        $('.pf_lista').val(pf_ids).trigger('change');
-                    }, 0);
-                }).fail(function () {
-                    return false;
-                });
-
                 $('.pf_lista').on('change', function () {
-                    Vue.pessoas_fisicas_atuais = $(this).val();
+                    Vue.novo_cargo_pf.pessoa_fisica = $(this).val();
                 });
 
                 //Cargos
@@ -41614,7 +41611,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 //Carrega select2 de cargos
                 $('.cargos_pf_lista').select2({
                     placeholder: "Digite um cargo",
-                    tags: false,
+                    tags: true,
                     multiple: false,
                     tokenSeparators: [","],
                     createTag: function createTag(newTag) {
@@ -41628,25 +41625,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     }
                 });
 
-                //Preenche cargos selecionados (timeout 1s)
-                var cargos_selecionados = [];
-                $.get('/admin/ajax/projetos/getCargosSelecionados/' + id_atual).done(function (data) {
-                    setTimeout(function () {
-                        cargos_selecionados = data;
-                        var cargos_ids = [];
-                        for (var i = 0; i < cargos_selecionados.length; i++) {
-                            //adaptado para somente um cargo
-                            cargos_ids.push(cargos_selecionados[i]['cargo'][0].id);
-                        }
-                        $('.cargos_pf_lista').val(cargos_ids).trigger('change');
-                    }, 0);
-                }).fail(function () {
-                    return false;
-                });
-
                 $('.cargos_pf_lista').on('change', function () {
-                    Vue.cargos_pf_atuais = $(this).val();
-                    console.log(Vue.cargos_pf_atuais);
+                    Vue.novo_cargo_pf.cargo = $(this).val();
                 });
             });
         }
@@ -41845,17 +41825,9 @@ var render = function() {
           ),
           _c("br"),
           _vm._v(" "),
-          _c(
-            "a",
-            {
-              on: {
-                click: function($event) {
-                  _vm.mostraCargoPfBox = true
-                }
-              }
-            },
-            [_vm._v("[novo cargo pessoa física]")]
-          ),
+          _c("a", { on: { click: _vm.mostraCargoPfBoxMetodo } }, [
+            _vm._v("[novo cargo pessoa física]")
+          ]),
           _vm._v(" "),
           _vm.mostraCargoPfBox
             ? _c("div", [
@@ -41871,11 +41843,7 @@ var render = function() {
                   {
                     staticClass: "pf_lista",
                     attrs: { name: "pessoas_fisicas" },
-                    on: {
-                      change: function($event) {
-                        _vm.novo_cargo_pf.pessoa_fisica = $event.target.value
-                      }
-                    }
+                    on: { change: function($event) {} }
                   },
                   [
                     _c(
@@ -41905,11 +41873,7 @@ var render = function() {
                   {
                     staticClass: "cargos_pf_lista",
                     attrs: { name: "cargos" },
-                    on: {
-                      change: function($event) {
-                        _vm.novo_cargo_pf.cargo = $event.target.value
-                      }
-                    }
+                    on: { change: function($event) {} }
                   },
                   [
                     _c(
@@ -41969,6 +41933,318 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 56 */,
+/* 57 */,
+/* 58 */,
+/* 59 */,
+/* 60 */,
+/* 61 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(4)
+/* script */
+var __vue_script__ = __webpack_require__(62)
+/* template */
+var __vue_template__ = __webpack_require__(63)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/pessoaJuridica/index.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-4038f846", Component.options)
+  } else {
+    hotAPI.reload("data-v-4038f846", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 62 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__estudiobaile__ = __webpack_require__(2);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    mounted: function mounted() {
+        var _this = this;
+
+        axios.get('/admin/ajax/pj/index').then(function (res) {
+            _this.pessoas = res.data;
+            //console.log(this.pessoas);
+        });
+
+        //evento - registro salvo em pj-view
+        __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$on('foiSalvoPj', function (pessoa) {
+
+            var id_atual = _this.$route.params.id;
+            _this.$set(_this.pessoas, _this.pessoas.findIndex(function (p) {
+                return p.id == id_atual;
+            }), {
+                nome_fantasia: pessoa.nome_fantasia,
+                id: pessoa.id
+            });
+        });
+    },
+    data: function data() {
+        return {
+            pessoas: []
+        };
+    },
+
+    methods: {}
+});
+
+/***/ }),
+/* 63 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "lista_conteudo" }, [
+    _c("nav", { staticClass: "lista" }, [
+      _c(
+        "ul",
+        _vm._l(_vm.pessoas, function(pessoa, index) {
+          return _c(
+            "li",
+            { key: pessoa.id },
+            [
+              pessoa
+                ? _c(
+                    "router-link",
+                    {
+                      attrs: {
+                        id: pessoa.id,
+                        to: { name: "pj-view", params: { id: pessoa.id } }
+                      }
+                    },
+                    [_vm._v(_vm._s(pessoa.nome_fantasia))]
+                  )
+                : _vm._e()
+            ],
+            1
+          )
+        })
+      )
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "conteudo" }, [_c("router-view")], 1)
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-4038f846", module.exports)
+  }
+}
+
+/***/ }),
+/* 64 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(4)
+/* script */
+var __vue_script__ = __webpack_require__(65)
+/* template */
+var __vue_template__ = __webpack_require__(66)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/pessoaJuridica/view.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-194a1161", Component.options)
+  } else {
+    hotAPI.reload("data-v-194a1161", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 65 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__estudiobaile__ = __webpack_require__(2);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    created: function created() {
+        this.getPessoa(this.$route.params.id);
+        this.jQuery();
+    },
+    data: function data() {
+        return {
+            //Models
+            pessoa: {}
+
+            //Campos de inclusão
+
+            //Condicionais
+
+        };
+    },
+
+    watch: {
+        '$route': function $route(destino) {
+            this.getPessoa(destino.params.id);
+            this.jQuery();
+        }
+    },
+    computed: {},
+    methods: {
+        getPessoa: function getPessoa(id) {
+            var _this = this;
+
+            axios.get('/admin/ajax/pj/' + id).then(function (res) {
+                var dados = res.data;
+                _this.pessoa = dados.pessoa_juridica;
+                console.log(dados);
+            });
+        },
+        salvaForm: function salvaForm() {
+            var _this2 = this;
+
+            axios.post('/admin/ajax/pj/save', {
+                pessoa: this.pessoa
+            }).then(function (res) {
+                _this2.pessoa = res.data;
+                __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$emit('foiSalvoPj', _this2.pessoa);
+            });
+        },
+
+        jQuery: function jQuery() {
+
+            //Instancia atual do Vue
+            var Vue = this;
+        }
+    }
+});
+
+/***/ }),
+/* 66 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "formulario", attrs: { id: "container_conteudo" } },
+    [
+      _c("div", { staticClass: "titulo" }, [
+        _vm._v(_vm._s(this.pessoa.nome_fantasia))
+      ]),
+      _vm._v(" "),
+      _c("br")
+    ]
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-194a1161", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

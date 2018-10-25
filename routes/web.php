@@ -120,6 +120,21 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles']], function(
         'roles' => $padrao
     ]);
 
+    // ** PESSOA JURÍDICA **
+
+    //Lista
+    Route::get('/ajax/pj/index', [
+        'uses' => 'PessoaJuridicaController@ajaxIndex',
+        'as' => 'ajax.pj.index',
+        'roles' => $padrao
+    ]);
+    //View
+    Route::get('/ajax/pj/{id}', [
+        'uses' => 'PessoaJuridicaController@ajaxView',
+        'as' => 'ajax.pj.view',
+        'roles' => $padrao
+    ]);
+
     // ** PROJETOS **
 
     //Lista

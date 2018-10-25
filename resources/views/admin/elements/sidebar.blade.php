@@ -11,6 +11,10 @@
         <router-link :to="{ name: 'pf-index'}">Pessoas Físicas</router-link>
     </li>
     <li class="opcao">
+        {{--<a href="{{ route('pf.create') }}">Cadastrar</a>--}}
+        <router-link :to="{ name: 'pj-index'}">Pessoas Jurídicas</router-link>
+    </li>
+    <li class="opcao">
         <router-link :to="{ name: 'projetos-index'}">Projetos</router-link>
     </li>
     

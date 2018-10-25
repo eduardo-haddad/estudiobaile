@@ -124,13 +124,24 @@ class ProjetoController extends Controller
         $projeto_id = request('projeto_id');
 
         if(!empty($projeto_id) && !empty($cargo['pessoa_fisica'] && !empty($cargo['cargo']))) {
+
+            if(substr($cargo['cargo'], 0, 4) == 'new:'){
+                $novo_cargo = strtolower(substr($cargo['cargo'],4));
+                $cargoObj = Cargo::where('valor', $novo_cargo)->first();
+                if(empty($cargoObj)){
+                    $novo_cargo = Cargo::create(['valor' => $novo_cargo]);
+                    $cargo['cargo'] = $novo_cargo->id;
+                }
+            }
+
             $projeto = (new Projeto)->find($projeto_id);
             $projeto->pessoas_fisicas()->attach(PessoaFisica::find($cargo['pessoa_fisica']), ['cargo_id' => $cargo['cargo']]);
+
         } else {
             return "Cargo inválido";
         }
 
-        return Projeto::getPessoasFisicasDeProjetos($projeto_id);
+        return [Projeto::getPessoasFisicasDeProjetos($projeto_id), Cargo::all()];
     }
 
     public function ajaxRemoveCargoPf() {
