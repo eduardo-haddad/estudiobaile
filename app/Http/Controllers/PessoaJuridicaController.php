@@ -19,6 +19,7 @@ class PessoaJuridicaController extends Controller
     public function ajaxView($id)
     {
         $pessoa_juridica = (new PessoaJuridica)->find($id);
+        $pessoas_fisicas = PessoaFisica::all();
         $pessoas_fisicas_cargos_relacionados = PessoaJuridica::getPessoasFisicasRelacionadas($id);
         $cargos_pf = Cargo::all();
 
@@ -30,7 +31,8 @@ class PessoaJuridicaController extends Controller
             'tags' => $tags,
             'pessoas_fisicas_cargos_relacionados' => $pessoas_fisicas_cargos_relacionados,
             'atributos' => [
-                'cargos_pf' => $cargos_pf
+                'cargos_pf' => $cargos_pf,
+                'pessoas_fisicas' => $pessoas_fisicas,
             ]
         ];
     }
@@ -93,11 +95,9 @@ class PessoaJuridicaController extends Controller
     }
 
     public function ajaxGetTagsSelecionadas($id) {
-
         $pessoa = (new PessoaJuridica)->find($id);
         $tags = $pessoa->tags()->get();
         return $tags;
-
     }
 
 
@@ -127,17 +127,18 @@ class PessoaJuridicaController extends Controller
 
     }
 
-//    public function ajaxRemoveChancelaPf() {
-//
-//        $projeto_id = request('projeto_id');
-//        $chancela_id = request('chancela_id');
-//        $pessoa_fisica_id = request('pessoa_fisica_id');
-//
-//        if(Projeto::removeChancelaDeProjeto($projeto_id, $chancela_id, $pessoa_fisica_id, null)){
-//            return Projeto::getPessoasFisicasDeProjetos($projeto_id);
-//        }
-//
-//        return "Chancela inválida";
-//
-//    }
+    public function ajaxRemoveCargoPf() {
+
+        $cargo = request('cargo');
+        $pessoa_fisica_id = request('pessoa_fisica_id');
+        $pessoa_juridica_id = request('pessoa_juridica_id');
+
+        if(PessoaJuridica::removeCargoPf($cargo, $pessoa_fisica_id, $pessoa_juridica_id)){
+            return PessoaJuridica::getPessoasFisicasRelacionadas($pessoa_juridica_id);
+        }
+
+        return "Chancela inválida";
+
+    }
+
 }

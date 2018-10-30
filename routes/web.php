@@ -146,6 +146,16 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles']], function(
         'as' => 'ajax.pj.getTagsSelecionadas',
         'roles' => $padrao
     ]);
+    Route::post('/ajax/pj/ajaxAddCargoPf', [
+        'uses' => 'PessoaJuridicaController@ajaxAddCargoPf',
+        'as' => 'ajax.pj.addCargoPf',
+        'roles' => $padrao
+    ]);
+    Route::post('/ajax/pj/ajaxRemoveCargoPf', [
+        'uses' => 'PessoaJuridicaController@ajaxRemoveCargoPf',
+        'as' => 'ajax.pj.removeCargoPf',
+        'roles' => $padrao
+    ]);
 
     // ** PROJETOS **
 

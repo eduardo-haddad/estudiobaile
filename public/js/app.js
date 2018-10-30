@@ -41452,6 +41452,29 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -41468,9 +41491,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             tags: [],
             pessoas_fisicas_cargos_relacionados: [],
             //Campos de inclusão
-            tags_atuais: []
+            tags_atuais: [],
+            pessoa_fisica_id: '',
+            novo_cargo: '',
             //Condicionais
-
+            mostraCargoPfBox: false
         };
     },
 
@@ -41489,6 +41514,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 var dados = res.data;
                 _this.pessoa = dados.pessoa_juridica;
                 _this.tags = dados.tags;
+                _this.atributos = dados.atributos;
                 _this.pessoas_fisicas_cargos_relacionados = dados.pessoas_fisicas_cargos_relacionados;
                 console.log(_this.pessoas_fisicas_cargos_relacionados);
             });
@@ -41504,13 +41530,45 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$emit('foiSalvoPj', _this2.pessoa);
             });
         },
+        adicionaCargoPf: function adicionaCargoPf() {
+            var _this3 = this;
 
+            axios.post('/admin/ajax/pj/ajaxAddCargoPf', {
+                pessoa_juridica_id: this.$route.params.id,
+                pessoa_fisica_id: this.pessoa_fisica_id,
+                novo_cargo: this.novo_cargo
+
+            }).then(function (res) {
+                if (typeof res.data[0] !== "string") {
+                    _this3.pessoas_fisicas_cargos_relacionados = res.data[0];
+                    _this3.atributos.cargos = res.data[1];
+                    _this3.pessoa_fisica_id = '';
+                    _this3.novo_cargo = '';
+                    _this3.mostraCargoPfBox = false;
+                }
+            });
+        },
+        removeCargoPf: function removeCargoPf(pessoa_fisica_id, cargo_id) {
+            var _this4 = this;
+
+            axios.post('/admin/ajax/pj/ajaxRemoveCargoPf', {
+                cargo: cargo_id,
+                pessoa_fisica_id: pessoa_fisica_id,
+                pessoa_juridica_id: this.$route.params.id
+            }).then(function (res) {
+                _this4.pessoas_fisicas_cargos_relacionados = res.data;
+            });
+        },
+        mostraCargoPfBoxMetodo: function mostraCargoPfBoxMetodo() {
+            this.mostraCargoPfBox = true;
+            this.jQuery();
+        },
         jQuery: function jQuery() {
-
             //Instancia atual do Vue
             var Vue = this;
 
             $(document).ready(function () {
+
                 //Carrega select2 de tags
                 $('#tags_list').select2({
                     placeholder: "Digite as tags",
@@ -41546,6 +41604,53 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
                 $('#tags_list').on('change', function () {
                     Vue.tags_atuais = $(this).val();
+                });
+
+                //Carrega select2 de pessoas físicas
+                $('.pf_lista').select2({
+                    placeholder: "Digite um nome",
+                    tags: false,
+                    multiple: false,
+                    tokenSeparators: [","],
+                    dropdownAutoWidth: true,
+                    //dropdownCssClass : 'select2-dropdown-custom',
+                    //minimumInputLength: 1,
+                    createTag: function createTag(newTag) {
+                        if ($.trim(newTag.term) === '') {
+                            return null;
+                        }
+                        return {
+                            id: 'new:' + newTag.term,
+                            text: newTag.term + ' (novo)'
+                        };
+                    }
+                });
+
+                $('.pf_lista').on('change', function () {
+                    Vue.pessoa_fisica_id = $(this).val();
+                });
+
+                //Cargos
+
+                //Carrega select2 de cargos
+                $('.cargos_pf_lista').select2({
+                    placeholder: "Digite um cargo",
+                    tags: true,
+                    multiple: false,
+                    tokenSeparators: [","],
+                    createTag: function createTag(newTag) {
+                        if ($.trim(newTag.term) === '') {
+                            return null;
+                        }
+                        return {
+                            id: 'new:' + newTag.term,
+                            text: newTag.term + ' (novo)'
+                        };
+                    }
+                });
+
+                $('.cargos_pf_lista').on('change', function () {
+                    Vue.novo_cargo = $(this).val();
                 });
             });
         }
@@ -41608,6 +41713,9 @@ var render = function() {
         })
       ),
       _vm._v(" "),
+      _c("br"),
+      _c("br"),
+      _vm._v(" "),
       _c("span", { staticClass: "campo" }, [_vm._v("Pessoas Físicas")]),
       _vm._v(" "),
       _c(
@@ -41661,6 +41769,10 @@ var render = function() {
                         on: {
                           click: function($event) {
                             $event.preventDefault()
+                            _vm.removeCargoPf(
+                              pessoa.pessoa_fisica_id,
+                              pessoa.cargo_id
+                            )
                           }
                         }
                       },
@@ -41674,6 +41786,87 @@ var render = function() {
         ]
       ),
       _c("br"),
+      _vm._v(" "),
+      _c("a", { on: { click: _vm.mostraCargoPfBoxMetodo } }, [
+        _vm._v("[nova chancela pessoa física]")
+      ]),
+      _vm._v(" "),
+      _vm.mostraCargoPfBox
+        ? _c("div", [
+            _c("span", { staticClass: "campo" }, [
+              _vm._v("--- Nova Chancela PF")
+            ]),
+            _c("br"),
+            _vm._v(" "),
+            _c("span", { staticClass: "campo" }, [_vm._v("Nome")]),
+            _vm._v(" "),
+            _c(
+              "select",
+              {
+                staticClass: "pf_lista",
+                attrs: { name: "pessoas_fisicas" },
+                on: { change: function($event) {} }
+              },
+              [
+                _c(
+                  "option",
+                  { attrs: { disabled: "", selected: "", value: "" } },
+                  [_vm._v(" -- Selecione um nome -- ")]
+                ),
+                _vm._v(" "),
+                _vm._l(_vm.atributos.pessoas_fisicas, function(pessoa) {
+                  return _c("option", { domProps: { value: pessoa.id } }, [
+                    _vm._v(
+                      "\n                " +
+                        _vm._s(pessoa.nome_adotado) +
+                        "\n            "
+                    )
+                  ])
+                })
+              ],
+              2
+            ),
+            _c("br"),
+            _vm._v(" "),
+            _c("span", { staticClass: "campo" }, [_vm._v("Chancela")]),
+            _vm._v(" "),
+            _c(
+              "select",
+              {
+                staticClass: "cargos_pf_lista",
+                attrs: { name: "chancelas" },
+                on: { change: function($event) {} }
+              },
+              [
+                _c(
+                  "option",
+                  { attrs: { disabled: "", selected: "", value: "" } },
+                  [_vm._v(" -- Selecione uma chancela -- ")]
+                ),
+                _vm._v(" "),
+                _vm._l(_vm.atributos.cargos_pf, function(cargo) {
+                  return _c("option", { domProps: { value: cargo.id } }, [
+                    _vm._v(_vm._s(cargo.valor))
+                  ])
+                })
+              ],
+              2
+            ),
+            _vm._v(" "),
+            _c(
+              "a",
+              {
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    return _vm.adicionaCargoPf($event)
+                  }
+                }
+              },
+              [_vm._v("[+]")]
+            )
+          ])
+        : _vm._e(),
       _vm._v(" "),
       _c(
         "form",

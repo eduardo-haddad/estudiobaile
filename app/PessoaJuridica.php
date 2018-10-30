@@ -55,7 +55,8 @@ class PessoaJuridica extends Model
             SELECT 
               PessoaFisica.id AS pessoa_fisica_id,
               PessoaFisica.nome_adotado AS pessoa_fisica_nome_adotado,
-              Cargo.valor AS cargo
+              Cargo.valor AS cargo,
+              Cargo.id AS cargo_id
             FROM 
               pessoas_fisicas PessoaFisica
               LEFT JOIN pf_pj PessoaFisicaJuridica
@@ -65,6 +66,21 @@ class PessoaJuridica extends Model
               ON Cargo.id = PessoaFisicaJuridica.cargo_id
             ORDER BY PessoaFisica.nome_adotado
         ");
+    }
+
+    public static function removeCargoPf($cargo_id, $pessoa_fisica_id, $pessoa_juridica_id) {
+
+        try {
+            \DB::select("
+            DELETE FROM pf_pj
+            WHERE cargo_id = $cargo_id
+                AND pessoa_fisica_id = $pessoa_fisica_id
+                AND pessoa_juridica_id = $pessoa_juridica_id
+        ");
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+        return true;
     }
 
 
