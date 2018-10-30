@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Cargo;
+use App\Chancela;
 use Illuminate\Http\Request;
 
-class CargoController extends Controller
+class ChancelaController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +41,10 @@ class CargoController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Cargo  $cargo
+     * @param  \App\Chancela  $chancela
      * @return \Illuminate\Http\Response
      */
-    public function show(Cargo $cargo)
+    public function show(Chancela $chancela)
     {
         //
     }
@@ -52,10 +52,10 @@ class CargoController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Cargo  $cargo
+     * @param  \App\Chancela  $chancela
      * @return \Illuminate\Http\Response
      */
-    public function edit(Cargo $cargo)
+    public function edit(Chancela $chancela)
     {
         //
     }
@@ -64,10 +64,10 @@ class CargoController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Cargo  $cargo
+     * @param  \App\Chancela  $chancela
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Cargo $cargo)
+    public function update(Request $request, Chancela $chancela)
     {
         //
     }
@@ -75,10 +75,10 @@ class CargoController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Cargo  $cargo
+     * @param  \App\Chancela  $chancela
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Cargo $cargo)
+    public function destroy(Chancela $chancela)
     {
         //
     }

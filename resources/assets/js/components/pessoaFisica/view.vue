@@ -312,7 +312,7 @@
                                     {{ projeto['projeto'] }}
                                 </router-link>
                             </td>
-                            <td>{{ projeto['cargo'] }}</td>
+                            <td>{{ projeto['chancela'] }}</td>
                         </tr>
                     </table>
                 </div>

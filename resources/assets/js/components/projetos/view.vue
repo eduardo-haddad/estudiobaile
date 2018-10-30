@@ -31,31 +31,31 @@
                 />
             </div><br>
 
-            <!-- Pessoa Física / Cargo -->
+            <!-- Pessoa Física / Chancela -->
             <span class="campo">Pessoas Físicas</span>
             <div id="projetos_pf" class="valor" style="margin-top: 3px;">
                 <span class="campo">Participação no(s) projeto(s) Estúdio Baile</span><br>
                 <div id="projetos">
                     <table>
-                        <tr v-for="pessoa in pessoas_fisicas_cargos_relacionados">
+                        <tr v-for="pessoa in pessoas_fisicas_chancelas_relacionadas">
                             <td>
                                 <router-link :id="pessoa.pessoa_fisica_id" :to="{ name: 'pf-view', params: { id: pessoa.pessoa_fisica_id }}">
                                     {{ pessoa.nome }}
                                 </router-link>
                             </td>
-                            <td>{{ pessoa.cargo }}</td>
+                            <td>{{ pessoa.chancela }}</td>
                             <td>
-                                <a @click.prevent="removeCargoPf(pessoa.pessoa_fisica_id, pessoa.cargo_id)">[X]</a>
+                                <a @click.prevent="removeChancelaPf(pessoa.pessoa_fisica_id, pessoa.chancela_id)">[X]</a>
                             </td>
                         </tr>
                     </table>
                 </div>
             </div><br>
 
-            <!-- Add novo cargo pessoa física -->
-            <a @click="mostraCargoPfBoxMetodo">[novo cargo pessoa física]</a>
-            <div v-if="mostraCargoPfBox">
-                <span class="campo">--- Novo Cargo PF</span><br>
+            <!-- Add novo chancela pessoa física -->
+            <a @click="mostraChancelaPfBoxMetodo">[nova chancela pessoa física]</a>
+            <div v-if="mostraChancelaPfBox">
+                <span class="campo">--- Nova Chancela PF</span><br>
                 <span class="campo">Nome</span>
                 <select @change="" name="pessoas_fisicas" class="pf_lista">
                     <option disabled selected value> -- Selecione um nome -- </option>
@@ -63,12 +63,12 @@
                         {{ pessoa.nome_adotado }}
                     </option>
                 </select><br>
-                <span class="campo">Cargo</span>
-                <select @change="" name="cargos" class="cargos_pf_lista">
-                    <option disabled selected value> -- Selecione um cargo -- </option>
-                    <option v-for="cargo in atributos.cargos" :value="cargo.id">{{ cargo.valor }}</option>
+                <span class="campo">Chancela</span>
+                <select @change="" name="chancelas" class="chancelas_pf_lista">
+                    <option disabled selected value> -- Selecione uma chancela -- </option>
+                    <option v-for="chancela in atributos.chancelas" :value="chancela.id">{{ chancela.valor }}</option>
                 </select>
-                <a @click.prevent="adicionaCargoPf">[+]</a>
+                <a @click.prevent="adicionaChancelaPf">[+]</a>
 
             </div>
 
@@ -94,13 +94,13 @@
                 //Models
                 projeto: {},
                 atributos: [],
-                pessoas_fisicas_cargos_relacionados: [],
+                pessoas_fisicas_chancelas_relacionadas: [],
                 //Campos de inclusão
                 pessoas_fisicas_atuais: [],
-                cargos_pf_atuais: [],
-                novo_cargo_pf: {pessoa_fisica: '', cargo: ''},
+                chancelas_pf_atuais: [],
+                nova_chancela_pf: {pessoa_fisica: '', chancela: ''},
                 //Condicionais
-                mostraCargoPfBox: false,
+                mostraChancelaPfBox: false,
             }
         },
         watch: {
@@ -108,7 +108,7 @@
                 this.getProjeto(destino.params.id);
                 this.jQuery();
             },
-            'novo_cargo_pf' (val) {
+            'nova_chancela_pf' (val) {
                 console.log(val);
             }
         },
@@ -121,44 +121,44 @@
                     let dados = res.data;
                     this.projeto = dados.projeto;
                     this.atributos = dados.atributos;
-                    this.pessoas_fisicas_cargos_relacionados = dados.pessoas_fisicas_cargos_relacionados;
-                    console.log(this.pessoas_fisicas_cargos_relacionados);
+                    this.pessoas_fisicas_chancelas_relacionadas = dados.pessoas_fisicas_chancelas_relacionadas;
+                    console.log(this.pessoas_fisicas_chancelas_relacionadas);
                 } );
             },
             salvaForm: function(){
                 axios.post('/admin/ajax/projetos/save', {
                     projeto: this.projeto,
                     pessoas_fisicas: this.pessoas_fisicas_atuais,
-                    cargos_pf: this.cargos_pf_atuais,
+                    chancelas_pf: this.chancelas_pf_atuais,
                 }).then(res => {
                     this.projeto = res.data;
                     eventBus.$emit('foiSalvo', this.projeto);
                 });
             },
-            adicionaCargoPf: function(){
-                axios.post('/admin/ajax/projetos/ajaxAddCargoPf', {
+            adicionaChancelaPf: function(){
+                axios.post('/admin/ajax/projetos/ajaxAddChancelaPf', {
                     projeto_id: this.$route.params.id,
-                    novo_cargo: this.novo_cargo_pf
+                    nova_chancela: this.nova_chancela_pf
                 }).then(res => {
                     if(typeof res.data[0] !== "string") {
-                        this.pessoas_fisicas_cargos_relacionados = res.data[0];
-                        this.atributos.cargos = res.data[1];
-                        this.novo_cargo_pf = {};
-                        this.mostraCargoPfBox = false;
+                        this.pessoas_fisicas_chancelas_relacionadas = res.data[0];
+                        this.atributos.chancelas = res.data[1];
+                        this.nova_chancela_pf = {};
+                        this.mostraChancelaPfBox = false;
                     }
                 });
             },
-            removeCargoPf: function(pessoa_fisica_id, cargo_id){
-                axios.post('/admin/ajax/projetos/ajaxRemoveCargoPf', {
+            removeChancelaPf: function(pessoa_fisica_id, chancela_id){
+                axios.post('/admin/ajax/projetos/ajaxRemoveChancelaPf', {
                     pessoa_fisica_id: pessoa_fisica_id,
-                    cargo_id: cargo_id,
+                    chancela_id: chancela_id,
                     projeto_id: this.$route.params.id,
                 }).then(res => {
-                    this.pessoas_fisicas_cargos_relacionados = res.data;
+                    this.pessoas_fisicas_chancelas_relacionadas = res.data;
                 });
             },
-            mostraCargoPfBoxMetodo: function(){
-                this.mostraCargoPfBox = true;
+            mostraChancelaPfBoxMetodo: function(){
+                this.mostraChancelaPfBox = true;
                 this.jQuery();
             },
             jQuery: function(){
@@ -187,15 +187,15 @@
                     });
 
                     $('.pf_lista').on('change', function(){
-                        Vue.novo_cargo_pf.pessoa_fisica = $(this).val();
+                        Vue.nova_chancela_pf.pessoa_fisica = $(this).val();
                     });
 
 
-                    //Cargos
+                    //Chancelas
 
-                    //Carrega select2 de cargos
-                    $('.cargos_pf_lista').select2({
-                        placeholder: "Digite um cargo",
+                    //Carrega select2 de chancelas
+                    $('.chancelas_pf_lista').select2({
+                        placeholder: "Digite uma chancela",
                         tags: true,
                         multiple: false,
                         tokenSeparators: [","],
@@ -208,8 +208,8 @@
                         }
                     });
 
-                    $('.cargos_pf_lista').on('change', function(){
-                        Vue.novo_cargo_pf.cargo = $(this).val();
+                    $('.chancelas_pf_lista').on('change', function(){
+                        Vue.nova_chancela_pf.chancela = $(this).val();
                     });
 
                 });

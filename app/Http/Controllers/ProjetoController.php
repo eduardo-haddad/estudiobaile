@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\PessoaFisica;
 use Illuminate\Http\Request;
 use App\Projeto;
-use App\Cargo;
+use App\Chancela;
 
 class ProjetoController extends Controller
 {
@@ -19,16 +19,16 @@ class ProjetoController extends Controller
     {
         $projeto = (new Projeto)->find($id);
         $pessoas_fisicas = PessoaFisica::all();
-        $cargos_pf = Cargo::all();
-        $pessoas_fisicas_cargos_relacionados = Projeto::getPessoasFisicasDeProjetos($id);
+        $chancelas_pf = Chancela::all();
+        $pessoas_fisicas_chancelas_relacionadas = Projeto::getPessoasFisicasDeProjetos($id);
 
 
         return [
             'projeto' => $projeto,
-            'pessoas_fisicas_cargos_relacionados' => $pessoas_fisicas_cargos_relacionados,
+            'pessoas_fisicas_chancelas_relacionadas' => $pessoas_fisicas_chancelas_relacionadas,
             'atributos' => [
                 'pessoas_fisicas' => $pessoas_fisicas,
-                'cargos' => $cargos_pf,
+                'chancelas' => $chancelas_pf,
             ]
         ];
     }
@@ -38,7 +38,7 @@ class ProjetoController extends Controller
 
         $request['projeto'] = request('projeto');
         $request['pessoas_fisicas'] = request('pessoas_fisicas');
-        $request['cargos_pf'] = request('cargos_pf');
+        $request['chancelas_pf'] = request('chancelas_pf');
 
         //Projeto
         $projeto = (new Projeto)->find($request['projeto']['id']);
@@ -64,31 +64,31 @@ class ProjetoController extends Controller
             $projeto->pessoas_fisicas()->attach(PessoaFisica::find($request['pessoas_fisicas']));
         }
 
-        //Cargos Pessoa Física
+        //Chancelas Pessoa Física
         $pessoa_fisica = (new PessoaFisica)->find($request['pessoas_fisicas']);
 
-        if(empty($request['cargos_pf'])) {
+        if(empty($request['chancelas_pf'])) {
             $projeto->pessoas_fisicas()->detach();
-            $projeto->pessoas_fisicas()->attach(PessoaFisica::find($request['pessoas_fisicas']), ['cargo_id' => null]);
+            $projeto->pessoas_fisicas()->attach(PessoaFisica::find($request['pessoas_fisicas']), ['chancela_id' => null]);
         } else {
 
-            $cargo_pf = $request['cargos_pf'];
-            if (substr($cargo_pf, 0, 4) == 'new:')
+            $chancela_pf = $request['chancelas_pf'];
+            if (substr($chancela_pf, 0, 4) == 'new:')
             {
-                $cargo_pf = strtolower(substr($cargo_pf,4));
-                $cargoPfObj = Cargo::where('valor', $cargo_pf)->first();
-                if(empty($cargoPfObj)){
-                    $novo_cargo = Cargo::create(['valor' => $cargo_pf]);
-                    $cargo_pf_id = $novo_cargo->id;
+                $chancela_pf = strtolower(substr($chancela_pf,4));
+                $chancelaPfObj = Chancela::where('valor', $chancela_pf)->first();
+                if(empty($chancelaPfObj)){
+                    $nova_chancela = Chancela::create(['valor' => $chancela_pf]);
+                    $chancela_pf_id = $nova_chancela->id;
                 } else {
-                    $cargo_pf_id = $cargoPfObj->id;
+                    $chancela_pf_id = $chancelaPfObj->id;
                 }
             } else {
-                $cargo_pf_id = $cargo_pf;
+                $chancela_pf_id = $chancela_pf;
             }
 
             $projeto->pessoas_fisicas()->detach();
-            $projeto->pessoas_fisicas()->attach(PessoaFisica::find($request['pessoas_fisicas']), ['cargo_id' => $cargo_pf_id]);
+            $projeto->pessoas_fisicas()->attach(PessoaFisica::find($request['pessoas_fisicas']), ['chancela_id' => $chancela_pf_id]);
 
         }
 
@@ -103,13 +103,13 @@ class ProjetoController extends Controller
 
     }
 
-    public function ajaxGetCargosSelecionados($id) {
+    public function ajaxGetChancelasSelecionadas($id) {
 
         $projeto = (new Projeto)->find($id);
         $pessoas_fisicas = $projeto->pessoas_fisicas()->get();
 
         foreach($pessoas_fisicas as &$pessoa_fisica){
-            $pessoa_fisica['cargo'] = Projeto::getCargoPorId($id, $pessoa_fisica['id']);
+            $pessoa_fisica['chancela'] = Projeto::getChancelaPorId($id, $pessoa_fisica['id']);
         }
 
 
@@ -118,43 +118,43 @@ class ProjetoController extends Controller
     }
 
 
-    public function ajaxAddCargoPf() {
+    public function ajaxAddChancelaPf() {
 
-        $cargo = request('novo_cargo');
+        $chancela = request('nova_chancela');
         $projeto_id = request('projeto_id');
 
-        if(!empty($projeto_id) && !empty($cargo['pessoa_fisica'] && !empty($cargo['cargo']))) {
+        if(!empty($projeto_id) && !empty($chancela['pessoa_fisica'] && !empty($chancela['chancela']))) {
 
-            if(substr($cargo['cargo'], 0, 4) == 'new:'){
-                $novo_cargo = strtolower(substr($cargo['cargo'],4));
-                $cargoObj = Cargo::where('valor', $novo_cargo)->first();
-                if(empty($cargoObj)){
-                    $novo_cargo = Cargo::create(['valor' => $novo_cargo]);
-                    $cargo['cargo'] = $novo_cargo->id;
+            if(substr($chancela['chancela'], 0, 4) == 'new:'){
+                $nova_chancela = strtolower(substr($chancela['chancela'],4));
+                $chancelaObj = Chancela::where('valor', $nova_chancela)->first();
+                if(empty($chancelaObj)){
+                    $nova_chancela = Chancela::create(['valor' => $nova_chancela]);
+                    $chancela['chancela'] = $nova_chancela->id;
                 }
             }
 
             $projeto = (new Projeto)->find($projeto_id);
-            $projeto->pessoas_fisicas()->attach(PessoaFisica::find($cargo['pessoa_fisica']), ['cargo_id' => $cargo['cargo']]);
+            $projeto->pessoas_fisicas()->attach(PessoaFisica::find($chancela['pessoa_fisica']), ['chancela_id' => $chancela['chancela']]);
 
         } else {
-            return "Cargo inválido";
+            return "Chancela inválida";
         }
 
-        return [Projeto::getPessoasFisicasDeProjetos($projeto_id), Cargo::all()];
+        return [ Projeto::getPessoasFisicasDeProjetos($projeto_id), Chancela::all() ];
     }
 
-    public function ajaxRemoveCargoPf() {
+    public function ajaxRemoveChancelaPf() {
 
         $projeto_id = request('projeto_id');
-        $cargo_id = request('cargo_id');
+        $chancela_id = request('chancela_id');
         $pessoa_fisica_id = request('pessoa_fisica_id');
 
-        if(Projeto::removeCargoDeProjeto($projeto_id, $cargo_id, $pessoa_fisica_id, null)){
+        if(Projeto::removeChancelaDeProjeto($projeto_id, $chancela_id, $pessoa_fisica_id, null)){
             return Projeto::getPessoasFisicasDeProjetos($projeto_id);
         }
 
-        return "Cargo inválido";
+        return "Chancela inválida";
 
     }
 

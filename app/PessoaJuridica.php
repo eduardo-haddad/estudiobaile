@@ -48,4 +48,24 @@ class PessoaJuridica extends Model
     {
         return $this->belongsToMany('App\Tag', 'pessoa_tag', 'pessoa_juridica_id', 'tag_id');
     }
+
+    public static function getPessoasFisicasRelacionadas($id) {
+
+        return \DB::select("
+            SELECT 
+              PessoaFisica.id AS pessoa_fisica_id,
+              PessoaFisica.nome_adotado AS pessoa_fisica_nome_adotado,
+              Cargo.valor AS cargo
+            FROM 
+              pessoas_fisicas PessoaFisica
+              LEFT JOIN pf_pj PessoaFisicaJuridica
+              ON PessoaFisicaJuridica.pessoa_fisica_id = PessoaFisica.id 
+                AND PessoaFisicaJuridica.pessoa_juridica_id = $id
+              INNER JOIN cargos Cargo
+              ON Cargo.id = PessoaFisicaJuridica.cargo_id
+            ORDER BY PessoaFisica.nome_adotado
+        ");
+    }
+
+
 }

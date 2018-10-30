@@ -245,7 +245,7 @@ class PessoaFisicaController extends Controller
 
         //Projetos
 //      $projetos = $pessoa_fisica->projetos()->get();
-        $projetos = PessoaFisica::getProjetosCargosPorId($id);
+        $projetos = PessoaFisica::getProjetosChancelasPorId($id);
 
 
         return [

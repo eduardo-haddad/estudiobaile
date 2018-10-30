@@ -19,6 +19,8 @@ class DatabaseSeeder extends Seeder
         $this->call(CategoriaSeeder::class);
         // Cargo
         $this->call(CargoSeeder::class);
+        // Chancela
+        $this->call(ChancelaSeeder::class);
         // Genero
         $this->call(GeneroSeeder::class);
         // Estado Civil
@@ -31,10 +33,10 @@ class DatabaseSeeder extends Seeder
         $this->call(DadoBancarioSeeder::class);
         //Tags
         $this->call(TagSeeder::class);
-        // Pessoa Jurídica
-        $this->call(PessoaJuridicaSeeder::class);
         // Pessoa Física
         $this->call(PessoaFisicaSeeder::class);
+        // Pessoa Jurídica
+        $this->call(PessoaJuridicaSeeder::class);
         // Tipo de contato
         $this->call(TipoContatoSeeder::class);
         // Contato

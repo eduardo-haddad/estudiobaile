@@ -10774,33 +10774,6 @@ new Vue({
 /* 3 */
 /***/ (function(module, exports) {
 
-var g;
-
-// This works in non-strict mode
-g = (function() {
-	return this;
-})();
-
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || Function("return this")() || (1,eval)("this");
-} catch(e) {
-	// This works if the window reference is available
-	if(typeof window === "object")
-		g = window;
-}
-
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
-
-module.exports = g;
-
-
-/***/ }),
-/* 4 */
-/***/ (function(module, exports) {
-
 /* globals __VUE_SSR_CONTEXT__ */
 
 // IMPORTANT: Do NOT use ES2015 features in this file.
@@ -10904,6 +10877,33 @@ module.exports = function normalizeComponent (
     options: options
   }
 }
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports) {
+
+var g;
+
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || Function("return this")() || (1,eval)("this");
+} catch(e) {
+	// This works if the window reference is available
+	if(typeof window === "object")
+		g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
 
 
 /***/ }),
@@ -14103,7 +14103,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(4)
+var normalizeComponent = __webpack_require__(3)
 /* script */
 var __vue_script__ = __webpack_require__(43)
 /* template */
@@ -14150,7 +14150,7 @@ module.exports = Component.exports
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(15);
-module.exports = __webpack_require__(55);
+module.exports = __webpack_require__(61);
 
 
 /***/ }),
@@ -14161,7 +14161,7 @@ module.exports = __webpack_require__(55);
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__bootstrap__ = __webpack_require__(16);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__estudiobaile__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__forms__ = __webpack_require__(54);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__forms__ = __webpack_require__(60);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__forms___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__forms__);
 
 
@@ -20703,7 +20703,7 @@ Popper.Defaults = Defaults;
 /* harmony default export */ __webpack_exports__["default"] = (Popper);
 //# sourceMappingURL=popper.js.map
 
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(3)))
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(4)))
 
 /***/ }),
 /* 19 */
@@ -31669,7 +31669,7 @@ Vue.compile = compileToFunctions;
 
 module.exports = Vue;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3), __webpack_require__(20).setImmediate))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4), __webpack_require__(20).setImmediate))
 
 /***/ }),
 /* 20 */
@@ -31739,7 +31739,7 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
                          (typeof global !== "undefined" && global.clearImmediate) ||
                          (this && this.clearImmediate);
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ }),
 /* 21 */
@@ -31932,7 +31932,7 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
     attachTo.clearImmediate = clearImmediate;
 }(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3), __webpack_require__(6)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4), __webpack_require__(6)))
 
 /***/ }),
 /* 22 */
@@ -38695,18 +38695,18 @@ var routes = [{ path: '/pf',
         component: __webpack_require__(45)
     }]
 }, { path: '/pj',
-    name: 'pj-index', component: __webpack_require__(61),
+    name: 'pj-index', component: __webpack_require__(48),
     children: [{
         path: 'view/:id',
         name: 'pj-view',
-        component: __webpack_require__(64)
+        component: __webpack_require__(51)
     }]
 }, { path: '/projetos',
-    name: 'projetos-index', component: __webpack_require__(48),
+    name: 'projetos-index', component: __webpack_require__(54),
     children: [{
         path: 'view/:id',
         name: 'projetos-view',
-        component: __webpack_require__(51)
+        component: __webpack_require__(57)
     }]
 }];
 
@@ -38827,7 +38827,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(4)
+var normalizeComponent = __webpack_require__(3)
 /* script */
 var __vue_script__ = __webpack_require__(46)
 /* template */
@@ -41161,7 +41161,7 @@ var render = function() {
                           1
                         ),
                         _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(projeto["cargo"]))])
+                        _c("td", [_vm._v(_vm._s(projeto["chancela"]))])
                       ]
                     )
                   })
@@ -41199,11 +41199,526 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(4)
+var normalizeComponent = __webpack_require__(3)
 /* script */
 var __vue_script__ = __webpack_require__(49)
 /* template */
 var __vue_template__ = __webpack_require__(50)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/pessoaJuridica/index.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-4038f846", Component.options)
+  } else {
+    hotAPI.reload("data-v-4038f846", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 49 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__estudiobaile__ = __webpack_require__(2);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    mounted: function mounted() {
+        var _this = this;
+
+        axios.get('/admin/ajax/pj/index').then(function (res) {
+            _this.pessoas = res.data;
+            //console.log(this.pessoas);
+        });
+
+        //evento - registro salvo em pj-view
+        __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$on('foiSalvoPj', function (pessoa) {
+
+            var id_atual = _this.$route.params.id;
+            _this.$set(_this.pessoas, _this.pessoas.findIndex(function (p) {
+                return p.id == id_atual;
+            }), {
+                nome_fantasia: pessoa.nome_fantasia,
+                id: pessoa.id
+            });
+        });
+    },
+    data: function data() {
+        return {
+            pessoas: []
+        };
+    },
+
+    methods: {}
+});
+
+/***/ }),
+/* 50 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "lista_conteudo" }, [
+    _c("nav", { staticClass: "lista" }, [
+      _c(
+        "ul",
+        _vm._l(_vm.pessoas, function(pessoa, index) {
+          return _c(
+            "li",
+            { key: pessoa.id },
+            [
+              pessoa
+                ? _c(
+                    "router-link",
+                    {
+                      attrs: {
+                        id: pessoa.id,
+                        to: { name: "pj-view", params: { id: pessoa.id } }
+                      }
+                    },
+                    [_vm._v(_vm._s(pessoa.nome_fantasia))]
+                  )
+                : _vm._e()
+            ],
+            1
+          )
+        })
+      )
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "conteudo" }, [_c("router-view")], 1)
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-4038f846", module.exports)
+  }
+}
+
+/***/ }),
+/* 51 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(3)
+/* script */
+var __vue_script__ = __webpack_require__(52)
+/* template */
+var __vue_template__ = __webpack_require__(53)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/pessoaJuridica/view.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-194a1161", Component.options)
+  } else {
+    hotAPI.reload("data-v-194a1161", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 52 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__estudiobaile__ = __webpack_require__(2);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    created: function created() {
+        this.getPessoa(this.$route.params.id);
+        this.jQuery();
+    },
+    data: function data() {
+        return {
+            //Models
+            pessoa: {},
+            tags: [],
+            pessoas_fisicas_cargos_relacionados: [],
+            //Campos de inclusão
+            tags_atuais: []
+            //Condicionais
+
+        };
+    },
+
+    watch: {
+        '$route': function $route(destino) {
+            this.getPessoa(destino.params.id);
+            this.jQuery();
+        }
+    },
+    computed: {},
+    methods: {
+        getPessoa: function getPessoa(id) {
+            var _this = this;
+
+            axios.get('/admin/ajax/pj/' + id).then(function (res) {
+                var dados = res.data;
+                _this.pessoa = dados.pessoa_juridica;
+                _this.tags = dados.tags;
+                _this.pessoas_fisicas_cargos_relacionados = dados.pessoas_fisicas_cargos_relacionados;
+                console.log(_this.pessoas_fisicas_cargos_relacionados);
+            });
+        },
+        salvaForm: function salvaForm() {
+            var _this2 = this;
+
+            axios.post('/admin/ajax/pj/save', {
+                pessoa: this.pessoa,
+                tags: this.tags_atuais
+            }).then(function (res) {
+                _this2.pessoa = res.data;
+                __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$emit('foiSalvoPj', _this2.pessoa);
+            });
+        },
+
+        jQuery: function jQuery() {
+
+            //Instancia atual do Vue
+            var Vue = this;
+
+            $(document).ready(function () {
+                //Carrega select2 de tags
+                $('#tags_list').select2({
+                    placeholder: "Digite as tags",
+                    tags: true,
+                    multiple: true,
+                    tokenSeparators: [","],
+                    createTag: function createTag(newTag) {
+                        if ($.trim(newTag.term) === '') {
+                            return null;
+                        }
+                        return {
+                            id: 'new:' + newTag.term,
+                            text: newTag.term + ' (novo)'
+                        };
+                    }
+                });
+
+                //Preenche tags selecionadas (timeout 1s)
+                var id_atual = window.location.href.split('/view/')[1];
+                var tags_selecionadas = [];
+                $.get('/admin/ajax/pj/getTagsSelecionadas/' + id_atual).done(function (data) {
+                    setTimeout(function () {
+                        tags_selecionadas = data;
+                        var tags_ids = [];
+                        for (var i = 0; i < tags_selecionadas.length; i++) {
+                            tags_ids.push(tags_selecionadas[i]['id']);
+                        }
+                        $('#tags_list').val(tags_ids).trigger('change');
+                    }, 0);
+                }).fail(function () {
+                    return false;
+                });
+
+                $('#tags_list').on('change', function () {
+                    Vue.tags_atuais = $(this).val();
+                });
+            });
+        }
+    }
+});
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(1)))
+
+/***/ }),
+/* 53 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "formulario", attrs: { id: "container_conteudo" } },
+    [
+      _c("div", { staticClass: "titulo" }, [
+        _vm._v(_vm._s(this.pessoa.nome_fantasia))
+      ]),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "titulo", staticStyle: { "font-size": "16px" } },
+        [_vm._v(_vm._s(this.pessoa.razao_social))]
+      ),
+      _vm._v(" "),
+      _c("br"),
+      _vm._v(" "),
+      _c("span", { staticClass: "campo" }, [_vm._v("Tags")]),
+      _vm._v(" "),
+      _c(
+        "select",
+        {
+          staticClass: "js-example-basic-single",
+          attrs: { name: "tags", id: "tags_list" },
+          on: {
+            change: function($event) {
+              _vm.tags_atuais = $event.target.value
+            }
+          }
+        },
+        _vm._l(_vm.tags, function(tag) {
+          return _c(
+            "option",
+            {
+              domProps: { value: tag.id },
+              model: {
+                value: tag.id,
+                callback: function($$v) {
+                  _vm.$set(tag, "id", $$v)
+                },
+                expression: "tag.id"
+              }
+            },
+            [_vm._v(_vm._s(tag.text))]
+          )
+        })
+      ),
+      _vm._v(" "),
+      _c("span", { staticClass: "campo" }, [_vm._v("Pessoas Físicas")]),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          staticClass: "valor",
+          staticStyle: { "margin-top": "3px" },
+          attrs: { id: "projetos_pf" }
+        },
+        [
+          _c("span", { staticClass: "campo" }, [_vm._v("Cargos")]),
+          _c("br"),
+          _vm._v(" "),
+          _c("div", { attrs: { id: "projetos" } }, [
+            _c(
+              "table",
+              _vm._l(_vm.pessoas_fisicas_cargos_relacionados, function(pessoa) {
+                return _c("tr", [
+                  _c(
+                    "td",
+                    [
+                      _c(
+                        "router-link",
+                        {
+                          attrs: {
+                            id: pessoa.pessoa_fisica_id,
+                            to: {
+                              name: "pf-view",
+                              params: { id: pessoa.pessoa_fisica_id }
+                            }
+                          }
+                        },
+                        [
+                          _vm._v(
+                            "\n                            " +
+                              _vm._s(pessoa.pessoa_fisica_nome_adotado) +
+                              "\n                        "
+                          )
+                        ]
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(pessoa.cargo))]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _c(
+                      "a",
+                      {
+                        on: {
+                          click: function($event) {
+                            $event.preventDefault()
+                          }
+                        }
+                      },
+                      [_vm._v("[X]")]
+                    )
+                  ])
+                ])
+              })
+            )
+          ])
+        ]
+      ),
+      _c("br"),
+      _vm._v(" "),
+      _c(
+        "form",
+        {
+          attrs: { method: "POST" },
+          on: {
+            submit: function($event) {
+              $event.preventDefault()
+              return _vm.salvaForm($event)
+            }
+          }
+        },
+        [
+          _c("br"),
+          _vm._v(" "),
+          _c("br"),
+          _vm._v(" "),
+          _c("br"),
+          _vm._v(" "),
+          _c("button", [_vm._v("Salvar")])
+        ]
+      )
+    ]
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-194a1161", module.exports)
+  }
+}
+
+/***/ }),
+/* 54 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(3)
+/* script */
+var __vue_script__ = __webpack_require__(55)
+/* template */
+var __vue_template__ = __webpack_require__(56)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -41242,7 +41757,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 49 */
+/* 55 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -41300,7 +41815,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 50 */
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -41352,15 +41867,15 @@ if (false) {
 }
 
 /***/ }),
-/* 51 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(4)
+var normalizeComponent = __webpack_require__(3)
 /* script */
-var __vue_script__ = __webpack_require__(52)
+var __vue_script__ = __webpack_require__(58)
 /* template */
-var __vue_template__ = __webpack_require__(53)
+var __vue_template__ = __webpack_require__(59)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -41399,7 +41914,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 52 */
+/* 58 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -41501,13 +42016,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             //Models
             projeto: {},
             atributos: [],
-            pessoas_fisicas_cargos_relacionados: [],
+            pessoas_fisicas_chancelas_relacionadas: [],
             //Campos de inclusão
             pessoas_fisicas_atuais: [],
-            cargos_pf_atuais: [],
-            novo_cargo_pf: { pessoa_fisica: '', cargo: '' },
+            chancelas_pf_atuais: [],
+            nova_chancela_pf: { pessoa_fisica: '', chancela: '' },
             //Condicionais
-            mostraCargoPfBox: false
+            mostraChancelaPfBox: false
         };
     },
 
@@ -41516,7 +42031,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.getProjeto(destino.params.id);
             this.jQuery();
         },
-        'novo_cargo_pf': function novo_cargo_pf(val) {
+        'nova_chancela_pf': function nova_chancela_pf(val) {
             console.log(val);
         }
     },
@@ -41529,8 +42044,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 var dados = res.data;
                 _this.projeto = dados.projeto;
                 _this.atributos = dados.atributos;
-                _this.pessoas_fisicas_cargos_relacionados = dados.pessoas_fisicas_cargos_relacionados;
-                console.log(_this.pessoas_fisicas_cargos_relacionados);
+                _this.pessoas_fisicas_chancelas_relacionadas = dados.pessoas_fisicas_chancelas_relacionadas;
+                console.log(_this.pessoas_fisicas_chancelas_relacionadas);
             });
         },
         salvaForm: function salvaForm() {
@@ -41539,40 +42054,40 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             axios.post('/admin/ajax/projetos/save', {
                 projeto: this.projeto,
                 pessoas_fisicas: this.pessoas_fisicas_atuais,
-                cargos_pf: this.cargos_pf_atuais
+                chancelas_pf: this.chancelas_pf_atuais
             }).then(function (res) {
                 _this2.projeto = res.data;
                 __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$emit('foiSalvo', _this2.projeto);
             });
         },
-        adicionaCargoPf: function adicionaCargoPf() {
+        adicionaChancelaPf: function adicionaChancelaPf() {
             var _this3 = this;
 
-            axios.post('/admin/ajax/projetos/ajaxAddCargoPf', {
+            axios.post('/admin/ajax/projetos/ajaxAddChancelaPf', {
                 projeto_id: this.$route.params.id,
-                novo_cargo: this.novo_cargo_pf
+                nova_chancela: this.nova_chancela_pf
             }).then(function (res) {
                 if (typeof res.data[0] !== "string") {
-                    _this3.pessoas_fisicas_cargos_relacionados = res.data[0];
-                    _this3.atributos.cargos = res.data[1];
-                    _this3.novo_cargo_pf = {};
-                    _this3.mostraCargoPfBox = false;
+                    _this3.pessoas_fisicas_chancelas_relacionadas = res.data[0];
+                    _this3.atributos.chancelas = res.data[1];
+                    _this3.nova_chancela_pf = {};
+                    _this3.mostraChancelaPfBox = false;
                 }
             });
         },
-        removeCargoPf: function removeCargoPf(pessoa_fisica_id, cargo_id) {
+        removeChancelaPf: function removeChancelaPf(pessoa_fisica_id, chancela_id) {
             var _this4 = this;
 
-            axios.post('/admin/ajax/projetos/ajaxRemoveCargoPf', {
+            axios.post('/admin/ajax/projetos/ajaxRemoveChancelaPf', {
                 pessoa_fisica_id: pessoa_fisica_id,
-                cargo_id: cargo_id,
+                chancela_id: chancela_id,
                 projeto_id: this.$route.params.id
             }).then(function (res) {
-                _this4.pessoas_fisicas_cargos_relacionados = res.data;
+                _this4.pessoas_fisicas_chancelas_relacionadas = res.data;
             });
         },
-        mostraCargoPfBoxMetodo: function mostraCargoPfBoxMetodo() {
-            this.mostraCargoPfBox = true;
+        mostraChancelaPfBoxMetodo: function mostraChancelaPfBoxMetodo() {
+            this.mostraChancelaPfBox = true;
             this.jQuery();
         },
         jQuery: function jQuery() {
@@ -41603,14 +42118,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 });
 
                 $('.pf_lista').on('change', function () {
-                    Vue.novo_cargo_pf.pessoa_fisica = $(this).val();
+                    Vue.nova_chancela_pf.pessoa_fisica = $(this).val();
                 });
 
-                //Cargos
+                //Chancelas
 
-                //Carrega select2 de cargos
-                $('.cargos_pf_lista').select2({
-                    placeholder: "Digite um cargo",
+                //Carrega select2 de chancelas
+                $('.chancelas_pf_lista').select2({
+                    placeholder: "Digite uma chancela",
                     tags: true,
                     multiple: false,
                     tokenSeparators: [","],
@@ -41625,8 +42140,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     }
                 });
 
-                $('.cargos_pf_lista').on('change', function () {
-                    Vue.novo_cargo_pf.cargo = $(this).val();
+                $('.chancelas_pf_lista').on('change', function () {
+                    Vue.nova_chancela_pf.chancela = $(this).val();
                 });
             });
         }
@@ -41635,7 +42150,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(1)))
 
 /***/ }),
-/* 53 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -41768,7 +42283,7 @@ var render = function() {
               _c("div", { attrs: { id: "projetos" } }, [
                 _c(
                   "table",
-                  _vm._l(_vm.pessoas_fisicas_cargos_relacionados, function(
+                  _vm._l(_vm.pessoas_fisicas_chancelas_relacionadas, function(
                     pessoa
                   ) {
                     return _c("tr", [
@@ -41798,7 +42313,7 @@ var render = function() {
                         1
                       ),
                       _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(pessoa.cargo))]),
+                      _c("td", [_vm._v(_vm._s(pessoa.chancela))]),
                       _vm._v(" "),
                       _c("td", [
                         _c(
@@ -41807,9 +42322,9 @@ var render = function() {
                             on: {
                               click: function($event) {
                                 $event.preventDefault()
-                                _vm.removeCargoPf(
+                                _vm.removeChancelaPf(
                                   pessoa.pessoa_fisica_id,
-                                  pessoa.cargo_id
+                                  pessoa.chancela_id
                                 )
                               }
                             }
@@ -41825,14 +42340,14 @@ var render = function() {
           ),
           _c("br"),
           _vm._v(" "),
-          _c("a", { on: { click: _vm.mostraCargoPfBoxMetodo } }, [
-            _vm._v("[novo cargo pessoa física]")
+          _c("a", { on: { click: _vm.mostraChancelaPfBoxMetodo } }, [
+            _vm._v("[nova chancela pessoa física]")
           ]),
           _vm._v(" "),
-          _vm.mostraCargoPfBox
+          _vm.mostraChancelaPfBox
             ? _c("div", [
                 _c("span", { staticClass: "campo" }, [
-                  _vm._v("--- Novo Cargo PF")
+                  _vm._v("--- Nova Chancela PF")
                 ]),
                 _c("br"),
                 _vm._v(" "),
@@ -41866,26 +42381,28 @@ var render = function() {
                 ),
                 _c("br"),
                 _vm._v(" "),
-                _c("span", { staticClass: "campo" }, [_vm._v("Cargo")]),
+                _c("span", { staticClass: "campo" }, [_vm._v("Chancela")]),
                 _vm._v(" "),
                 _c(
                   "select",
                   {
-                    staticClass: "cargos_pf_lista",
-                    attrs: { name: "cargos" },
+                    staticClass: "chancelas_pf_lista",
+                    attrs: { name: "chancelas" },
                     on: { change: function($event) {} }
                   },
                   [
                     _c(
                       "option",
                       { attrs: { disabled: "", selected: "", value: "" } },
-                      [_vm._v(" -- Selecione um cargo -- ")]
+                      [_vm._v(" -- Selecione uma chancela -- ")]
                     ),
                     _vm._v(" "),
-                    _vm._l(_vm.atributos.cargos, function(cargo) {
-                      return _c("option", { domProps: { value: cargo.id } }, [
-                        _vm._v(_vm._s(cargo.valor))
-                      ])
+                    _vm._l(_vm.atributos.chancelas, function(chancela) {
+                      return _c(
+                        "option",
+                        { domProps: { value: chancela.id } },
+                        [_vm._v(_vm._s(chancela.valor))]
+                      )
                     })
                   ],
                   2
@@ -41897,7 +42414,7 @@ var render = function() {
                     on: {
                       click: function($event) {
                         $event.preventDefault()
-                        return _vm.adicionaCargoPf($event)
+                        return _vm.adicionaChancelaPf($event)
                       }
                     }
                   },
@@ -41923,328 +42440,16 @@ if (false) {
 }
 
 /***/ }),
-/* 54 */
+/* 60 */
 /***/ (function(module, exports) {
 
 
 
 /***/ }),
-/* 55 */
+/* 61 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 56 */,
-/* 57 */,
-/* 58 */,
-/* 59 */,
-/* 60 */,
-/* 61 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__(4)
-/* script */
-var __vue_script__ = __webpack_require__(62)
-/* template */
-var __vue_template__ = __webpack_require__(63)
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/assets/js/components/pessoaJuridica/index.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-4038f846", Component.options)
-  } else {
-    hotAPI.reload("data-v-4038f846", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 62 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__estudiobaile__ = __webpack_require__(2);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    mounted: function mounted() {
-        var _this = this;
-
-        axios.get('/admin/ajax/pj/index').then(function (res) {
-            _this.pessoas = res.data;
-            //console.log(this.pessoas);
-        });
-
-        //evento - registro salvo em pj-view
-        __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$on('foiSalvoPj', function (pessoa) {
-
-            var id_atual = _this.$route.params.id;
-            _this.$set(_this.pessoas, _this.pessoas.findIndex(function (p) {
-                return p.id == id_atual;
-            }), {
-                nome_fantasia: pessoa.nome_fantasia,
-                id: pessoa.id
-            });
-        });
-    },
-    data: function data() {
-        return {
-            pessoas: []
-        };
-    },
-
-    methods: {}
-});
-
-/***/ }),
-/* 63 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "lista_conteudo" }, [
-    _c("nav", { staticClass: "lista" }, [
-      _c(
-        "ul",
-        _vm._l(_vm.pessoas, function(pessoa, index) {
-          return _c(
-            "li",
-            { key: pessoa.id },
-            [
-              pessoa
-                ? _c(
-                    "router-link",
-                    {
-                      attrs: {
-                        id: pessoa.id,
-                        to: { name: "pj-view", params: { id: pessoa.id } }
-                      }
-                    },
-                    [_vm._v(_vm._s(pessoa.nome_fantasia))]
-                  )
-                : _vm._e()
-            ],
-            1
-          )
-        })
-      )
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "conteudo" }, [_c("router-view")], 1)
-  ])
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-4038f846", module.exports)
-  }
-}
-
-/***/ }),
-/* 64 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__(4)
-/* script */
-var __vue_script__ = __webpack_require__(65)
-/* template */
-var __vue_template__ = __webpack_require__(66)
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/assets/js/components/pessoaJuridica/view.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-194a1161", Component.options)
-  } else {
-    hotAPI.reload("data-v-194a1161", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 65 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__estudiobaile__ = __webpack_require__(2);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    created: function created() {
-        this.getPessoa(this.$route.params.id);
-        this.jQuery();
-    },
-    data: function data() {
-        return {
-            //Models
-            pessoa: {}
-
-            //Campos de inclusão
-
-            //Condicionais
-
-        };
-    },
-
-    watch: {
-        '$route': function $route(destino) {
-            this.getPessoa(destino.params.id);
-            this.jQuery();
-        }
-    },
-    computed: {},
-    methods: {
-        getPessoa: function getPessoa(id) {
-            var _this = this;
-
-            axios.get('/admin/ajax/pj/' + id).then(function (res) {
-                var dados = res.data;
-                _this.pessoa = dados.pessoa_juridica;
-                console.log(dados);
-            });
-        },
-        salvaForm: function salvaForm() {
-            var _this2 = this;
-
-            axios.post('/admin/ajax/pj/save', {
-                pessoa: this.pessoa
-            }).then(function (res) {
-                _this2.pessoa = res.data;
-                __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$emit('foiSalvoPj', _this2.pessoa);
-            });
-        },
-
-        jQuery: function jQuery() {
-
-            //Instancia atual do Vue
-            var Vue = this;
-        }
-    }
-});
-
-/***/ }),
-/* 66 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "formulario", attrs: { id: "container_conteudo" } },
-    [
-      _c("div", { staticClass: "titulo" }, [
-        _vm._v(_vm._s(this.pessoa.nome_fantasia))
-      ]),
-      _vm._v(" "),
-      _c("br")
-    ]
-  )
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-194a1161", module.exports)
-  }
-}
 
 /***/ })
 /******/ ]);

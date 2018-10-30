@@ -4,7 +4,7 @@ use Illuminate\Database\Seeder;
 use App\Projeto;
 use App\PessoaFisica;
 use App\PessoaJuridica;
-use App\Cargo;
+use App\Chancela;
 
 class ProjetoSeeder extends Seeder
 {
@@ -22,9 +22,9 @@ class ProjetoSeeder extends Seeder
         $projeto1->criado_por = 'Eduardo Haddad';
         $projeto1->modificado_por = 'Eduardo Haddad';
         $projeto1->save();
-        $cargo1 = Cargo::find(1);
-        $projeto1->pessoas_fisicas()->attach(PessoaFisica::find(1), ['cargo_id' => $cargo1->id]);
-        $projeto1->pessoas_fisicas()->attach(PessoaFisica::find(2), ['cargo_id' => ($cargo1->id + 1)]);
+        $chancela1 = Chancela::find(1);
+        $projeto1->pessoas_fisicas()->attach(PessoaFisica::find(1), ['chancela_id' => $chancela1->id]);
+        $projeto1->pessoas_fisicas()->attach(PessoaFisica::find(2), ['chancela_id' => ($chancela1->id + 1)]);
         $projeto1->pessoas_juridicas()->attach(PessoaJuridica::find(1));
         $projeto2 = new Projeto();
         $projeto2->nome = 'Projeto 2';
@@ -33,8 +33,8 @@ class ProjetoSeeder extends Seeder
         $projeto2->criado_por = 'Eduardo Haddad';
         $projeto2->modificado_por = 'Eduardo Haddad';
         $projeto2->save();
-        $cargo2 = Cargo::find(3);
-        $projeto2->pessoas_fisicas()->attach(PessoaFisica::find(2), ['cargo_id' => $cargo2->id]);
+        $chancela2 = Chancela::find(3);
+        $projeto2->pessoas_fisicas()->attach(PessoaFisica::find(2), ['chancela_id' => $chancela2->id]);
         $projeto2->pessoas_juridicas()->attach(PessoaJuridica::find(1));
     }
 }

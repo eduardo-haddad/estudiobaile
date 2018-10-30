@@ -3,6 +3,7 @@
 use Illuminate\Database\Seeder;
 use App\PessoaJuridica;
 use App\Categoria;
+use App\PessoaFisica;
 
 class PessoaJuridicaSeeder extends Seeder
 {
@@ -24,6 +25,7 @@ class PessoaJuridicaSeeder extends Seeder
         $pj->modificado_por = 'Eduardo Haddad';
         $pj->save();
         $pj->categorias()->attach(Categoria::find(1));
+        $pj->pessoas_fisicas()->attach(PessoaFisica::find(1), ['cargo_id' => 1]);
         $pj2 = new PessoaJuridica();
         $pj2->nome_fantasia = 'Videobrasil';
         $pj2->razao_social = 'Associação Cultural Videobrasil';
