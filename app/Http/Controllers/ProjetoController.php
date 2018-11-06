@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\PessoaFisica;
+use App\PessoaJuridica;
 use Illuminate\Http\Request;
 use App\Projeto;
 use App\Chancela;
@@ -19,16 +20,20 @@ class ProjetoController extends Controller
     {
         $projeto = (new Projeto)->find($id);
         $pessoas_fisicas = PessoaFisica::all();
-        $chancelas_pf = Chancela::all();
-        $pessoas_fisicas_chancelas_relacionadas = Projeto::getPessoasFisicasDeProjetos($id);
+        $pessoas_juridicas = PessoaJuridica::all();
+        $chancelas = Chancela::all();
+        $pessoas_fisicas_chancelas_relacionadas = Projeto::getPessoasDeProjetos($id, true);
+        $pessoas_juridicas_chancelas_relacionadas = Projeto::getPessoasDeProjetos($id, null, true);
 
 
         return [
             'projeto' => $projeto,
             'pessoas_fisicas_chancelas_relacionadas' => $pessoas_fisicas_chancelas_relacionadas,
+            'pessoas_juridicas_chancelas_relacionadas' => $pessoas_juridicas_chancelas_relacionadas,
             'atributos' => [
                 'pessoas_fisicas' => $pessoas_fisicas,
-                'chancelas' => $chancelas_pf,
+                'pessoas_juridicas' => $pessoas_juridicas,
+                'chancelas' => $chancelas,
             ]
         ];
     }
@@ -123,7 +128,16 @@ class ProjetoController extends Controller
         $chancela = request('nova_chancela');
         $projeto_id = request('projeto_id');
 
-        if(!empty($projeto_id) && !empty($chancela['pessoa_fisica'] && !empty($chancela['chancela']))) {
+        //Condições
+        $isPf = array_key_exists('pessoa_fisica', $chancela)
+            && !empty($chancela['pessoa_fisica'])
+            && !array_key_exists('pessoa_juridica', $chancela);
+
+        $isPj = array_key_exists('pessoa_juridica', $chancela)
+            && !empty($chancela['pessoa_juridica'])
+            && !array_key_exists('pessoa_fisica', $chancela);;
+
+        if(!empty($projeto_id) && ( $isPf || $isPj ) && !empty($chancela['chancela'])) {
 
             if(substr($chancela['chancela'], 0, 4) == 'new:'){
                 $nova_chancela = strtolower(substr($chancela['chancela'],4));
@@ -134,14 +148,19 @@ class ProjetoController extends Controller
                 }
             }
 
-            $projeto = (new Projeto)->find($projeto_id);
-            $projeto->pessoas_fisicas()->attach(PessoaFisica::find($chancela['pessoa_fisica']), ['chancela_id' => $chancela['chancela']]);
+            $projeto = Projeto::find($projeto_id);
+
+            if($isPf) {
+                $projeto->pessoas_fisicas()->attach(PessoaFisica::find($chancela['pessoa_fisica']), ['chancela_id' => $chancela['chancela']]);
+            } else if($isPj) {
+                $projeto->pessoas_juridicas()->attach(PessoaJuridica::find($chancela['pessoa_juridica']), ['chancela_id' => $chancela['chancela']]);
+            }
 
         } else {
             return "Chancela inválida";
         }
 
-        return [ Projeto::getPessoasFisicasDeProjetos($projeto_id), Chancela::all() ];
+        return [ Projeto::getPessoasDeProjetos($projeto_id, $isPf, $isPj), Chancela::all() ];
     }
 
     public function ajaxRemoveChancelaPf() {
@@ -149,9 +168,10 @@ class ProjetoController extends Controller
         $projeto_id = request('projeto_id');
         $chancela_id = request('chancela_id');
         $pessoa_fisica_id = request('pessoa_fisica_id');
+        $pessoa_juridica_id = request('pessoa_juridica_id');
 
-        if(Projeto::removeChancelaDeProjeto($projeto_id, $chancela_id, $pessoa_fisica_id, null)){
-            return Projeto::getPessoasFisicasDeProjetos($projeto_id);
+        if(Projeto::removeChancelaDeProjeto($projeto_id, $chancela_id, $pessoa_fisica_id, $pessoa_juridica_id)){
+            return Projeto::getPessoasDeProjetos($projeto_id, $pessoa_fisica_id, $pessoa_juridica_id);
         }
 
         return "Chancela inválida";

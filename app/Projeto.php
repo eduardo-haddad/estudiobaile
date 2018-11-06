@@ -38,22 +38,37 @@ class Projeto extends Model
         ");
     }
 
-    public static function getPessoasFisicasDeProjetos($projeto_id) {
+    public static function getPessoasDeProjetos($projeto_id, $pessoa_fisica = null, $pessoa_juridica = null) {
+
+        if(!empty($pessoa_fisica) && empty($pessoa_juridica)) {
+            $pessoa_nome = 'nome_adotado';
+            $pessoa_tabela = 'pessoas_fisicas';
+            $pessoa_tabela_assoc = 'pf_projeto';
+            $pessoa_chave = 'pessoa_fisica_id';
+        } else if(empty($pessoa_fisica) && !empty($pessoa_juridica)) {
+            $pessoa_nome = 'nome_fantasia';
+            $pessoa_tabela = 'pessoas_juridicas';
+            $pessoa_tabela_assoc = 'pj_projeto';
+            $pessoa_chave = 'pessoa_juridica_id';
+        } else {
+            return "Pessoa inválida";
+        }
+
         return \DB::select("
             SELECT
-                PessoaFisica.nome_adotado AS nome,
-                PessoaFisica.id AS pessoa_fisica_id,
+                Pessoa.$pessoa_nome AS nome,
+                Pessoa.id AS pessoa_id,
                 Projeto.nome AS projeto,
                 Chancela.valor AS chancela,
                 Chancela.id AS chancela_id
-            FROM pessoas_fisicas PessoaFisica
-                LEFT JOIN pf_projeto PfProjeto
-                ON PessoaFisica.id = PfProjeto.pessoa_fisica_id
+            FROM $pessoa_tabela Pessoa
+                LEFT JOIN $pessoa_tabela_assoc PessoaProjeto
+                ON Pessoa.id = PessoaProjeto.$pessoa_chave
                 INNER JOIN projetos Projeto
-                ON Projeto.id = PfProjeto.projeto_id AND Projeto.id = $projeto_id
+                ON Projeto.id = PessoaProjeto.projeto_id AND Projeto.id = $projeto_id
                 INNER JOIN chancelas Chancela
-                ON Chancela.id = PfProjeto.chancela_id
-            ORDER BY PessoaFisica.nome_adotado
+                ON Chancela.id = PessoaProjeto.chancela_id
+            ORDER BY Pessoa.$pessoa_nome
         ");
     }
 
@@ -68,7 +83,7 @@ class Projeto extends Model
             $pessoa_chave = "pessoa_juridica_id";
             $pessoa_id = $pessoa_juridica_id;
         } else {
-            return false;
+            return "Pessoa inválida";
         }
 
         try {

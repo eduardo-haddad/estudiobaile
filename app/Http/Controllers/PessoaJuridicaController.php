@@ -7,6 +7,9 @@ use App\PessoaJuridica;
 use App\PessoaFisica;
 use App\Tag;
 use App\Cargo;
+use App\Contato;
+use App\Endereco;
+use App\DadoBancario;
 
 class PessoaJuridicaController extends Controller
 {
@@ -23,13 +26,25 @@ class PessoaJuridicaController extends Controller
         $pessoas_fisicas_cargos_relacionados = PessoaJuridica::getPessoasFisicasRelacionadas($id);
         $cargos_pf = Cargo::all();
 
+        //Contatos
+        $contatos = $pessoa_juridica->contatos()->get();
+
+        //Endereços
+        $enderecos = $pessoa_juridica->enderecos()->get();
+
         //Tags
         $tags = Tag::all();
+
+        //Projetos
+        $projetos = PessoaJuridica::getProjetosChancelasPorId($id);
 
         return [
             'pessoa_juridica' => $pessoa_juridica,
             'tags' => $tags,
             'pessoas_fisicas_cargos_relacionados' => $pessoas_fisicas_cargos_relacionados,
+            'contatos' => $contatos,
+            'enderecos' => $enderecos,
+            'projetos' => $projetos,
             'atributos' => [
                 'cargos_pf' => $cargos_pf,
                 'pessoas_fisicas' => $pessoas_fisicas,
@@ -139,6 +154,165 @@ class PessoaJuridicaController extends Controller
 
         return "Chancela inválida";
 
+    }
+
+
+    public function ajaxAddContato() {
+
+        $request['email'] = request('email');
+        $request['telefone'] = request('telefone');
+
+        if(empty($request['email']) && empty($request['telefone'])) {
+            return "Contato inválido";
+        }
+
+        $contato = new Contato();
+        $contato->pessoa_fisica_id = 0;
+        $contato->pessoa_juridica_id = request('pessoa_id');
+
+        if(!empty($request['email'])){
+            $contato->tipo_contato_id = 1;
+            $contato->valor = $request['email'];
+        } else {
+            $contato->tipo_contato_id = 2;
+            $contato->valor = $request['telefone'];
+        }
+
+        try {
+            $contato->save();
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+
+        $pessoa_juridica = (new PessoaJuridica)->find(request('pessoa_id'));
+        $contatos = $pessoa_juridica->contatos()->get();
+
+        return $contatos;
+    }
+
+    public function ajaxRemoveContato(Request $r) {
+
+        $contato_id = request('contato_id');
+
+        $contato = (new Contato)->find($contato_id);
+        $contato->delete();
+
+        $pessoa_juridica = (new PessoaJuridica)->find(request('pessoa_id'));
+        $contatos = $pessoa_juridica->contatos()->get();
+
+        return $contatos;
+    }
+
+    public function ajaxAddEndereco() {
+
+        $endereco = request('endereco');
+        $pessoa_id = request('pessoa_id');
+
+        if(empty($endereco['rua'])) {
+            return "Endereço inválido";
+        }
+
+        $novo_endereco = new Endereco();
+        $novo_endereco->rua = !empty($endereco['rua']) ? $endereco['rua'] : '';
+        $novo_endereco->numero = !empty($endereco['numero']) ? $endereco['numero'] : '';
+        $novo_endereco->complemento = !empty($endereco['complemento']) ? $endereco['complemento'] : '';
+        $novo_endereco->bairro = !empty($endereco['bairro']) ? $endereco['bairro'] : '';
+        $novo_endereco->cep = !empty($endereco['cep']) ? $endereco['cep'] : '';
+        $novo_endereco->cidade = !empty($endereco['cidade']) ? $endereco['cidade'] : '';
+        $novo_endereco->estado = !empty($endereco['estado']) ? $endereco['estado'] : '';
+        $novo_endereco->pais = !empty($endereco['pais']) ? $endereco['pais'] : '';
+
+        try {
+            $novo_endereco->save();
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+
+        $pessoa_juridica = (new PessoaJuridica)->find($pessoa_id);
+        $pessoa_juridica->enderecos()->attach($novo_endereco->id);
+
+        $enderecos = $pessoa_juridica->enderecos()->get();
+
+        return $enderecos;
+    }
+
+    public function ajaxRemoveEndereco() {
+
+        $endereco_id = request('endereco_id');
+        $pessoa_id = request('pessoa_id');
+
+        $endereco = (new Endereco)->find($endereco_id);
+        $pessoa_juridica = (new PessoaJuridica)->find($pessoa_id);
+
+        try {
+            $pessoa_juridica->enderecos()->detach($endereco_id);
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+
+        try {
+            $endereco->delete();
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+
+        $enderecos = $pessoa_juridica->enderecos()->get();
+
+        return $enderecos;
+    }
+
+
+    public function ajaxAddDadosBancarios() {
+
+        $dados_bancarios = request('dados_bancarios');
+        $pessoa_id = request('pessoa_id');
+
+        if(empty($dados_bancarios['conta'])) {
+            return "Conta inválida";
+        }
+
+        $novos_dados_bancarios = new DadoBancario();
+        $novos_dados_bancarios->nome_banco = !empty($dados_bancarios['nome_banco']) ? $dados_bancarios['nome_banco'] : '';
+        $novos_dados_bancarios->agencia = !empty($dados_bancarios['agencia']) ? $dados_bancarios['agencia'] : '';
+        $novos_dados_bancarios->conta = !empty($dados_bancarios['conta']) ? $dados_bancarios['conta'] : '';
+        $novos_dados_bancarios->tipo_conta_id = !empty($dados_bancarios['tipo_conta_id']) ? $dados_bancarios['tipo_conta_id'] : '';
+
+        try {
+            $novos_dados_bancarios->save();
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+
+        $pessoa_juridica = (new PessoaJuridica)->find($pessoa_id);
+        $pessoa_juridica->dados_bancarios()->attach($novos_dados_bancarios->id);
+
+        $todos_dados_bancarios = $pessoa_juridica->dados_bancarios()->get();
+        return $todos_dados_bancarios;
+    }
+
+
+    public function ajaxRemoveDadosBancarios() {
+
+        $dados_bancarios_id = request('dados_bancarios_id');
+        $pessoa_id = request('pessoa_id');
+
+        $dados_bancarios = (new DadoBancario)->find($dados_bancarios_id);
+        $pessoa = (new PessoaFisica)->find($pessoa_id);
+
+        try {
+            $pessoa->dados_bancarios()->detach($dados_bancarios_id);
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+
+        try {
+            $dados_bancarios->delete();
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+
+        $todos_dados_bancarios = $pessoa->dados_bancarios()->get();
+        return $todos_dados_bancarios;
     }
 
 }

@@ -1,15 +1,23 @@
 <template>
 
-    <div class="lista_conteudo">
-        <nav class="lista">
-            <ul>
-                <li v-for="(projeto, index) in projetos" :key="projeto.id">
-                    <router-link v-if="projeto" :id="projeto.id" :to="{ name: 'projetos-view', params: { id: projeto.id }}">{{ projeto.nome }}</router-link>
-                </li>
-            </ul>
-        </nav>
+    <div>
+        <div class="busca_lista">
+            <div class="lupa_texto_container">
+                <div class="lupa_texto">
+                    <div class="lupa"></div>
+                    <input type="text" placeholder="Buscar" />
+                </div>
+            </div>
+            <nav class="lista">
+                <ul>
+                    <li v-for="(projeto, index) in projetos" :key="projeto.id">
+                        <router-link v-if="projeto" :id="projeto.id" :to="{ name: 'projetos-view', params: { id: projeto.id }}">{{ projeto.nome }}</router-link>
+                    </li>
+                </ul>
+            </nav>
+        </div>
 
-        <div class="conteudo">
+        <div class="detalhe">
             <router-view></router-view>
         </div>
     </div>
@@ -28,7 +36,7 @@
             });
 
             //evento - registro salvo em projetos-view
-            eventBus.$on('foiSalvo', projeto => {
+            eventBus.$on('foiSalvoProjeto', projeto => {
                 let id_atual = this.$route.params.id;
                 this.$set(this.projetos, this.projetos.findIndex(p => p.id == id_atual), {
                     nome: projeto.nome,

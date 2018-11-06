@@ -146,6 +146,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles']], function(
         'as' => 'ajax.pj.getTagsSelecionadas',
         'roles' => $padrao
     ]);
+    //Cargos
     Route::post('/ajax/pj/ajaxAddCargoPf', [
         'uses' => 'PessoaJuridicaController@ajaxAddCargoPf',
         'as' => 'ajax.pj.addCargoPf',
@@ -154,6 +155,39 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles']], function(
     Route::post('/ajax/pj/ajaxRemoveCargoPf', [
         'uses' => 'PessoaJuridicaController@ajaxRemoveCargoPf',
         'as' => 'ajax.pj.removeCargoPf',
+        'roles' => $padrao
+    ]);
+    //Contatos
+    Route::post('/ajax/pj/addContato', [
+        'uses' => 'PessoaJuridicaController@ajaxAddContato',
+        'as' => 'ajax.pj.addContato',
+        'roles' => $padrao
+    ]);
+    Route::post('/ajax/pj/removeContato', [
+        'uses' => 'PessoaJuridicaController@ajaxRemoveContato',
+        'as' => 'ajax.pj.removeContato',
+        'roles' => $padrao
+    ]);
+    //Endereços
+    Route::post('/ajax/pj/addEndereco', [
+        'uses' => 'PessoaJuridicaController@ajaxAddEndereco',
+        'as' => 'ajax.pj.addEndereco',
+        'roles' => $padrao
+    ]);
+    Route::post('/ajax/pj/removeEndereco', [
+        'uses' => 'PessoaJuridicaController@ajaxRemoveEndereco',
+        'as' => 'ajax.pj.removeEndereco',
+        'roles' => $padrao
+    ]);
+    //Dados bancários
+    Route::post('/ajax/pj/addDadosBancarios', [
+        'uses' => 'PessoaJuridicaController@ajaxAddDadosBancarios',
+        'as' => 'ajax.pj.addDadosBancarios',
+        'roles' => $padrao
+    ]);
+    Route::post('/ajax/pj/removeDadosBancarios', [
+        'uses' => 'PessoaJuridicaController@ajaxRemoveDadosBancarios',
+        'as' => 'ajax.pj.removeDadosBancarios',
         'roles' => $padrao
     ]);
 
@@ -197,6 +231,16 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles']], function(
     Route::post('/ajax/projetos/ajaxRemoveChancelaPf', [
         'uses' => 'ProjetoController@ajaxRemoveChancelaPf',
         'as' => 'ajax.projetos.removeChancelaPf',
+        'roles' => $padrao
+    ]);
+    Route::post('/ajax/projetos/ajaxAddChancelaPj', [
+        'uses' => 'ProjetoController@ajaxAddChancelaPj',
+        'as' => 'ajax.projetos.addChancelaPj',
+        'roles' => $padrao
+    ]);
+    Route::post('/ajax/projetos/ajaxRemoveChancelaPj', [
+        'uses' => 'ProjetoController@ajaxRemoveChancelaPj',
+        'as' => 'ajax.projetos.removeChancelaPj',
         'roles' => $padrao
     ]);
 

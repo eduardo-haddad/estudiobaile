@@ -2,25 +2,31 @@
 // Cores
 $cinza: #999999;
 $cinza_claro: #e6e7e8;
-$cinza_borda: #d4d4d4;
 $cinza_escuro: #58595b;
+$cinza_medio: #f8f8f8;
+$cinza_borda: #babcbd;
+$cinza_placeholder: #bebdbd;
 $cor_fundo: #ffffff;
 $laranja: #f59921;
 $vermelho: #e80017;
 $magenta: #ed2487;
+$item_selecionado: #d8eefa;
 
 
 //Dimensões
 $sidebar_w: 225px;
 $cabecalho: 61px;
 $lista_w: 300px;
+$lupa: 25px;
+$busca_lista_h: 45px;
 
 // Typography
 $font-size-base: 16px;
 $line-height-base: 1.6;
 $fonte-projeto-regular: 'GTWalsheimProRegular';
 $fonte-projeto-bold: 'GTWalsheimProBold';
-$fonte-admin-light: 'HelveticaNeueLTStd45Light';
+$fonte-admin-light: 'SF Pro Text Light';
+//$fonte-admin-light: 'HelveticaNeueLTStd45Light';
 $fonte-admin-medium: 'HelveticaNeueLTStd65Medium';
 
 @font-face {
@@ -66,6 +72,39 @@ $fonte-admin-medium: 'HelveticaNeueLTStd65Medium';
         url('../fonts/HelveticaNeueLTStd65Medium/HelveticaNeueLTStd65Medium.woff') format('woff'),
         url('../fonts/HelveticaNeueLTStd65Medium/HelveticaNeueLTStd65Medium.ttf') format('truetype'),
         url('../fonts/HelveticaNeueLTStd65Medium/HelveticaNeueLTStd65Medium.svg#HelveticaNeueLTStd65Medium') format('svg');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SF Pro Text Regular';
+    src: url('../fonts/SF/SFProText-Regular.eot');
+    src: url('../fonts/SF/SFProText-Regular.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/SF/SFProText-Regular.woff2') format('woff2'),
+    url('../fonts/SF/SFProText-Regular.woff') format('woff'),
+    url('../fonts/SF/SFProText-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SF Pro Text Light';
+    src: url('../fonts/SF/SFProText-Light.eot');
+    src: url('../fonts/SF/SFProText-Light.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/SF/SFProText-Light.woff2') format('woff2'),
+    url('../fonts/SF/SFProText-Light.woff') format('woff'),
+    url('../fonts/SF/SFProText-Light.ttf') format('truetype');
+    font-weight: 200;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SF Pro Text Medium';
+    src: url('../fonts/SF/SFProText-Medium.eot');
+    src: url('../fonts/SF/SFProText-Medium.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/SF/SFProText-Medium.woff2') format('woff2'),
+    url('../fonts/SF/SFProText-Medium.woff') format('woff'),
+    url('../fonts/SF/SFProText-Medium.ttf') format('truetype');
     font-weight: 500;
     font-style: normal;
 }

@@ -84,4 +84,20 @@ class PessoaJuridica extends Model
     }
 
 
+    public static function getProjetosChancelasPorId($id) {
+        return \DB::select("
+            SELECT 
+                Projeto.nome AS projeto,
+                Projeto.id AS id,
+                Chancela.valor AS chancela
+            FROM projetos Projeto
+                INNER JOIN pj_projeto PfProjeto
+                ON PfProjeto.projeto_id = Projeto.id AND PfProjeto.pessoa_juridica_id = $id
+                LEFT JOIN chancelas Chancela
+                ON Chancela.id = PfProjeto.chancela_id
+            ORDER BY Projeto.dt_inicio DESC
+        ");
+    }
+
+
 }

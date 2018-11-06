@@ -55,16 +55,155 @@
             <a @click.prevent="adicionaCargoPf">[+]</a>
 
         </div>
+        <br>
+        <br>
 
-        <form @submit.prevent="salvaForm" method="POST">
+        <div class="resumo">
 
-            <!---->
+            <!-- Emails -->
+            <div>
+                <div v-for="email in emails" class="valor" :key="email.id">
+                    <span class="campo">E-mail</span>
+                    <input type="text" :id="email.id" v-model="email.valor" name="email" />
+                    <a @click.prevent="removeContato(email.id)">X</a>
+                </div>
+                <br>
+                <a @click.prevent="adicionaEmail = true">[adicionar email]</a>
+                <div v-if="adicionaEmail" class="adiciona_contato">
+                    <input @input="novo_email = $event.target.value" type="text" class="adiciona_contato" v-model="novo_email" name="novo_email" placeholder="adicionar email" />
+                    <a @click.prevent="adicionaContato()">+</a>
+                </div>
+            </div>
+
+            <!-- Telefones -->
+            <br>
+            <br>
+            <div>
+                <div v-for="telefone in telefones" class="valor" :key="telefone.id">
+                    <span class="campo">Telefone</span>
+                    <input type="text" :id="telefone.id" v-model="telefone.valor" name="telefone" />
+                    <a @click.prevent="removeContato(telefone.id)">X</a>
+                </div>
+
+                <a @click.prevent="adicionaTel = true">[adicionar telefone]</a>
+                <div v-if="adicionaTel" class="adiciona_contato">
+                    <input @input="novo_telefone = $event.target.value" type="text" class="adiciona_contato" v-model="novo_telefone" name="novo_telefone" placeholder="adicionar telefone" />
+                    <a @click.prevent="adicionaContato()">+</a>
+                </div>
+
+            </div>
+
             <br>
             <br>
             <br>
-            <button>Salvar</button>
+            <br>
 
-        </form>
+            <!-- Endereços -->
+            <div v-for="(endereco, index) in enderecos" :key="endereco.id">
+                <span class="campo">--- Endereço {{index+1}}</span> <a @click="removeEndereco(endereco.id)">[x]</a> <br>
+                <span class="campo">Logradouro</span>
+                <div class="valor">
+                    <input autocomplete="off" type="text" name="endereco.rua" v-model="endereco.rua" />
+                </div><br>
+                <span class="campo">Número</span>
+                <div class="valor">
+                    <input autocomplete="off" type="text" name="endereco.numero" v-model="endereco.numero" />
+                </div><br>
+                <span class="campo">Complemento</span>
+                <div class="valor">
+                    <input autocomplete="off" type="text" name="endereco.complemento" v-model="endereco.complemento" />
+                </div><br>
+                <span class="campo">Bairro</span>
+                <div class="valor">
+                    <input autocomplete="off" type="text" name="endereco.bairro" v-model="endereco.bairro" />
+                </div><br>
+                <span class="campo">cep</span>
+                <div class="valor">
+                    <input autocomplete="off" type="text" name="endereco.cep" v-model="endereco.cep" />
+                </div><br>
+                <span class="campo">cidade</span>
+                <div class="valor">
+                    <input autocomplete="off" type="text" name="endereco.cidade" v-model="endereco.cidade" />
+                </div><br>
+                <span class="campo">uf</span>
+                <div class="valor">
+                    <input autocomplete="off" type="text" name="endereco.estado" v-model="endereco.estado" />
+                </div><br>
+                <span class="campo">País</span>
+                <div class="valor">
+                    <input autocomplete="off" type="text" name="endereco.pais" v-model="endereco.pais" />
+                </div><br>
+            </div>
+            <!--Add novo endereço-->
+            <a @click="mostraEnderecoBox = true">[novo endereço]</a>
+            <div v-if="mostraEnderecoBox">
+                <span class="campo">--- Novo Endereço</span><br>
+                <span class="campo">Logradouro</span>
+                <div class="valor">
+                    <input @input="novo_endereco.rua = $event.target.value" autocomplete="off" type="text" name="novo_endereco.rua" v-model="novo_endereco.rua" />
+                </div><br>
+                <span class="campo">Número</span>
+                <div class="valor">
+                    <input @input="novo_endereco.numero = $event.target.value" autocomplete="off" type="text" name="novo_endereco.numero" v-model="novo_endereco.numero" />
+                </div><br>
+                <span class="campo">Complemento</span>
+                <div class="valor">
+                    <input @input="novo_endereco.complemento = $event.target.value" autocomplete="off" type="text" name="novo_endereco.complemento" v-model="novo_endereco.complemento" />
+                </div><br>
+                <span class="campo">Bairro</span>
+                <div class="valor">
+                    <input @input="novo_endereco.bairro = $event.target.value" autocomplete="off" type="text" name="novo_endereco.bairro" v-model="novo_endereco.bairro" />
+                </div><br>
+                <span class="campo">cep</span>
+                <div class="valor">
+                    <input @input="novo_endereco.cep = $event.target.value" autocomplete="off" type="text" name="novo_endereco.cep" v-model="novo_endereco.cep" />
+                </div><br>
+                <span class="campo">cidade</span>
+                <div class="valor">
+                    <input @input="novo_endereco.cidade = $event.target.value" autocomplete="off" type="text" name="novo_endereco.cidade" v-model="novo_endereco.cidade" />
+                </div><br>
+                <span class="campo">uf</span>
+                <div class="valor">
+                    <input @input="novo_endereco.estado = $event.target.value" autocomplete="off" type="text" name="novo_endereco.estado" v-model="novo_endereco.estado" />
+                </div><br>
+                <span class="campo">País</span>
+                <div class="valor">
+                    <input @input="novo_endereco.pais = $event.target.value" autocomplete="off" type="text" name="novo_endereco.pais" v-model="novo_endereco.pais" />
+                </div><br>
+                <a @click.prevent="adicionaEndereco">[+]</a>
+
+            </div>
+            <br>
+            <br>
+            <br>
+            <span class="campo">Participação no(s) projeto(s) Estúdio Baile</span><br>
+            <div id="projetos">
+                <table>
+                    <tr v-for="projeto in projetos" v-model="projetos">
+                        <td>
+                            <router-link
+                                    :id="projeto.id"
+                                    :to="{ name: 'projetos-view', params: { id: projeto.id }}">
+                                {{ projeto['projeto'] }}
+                            </router-link>
+                        </td>
+                        <td>{{ projeto['chancela'] }}</td>
+                    </tr>
+                </table>
+            </div>
+
+
+            <form @submit.prevent="salvaForm" method="POST">
+
+                <!---->
+                <br>
+                <br>
+                <br>
+                <button>Salvar</button>
+
+            </form>
+
+        </div>
 
     </div>
 
@@ -84,13 +223,24 @@
                 //Models
                 pessoa: {},
                 tags: [],
+                contatos: [],
+                enderecos: [],
                 pessoas_fisicas_cargos_relacionados: [],
+                projetos: [],
                 //Campos de inclusão
                 tags_atuais: [],
                 pessoa_fisica_id: '',
                 novo_cargo: '',
+                novo_email: '',
+                novo_telefone: '',
+                novo_endereco: {rua:'',numero:'',complemento:'',bairro:'',cep:'',cidade:'',estado:'',pais:''},
+                novos_dados_bancarios: {nome_banco:'',agencia:'',conta:'',tipo_conta_id:''},
                 //Condicionais
-                mostraCargoPfBox: false
+                mostraCargoPfBox: false,
+                adicionaEmail: false,
+                adicionaTel: false,
+                mostraEnderecoBox: false,
+                mostraDadosBancariosBox: false,
             }
         },
         watch: {
@@ -100,7 +250,12 @@
             },
         },
         computed: {
-
+            emails: function() {
+                return this.contatos.filter(x => x.tipo_contato_id == 1);
+            },
+            telefones: function() {
+                return this.contatos.filter(x => x.tipo_contato_id == 2);
+            }
         },
         methods: {
             getPessoa: function(id){
@@ -108,6 +263,9 @@
                     let dados = res.data;
                     this.pessoa = dados.pessoa_juridica;
                     this.tags = dados.tags;
+                    this.contatos = dados.contatos;
+                    this.enderecos = dados.enderecos;
+                    this.projetos = dados.projetos;
                     this.atributos = dados.atributos;
                     this.pessoas_fisicas_cargos_relacionados = dados.pessoas_fisicas_cargos_relacionados;
                     console.log(this.pessoas_fisicas_cargos_relacionados);
@@ -119,7 +277,7 @@
                     tags: this.tags_atuais,
                 }).then(res => {
                     this.pessoa = res.data;
-                    eventBus.$emit('foiSalvoPj', this.pessoa);
+                    eventBus.$emit('foiSalvoPessoaJuridica', this.pessoa);
                 });
             },
             adicionaCargoPf: function(){
@@ -150,6 +308,73 @@
             mostraCargoPfBoxMetodo: function(){
                 this.mostraCargoPfBox = true;
                 this.jQuery();
+            },
+            adicionaContato: function(){
+                axios.post('/admin/ajax/pj/addContato', {
+                    pessoa_id: this.$route.params.id,
+                    email: this.novo_email,
+                    telefone: this.novo_telefone
+                }).then(res => {
+                    console.log(res.data);
+                    if(typeof res.data !== "string") {
+                        this.contatos = res.data;
+                    }
+                    this.novo_email = '';
+                    this.novo_telefone = '';
+                    this.adicionaEmail = false;
+                    this.adicionaTel = false;
+                });
+            },
+            removeContato: function(id){
+                axios.post('/admin/ajax/pj/removeContato', {
+                    contato_id: id,
+                    pessoa_id: this.$route.params.id,
+                }).then(res => {
+                    if(typeof res.data !== "string") {
+                        this.contatos = res.data;
+                    }
+                });
+            },
+            adicionaEndereco: function(){
+                axios.post('/admin/ajax/pj/addEndereco', {
+                    pessoa_id: this.$route.params.id,
+                    endereco: this.novo_endereco
+                }).then(res => {
+                    if(typeof res.data !== "string") {
+                        this.enderecos = res.data;
+                        this.novo_endereco = {};
+                        this.mostraEnderecoBox = false;
+                    }
+                });
+            },
+            removeEndereco: function(id){
+                axios.post('/admin/ajax/pj/removeEndereco', {
+                    endereco_id: id,
+                    pessoa_id: this.$route.params.id,
+                }).then(res => {
+                    console.log(res.data);
+                    this.enderecos = res.data;
+                });
+            },
+            adicionaDadosBancarios: function(){
+                axios.post('/admin/ajax/pj/addDadosBancarios', {
+                    pessoa_id: this.$route.params.id,
+                    dados_bancarios: this.novos_dados_bancarios
+                }).then(res => {
+                    if(typeof res.data !== "string") {
+                        this.dados_bancarios = res.data;
+                        this.novos_dados_bancarios = {};
+                        this.mostraDadosBancariosBox = false;
+                    }
+                });
+            },
+            removeDadosBancarios: function(id){
+                axios.post('/admin/ajax/pj/removeDadosBancarios', {
+                    dados_bancarios_id: id,
+                    pessoa_id: this.$route.params.id,
+                }).then(res => {
+                    this.dados_bancarios = res.data;
+                });
             },
             jQuery: function(){
                 //Instancia atual do Vue

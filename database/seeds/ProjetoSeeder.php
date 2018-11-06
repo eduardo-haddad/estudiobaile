@@ -25,7 +25,7 @@ class ProjetoSeeder extends Seeder
         $chancela1 = Chancela::find(1);
         $projeto1->pessoas_fisicas()->attach(PessoaFisica::find(1), ['chancela_id' => $chancela1->id]);
         $projeto1->pessoas_fisicas()->attach(PessoaFisica::find(2), ['chancela_id' => ($chancela1->id + 1)]);
-        $projeto1->pessoas_juridicas()->attach(PessoaJuridica::find(1));
+        $projeto1->pessoas_juridicas()->attach(PessoaJuridica::find(1), ['chancela_id' => $chancela1->id]);
         $projeto2 = new Projeto();
         $projeto2->nome = 'Projeto 2';
         $projeto2->dt_inicio = '2018-01-01';
@@ -35,6 +35,6 @@ class ProjetoSeeder extends Seeder
         $projeto2->save();
         $chancela2 = Chancela::find(3);
         $projeto2->pessoas_fisicas()->attach(PessoaFisica::find(2), ['chancela_id' => $chancela2->id]);
-        $projeto2->pessoas_juridicas()->attach(PessoaJuridica::find(1));
+        $projeto2->pessoas_juridicas()->attach(PessoaJuridica::find(1), ['chancela_id' => ($chancela1->id + 1)]);
     }
 }

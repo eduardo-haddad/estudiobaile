@@ -30,14 +30,11 @@
                     @include('admin/elements/cabecalho')
                 </header>
 
-                {{--<div style="clear: both"></div>--}}
-
                 <nav id="sidebar">
                     @include('admin/elements/sidebar')
                 </nav>
 
                 <div id="conteudo_geral">
-                    {{--@include('admin/elements/lista')--}}
                     @if(!Auth::check())
                         @yield('login')
                     @endif

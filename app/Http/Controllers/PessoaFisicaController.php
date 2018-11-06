@@ -231,7 +231,7 @@ class PessoaFisicaController extends Controller
         $enderecos = $pessoa_fisica->enderecos()->get();
 
         //Pessoas Jurídicas
-        $pessoas_juridicas = $pessoa_fisica->pessoas_juridicas()->get();
+        $pessoas_juridicas = PessoaFisica::getPessoasJuridicasRelacionadasPorId($id);
 
         //Dados Bancários
         $dados_bancarios = $pessoa_fisica->dados_bancarios()->get();
@@ -244,7 +244,6 @@ class PessoaFisicaController extends Controller
         $estado_civil = !empty($pessoa_fisica->estado_civil_id) ? (new EstadoCivil)->find($pessoa_fisica->estado_civil_id)->valor : null;
 
         //Projetos
-//      $projetos = $pessoa_fisica->projetos()->get();
         $projetos = PessoaFisica::getProjetosChancelasPorId($id);
 
 

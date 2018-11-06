@@ -7,7 +7,7 @@ body {
     background-color: white;
     font-family: $fonte-admin-light;
     font-size: $font-size-base;
-    overflow-x: hidden;
+    overflow: hidden;
 }
 
 ul {
@@ -96,7 +96,6 @@ a {
             height: calc(100% - #{$cabecalho});
             min-height: calc(100vh - #{$cabecalho});
             padding: 20px 0 0 0;
-            border-right: 1px solid $cinza_borda;
             box-sizing: border-box;
             position:relative;
 
@@ -275,38 +274,124 @@ a {
 
             } //#container_conteudo
 
+            .busca_lista {
+                width: $lista_w;
+                display: inline-block;
+                float: left;
+
+                .lupa_texto_container {
+                    height: $busca_lista_h;
+                    background-color: $cinza_medio;
+                    display: table;
+                    width: $lista_w;
+                    padding: 1px 0 0 10px;
+                    border-bottom: 1px solid $cinza_borda;
+                    border-left: 1px solid $cinza_borda;
+                    border-right: 1px solid $cinza_borda;
+
+                    .lupa_texto {
+                        vertical-align: middle;
+                        display: table-cell;
+
+                        .lupa {
+                            float: left;
+                            width: $lupa;
+                            height: $lupa;
+                            margin-right: 5px;
+                            background-size: $lupa $lupa;
+                            display: block;
+                            background-image: url('../img/lupa.png');
+                        }
+
+                        input {
+                            width: calc(100% - (#{$lupa} + 5px));
+                            border: none;
+                            background-color: $cinza_medio;
+                            height: $lupa;
+                            font-size: 19px;
+                            color: $cinza_escuro;
+
+                            &:focus {
+                                outline: none;
+                            }
+
+                            &::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+                                color: $cinza_placeholder;
+                                opacity: 1; /* Firefox */
+                            }
+
+                            &:-ms-input-placeholder { /* Internet Explorer 10-11 */
+                                color: $cinza_placeholder;
+                            }
+
+                            &::-ms-input-placeholder { /* Microsoft Edge */
+                                color: $cinza_placeholder;
+                            }
+                        }
+                    } //.lupa_texto
+                } //.lupa_texto_container
+            } //.busca_lista
+
             .lista {
                 float: left;
                 width: $lista_w;
-                min-height: calc(100vh - #{$cabecalho});
-                max-height: calc(100vh - #{$cabecalho});
+                height: calc(100% - #{$busca_lista_h} - #{$busca_lista_h});
+                min-height: calc(100vh - #{$cabecalho} - #{$busca_lista_h});
+                max-height: calc(100vh - #{$cabecalho} - #{$busca_lista_h});
                 overflow-y: auto;
+                background-color: $cinza_medio;
+                border-left: 1px solid $cinza_borda;
+                border-right: 1px solid $cinza_borda;
+                padding: 0;
 
                 ul {
-                    display: inline;
+                    display: block;
+                    box-sizing: border-box;
+                    padding: 0;
 
                     li {
-                        height: 30px;
+                        height: 52px;
+                        display: table;
+                        border-bottom: 1px solid #e7e7e7;
+                        box-shadow: 0px 1px 0px #ffffff;
+                        width: 100%;
+
+                        &.selecionado {
+                            background-color: $item_selecionado;
+                        }
 
                         a {
-                            color: $cinza;
+                            color: $cinza_escuro;
                             text-decoration: none;
                             cursor: pointer;
+                            display: table-cell;
+                            vertical-align: middle;
+                            font-size: 17px;
+                            padding-left: 15px;
                         }
                     } //li
                 } //ul
             } //lista
 
-            .conteudo {
+            .detalhe {
                 width: calc(100% - #{$lista_w});
-                height: 100%;
+                height: calc(100% - #{$cabecalho});
+                min-height: calc(100vh - #{$cabecalho});
+                max-height: calc(100vh - #{$cabecalho});
+                overflow-y: scroll;
                 float: left;
+                box-sizing: border-box;
+                padding: 45px 0 70px 50px;
             }
+
         } //#conteudo
     } //#principal
 } //#app
 
-//Select2 overrides
+
+//
+// Select2 overrides
+//
 .select2-container {
     min-width: 400px;
     margin-top: -8px;

@@ -1,15 +1,23 @@
 <template>
 
-    <div class="lista_conteudo">
-        <nav class="lista">
-            <ul>
-                <li v-for="(pessoa, index) in pessoas" :key="pessoa.id">
-                    <router-link v-if="pessoa" :id="pessoa.id" :to="{ name: 'pj-view', params: { id: pessoa.id }}">{{ pessoa.nome_fantasia }}</router-link>
-                </li>
-            </ul>
-        </nav>
+    <div>
+        <div class="busca_lista">
+            <div class="lupa_texto_container">
+                <div class="lupa_texto">
+                    <div class="lupa"></div>
+                    <input type="text" placeholder="Buscar" />
+                </div>
+            </div>
+            <nav class="lista">
+                <ul>
+                    <li v-for="(pessoa, index) in pessoas" :key="pessoa.id">
+                        <router-link v-if="pessoa" :id="pessoa.id" :to="{ name: 'pj-view', params: { id: pessoa.id }}">{{ pessoa.nome_fantasia }}</router-link>
+                    </li>
+                </ul>
+            </nav>
+        </div>
 
-        <div class="conteudo">
+        <div class="detalhe">
             <router-view></router-view>
         </div>
     </div>
@@ -28,7 +36,7 @@
             });
 
             //evento - registro salvo em pj-view
-            eventBus.$on('foiSalvoPj', pessoa => {
+            eventBus.$on('foiSalvoPessoaJuridica', pessoa => {
 
                 let id_atual = this.$route.params.id;
                 this.$set(this.pessoas, this.pessoas.findIndex(p => p.id == id_atual), {

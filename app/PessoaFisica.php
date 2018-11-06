@@ -93,13 +93,17 @@ class PessoaFisica extends Model
     public static function getPessoasJuridicasRelacionadasPorId($id) {
         return \DB::select("
             SELECT 
-                PessoaJuridica.id,
-                PessoaJuridica.nome_fantasia,
-                PessoaJuridica.razao_social
+                PessoaJuridica.id AS id,
+                PessoaJuridica.nome_fantasia AS nome_fantasia,
+                PessoaJuridica.razao_social AS razao_social,
+                Cargo.valor AS cargo
             FROM pessoas_juridicas PessoaJuridica
                 INNER JOIN pf_pj PessoaFisicaJuridica
                 ON PessoaJuridica.id = PessoaFisicaJuridica.pessoa_juridica_id
                 AND PessoaFisicaJuridica.pessoa_fisica_id = $id
+                INNER JOIN cargos Cargo
+                ON Cargo.id = PessoaFisicaJuridica.cargo_id
+            ORDER BY PessoaJuridica.nome_fantasia
         ");
     }
 
