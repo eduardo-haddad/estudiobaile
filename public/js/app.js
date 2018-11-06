@@ -38720,7 +38720,9 @@ var routes = [{ path: '/pf',
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__estudiobaile__ = __webpack_require__(2);
+/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__estudiobaile__ = __webpack_require__(2);
+var _this2 = this;
+
 //
 //
 //
@@ -38757,7 +38759,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
         axios.get('/admin/ajax/pf/index').then(function (res) {
             _this.pessoas = res.data;
-            //console.log(this.pessoas);
+            console.log(_this.pessoas);
+            //Scroll item selecionado
+            _this.scroll(_this.id_atual);
         });
 
         //evento - registro salvo em pf-view
@@ -38773,16 +38777,27 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {
             pessoas: [],
+            item_selecionado: false,
             id_atual: this.$route.params.id
         };
     },
 
     methods: {
         itemAtual: function itemAtual(id_pessoa, id_rota) {
-            return parseInt(id_pessoa, 10) === parseInt(id_rota, 10);
+            _this2.item_selecionado = parseInt(id_pessoa, 10) === parseInt(id_rota, 10);
+            return _this2.item_selecionado;
+        },
+        scroll: function scroll(item) {
+            var elemento = $(item);
+            console.log(_this2.item_selecionado);
+            var top = elemento.offsetTop;
+            if (_this2.item_selecionado) {
+                window.scrollTo(0, top);
+            }
         }
     }
 });
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(1)))
 
 /***/ }),
 /* 44 */

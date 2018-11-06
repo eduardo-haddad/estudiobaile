@@ -32,7 +32,9 @@
         mounted() {
             axios.get('/admin/ajax/pf/index').then(res => {
                 this.pessoas = res.data;
-                //console.log(this.pessoas);
+                console.log(this.pessoas);
+                //Scroll item selecionado
+                this.scroll(this.id_atual);
             });
 
             //evento - registro salvo em pf-view
@@ -46,13 +48,23 @@
         data() {
             return {
                 pessoas: [],
+                item_selecionado: false,
                 id_atual: this.$route.params.id
             }
         },
         methods: {
             itemAtual: (id_pessoa, id_rota) => {
-                return parseInt(id_pessoa, 10) === parseInt(id_rota, 10);
-            }
+                this.item_selecionado = parseInt(id_pessoa, 10) === parseInt(id_rota, 10);
+                return this.item_selecionado;
+            },
+            scroll: (item) => {
+                let elemento = $(item);
+                console.log(this.item_selecionado);
+                let top = elemento.offsetTop;
+                if(this.item_selecionado) {
+                    window.scrollTo(0, top);
+                }
+            },
         }
     }
 </script>
