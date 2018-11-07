@@ -32,18 +32,14 @@
             </div><br>
 
             <!-- Pessoa Física / Chancela -->
-            <span class="campo">Pessoas Físicas</span>
+            <span class="campo">Pessoas Físicas relacionadas</span>
             <div id="projetos_pf" class="valor" style="margin-top: 3px;">
-                <span class="campo">Participação no(s) projeto(s) Estúdio Baile</span><br>
                 <div id="projetos">
                     <table>
                         <tr v-for="pessoa in pessoas_fisicas_chancelas_relacionadas">
                             <td>
-                                <router-link :id="pessoa.pessoa_id" :to="{ name: 'pf-view', params: { id: pessoa.pessoa_id }}">
-                                    {{ pessoa.nome }}
-                                </router-link>
-                            </td>
-                            <td>{{ pessoa.chancela }}</td>
+                                <router-link :id="pessoa.pessoa_id" :to="{ name: 'pf-view',
+                                params: { id: pessoa.pessoa_id }}">{{ pessoa.nome }}</router-link>&nbsp;/&nbsp;{{ pessoa.chancela }}</td>
                             <td>
                                 <a @click.prevent="removeChancelaPf(pessoa.pessoa_id, pessoa.chancela_id, true)">[X]</a>
                             </td>
@@ -76,18 +72,15 @@
             <br>
 
             <!-- Pessoa Jurídica / Chancela -->
-            <span class="campo">Pessoas Jurídicas</span>
+            <span class="campo">Pessoas Jurídicas relacionadas</span>
             <div id="" class="valor" style="margin-top: 3px;">
-                <span class="campo">Participação no(s) projeto(s) Estúdio Baile</span><br>
                 <div id="projetos_pj">
                     <table>
                         <tr v-for="pessoa in pessoas_juridicas_chancelas_relacionadas">
                             <td>
-                                <router-link :id="pessoa.pessoa_id" :to="{ name: 'pj-view', params: { id: pessoa.pessoa_id }}">
-                                    {{ pessoa.nome }}
-                                </router-link>
-                            </td>
-                            <td>{{ pessoa.chancela }}</td>
+                                <router-link
+                                        :id="pessoa.pessoa_id" :to="{ name: 'pj-view',
+                                        params: { id: pessoa.pessoa_id }}">{{ pessoa.nome }}</router-link>&nbsp;/&nbsp;{{ pessoa.chancela }}</td>
                             <td>
                                 <a @click.prevent="removeChancelaPf(pessoa.pessoa_id, pessoa.chancela_id, false)">[X]</a>
                             </td>
@@ -158,6 +151,7 @@
         watch: {
             '$route' (destino) {
                 this.getProjeto(destino.params.id);
+                eventBus.$emit('changeProjeto');
                 this.jQuery();
             },
         },
@@ -165,12 +159,12 @@
         methods: {
             getProjeto: function(id){
                 axios.get('/admin/ajax/projetos/' + id).then(res => {
+                    eventBus.$emit('getProjeto');
                     let dados = res.data;
                     this.projeto = dados.projeto;
                     this.pessoas_fisicas_chancelas_relacionadas = dados.pessoas_fisicas_chancelas_relacionadas;
                     this.pessoas_juridicas_chancelas_relacionadas = dados.pessoas_juridicas_chancelas_relacionadas;
                     this.atributos = dados.atributos;
-                    console.log(this.pessoas_fisicas_chancelas_relacionadas);
                 } );
             },
             salvaForm: function(){

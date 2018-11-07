@@ -10749,7 +10749,7 @@ return jQuery;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return eventBus; });
+/* WEBPACK VAR INJECTION */(function($) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return eventBus; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__routes__ = __webpack_require__(42);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_pessoaFisica_index__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_pessoaFisica_index___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_pessoaFisica_index__);
@@ -10769,6 +10769,18 @@ new Vue({
         pfIndex: __WEBPACK_IMPORTED_MODULE_1__components_pessoaFisica_index___default.a
     }
 });
+
+// jQuery
+
+$(document).ready(function () {
+
+    // $('.add_contato .botao_inner').on('click', function(){
+    //
+    // });
+    // $('[data-toggle="popover"]').popover();
+
+});
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(1)))
 
 /***/ }),
 /* 3 */
@@ -14179,6 +14191,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_axios__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_select2__ = __webpack_require__(41);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_select2___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_select2__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_bootstrap__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_bootstrap___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_bootstrap__);
 //jQuery, Bootstrap
 try {
     window.$ = __webpack_provided_window_dot_jQuery = __webpack_require__(1);
@@ -14198,6 +14212,9 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //Select2
 
 window.select2 = __WEBPACK_IMPORTED_MODULE_3_select2___default.a;
+
+
+window.bootstrap = __WEBPACK_IMPORTED_MODULE_4_bootstrap___default.a;
 
 /**
  * Next we will register the CSRF Token as a common header with Axios so that
@@ -38720,7 +38737,7 @@ var routes = [{ path: '/pf',
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__estudiobaile__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__estudiobaile__ = __webpack_require__(2);
 var _this2 = this;
 
 //
@@ -38759,26 +38776,46 @@ var _this2 = this;
 
         axios.get('/admin/ajax/pf/index').then(function (res) {
             _this.pessoas = res.data;
-            console.log(_this.pessoas);
-            //Scroll item selecionado
-            _this.scroll(_this.id_atual);
         });
+
+        //highlight menu
+        this.highlight_menu();
 
         //evento - registro salvo em pf-view
         __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$on('foiSalvoPessoaFisica', function (pessoa) {
             _this.$set(_this.pessoas, _this.pessoas.findIndex(function (p) {
-                return p.id == _this.id_atual;
+                return p.id == _this.$route.params.id;
             }), {
                 nome_adotado: pessoa.nome_adotado,
                 id: pessoa.id
             });
         });
+        //evento - pessoa física carregada
+        __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$on('getPessoaFisica', function () {
+            _this.item_carregado = true;
+            //Scroll
+            if (_this.primeiro_load) {
+                _this.scroll(_this.$route.params.id);
+                _this.primeiro_load = false;
+            }
+        });
+        //evento - mudança de pessoa física
+        __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$on('changePessoaFisica', function () {
+            return _this.item_carregado = false;
+        });
+    },
+
+    watch: {
+        '$route': function $route() {
+            this.highlight_menu();
+        }
     },
     data: function data() {
         return {
             pessoas: [],
             item_selecionado: false,
-            id_atual: this.$route.params.id
+            item_carregado: false,
+            primeiro_load: true
         };
     },
 
@@ -38787,17 +38824,21 @@ var _this2 = this;
             _this2.item_selecionado = parseInt(id_pessoa, 10) === parseInt(id_rota, 10);
             return _this2.item_selecionado;
         },
-        scroll: function scroll(item) {
-            var elemento = $(item);
-            console.log(_this2.item_selecionado);
-            var top = elemento.offsetTop;
-            if (_this2.item_selecionado) {
-                window.scrollTo(0, top);
+        scroll: function scroll(id) {
+            var myElement = document.getElementById(id);
+            var topPos = myElement.offsetTop;
+            document.getElementById('lista_pf').scrollTop = topPos - 60;
+        },
+        highlight_menu: function highlight_menu() {
+            var menu = document.getElementById("menu_principal");
+            var items = menu.getElementsByTagName("li");
+            var url = window.location.href.split('/admin#/')[1];
+            for (var i = 0; i < items.length; ++i) {
+                if (url.includes(items[i].id)) items[i].className = "opcao selecionado";else items[i].className = "opcao";
             }
         }
     }
 });
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(1)))
 
 /***/ }),
 /* 44 */
@@ -38811,7 +38852,7 @@ var render = function() {
     _c("div", { staticClass: "busca_lista" }, [
       _vm._m(0),
       _vm._v(" "),
-      _c("nav", { staticClass: "lista" }, [
+      _c("nav", { staticClass: "lista", attrs: { id: "lista_pf" } }, [
         _c(
           "ul",
           _vm._l(_vm.pessoas, function(pessoa, index) {
@@ -38844,7 +38885,15 @@ var render = function() {
       ])
     ]),
     _vm._v(" "),
-    _c("div", { staticClass: "detalhe" }, [_c("router-view")], 1)
+    _c(
+      "div",
+      {
+        staticClass: "detalhe",
+        class: { loading: !_vm.item_carregado, loaded: _vm.item_carregado }
+      },
+      [_c("router-view")],
+      1
+    )
   ])
 }
 var staticRenderFns = [
@@ -39260,20 +39309,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -39313,6 +39348,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     watch: {
         '$route': function $route(destino) {
             this.getPessoa(destino.params.id);
+            __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$emit('changePessoaFisica');
             this.jQuery();
         }
     },
@@ -39333,6 +39369,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this = this;
 
             axios.get('/admin/ajax/pf/' + id).then(function (res) {
+                __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$emit('getPessoaFisica');
                 var dados = res.data;
                 _this.pessoa = dados.pessoa_fisica;
                 _this.pessoa.genero = dados.genero;
@@ -39344,7 +39381,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 _this.projetos = dados.projetos;
                 _this.pessoas_juridicas_relacionadas = dados.pessoas_juridicas;
                 _this.atributos = dados.atributos;
-                console.log(dados);
             });
         },
         salvaForm: function salvaForm() {
@@ -39520,7 +39556,9 @@ var render = function() {
       _vm._v(" "),
       _c("br"),
       _vm._v(" "),
-      _c("span", { staticClass: "campo" }, [_vm._v("Tags")]),
+      _c("span", { staticClass: "campo", staticStyle: { float: "left" } }, [
+        _vm._v("Tags")
+      ]),
       _vm._v(" "),
       _c(
         "select",
@@ -39564,10 +39602,7 @@ var render = function() {
           attrs: { id: "projetos_pf" }
         },
         [
-          _c("span", { staticClass: "campo" }, [_vm._v("Cargos")]),
-          _c("br"),
-          _vm._v(" "),
-          _c("div", { attrs: { id: "projetos" } }, [
+          _c("div", { staticClass: "cargos", attrs: { id: "chancelas" } }, [
             _c(
               "table",
               _vm._l(_vm.pessoas_juridicas_relacionadas, function(pessoa) {
@@ -39580,22 +39615,20 @@ var render = function() {
                         {
                           attrs: {
                             id: pessoa.id,
-                            to: { name: "pj-view", params: { id: pessoa.id } }
+                            to: {
+                              name: "pj-view",
+                              params: { id: pessoa.id }
+                            }
                           }
                         },
-                        [
-                          _vm._v(
-                            "\n                            " +
-                              _vm._s(pessoa.nome_fantasia) +
-                              "\n                        "
-                          )
-                        ]
-                      )
+                        [_vm._v(_vm._s(pessoa.nome_fantasia))]
+                      ),
+                      _vm._v(" / " + _vm._s(pessoa.cargo))
                     ],
                     1
                   ),
                   _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(pessoa.cargo))])
+                  _c("td")
                 ])
               })
             )
@@ -39603,6 +39636,53 @@ var render = function() {
         ]
       ),
       _c("br"),
+      _vm._v(" "),
+      _c("span", { staticClass: "campo" }, [
+        _vm._v("Participação no(s) projeto(s) Estúdio Baile")
+      ]),
+      _c("br"),
+      _vm._v(" "),
+      _c("div", { attrs: { id: "projetos" } }, [
+        _c(
+          "table",
+          _vm._l(_vm.projetos, function(projeto) {
+            return _c(
+              "tr",
+              {
+                model: {
+                  value: _vm.projetos,
+                  callback: function($$v) {
+                    _vm.projetos = $$v
+                  },
+                  expression: "projetos"
+                }
+              },
+              [
+                _c(
+                  "td",
+                  [
+                    _c(
+                      "router-link",
+                      {
+                        attrs: {
+                          id: projeto.id,
+                          to: {
+                            name: "projetos-view",
+                            params: { id: projeto.id }
+                          }
+                        }
+                      },
+                      [_vm._v(_vm._s(projeto["projeto"]))]
+                    ),
+                    _vm._v(" / " + _vm._s(projeto["chancela"]))
+                  ],
+                  1
+                )
+              ]
+            )
+          })
+        )
+      ]),
       _vm._v(" "),
       _c("hr"),
       _vm._v(" "),
@@ -40844,14 +40924,6 @@ var render = function() {
               _vm._v(" "),
               _c("br"),
               _vm._v(" "),
-              _c("br"),
-              _vm._v(" "),
-              _c("br"),
-              _vm._v(" "),
-              _c("br"),
-              _vm._v(" "),
-              _c("br"),
-              _vm._v(" "),
               _vm._l(_vm.dados_bancarios, function(dado_bancario, index) {
                 return _c("div", [
                   _c("span", { staticClass: "campo" }, [
@@ -41022,6 +41094,8 @@ var render = function() {
                       })
                     )
                   ]),
+                  _c("br"),
+                  _vm._v(" "),
                   _c("br")
                 ])
               }),
@@ -41035,7 +41109,7 @@ var render = function() {
                     }
                   }
                 },
-                [_vm._v("[novos dados bancários]")]
+                [_vm._v("[adicionar dados bancários]")]
               ),
               _vm._v(" "),
               _vm.mostraDadosBancariosBox
@@ -41225,6 +41299,7 @@ var render = function() {
                         })
                       )
                     ]),
+                    _c("br"),
                     _vm._v(" "),
                     _c(
                       "a",
@@ -41240,66 +41315,6 @@ var render = function() {
                     )
                   ])
                 : _vm._e(),
-              _vm._v(" "),
-              _c("br"),
-              _vm._v(" "),
-              _c("br"),
-              _vm._v(" "),
-              _c("br"),
-              _vm._v(" "),
-              _c("span", { staticClass: "campo" }, [
-                _vm._v("Participação no(s) projeto(s) Estúdio Baile")
-              ]),
-              _c("br"),
-              _vm._v(" "),
-              _c("div", { attrs: { id: "projetos" } }, [
-                _c(
-                  "table",
-                  _vm._l(_vm.projetos, function(projeto) {
-                    return _c(
-                      "tr",
-                      {
-                        model: {
-                          value: _vm.projetos,
-                          callback: function($$v) {
-                            _vm.projetos = $$v
-                          },
-                          expression: "projetos"
-                        }
-                      },
-                      [
-                        _c(
-                          "td",
-                          [
-                            _c(
-                              "router-link",
-                              {
-                                attrs: {
-                                  id: projeto.id,
-                                  to: {
-                                    name: "projetos-view",
-                                    params: { id: projeto.id }
-                                  }
-                                }
-                              },
-                              [
-                                _vm._v(
-                                  "\n                                " +
-                                    _vm._s(projeto["projeto"]) +
-                                    "\n                            "
-                                )
-                              ]
-                            )
-                          ],
-                          1
-                        ),
-                        _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(projeto["chancela"]))])
-                      ]
-                    )
-                  })
-                )
-              ]),
               _vm._v(" "),
               _c("br"),
               _vm._v(" "),
@@ -41381,6 +41396,8 @@ module.exports = Component.exports
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__estudiobaile__ = __webpack_require__(2);
+var _this2 = this;
+
 //
 //
 //
@@ -41417,12 +41434,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
         axios.get('/admin/ajax/pj/index').then(function (res) {
             _this.pessoas = res.data;
-            //console.log(this.pessoas);
         });
+
+        //highlight menu
+        this.highlight_menu();
 
         //evento - registro salvo em pj-view
         __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$on('foiSalvoPessoaJuridica', function (pessoa) {
-
             var id_atual = _this.$route.params.id;
             _this.$set(_this.pessoas, _this.pessoas.findIndex(function (p) {
                 return p.id == id_atual;
@@ -41431,14 +41449,54 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 id: pessoa.id
             });
         });
+        //evento - pessoa física carregada
+        __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$on('getPessoaJuridica', function () {
+            _this.item_carregado = true;
+            //Scroll
+            if (_this.primeiro_load) {
+                _this.scroll(_this.$route.params.id);
+                _this.primeiro_load = false;
+            }
+        });
+        //evento - mudança de pessoa física
+        __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$on('changePessoaJuridica', function () {
+            return _this.item_carregado = false;
+        });
+    },
+
+    watch: {
+        '$route': function $route() {
+            this.highlight_menu();
+        }
     },
     data: function data() {
         return {
-            pessoas: []
+            pessoas: [],
+            item_selecionado: false,
+            item_carregado: false,
+            primeiro_load: true
         };
     },
 
-    methods: {}
+    methods: {
+        itemAtual: function itemAtual(id_pessoa, id_rota) {
+            _this2.item_selecionado = parseInt(id_pessoa, 10) === parseInt(id_rota, 10);
+            return _this2.item_selecionado;
+        },
+        scroll: function scroll(id) {
+            var myElement = document.getElementById(id);
+            var topPos = myElement.offsetTop;
+            document.getElementById('lista_pj').scrollTop = topPos - 60;
+        },
+        highlight_menu: function highlight_menu() {
+            var menu = document.getElementById("menu_principal");
+            var items = menu.getElementsByTagName("li");
+            var url = window.location.href.split('/admin#/')[1];
+            for (var i = 0; i < items.length; ++i) {
+                if (url.includes(items[i].id)) items[i].className = "opcao selecionado";else items[i].className = "opcao";
+            }
+        }
+    }
 });
 
 /***/ }),
@@ -41453,13 +41511,18 @@ var render = function() {
     _c("div", { staticClass: "busca_lista" }, [
       _vm._m(0),
       _vm._v(" "),
-      _c("nav", { staticClass: "lista" }, [
+      _c("nav", { staticClass: "lista", attrs: { id: "lista_pj" } }, [
         _c(
           "ul",
           _vm._l(_vm.pessoas, function(pessoa, index) {
             return _c(
               "li",
-              { key: pessoa.id },
+              {
+                key: pessoa.id,
+                class: {
+                  selecionado: _vm.itemAtual(pessoa.id, _vm.$route.params.id)
+                }
+              },
               [
                 pessoa
                   ? _c(
@@ -41481,7 +41544,15 @@ var render = function() {
       ])
     ]),
     _vm._v(" "),
-    _c("div", { staticClass: "detalhe" }, [_c("router-view")], 1)
+    _c(
+      "div",
+      {
+        staticClass: "detalhe",
+        class: { loading: !_vm.item_carregado, loaded: _vm.item_carregado }
+      },
+      [_c("router-view")],
+      1
+    )
   ])
 }
 var staticRenderFns = [
@@ -41765,13 +41836,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -41810,6 +41874,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     watch: {
         '$route': function $route(destino) {
             this.getPessoa(destino.params.id);
+            __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$emit('changePessoaJuridica');
             this.jQuery();
         }
     },
@@ -41830,6 +41895,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this = this;
 
             axios.get('/admin/ajax/pj/' + id).then(function (res) {
+                __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$emit('getPessoaJuridica');
                 var dados = res.data;
                 _this.pessoa = dados.pessoa_juridica;
                 _this.tags = dados.tags;
@@ -41838,7 +41904,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 _this.projetos = dados.projetos;
                 _this.atributos = dados.atributos;
                 _this.pessoas_fisicas_cargos_relacionados = dados.pessoas_fisicas_cargos_relacionados;
-                console.log(_this.pessoas_fisicas_cargos_relacionados);
             });
         },
         salvaForm: function salvaForm() {
@@ -42127,9 +42192,6 @@ var render = function() {
           attrs: { id: "projetos_pf" }
         },
         [
-          _c("span", { staticClass: "campo" }, [_vm._v("Cargos")]),
-          _c("br"),
-          _vm._v(" "),
           _c("div", { attrs: { id: "projetos" } }, [
             _c(
               "table",
@@ -42149,19 +42211,14 @@ var render = function() {
                             }
                           }
                         },
-                        [
-                          _vm._v(
-                            "\n                            " +
-                              _vm._s(pessoa.pessoa_fisica_nome_adotado) +
-                              "\n                        "
-                          )
-                        ]
+                        [_vm._v(_vm._s(pessoa.pessoa_fisica_nome_adotado))]
+                      ),
+                      _vm._v(
+                        " / " + _vm._s(pessoa.cargo) + "\n                    "
                       )
                     ],
                     1
                   ),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(pessoa.cargo))]),
                   _vm._v(" "),
                   _c("td", [
                     _c(
@@ -42188,17 +42245,17 @@ var render = function() {
       ),
       _c("br"),
       _vm._v(" "),
-      _c("a", { on: { click: _vm.mostraCargoPfBoxMetodo } }, [
-        _vm._v("[nova chancela pessoa física]")
-      ]),
+      _c(
+        "a",
+        {
+          staticStyle: { "margin-bottom": "7px", display: "block" },
+          on: { click: _vm.mostraCargoPfBoxMetodo }
+        },
+        [_vm._v("[adicionar pessoa física]")]
+      ),
       _vm._v(" "),
       _vm.mostraCargoPfBox
         ? _c("div", [
-            _c("span", { staticClass: "campo" }, [
-              _vm._v("--- Nova Chancela PF")
-            ]),
-            _c("br"),
-            _vm._v(" "),
             _c("span", { staticClass: "campo" }, [_vm._v("Nome")]),
             _vm._v(" "),
             _c(
@@ -42268,6 +42325,55 @@ var render = function() {
             )
           ])
         : _vm._e(),
+      _vm._v(" "),
+      _c("br"),
+      _vm._v(" "),
+      _c("span", { staticClass: "campo" }, [
+        _vm._v("Participação no(s) projeto(s) Estúdio Baile")
+      ]),
+      _c("br"),
+      _vm._v(" "),
+      _c("div", { attrs: { id: "projetos" } }, [
+        _c(
+          "table",
+          _vm._l(_vm.projetos, function(projeto) {
+            return _c(
+              "tr",
+              {
+                model: {
+                  value: _vm.projetos,
+                  callback: function($$v) {
+                    _vm.projetos = $$v
+                  },
+                  expression: "projetos"
+                }
+              },
+              [
+                _c(
+                  "td",
+                  [
+                    _c(
+                      "router-link",
+                      {
+                        attrs: {
+                          id: projeto.id,
+                          to: {
+                            name: "projetos-view",
+                            params: { id: projeto.id }
+                          }
+                        }
+                      },
+                      [_vm._v(_vm._s(projeto["projeto"]))]
+                    ),
+                    _vm._v(" / " + _vm._s(projeto["chancela"]))
+                  ],
+                  1
+                )
+              ]
+            )
+          })
+        )
+      ]),
       _vm._v(" "),
       _c("br"),
       _vm._v(" "),
@@ -42781,11 +42887,6 @@ var render = function() {
           _vm._v(" "),
           _vm.mostraEnderecoBox
             ? _c("div", [
-                _c("span", { staticClass: "campo" }, [
-                  _vm._v("--- Novo Endereço")
-                ]),
-                _c("br"),
-                _vm._v(" "),
                 _c("span", { staticClass: "campo" }, [_vm._v("Logradouro")]),
                 _vm._v(" "),
                 _c("div", { staticClass: "valor" }, [
@@ -43113,66 +43214,6 @@ var render = function() {
               ])
             : _vm._e(),
           _vm._v(" "),
-          _c("br"),
-          _vm._v(" "),
-          _c("br"),
-          _vm._v(" "),
-          _c("br"),
-          _vm._v(" "),
-          _c("span", { staticClass: "campo" }, [
-            _vm._v("Participação no(s) projeto(s) Estúdio Baile")
-          ]),
-          _c("br"),
-          _vm._v(" "),
-          _c("div", { attrs: { id: "projetos" } }, [
-            _c(
-              "table",
-              _vm._l(_vm.projetos, function(projeto) {
-                return _c(
-                  "tr",
-                  {
-                    model: {
-                      value: _vm.projetos,
-                      callback: function($$v) {
-                        _vm.projetos = $$v
-                      },
-                      expression: "projetos"
-                    }
-                  },
-                  [
-                    _c(
-                      "td",
-                      [
-                        _c(
-                          "router-link",
-                          {
-                            attrs: {
-                              id: projeto.id,
-                              to: {
-                                name: "projetos-view",
-                                params: { id: projeto.id }
-                              }
-                            }
-                          },
-                          [
-                            _vm._v(
-                              "\n                            " +
-                                _vm._s(projeto["projeto"]) +
-                                "\n                        "
-                            )
-                          ]
-                        )
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(projeto["chancela"]))])
-                  ]
-                )
-              })
-            )
-          ]),
-          _vm._v(" "),
           _c(
             "form",
             {
@@ -43264,6 +43305,8 @@ module.exports = Component.exports
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__estudiobaile__ = __webpack_require__(2);
+var _this2 = this;
+
 //
 //
 //
@@ -43303,6 +43346,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             //console.log(this.pessoas);
         });
 
+        //highlight menu
+        this.highlight_menu();
+
         //evento - registro salvo em projetos-view
         __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$on('foiSalvoProjeto', function (projeto) {
             var id_atual = _this.$route.params.id;
@@ -43313,14 +43359,54 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 id: projeto.id
             });
         });
+        //evento - projeto carregado
+        __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$on('getProjeto', function () {
+            _this.item_carregado = true;
+            //Scroll
+            if (_this.primeiro_load) {
+                _this.scroll(_this.$route.params.id);
+                _this.primeiro_load = false;
+            }
+        });
+        //evento - mudança de projeto
+        __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$on('changeProjeto', function () {
+            return _this.item_carregado = false;
+        });
+    },
+
+    watch: {
+        '$route': function $route() {
+            this.highlight_menu();
+        }
     },
     data: function data() {
         return {
-            projetos: []
+            projetos: [],
+            item_selecionado: false,
+            item_carregado: false,
+            primeiro_load: true
         };
     },
 
-    methods: {}
+    methods: {
+        itemAtual: function itemAtual(id_pessoa, id_rota) {
+            _this2.item_selecionado = parseInt(id_pessoa, 10) === parseInt(id_rota, 10);
+            return _this2.item_selecionado;
+        },
+        scroll: function scroll(id) {
+            var myElement = document.getElementById(id);
+            var topPos = myElement.offsetTop;
+            document.getElementById('lista_projetos').scrollTop = topPos - 60;
+        },
+        highlight_menu: function highlight_menu() {
+            var menu = document.getElementById("menu_principal");
+            var items = menu.getElementsByTagName("li");
+            var url = window.location.href.split('/admin#/')[1];
+            for (var i = 0; i < items.length; ++i) {
+                if (url.includes(items[i].id)) items[i].className = "opcao selecionado";else items[i].className = "opcao";
+            }
+        }
+    }
 });
 
 /***/ }),
@@ -43335,13 +43421,18 @@ var render = function() {
     _c("div", { staticClass: "busca_lista" }, [
       _vm._m(0),
       _vm._v(" "),
-      _c("nav", { staticClass: "lista" }, [
+      _c("nav", { staticClass: "lista", attrs: { id: "lista_projetos" } }, [
         _c(
           "ul",
           _vm._l(_vm.projetos, function(projeto, index) {
             return _c(
               "li",
-              { key: projeto.id },
+              {
+                key: projeto.id,
+                class: {
+                  selecionado: _vm.itemAtual(projeto.id, _vm.$route.params.id)
+                }
+              },
               [
                 projeto
                   ? _c(
@@ -43366,7 +43457,15 @@ var render = function() {
       ])
     ]),
     _vm._v(" "),
-    _c("div", { staticClass: "detalhe" }, [_c("router-view")], 1)
+    _c(
+      "div",
+      {
+        staticClass: "detalhe",
+        class: { loading: !_vm.item_carregado, loaded: _vm.item_carregado }
+      },
+      [_c("router-view")],
+      1
+    )
   ])
 }
 var staticRenderFns = [
@@ -43568,13 +43667,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -43607,6 +43699,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     watch: {
         '$route': function $route(destino) {
             this.getProjeto(destino.params.id);
+            __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$emit('changeProjeto');
             this.jQuery();
         }
     },
@@ -43616,12 +43709,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this = this;
 
             axios.get('/admin/ajax/projetos/' + id).then(function (res) {
+                __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$emit('getProjeto');
                 var dados = res.data;
                 _this.projeto = dados.projeto;
                 _this.pessoas_fisicas_chancelas_relacionadas = dados.pessoas_fisicas_chancelas_relacionadas;
                 _this.pessoas_juridicas_chancelas_relacionadas = dados.pessoas_juridicas_chancelas_relacionadas;
                 _this.atributos = dados.atributos;
-                console.log(_this.pessoas_fisicas_chancelas_relacionadas);
             });
         },
         salvaForm: function salvaForm() {
@@ -43861,7 +43954,9 @@ var render = function() {
           ]),
           _c("br"),
           _vm._v(" "),
-          _c("span", { staticClass: "campo" }, [_vm._v("Pessoas Físicas")]),
+          _c("span", { staticClass: "campo" }, [
+            _vm._v("Pessoas Físicas relacionadas")
+          ]),
           _vm._v(" "),
           _c(
             "div",
@@ -43871,11 +43966,6 @@ var render = function() {
               attrs: { id: "projetos_pf" }
             },
             [
-              _c("span", { staticClass: "campo" }, [
-                _vm._v("Participação no(s) projeto(s) Estúdio Baile")
-              ]),
-              _c("br"),
-              _vm._v(" "),
               _c("div", { attrs: { id: "projetos" } }, [
                 _c(
                   "table",
@@ -43897,19 +43987,12 @@ var render = function() {
                                 }
                               }
                             },
-                            [
-                              _vm._v(
-                                "\n                                " +
-                                  _vm._s(pessoa.nome) +
-                                  "\n                            "
-                              )
-                            ]
-                          )
+                            [_vm._v(_vm._s(pessoa.nome))]
+                          ),
+                          _vm._v(" / " + _vm._s(pessoa.chancela))
                         ],
                         1
                       ),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(pessoa.chancela))]),
                       _vm._v(" "),
                       _c("td", [
                         _c(
@@ -44032,7 +44115,9 @@ var render = function() {
           _vm._v(" "),
           _c("br"),
           _vm._v(" "),
-          _c("span", { staticClass: "campo" }, [_vm._v("Pessoas Jurídicas")]),
+          _c("span", { staticClass: "campo" }, [
+            _vm._v("Pessoas Jurídicas relacionadas")
+          ]),
           _vm._v(" "),
           _c(
             "div",
@@ -44042,11 +44127,6 @@ var render = function() {
               attrs: { id: "" }
             },
             [
-              _c("span", { staticClass: "campo" }, [
-                _vm._v("Participação no(s) projeto(s) Estúdio Baile")
-              ]),
-              _c("br"),
-              _vm._v(" "),
               _c("div", { attrs: { id: "projetos_pj" } }, [
                 _c(
                   "table",
@@ -44068,19 +44148,12 @@ var render = function() {
                                 }
                               }
                             },
-                            [
-                              _vm._v(
-                                "\n                                " +
-                                  _vm._s(pessoa.nome) +
-                                  "\n                            "
-                              )
-                            ]
-                          )
+                            [_vm._v(_vm._s(pessoa.nome))]
+                          ),
+                          _vm._v(" / " + _vm._s(pessoa.chancela))
                         ],
                         1
                       ),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(pessoa.chancela))]),
                       _vm._v(" "),
                       _c("td", [
                         _c(

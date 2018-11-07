@@ -18,6 +18,9 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 import select2 from 'select2';
 window.select2 = select2;
 
+import bootstrap from 'bootstrap';
+window.bootstrap = bootstrap;
+
 /**
  * Next we will register the CSRF Token as a common header with Axios so that
  * all outgoing HTTP requests automatically have it attached. This is just

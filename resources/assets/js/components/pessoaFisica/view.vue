@@ -7,7 +7,7 @@
         <br>
         <br>
         <!-- Tags -->
-        <span class="campo">Tags</span>
+        <span class="campo" style="float: left;">Tags</span>
         <select @change="tags_atuais = $event.target.value" name="tags" id="tags_list" class="js-example-basic-single">
             <option v-for="tag in tags" :value="tag.id" v-model="tag.id"><a href="#">{{ tag.text }}</a></option>
         </select>
@@ -15,20 +15,30 @@
         <!-- Pessoa Física / Chancela -->
         <span class="campo">Pessoas Jurídicas</span>
         <div id="projetos_pf" class="valor" style="margin-top: 3px;">
-            <span class="campo">Cargos</span><br>
-            <div id="projetos">
+            <div id="chancelas" class="cargos">
                 <table>
                     <tr v-for="pessoa in pessoas_juridicas_relacionadas">
                         <td>
-                            <router-link :id="pessoa.id" :to="{ name: 'pj-view', params: { id: pessoa.id }}">
-                                {{ pessoa.nome_fantasia }}
-                            </router-link>
-                        </td>
-                        <td>{{ pessoa.cargo }}</td>
+                            <router-link :id="pessoa.id" :to="{ name: 'pj-view',
+                            params: { id: pessoa.id }}">{{ pessoa.nome_fantasia }}</router-link>&nbsp;/&nbsp;{{ pessoa.cargo }}</td>
+                        <td></td>
                     </tr>
                 </table>
             </div>
         </div><br>
+
+        <span class="campo">Participação no(s) projeto(s) Estúdio Baile</span><br>
+        <div id="projetos">
+            <table>
+                <tr v-for="projeto in projetos" v-model="projetos">
+                    <td>
+                        <router-link
+                                :id="projeto.id"
+                                :to="{ name: 'projetos-view',
+                                        params: { id: projeto.id }}">{{ projeto['projeto'] }}</router-link>&nbsp;/&nbsp;{{ projeto['chancela'] }}</td>
+                </tr>
+            </table>
+        </div>
 
         <hr>
 
@@ -158,8 +168,8 @@
                 <span class="campo">Nome</span>
                 <div class="valor">
                     <input autocomplete="off" type="text"
-                       v-model="pessoa.nome"
-                       name="nome"
+                           v-model="pessoa.nome"
+                           name="nome"
                     />
                 </div><br>
 
@@ -251,12 +261,6 @@
                 <br>
                 <br>
 
-
-
-                <br>
-                <br>
-                <br>
-                <br>
                 <!-- Dados Bancários -->
 
                 <div v-for="(dado_bancario, index) in dados_bancarios">
@@ -280,10 +284,11 @@
                                 {{ tipo_conta.valor }}
                             </option>
                         </select>
-                    </div><br>
+                    </div><br>                <br>
+
                 </div>
                 <!-- Add novos dados bancários -->
-                <a @click="mostraDadosBancariosBox = true">[novos dados bancários]</a>
+                <a @click="mostraDadosBancariosBox = true">[adicionar dados bancários]</a>
                 <div v-if="mostraDadosBancariosBox">
                     <span class="campo">--- Novos Dados Bancários</span><br>
                     <span class="campo">Banco</span>
@@ -300,7 +305,7 @@
                     </div><br>
                     <!--<span class="campo">Tipo</span>-->
                     <!--<div class="valor">-->
-                        <!--<input @input="novos_dados_bancarios.tipo_conta_id = $event.target.value" autocomplete="off" type="text" name="novos_dados_bancarios.tipo_conta_id" v-model="novos_dados_bancarios.tipo_conta_id" />-->
+                    <!--<input @input="novos_dados_bancarios.tipo_conta_id = $event.target.value" autocomplete="off" type="text" name="novos_dados_bancarios.tipo_conta_id" v-model="novos_dados_bancarios.tipo_conta_id" />-->
                     <!--</div><br>-->
                     <span class="campo">Tipo</span>
                     <div class="valor">
@@ -309,7 +314,7 @@
                                 {{ tipo_conta.valor }}
                             </option>
                         </select>
-                    </div>
+                    </div><br>
 
                     <a @click.prevent="adicionaDadosBancarios">[+]</a>
 
@@ -319,25 +324,6 @@
                 <br>
                 <br>
 
-                <span class="campo">Participação no(s) projeto(s) Estúdio Baile</span><br>
-                <div id="projetos">
-                    <table>
-                        <tr v-for="projeto in projetos" v-model="projetos">
-                            <td>
-                                <router-link
-                                        :id="projeto.id"
-                                        :to="{ name: 'projetos-view', params: { id: projeto.id }}">
-                                    {{ projeto['projeto'] }}
-                                </router-link>
-                            </td>
-                            <td>{{ projeto['chancela'] }}</td>
-                        </tr>
-                    </table>
-                </div>
-
-                <br>
-                <br>
-                <br>
                 <button>Salvar</button>
 
             </form>
@@ -356,7 +342,7 @@
         created() {
             this.getPessoa(this.$route.params.id);
             this.jQuery();
-          },
+        },
         data() {
             return {
                 //Models
@@ -386,6 +372,7 @@
         watch: {
             '$route' (destino) {
                 this.getPessoa(destino.params.id);
+                eventBus.$emit('changePessoaFisica');
                 this.jQuery();
             },
         },
@@ -400,6 +387,7 @@
         methods: {
             getPessoa: function(id){
                 axios.get('/admin/ajax/pf/' + id).then(res => {
+                    eventBus.$emit('getPessoaFisica');
                     let dados = res.data;
                     this.pessoa = dados.pessoa_fisica;
                     this.pessoa.genero = dados.genero;
@@ -411,7 +399,6 @@
                     this.projetos = dados.projetos;
                     this.pessoas_juridicas_relacionadas = dados.pessoas_juridicas;
                     this.atributos = dados.atributos;
-                    console.log(dados);
                 } );
             },
             salvaForm: function(){

@@ -8,7 +8,7 @@
                     <input type="text" placeholder="Buscar" />
                 </div>
             </div>
-            <nav class="lista">
+            <nav class="lista" id="lista_pf">
                 <ul>
                     <li v-for="(pessoa, index) in pessoas" :key="pessoa.id" :class="{ selecionado: itemAtual(pessoa.id, $route.params.id) }">
                         <router-link v-if="pessoa" :id="pessoa.id" :to="{ name: 'pf-view', params: { id: pessoa.id }}">{{ pessoa.nome_adotado }}</router-link>
@@ -17,7 +17,7 @@
             </nav>
         </div>
 
-        <div class="detalhe">
+        <div class="detalhe" :class="{ loading: !item_carregado, loaded: item_carregado }">
             <router-view></router-view>
         </div>
     </div>
@@ -32,24 +32,41 @@
         mounted() {
             axios.get('/admin/ajax/pf/index').then(res => {
                 this.pessoas = res.data;
-                console.log(this.pessoas);
-                //Scroll item selecionado
-                this.scroll(this.id_atual);
             });
+
+            //highlight menu
+            this.highlight_menu();
 
             //evento - registro salvo em pf-view
             eventBus.$on('foiSalvoPessoaFisica', pessoa => {
-                this.$set(this.pessoas, this.pessoas.findIndex(p => p.id == this.id_atual), {
+                this.$set(this.pessoas, this.pessoas.findIndex(p => p.id == this.$route.params.id), {
                     nome_adotado: pessoa.nome_adotado,
                     id: pessoa.id
                 });
             });
+            //evento - pessoa física carregada
+            eventBus.$on('getPessoaFisica', () => {
+                this.item_carregado = true;
+                //Scroll
+                if(this.primeiro_load) {
+                    this.scroll(this.$route.params.id);
+                    this.primeiro_load = false;
+                }
+            });
+            //evento - mudança de pessoa física
+            eventBus.$on('changePessoaFisica', () => this.item_carregado = false);
+        },
+        watch: {
+            '$route' () {
+                this.highlight_menu();
+            },
         },
         data() {
             return {
                 pessoas: [],
                 item_selecionado: false,
-                id_atual: this.$route.params.id
+                item_carregado: false,
+                primeiro_load: true
             }
         },
         methods: {
@@ -57,12 +74,20 @@
                 this.item_selecionado = parseInt(id_pessoa, 10) === parseInt(id_rota, 10);
                 return this.item_selecionado;
             },
-            scroll: (item) => {
-                let elemento = $(item);
-                console.log(this.item_selecionado);
-                let top = elemento.offsetTop;
-                if(this.item_selecionado) {
-                    window.scrollTo(0, top);
+            scroll: (id) => {
+                let myElement = document.getElementById(id);
+                let topPos = myElement.offsetTop;
+                document.getElementById('lista_pf').scrollTop = topPos - 60;
+            },
+            highlight_menu: () => {
+                const menu = document.getElementById("menu_principal");
+                let items = menu.getElementsByTagName("li");
+                let url = window.location.href.split('/admin#/')[1];
+                for (let i = 0; i < items.length; ++i) {
+                    if(url.includes(items[i].id))
+                        items[i].className = "opcao selecionado";
+                    else
+                        items[i].className = "opcao";
                 }
             },
         }

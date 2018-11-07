@@ -493,6 +493,19 @@
 
 .select2-container--classic.select2-container--open .select2-dropdown {
   border-color: #5897fb; }
+#app #principal #conteudo_geral .detalhe.loading, #app #principal #conteudo_geral .detalhe.loaded {
+  text-decoration: none;
+  -webkit-transition-property: all;
+  transition-property: all;
+  -webkit-transition-timing-function: cubic-bezier(0.165, 0.63, 0.14, 0.82);
+  transition-timing-function: cubic-bezier(0.165, 0.63, 0.14, 0.82);
+}
+
+#app #principal #conteudo_geral .detalhe.loading, #app #principal #conteudo_geral .detalhe.loaded {
+  -webkit-transition-duration: 0.18s;
+          transition-duration: 0.18s;
+}
+
 @font-face {
   font-family: 'GTWalsheimProRegular';
   src: url("../fonts/GTWalsheimPro/GTWalsheimProRegular.eot");
@@ -563,6 +576,8 @@ ul {
 
 a {
   cursor: pointer;
+  color: #e80017;
+  text-decoration: none;
 }
 
 #app {
@@ -634,7 +649,7 @@ a {
 
 #app #principal #sidebar {
   float: left;
-  background-color: #e6e7e8;
+  background-color: #e0e2e5;
   width: 225px;
   height: calc(100% - 61px);
   min-height: calc(100vh - 61px);
@@ -659,8 +674,8 @@ a {
   font-family: "HelveticaNeueLTStd65Medium";
 }
 
-#app #principal #sidebar ul li.opcao:hover {
-  background-color: #f7f7f7;
+#app #principal #sidebar ul li.opcao.selecionado {
+  background-color: #d0d2d6;
 }
 
 #app #principal #sidebar ul li a {
@@ -671,8 +686,30 @@ a {
 #app #principal #sidebar #inferior {
   position: absolute;
   bottom: 0;
+  margin: 0;
   width: 100%;
-  margin: 0 0 20px 0;
+}
+
+#app #principal #sidebar #inferior .add_contato {
+  height: 45px;
+  border-top: 1px solid #babcbd;
+}
+
+#app #principal #sidebar #inferior .add_contato .botao {
+  height: 100%;
+  width: 45px;
+  float: right;
+  display: table;
+}
+
+#app #principal #sidebar #inferior .add_contato .botao .botao_inner {
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+}
+
+#app #principal #sidebar #inferior .add_contato .botao .botao_inner img {
+  cursor: pointer;
 }
 
 #app #principal #conteudo_geral {
@@ -686,11 +723,27 @@ a {
   min-height: calc(100vh - 61px);
 }
 
+#app #principal #conteudo_geral .login {
+  padding: 50px 0 0 50px;
+}
+
+#app #principal #conteudo_geral .login .login-label {
+  margin-top: 7px;
+}
+
 #app #principal #conteudo_geral #container_conteudo .titulo {
   color: #58595b;
   font-size: 2.5em;
   min-height: 48px;
   display: block;
+}
+
+#app #principal #conteudo_geral #container_conteudo .campo {
+  width: auto;
+  margin-bottom: 12px;
+  color: #999999;
+  margin-right: 20px;
+  text-align: left;
 }
 
 #app #principal #conteudo_geral #container_conteudo form label {
@@ -729,14 +782,6 @@ a {
 #app #principal #conteudo_geral #container_conteudo .resumo .campo,
 #app #principal #conteudo_geral #container_conteudo .resumo .valor {
   float: left;
-}
-
-#app #principal #conteudo_geral #container_conteudo .resumo .campo {
-  width: auto;
-  margin-bottom: 12px;
-  color: #999999;
-  margin-right: 20px;
-  text-align: left;
 }
 
 #app #principal #conteudo_geral #container_conteudo .resumo .valor {
@@ -925,6 +970,14 @@ a {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   padding: 45px 0 70px 50px;
+}
+
+#app #principal #conteudo_geral .detalhe.loading {
+  opacity: 0.2;
+}
+
+#app #principal #conteudo_geral .detalhe.loaded {
+  opacity: 1;
 }
 
 .select2-container {

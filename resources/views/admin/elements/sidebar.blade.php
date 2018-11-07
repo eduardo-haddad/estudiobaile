@@ -1,44 +1,35 @@
 @if(Auth::check()) 
-<ul>
-    {{-- Home --}}
-    {{--<li class="grupo">--}}
-        {{--<span>Pessoas físicas</span>--}}
-    {{--</li>--}}
-
+<ul id="menu_principal">
     {{-- Pessoa física --}}
-    <li class="opcao">
-        {{--<a href="{{ route('pf.create') }}">Cadastrar</a>--}}
+    <li class="opcao" id="pf">
         <router-link :to="{ name: 'pf-index'}">Pessoas Físicas</router-link>
     </li>
-    <li class="opcao">
-        {{--<a href="{{ route('pf.create') }}">Cadastrar</a>--}}
+    <li class="opcao" id="pj">
         <router-link :to="{ name: 'pj-index'}">Pessoas Jurídicas</router-link>
     </li>
-    <li class="opcao">
+    <li class="opcao" id="projetos">
         <router-link :to="{ name: 'projetos-index'}">Projetos</router-link>
     </li>
-    
-    {{-- Post --}}
-    {{-- <li>
-        <a href="{{ route('post.create') }}">Create new post</a>
-    </li> --}}
+</ul>
 
-    {{-- Category --}}
-    {{-- <li>
-        <a href="{{ route('category.create') }}">Create new category</a>
-    </li>
-    <li>
-        <a href="{{ route('categories') }}">View all categories</a>
-    </li> --}}
-</ul> 
 <div id="inferior">
-    {{-- Registrar novo usuário --}}
-    @if(Auth::user()->hasRole('administrador')) 
-        <div class="registrar">
-            <a href="{{ route('register') }}">
-                {{ __('Register new user') }}
-            </a>
+    <div class="add_contato">
+        <div class="botao">
+            <div class="botao_inner">
+                <img src="{{ asset('img/btn_add.png') }}" />
+            </div>
         </div>
-    @endif
+    </div>
+
+
+    {{-- Registrar novo usuário --}}
+    {{--@if(Auth::user()->hasRole('administrador')) --}}
+        {{--<div class="registrar">--}}
+            {{--<a href="{{ route('register') }}">--}}
+                {{--{{ __('Register new user') }}--}}
+            {{--</a>--}}
+        {{--</div>--}}
+    {{--@endif--}}
 </div>
 @endif
+

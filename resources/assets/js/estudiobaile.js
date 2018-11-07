@@ -14,3 +14,14 @@ new Vue({
         pfIndex
     },
 });
+
+// jQuery
+
+$(document).ready(function(){
+
+    // $('.add_contato .botao_inner').on('click', function(){
+    //
+    // });
+    // $('[data-toggle="popover"]').popover();
+
+});

@@ -1,9 +1,10 @@
 
 // Cores
 $cinza: #999999;
-$cinza_claro: #e6e7e8;
+$cinza_medio: #e0e2e5;
+$cinza_medio2: #d0d2d6;
 $cinza_escuro: #58595b;
-$cinza_medio: #f8f8f8;
+$cinza_claro: #f8f8f8;
 $cinza_borda: #babcbd;
 $cinza_placeholder: #bebdbd;
 $cor_fundo: #ffffff;
@@ -28,6 +29,21 @@ $fonte-projeto-bold: 'GTWalsheimProBold';
 $fonte-admin-light: 'SF Pro Text Light';
 //$fonte-admin-light: 'HelveticaNeueLTStd45Light';
 $fonte-admin-medium: 'HelveticaNeueLTStd65Medium';
+
+%transition_fast,
+%transition_slow {
+    text-decoration: none;
+    transition-property: all;
+    -webkit-transition-timing-function: cubic-bezier(0.165, 0.63, 0.14, 0.82);
+    -moz-transition-timing-function: cubic-bezier(0.165, 0.63, 0.14, 0.82);
+    -ms-transition-timing-function: cubic-bezier(0.165, 0.63, 0.14, 0.82);
+    -o-transition-timing-function: cubic-bezier(0.165, 0.63, 0.14, 0.82);
+    transition-timing-function: cubic-bezier(0.165, 0.63, 0.14, 0.82);
+    //-webkit-font-smoothing: antialiased;
+}
+
+%transition_fast { transition-duration: 0.18s; }
+%transition_slow { transition-duration: 1s; }
 
 @font-face {
     font-family: 'GTWalsheimProRegular';

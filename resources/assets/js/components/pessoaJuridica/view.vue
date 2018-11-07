@@ -16,16 +16,13 @@
         <!-- Pessoa Física / Chancela -->
         <span class="campo">Pessoas Físicas</span>
         <div id="projetos_pf" class="valor" style="margin-top: 3px;">
-            <span class="campo">Cargos</span><br>
             <div id="projetos">
                 <table>
                     <tr v-for="pessoa in pessoas_fisicas_cargos_relacionados">
                         <td>
-                            <router-link :id="pessoa.pessoa_fisica_id" :to="{ name: 'pf-view', params: { id: pessoa.pessoa_fisica_id }}">
-                                {{ pessoa.pessoa_fisica_nome_adotado }}
-                            </router-link>
+                            <router-link :id="pessoa.pessoa_fisica_id" :to="{ name: 'pf-view',
+                            params: { id: pessoa.pessoa_fisica_id }}">{{ pessoa.pessoa_fisica_nome_adotado }}</router-link>&nbsp;/&nbsp;{{ pessoa.cargo }}
                         </td>
-                        <td>{{ pessoa.cargo }}</td>
                         <td>
                             <a @click.prevent="removeCargoPf(pessoa.pessoa_fisica_id, pessoa.cargo_id)">[X]</a>
                         </td>
@@ -35,11 +32,10 @@
         </div><br>
 
         <!-- Add novo chancela pessoa física -->
-        <a @click="mostraCargoPfBoxMetodo">[nova chancela pessoa física]</a>
+        <a @click="mostraCargoPfBoxMetodo" style="margin-bottom: 7px; display:block">[adicionar pessoa física]</a>
         <div v-if="mostraCargoPfBox">
             <!--pessoa_fisica_id-->
             <!--novo_cargo-->
-            <span class="campo">--- Nova Chancela PF</span><br>
             <span class="campo">Nome</span>
             <select @change="" name="pessoas_fisicas" class="pf_lista">
                 <option disabled selected value> -- Selecione um nome -- </option>
@@ -54,6 +50,21 @@
             </select>
             <a @click.prevent="adicionaCargoPf">[+]</a>
 
+        </div>
+
+        <br>
+
+        <span class="campo">Participação no(s) projeto(s) Estúdio Baile</span><br>
+        <div id="projetos">
+            <table>
+                <tr v-for="projeto in projetos" v-model="projetos">
+                    <td>
+                        <router-link
+                                :id="projeto.id"
+                                :to="{ name: 'projetos-view',
+                                    params: { id: projeto.id }}">{{ projeto['projeto'] }}</router-link>&nbsp;/&nbsp;{{ projeto['chancela'] }}</td>
+                </tr>
+            </table>
         </div>
         <br>
         <br>
@@ -137,7 +148,6 @@
             <!--Add novo endereço-->
             <a @click="mostraEnderecoBox = true">[novo endereço]</a>
             <div v-if="mostraEnderecoBox">
-                <span class="campo">--- Novo Endereço</span><br>
                 <span class="campo">Logradouro</span>
                 <div class="valor">
                     <input @input="novo_endereco.rua = $event.target.value" autocomplete="off" type="text" name="novo_endereco.rua" v-model="novo_endereco.rua" />
@@ -173,24 +183,7 @@
                 <a @click.prevent="adicionaEndereco">[+]</a>
 
             </div>
-            <br>
-            <br>
-            <br>
-            <span class="campo">Participação no(s) projeto(s) Estúdio Baile</span><br>
-            <div id="projetos">
-                <table>
-                    <tr v-for="projeto in projetos" v-model="projetos">
-                        <td>
-                            <router-link
-                                    :id="projeto.id"
-                                    :to="{ name: 'projetos-view', params: { id: projeto.id }}">
-                                {{ projeto['projeto'] }}
-                            </router-link>
-                        </td>
-                        <td>{{ projeto['chancela'] }}</td>
-                    </tr>
-                </table>
-            </div>
+
 
 
             <form @submit.prevent="salvaForm" method="POST">
@@ -246,6 +239,7 @@
         watch: {
             '$route' (destino) {
                 this.getPessoa(destino.params.id);
+                eventBus.$emit('changePessoaJuridica');
                 this.jQuery();
             },
         },
@@ -260,6 +254,7 @@
         methods: {
             getPessoa: function(id){
                 axios.get('/admin/ajax/pj/' + id).then(res => {
+                    eventBus.$emit('getPessoaJuridica');
                     let dados = res.data;
                     this.pessoa = dados.pessoa_juridica;
                     this.tags = dados.tags;
@@ -268,7 +263,6 @@
                     this.projetos = dados.projetos;
                     this.atributos = dados.atributos;
                     this.pessoas_fisicas_cargos_relacionados = dados.pessoas_fisicas_cargos_relacionados;
-                    console.log(this.pessoas_fisicas_cargos_relacionados);
                 } );
             },
             salvaForm: function(){
