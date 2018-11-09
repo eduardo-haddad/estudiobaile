@@ -16,12 +16,12 @@ ul {
 
 a {
     cursor: pointer;
-    color: $vermelho;
+    color: $magenta;
     text-decoration: none;
-    //&:hover {
-    //    color: $laranja;
-    //    @extend %transition_fast;
-    //}
+    &:hover {
+        color: $laranja;
+        @extend %transition_fast;
+    }
 }
 
 #app {
