@@ -24,6 +24,11 @@ a {
     }
 }
 
+hr {
+    border-top: 1px solid #efefef !important;
+    margin: 30px 0 !important;
+}
+
 #app {
     margin: 0;
     width: 100%;
@@ -92,8 +97,8 @@ a {
                     }
                 }
     
-            }
-        }
+            } //.container
+        } //#cabecalho
 
         #sidebar {
             float: left;
@@ -109,14 +114,12 @@ a {
                 padding: 0;
 
                 li {
-                    
                     line-height: 1em;
                     padding: 12px 10px 12px 0;
                     text-align: right;
 
                     &.grupo {
-                        // 
-
+                        //
                         span {
                             color: $cinza_escuro;
                             font-family: $fonte-admin-medium;
@@ -134,9 +137,7 @@ a {
                         color: $cinza_escuro;
                     }
                 } //li
-
-                
-            }
+            } //ul
 
             #inferior {
                 position: absolute;
@@ -164,9 +165,9 @@ a {
                             }
                         }
                     }
-                }
-            }
-        }
+                } //.add_contato
+            } //#inferior
+        } //#sidebar
 
         #conteudo_geral {
             float: left;
@@ -203,118 +204,104 @@ a {
                     text-align: left;
                 }
 
-                form {
-                    //
-
-                    label {
-                        color: $cinza;
-                    }
-
-                    .grupo {
-                        //
-
-                        input,
-                        select,
-                        .nome_grupo {
-                            margin-bottom: 20px;
-                        }
-
-                        .nome_grupo {
-                            font-size: 1.313em;
-                            margin-top: 32px;
-                        }
-
-                        input {}
-
-                    } //.grupo
-                } //form
-
-                .cargos {
-                    //
-
-                    //table tr td a {
-                    //    margin-right: 7px;
-                    //}
-
+                label {
+                    color: $cinza;
                 }
 
-                .resumo {
-
+                .grupo {
+                    //
+                    input,
+                    select,
                     .nome_grupo {
                         margin-bottom: 20px;
+                    }
+
+                    .nome_grupo {
                         font-size: 1.313em;
                         margin-top: 32px;
                     }
 
-                    .editar {
-                        font-size: 0.6em;
-                        display: inline-block;
-                        text-transform: lowercase;
-                        margin: 5px 0 0 10px;
-                        position: absolute;
+                    input {}
 
-                        a {
-                            color: $cinza;
-                        }
-                    }
+                } //.grupo
 
-                    .campo,
-                    .valor {
-                        float: left;
-                    }
+                .cargos {}
 
-                    .valor {
-                        width: 100%;
-                    }
+                .nome_grupo {
+                    margin-bottom: 20px;
+                    font-size: 1.313em;
+                    margin-top: 32px;
+                }
 
-                    .adiciona_contato {
-                        display: inline-block;
-                    }
+                .editar {
+                    font-size: 0.6em;
+                    display: inline-block;
+                    text-transform: lowercase;
+                    margin: 5px 0 0 10px;
+                    position: absolute;
 
-                    br {
-                        clear: both;
-                    }
-
-                    form {
-                        display: block;
-                    }
-
-                    input[type=text] {
-                        outline: none;
-                        border: none;
-                        display: inline-block;
-                        box-sizing: border-box;
-                        width: auto;
-                        min-width: 350px;
-                        border-bottom: 1px solid lightgray;
-                    }
-
-                    input[type=text]:focus {
-                        box-shadow: $cor_fundo;
-                        border: none;
-                    }
-
-                    select {
-                        background-color: $cor_fundo;
-                        border: none;
-                    }
-
-                    .botoes {
-                        margin-left: 8px;
-                        display: inline-block;
-
-                        .btn_edit,
-                        .btn_delete {
-                            width: 12px;
-                            height: auto;
-                            margin-right: 5px;
-                        }
+                    a {
+                        color: $cinza;
                     }
                 }
 
+                .campo,
+                .valor {
+                    float: left;
+                }
 
+                .valor {
+                    width: 100%;
+                }
 
+                .adiciona_contato {
+                    display: inline-block;
+                }
 
+                br {
+                    clear: both;
+                }
+
+                form {
+                    display: block;
+                }
+
+                input[type=text] {
+                    outline: none;
+                    border: none;
+                    display: inline-block;
+                    box-sizing: border-box;
+                    width: auto;
+                    min-width: 350px;
+                    border-bottom: 1px solid lightgray;
+                }
+
+                input[type=text]:focus {
+                    box-shadow: $cor_fundo;
+                    border: none;
+                }
+
+                select {
+                    background-color: $cor_fundo;
+                    border: none;
+                }
+
+                .botoes {
+                    margin-left: 8px;
+                    display: inline-block;
+
+                    .btn_edit,
+                    .btn_delete {
+                        width: 12px;
+                        height: auto;
+                        margin-right: 5px;
+                    }
+                }
+
+                .form_endereco {
+                    //
+
+                }
 
             } //#container_conteudo
 
@@ -425,7 +412,7 @@ a {
                 overflow-y: scroll;
                 float: left;
                 box-sizing: border-box;
-                padding: 45px 0 70px 50px;
+                padding: 45px 50px 70px 50px;
 
                 &.loading {
                     opacity: 0.2;
@@ -437,7 +424,7 @@ a {
                 }
             }
 
-        } //#conteudo
+        } //#conteudo_geral
     } //#principal
 } //#app
 

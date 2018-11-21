@@ -584,6 +584,11 @@ a:hover {
   color: #f59921;
 }
 
+hr {
+  border-top: 1px solid #efefef !important;
+  margin: 30px 0 !important;
+}
+
 #app {
   margin: 0;
   width: 100%;
@@ -750,28 +755,28 @@ a:hover {
   text-align: left;
 }
 
-#app #principal #conteudo_geral #container_conteudo form label {
+#app #principal #conteudo_geral #container_conteudo label {
   color: #999999;
 }
 
-#app #principal #conteudo_geral #container_conteudo form .grupo input,
-#app #principal #conteudo_geral #container_conteudo form .grupo select,
-#app #principal #conteudo_geral #container_conteudo form .grupo .nome_grupo {
+#app #principal #conteudo_geral #container_conteudo .grupo input,
+#app #principal #conteudo_geral #container_conteudo .grupo select,
+#app #principal #conteudo_geral #container_conteudo .grupo .nome_grupo {
   margin-bottom: 20px;
 }
 
-#app #principal #conteudo_geral #container_conteudo form .grupo .nome_grupo {
+#app #principal #conteudo_geral #container_conteudo .grupo .nome_grupo {
   font-size: 1.313em;
   margin-top: 32px;
 }
 
-#app #principal #conteudo_geral #container_conteudo .resumo .nome_grupo {
+#app #principal #conteudo_geral #container_conteudo .nome_grupo {
   margin-bottom: 20px;
   font-size: 1.313em;
   margin-top: 32px;
 }
 
-#app #principal #conteudo_geral #container_conteudo .resumo .editar {
+#app #principal #conteudo_geral #container_conteudo .editar {
   font-size: 0.6em;
   display: inline-block;
   text-transform: lowercase;
@@ -779,32 +784,32 @@ a:hover {
   position: absolute;
 }
 
-#app #principal #conteudo_geral #container_conteudo .resumo .editar a {
+#app #principal #conteudo_geral #container_conteudo .editar a {
   color: #999999;
 }
 
-#app #principal #conteudo_geral #container_conteudo .resumo .campo,
-#app #principal #conteudo_geral #container_conteudo .resumo .valor {
+#app #principal #conteudo_geral #container_conteudo .campo,
+#app #principal #conteudo_geral #container_conteudo .valor {
   float: left;
 }
 
-#app #principal #conteudo_geral #container_conteudo .resumo .valor {
+#app #principal #conteudo_geral #container_conteudo .valor {
   width: 100%;
 }
 
-#app #principal #conteudo_geral #container_conteudo .resumo .adiciona_contato {
+#app #principal #conteudo_geral #container_conteudo .adiciona_contato {
   display: inline-block;
 }
 
-#app #principal #conteudo_geral #container_conteudo .resumo br {
+#app #principal #conteudo_geral #container_conteudo br {
   clear: both;
 }
 
-#app #principal #conteudo_geral #container_conteudo .resumo form {
+#app #principal #conteudo_geral #container_conteudo form {
   display: block;
 }
 
-#app #principal #conteudo_geral #container_conteudo .resumo input[type=text] {
+#app #principal #conteudo_geral #container_conteudo input[type=text] {
   outline: none;
   border: none;
   display: inline-block;
@@ -815,24 +820,24 @@ a:hover {
   border-bottom: 1px solid lightgray;
 }
 
-#app #principal #conteudo_geral #container_conteudo .resumo input[type=text]:focus {
+#app #principal #conteudo_geral #container_conteudo input[type=text]:focus {
   -webkit-box-shadow: #ffffff;
           box-shadow: #ffffff;
   border: none;
 }
 
-#app #principal #conteudo_geral #container_conteudo .resumo select {
+#app #principal #conteudo_geral #container_conteudo select {
   background-color: #ffffff;
   border: none;
 }
 
-#app #principal #conteudo_geral #container_conteudo .resumo .botoes {
+#app #principal #conteudo_geral #container_conteudo .botoes {
   margin-left: 8px;
   display: inline-block;
 }
 
-#app #principal #conteudo_geral #container_conteudo .resumo .botoes .btn_edit,
-#app #principal #conteudo_geral #container_conteudo .resumo .botoes .btn_delete {
+#app #principal #conteudo_geral #container_conteudo .botoes .btn_edit,
+#app #principal #conteudo_geral #container_conteudo .botoes .btn_delete {
   width: 12px;
   height: auto;
   margin-right: 5px;
@@ -973,7 +978,7 @@ a:hover {
   float: left;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
-  padding: 45px 0 70px 50px;
+  padding: 45px 50px 70px 50px;
 }
 
 #app #principal #conteudo_geral .detalhe.loading {
