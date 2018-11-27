@@ -44,6 +44,11 @@ class PessoaJuridica extends Model
         return $this->belongsToMany('App\Endereco', 'pessoa_endereco', 'pessoa_juridica_id', 'endereco_id');
     }
 
+    public function arquivos()
+    {
+        return $this->belongsToMany('App\Arquivo', 'arquivos_relacionados', 'pessoa_juridica_id', 'arquivo_id');
+    }
+
     public function tags()
     {
         return $this->belongsToMany('App\Tag', 'pessoa_tag', 'pessoa_juridica_id', 'tag_id');

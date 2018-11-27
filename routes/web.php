@@ -119,6 +119,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles']], function(
         'as' => 'ajax.pf.getTagsSelecionadas',
         'roles' => $padrao
     ]);
+    Route::post('/ajax/pf/upload', [
+        'uses' => 'PessoaFisicaController@ajaxUpload',
+        'as' => 'ajax.pf.upload',
+        'roles' => $padrao
+    ]);
 
     // ** PESSOA JURÍDICA **
 
@@ -244,8 +249,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles']], function(
         'roles' => $padrao
     ]);
 
-
-
+    /** GERAL **/
+    Route::get('/download/{tipo}/{arquivo_id}', [
+        'uses' => 'Controller@getFile',
+        'roles' => $padrao
+    ]);
 
 
 

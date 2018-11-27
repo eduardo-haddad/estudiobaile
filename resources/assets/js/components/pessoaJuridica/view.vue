@@ -16,7 +16,7 @@
         <!-- Pessoa Física / Chancela -->
         <span class="campo">Pessoas Físicas</span>
         <div id="projetos_pf" class="valor" style="margin-top: 3px;">
-            <div id="projetos">
+            <div>
                 <table>
                     <tr v-for="pessoa in pessoas_fisicas_cargos_relacionados">
                         <td>
@@ -55,7 +55,7 @@
         <br>
 
         <span class="campo">Participação no(s) projeto(s) Estúdio Baile</span><br>
-        <div id="projetos">
+        <div>
             <table>
                 <tr v-for="projeto in projetos" v-model="projetos">
                     <td>
@@ -375,9 +375,8 @@
                 let Vue = this;
 
                 $(document).ready(function(){
-
                     //Carrega select2 de tags
-                    $('#tags_list').select2({
+                    $('#tags_list').val('').select2({
                         placeholder: "Digite as tags",
                         tags: true,
                         multiple: true,
@@ -389,6 +388,8 @@
                                 text: newTag.term + ' (novo)'
                             };
                         }
+                    }).on('change', function(){
+                        Vue.tags_atuais = $(this).val();
                     });
 
                     //Preenche tags selecionadas (timeout 1s)
@@ -402,13 +403,9 @@
                                 tags_ids.push(tags_selecionadas[i]['id']);
                             }
                             $('#tags_list').val(tags_ids).trigger('change');
-                        }, 0);
+                        }, 1000);
                     }).fail(function() {
                         return false;
-                    });
-
-                    $('#tags_list').on('change', function(){
-                        Vue.tags_atuais = $(this).val();
                     });
 
                     //Carrega select2 de pessoas físicas
@@ -427,9 +424,7 @@
                                 text: newTag.term + ' (novo)'
                             };
                         },
-                    });
-
-                    $('.pf_lista').on('change', function(){
+                    }).on('change', function(){
                         Vue.pessoa_fisica_id = $(this).val();
                     });
 
@@ -448,9 +443,7 @@
                                 text: newTag.term + ' (novo)'
                             };
                         }
-                    });
-
-                    $('.cargos_pf_lista').on('change', function(){
+                    }).on('change', function(){
                         Vue.novo_cargo = $(this).val();
                     });
 

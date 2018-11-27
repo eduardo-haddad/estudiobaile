@@ -26,6 +26,11 @@ class Projeto extends Model
         return $this->belongsToMany('App\PessoaJuridica', 'pj_projeto', 'projeto_id', 'pessoa_juridica_id');
     }
 
+    public function arquivos()
+    {
+        return $this->belongsToMany('App\Arquivo', 'arquivos_relacionados', 'projeto_id', 'arquivo_id');
+    }
+
     public static function getChancelaPorId($projeto_id, $pessoa_fisica_id) {
         return \DB::select("
             SELECT Chancela.id

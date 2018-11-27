@@ -6,12 +6,35 @@
         <br>
         <br>
         <br>
+
         <!-- Tags -->
         <span class="campo" style="float: left;">Tags</span>
         <select @change="tags_atuais = $event.target.value" name="tags" id="tags_list" class="js-example-basic-single">
             <option v-for="tag in tags" :value="tag.id" v-model="tag.id"><a href="#">{{ tag.text }}</a></option>
         </select>
         <br><br>
+
+        <label>Enviar arquivo
+            <input type="file" id="arquivo" ref="arquivo" @change="uploadInfo" />
+        </label><br>
+        <button @click="upload">Submit</button>
+        <br><br>
+        <div class="valor" style="margin-top: 3px;">
+            <span class="campo">Arquivos anexos</span>
+            <br>
+            <div id="arquivos_pf" class="cargos">
+                <table>
+                    <tr v-for="(arquivo, index) in arquivos">
+                        <td>{{ index+1 }})</td>
+                        <td><a :href="'/admin/download/pf/' + arquivo.id" download>{{ arquivo.nome.substr(9) }}</a></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <br>
+        <br>
+        <br>
+
         <!-- Pessoa Física / Chancela -->
         <div id="projetos_pf" class="valor" style="margin-top: 3px;">
             <span class="campo">Pessoas Jurídicas</span>
@@ -28,16 +51,14 @@
             </div>
         </div>
         <br>
+
         <hr style="clear:both">
         <span class="campo">Participação no(s) projeto(s) Estúdio Baile</span><br>
         <div id="projetos">
             <table>
                 <tr v-for="projeto in projetos" v-model="projetos">
                     <td>
-                        <router-link
-                                :id="projeto.id"
-                                :to="{ name: 'projetos-view',
-                                        params: { id: projeto.id }}">{{ projeto['projeto'] }}</router-link>&nbsp;/&nbsp;{{ projeto['chancela'] }}</td>
+                        <router-link :id="projeto.id" :to="{ name: 'projetos-view', params: { id: projeto.id }}">{{ projeto['projeto'] }}</router-link>&nbsp;/&nbsp;{{ projeto['chancela'] }}</td>
                 </tr>
             </table>
         </div>
@@ -49,7 +70,6 @@
                 <input autocomplete="off" type="text" :id="email.id" v-model="email.valor" name="email" />
                 <a @click.prevent="removeContato(email.id)">X</a>
             </div>
-            <!--<span class="campo">adicionar email:</span>-->
             <br>
             <a @click.prevent="adicionaEmail = true">[adicionar email]</a>
             <div v-if="adicionaEmail" class="adiciona_contato">
@@ -112,6 +132,7 @@
                 <input autocomplete="off" type="text" name="endereco.pais" v-model="endereco.pais" />
             </div><br>
         </div>
+
         <!--Add novo endereço-->
         <a @click="mostraEnderecoBox = true">[novo endereço]</a>
         <div v-if="mostraEnderecoBox">
@@ -153,6 +174,7 @@
         </div>
 
         <hr>
+
         <!--DADOS GERAIS-->
 
         <div class="valor">
@@ -246,6 +268,27 @@
             />
         </div><br>
 
+        <br>
+        <label><input type="checkbox" @click="mostraMei = !mostraMei" :checked="mostraMei" style="margin-right: 10px" />Possui MEI</label>
+        <div v-if="mostraMei" style="margin-top: 15px">
+            <div class="valor">
+                <span class="campo">CNPJ</span>
+                <input autocomplete="off" type="text"
+                       v-model="pessoa.cnpj"
+                       name="cnpj"
+                />
+            </div><br>
+
+            <div class="valor">
+                <span class="campo">Razão Social</span>
+                <input autocomplete="off" type="text"
+                       v-model="pessoa.razao_social"
+                       name="razao_social"
+                />
+            </div>
+        </div>
+
+
         <hr>
 
         <!-- Dados Bancários -->
@@ -271,7 +314,7 @@
                         {{ tipo_conta.valor }}
                     </option>
                 </select>
-            </div><br>                <br>
+            </div><br><br>
 
         </div>
         <!-- Add novos dados bancários -->
@@ -325,6 +368,7 @@
                 pessoa: {},
                 contatos: [],
                 enderecos: [],
+                arquivos: [],
                 dados_bancarios: [],
                 tags: [],
                 atributos: [],
@@ -338,11 +382,14 @@
                 novo_endereco: {rua:'',numero:'',complemento:'',bairro:'',cep:'',cidade:'',estado:'',pais:''},
                 novos_dados_bancarios: {nome_banco:'',agencia:'',conta:'',tipo_conta_id:''},
                 tags_atuais: [],
+                arquivo_atual: '',
+                mensagem_upload: '',
                 //Condicionais
                 adicionaEmail: false,
                 adicionaTel: false,
                 mostraEnderecoBox: false,
                 mostraDadosBancariosBox: false,
+                mostraMei: false,
             }
         },
         watch: {
@@ -351,6 +398,12 @@
                 eventBus.$emit('changePessoaFisica');
                 this.jQuery();
             },
+            'mostraMei' (check) {
+                if(!check) {
+                    this.pessoa.cnpj = null;
+                    this.pessoa.razao_social = null
+                }
+            }
         },
         computed: {
             emails: function() {
@@ -370,11 +423,18 @@
                     this.pessoa.estado_civil = dados.estado_civil;
                     this.contatos = dados.contatos;
                     this.enderecos = dados.enderecos;
+                    this.arquivos = dados.arquivos;
+                    console.log(this.arquivos);
                     this.dados_bancarios = dados.dados_bancarios;
                     this.tags = dados.tags;
                     this.projetos = dados.projetos;
                     this.pessoas_juridicas_relacionadas = dados.pessoas_juridicas;
                     this.atributos = dados.atributos;
+
+                    if(this.pessoa.cnpj !== null || this.pessoa.razao_social !== null) {
+                        this.mostraMei = true;
+                    }
+
                 } );
             },
             salvaForm: function(){
@@ -459,17 +519,34 @@
             selecionaTags: function(data){
                 //console.log(data);
             },
+            upload() {
+                let formData = new FormData();
+                formData.append('arquivo', this.arquivo_atual);
+                formData.append('pessoa_id', this.$route.params.id);
+
+                axios.post('/admin/ajax/pf/upload',
+                    formData, {
+                        headers: { 'Content-Type': 'multipart/form-data' },
+                    }
+                ).then(res => {
+                    this.arquivos = res.data[0];
+                    this.mensagem_upload = res.data[1];
+                    this.arquivo_atual = '';
+                }).catch(res => {
+                    console.log(res.data);
+                });
+            },
+            uploadInfo() {
+                this.arquivo_atual = this.$refs.arquivo.files[0];
+            },
             jQuery: function(){
 
                 //Instancia atual do Vue
                 let Vue = this;
 
                 $(document).ready(function(){
-                    //Apaga tags selecionadas no carregamento
-                    $('#tags_list').val('');
-
                     //Carrega select2 de tags
-                    $('#tags_list').select2({
+                    $('#tags_list').val('').select2({
                         placeholder: "Digite as tags",
                         tags: true,
                         multiple: true,
@@ -481,6 +558,8 @@
                                 text: newTag.term + ' (novo)'
                             };
                         }
+                    }).on('change', function(){
+                        Vue.tags_atuais = $(this).val();
                     });
 
                     //Preenche tags selecionadas (timeout 1s)
@@ -499,13 +578,9 @@
                         return false;
                     });
 
-                    $('#tags_list').on('change', function(){
-                        Vue.tags_atuais = $(this).val();
-                    });
-
-                    $('#tags_list').on("select2:selecting", function(e) {
-                        console.log('s');
-                    });
+                    // $('#tags_list').on("select2:selecting", function(e) {
+                    //
+                    // });
 
                 });
             },

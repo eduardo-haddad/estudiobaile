@@ -13,6 +13,7 @@ use App\EstadoCivil;
 use App\Endereco;
 use App\TipoContaBancaria;
 use App\Tag;
+use App\Arquivo;
 use Session;
 use DB;
 
@@ -230,6 +231,9 @@ class PessoaFisicaController extends Controller
         //Endereços
         $enderecos = $pessoa_fisica->enderecos()->get();
 
+        //Arquivos
+        $arquivos = $pessoa_fisica->arquivos()->get();
+
         //Pessoas Jurídicas
         $pessoas_juridicas = PessoaFisica::getPessoasJuridicasRelacionadasPorId($id);
 
@@ -253,6 +257,7 @@ class PessoaFisicaController extends Controller
             'estado_civil' => $estado_civil,
             'contatos' => $contatos,
             'enderecos' => $enderecos,
+            'arquivos' => $arquivos,
             'dados_bancarios' => $dados_bancarios,
             'tags' => $tags,
             'pessoas_juridicas' => $pessoas_juridicas,
@@ -283,9 +288,7 @@ class PessoaFisicaController extends Controller
                 $pessoa_fisica->$chave = $r->user()->name;
             }
             else {
-                if(!empty($request['pessoa'][$chave])) {
-                    $pessoa_fisica->$chave = $request['pessoa'][$chave];
-                }
+                $pessoa_fisica->$chave = $request['pessoa'][$chave];
             }
         endforeach;
 
@@ -531,6 +534,47 @@ class PessoaFisicaController extends Controller
         $pessoa = (new PessoaFisica)->find($id);
         $tags = $pessoa->tags()->get();
         return $tags;
+
+    }
+
+    public function ajaxUpload() {
+
+        $erros = array(
+            0 => 'Arquivo enviado com sucesso',
+            1 => 'Arquivo excede o tamanho estipulado em php.ini (upload_max_filesize)',
+            2 => 'Arquivo excede o tamanho estipulado no formulário HTML (max_file_size)',
+            3 => 'Arquivo enviado parcialmente',
+            4 => 'Nenhum arquivo enviado',
+            6 => 'Diretório temporário inexistente',
+            7 => 'Falha ao salvar arquivo no disco',
+            8 => 'Uma extensão PHP impediu o upload'
+        );
+
+        if(isset($_FILES['arquivo'])) {
+
+            // 0 => 'Arquivo enviado com sucesso'
+            if(!$_FILES['arquivo']['error']) {
+
+                $nome_arquivo = date('Ymd') . '_' . $_FILES['arquivo']['name'];
+                $arquivo = new Arquivo();
+                $arquivo->nome = $nome_arquivo;
+                $arquivo->deleted = 0;
+                $arquivo->save();
+
+                move_uploaded_file(
+                    $_FILES['arquivo']['tmp_name'],
+                    base_path() . '/public/uploads/pessoas_fisicas/' . $nome_arquivo
+                );
+
+                $pessoa_fisica = PessoaFisica::find($_REQUEST['pessoa_id']);
+                $pessoa_fisica->arquivos()->attach($arquivo->id);
+
+                return [$pessoa_fisica->arquivos()->get(), $erros[$_FILES['arquivo']['error']]];
+
+            }
+        }
+
+        return "Arquivo inválido";
 
     }
 

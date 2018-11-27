@@ -39285,6 +39285,49 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -39300,6 +39343,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             pessoa: {},
             contatos: [],
             enderecos: [],
+            arquivos: [],
             dados_bancarios: [],
             tags: [],
             atributos: [],
@@ -39313,11 +39357,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             novo_endereco: { rua: '', numero: '', complemento: '', bairro: '', cep: '', cidade: '', estado: '', pais: '' },
             novos_dados_bancarios: { nome_banco: '', agencia: '', conta: '', tipo_conta_id: '' },
             tags_atuais: [],
+            arquivo_atual: '',
+            mensagem_upload: '',
             //Condicionais
             adicionaEmail: false,
             adicionaTel: false,
             mostraEnderecoBox: false,
-            mostraDadosBancariosBox: false
+            mostraDadosBancariosBox: false,
+            mostraMei: false
         };
     },
 
@@ -39326,6 +39373,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.getPessoa(destino.params.id);
             __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$emit('changePessoaFisica');
             this.jQuery();
+        },
+        'mostraMei': function mostraMei(check) {
+            if (!check) {
+                this.pessoa.cnpj = null;
+                this.pessoa.razao_social = null;
+            }
         }
     },
     computed: {
@@ -39352,11 +39405,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 _this.pessoa.estado_civil = dados.estado_civil;
                 _this.contatos = dados.contatos;
                 _this.enderecos = dados.enderecos;
+                _this.arquivos = dados.arquivos;
+                console.log(_this.arquivos);
                 _this.dados_bancarios = dados.dados_bancarios;
                 _this.tags = dados.tags;
                 _this.projetos = dados.projetos;
                 _this.pessoas_juridicas_relacionadas = dados.pessoas_juridicas;
                 _this.atributos = dados.atributos;
+
+                if (_this.pessoa.cnpj !== null || _this.pessoa.razao_social !== null) {
+                    _this.mostraMei = true;
+                }
             });
         },
         salvaForm: function salvaForm() {
@@ -39455,17 +39514,35 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         selecionaTags: function selecionaTags(data) {
             //console.log(data);
         },
+        upload: function upload() {
+            var _this9 = this;
+
+            var formData = new FormData();
+            formData.append('arquivo', this.arquivo_atual);
+            formData.append('pessoa_id', this.$route.params.id);
+
+            axios.post('/admin/ajax/pf/upload', formData, {
+                headers: { 'Content-Type': 'multipart/form-data' }
+            }).then(function (res) {
+                _this9.arquivos = res.data[0];
+                _this9.mensagem_upload = res.data[1];
+                _this9.arquivo_atual = '';
+            }).catch(function (res) {
+                console.log(res.data);
+            });
+        },
+        uploadInfo: function uploadInfo() {
+            this.arquivo_atual = this.$refs.arquivo.files[0];
+        },
+
         jQuery: function jQuery() {
 
             //Instancia atual do Vue
             var Vue = this;
 
             $(document).ready(function () {
-                //Apaga tags selecionadas no carregamento
-                $('#tags_list').val('');
-
                 //Carrega select2 de tags
-                $('#tags_list').select2({
+                $('#tags_list').val('').select2({
                     placeholder: "Digite as tags",
                     tags: true,
                     multiple: true,
@@ -39479,6 +39556,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                             text: newTag.term + ' (novo)'
                         };
                     }
+                }).on('change', function () {
+                    Vue.tags_atuais = $(this).val();
                 });
 
                 //Preenche tags selecionadas (timeout 1s)
@@ -39497,13 +39576,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     return false;
                 });
 
-                $('#tags_list').on('change', function () {
-                    Vue.tags_atuais = $(this).val();
-                });
-
-                $('#tags_list').on("select2:selecting", function (e) {
-                    console.log('s');
-                });
+                // $('#tags_list').on("select2:selecting", function(e) {
+                //
+                // });
             });
         }
     }
@@ -39566,6 +39641,61 @@ var render = function() {
       ),
       _vm._v(" "),
       _c("br"),
+      _c("br"),
+      _vm._v(" "),
+      _c("label", [
+        _vm._v("Enviar arquivo\n        "),
+        _c("input", {
+          ref: "arquivo",
+          attrs: { type: "file", id: "arquivo" },
+          on: { change: _vm.uploadInfo }
+        })
+      ]),
+      _c("br"),
+      _vm._v(" "),
+      _c("button", { on: { click: _vm.upload } }, [_vm._v("Submit")]),
+      _vm._v(" "),
+      _c("br"),
+      _c("br"),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "valor", staticStyle: { "margin-top": "3px" } },
+        [
+          _c("span", { staticClass: "campo" }, [_vm._v("Arquivos anexos")]),
+          _vm._v(" "),
+          _c("br"),
+          _vm._v(" "),
+          _c("div", { staticClass: "cargos", attrs: { id: "arquivos_pf" } }, [
+            _c(
+              "table",
+              _vm._l(_vm.arquivos, function(arquivo, index) {
+                return _c("tr", [
+                  _c("td", [_vm._v(_vm._s(index + 1) + ")")]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _c(
+                      "a",
+                      {
+                        attrs: {
+                          href: "/admin/download/pf/" + arquivo.id,
+                          download: ""
+                        }
+                      },
+                      [_vm._v(_vm._s(arquivo.nome.substr(9)))]
+                    )
+                  ])
+                ])
+              })
+            )
+          ])
+        ]
+      ),
+      _vm._v(" "),
+      _c("br"),
+      _vm._v(" "),
+      _c("br"),
+      _vm._v(" "),
       _c("br"),
       _vm._v(" "),
       _c(
@@ -40808,6 +40938,81 @@ var render = function() {
       ]),
       _c("br"),
       _vm._v(" "),
+      _c("br"),
+      _vm._v(" "),
+      _c("label", [
+        _c("input", {
+          staticStyle: { "margin-right": "10px" },
+          attrs: { type: "checkbox" },
+          domProps: { checked: _vm.mostraMei },
+          on: {
+            click: function($event) {
+              _vm.mostraMei = !_vm.mostraMei
+            }
+          }
+        }),
+        _vm._v("Possui MEI")
+      ]),
+      _vm._v(" "),
+      _vm.mostraMei
+        ? _c("div", { staticStyle: { "margin-top": "15px" } }, [
+            _c("div", { staticClass: "valor" }, [
+              _c("span", { staticClass: "campo" }, [_vm._v("CNPJ")]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.pessoa.cnpj,
+                    expression: "pessoa.cnpj"
+                  }
+                ],
+                attrs: { autocomplete: "off", type: "text", name: "cnpj" },
+                domProps: { value: _vm.pessoa.cnpj },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.pessoa, "cnpj", $event.target.value)
+                  }
+                }
+              })
+            ]),
+            _c("br"),
+            _vm._v(" "),
+            _c("div", { staticClass: "valor" }, [
+              _c("span", { staticClass: "campo" }, [_vm._v("Razão Social")]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.pessoa.razao_social,
+                    expression: "pessoa.razao_social"
+                  }
+                ],
+                attrs: {
+                  autocomplete: "off",
+                  type: "text",
+                  name: "razao_social"
+                },
+                domProps: { value: _vm.pessoa.razao_social },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.pessoa, "razao_social", $event.target.value)
+                  }
+                }
+              })
+            ])
+          ])
+        : _vm._e(),
+      _vm._v(" "),
       _c("hr"),
       _vm._v(" "),
       _vm._l(_vm.dados_bancarios, function(dado_bancario, index) {
@@ -40965,7 +41170,6 @@ var render = function() {
             )
           ]),
           _c("br"),
-          _vm._v(" "),
           _c("br")
         ])
       }),
@@ -41899,9 +42103,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var Vue = this;
 
             $(document).ready(function () {
-
                 //Carrega select2 de tags
-                $('#tags_list').select2({
+                $('#tags_list').val('').select2({
                     placeholder: "Digite as tags",
                     tags: true,
                     multiple: true,
@@ -41915,6 +42118,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                             text: newTag.term + ' (novo)'
                         };
                     }
+                }).on('change', function () {
+                    Vue.tags_atuais = $(this).val();
                 });
 
                 //Preenche tags selecionadas (timeout 1s)
@@ -41928,13 +42133,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                             tags_ids.push(tags_selecionadas[i]['id']);
                         }
                         $('#tags_list').val(tags_ids).trigger('change');
-                    }, 0);
+                    }, 1000);
                 }).fail(function () {
                     return false;
-                });
-
-                $('#tags_list').on('change', function () {
-                    Vue.tags_atuais = $(this).val();
                 });
 
                 //Carrega select2 de pessoas físicas
@@ -41955,9 +42156,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                             text: newTag.term + ' (novo)'
                         };
                     }
-                });
-
-                $('.pf_lista').on('change', function () {
+                }).on('change', function () {
                     Vue.pessoa_fisica_id = $(this).val();
                 });
 
@@ -41978,9 +42177,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                             text: newTag.term + ' (novo)'
                         };
                     }
-                });
-
-                $('.cargos_pf_lista').on('change', function () {
+                }).on('change', function () {
                     Vue.novo_cargo = $(this).val();
                 });
             });
@@ -42057,7 +42254,7 @@ var render = function() {
           attrs: { id: "projetos_pf" }
         },
         [
-          _c("div", { attrs: { id: "projetos" } }, [
+          _c("div", [
             _c(
               "table",
               _vm._l(_vm.pessoas_fisicas_cargos_relacionados, function(pessoa) {
@@ -42198,7 +42395,7 @@ var render = function() {
       ]),
       _c("br"),
       _vm._v(" "),
-      _c("div", { attrs: { id: "projetos" } }, [
+      _c("div", [
         _c(
           "table",
           _vm._l(_vm.projetos, function(projeto) {
