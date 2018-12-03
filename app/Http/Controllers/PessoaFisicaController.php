@@ -592,11 +592,14 @@ class PessoaFisicaController extends Controller
 
                 $pessoa_id = $_REQUEST['pessoa_id'];
 
-                $diretorio = "/public/uploads/pessoas_fisicas/$pessoa_id/";
+                $diretorio = base_path() . "/public/uploads/pessoas_fisicas/$pessoa_id/";
+
+                // cria diretório se não existir
+                if(!is_dir($diretorio)) mkdir($diretorio);
 
                 move_uploaded_file(
                     $_FILES['arquivo']['tmp_name'],
-                    base_path() . $diretorio . $nome_arquivo
+                    $diretorio . $nome_arquivo
                 );
 
                 $pessoa_fisica = PessoaFisica::find($pessoa_id);
@@ -681,8 +684,8 @@ class PessoaFisicaController extends Controller
         //Dados para criação de thumbnail
         $nome_arquivo = $arquivo['nome'];
         $extensao = $arquivo['extensao'];
-        $origem = base_path() . "/public/uploads/pessoas_fisicas/$pessoa_id/$nome_arquivo";
-        $destino = base_path() . "/public/thumbs/pessoas_fisicas/$pessoa_id/$nome_arquivo";
+        $origem = base_path() . "/public/uploads/pessoas_fisicas/$pessoa_id/";
+        $destino = base_path() . "/public/thumbs/pessoas_fisicas/$pessoa_id/";
         $dir_thumbs = base_path() . "/public/thumbs/pessoas_fisicas/$pessoa_id";
 
         //Checa se arquivo relacionado tem destaque
@@ -719,8 +722,10 @@ class PessoaFisicaController extends Controller
 
             //Apaga outros thumbs
             if($this->rmRecursivo($dir_thumbs)) {
+                // cria diretório se não existir
+                if(!is_dir($destino)) mkdir($destino);
                 //Gera novo thumb
-                if($this->makeThumb($origem, $destino, 300, $extensao)) {
+                if($this->makeThumb($origem.$nome_arquivo, $destino.$nome_arquivo, 300, $extensao)) {
                     return [
                         'imagem_destaque' => $arquivo,
                         'arquivos' => $arquivos
