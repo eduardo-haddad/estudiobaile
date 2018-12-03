@@ -12,3 +12,6 @@ npm-debug.log
 yarn-error.log
 .env
 .DS_Store
+
+/public/uploads/*
+/public/thumbs/*
