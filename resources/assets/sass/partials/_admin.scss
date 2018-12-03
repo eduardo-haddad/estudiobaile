@@ -192,8 +192,38 @@ hr {
                 .titulo {
                     color: $cinza_escuro;
                     font-size: 2.5em;
-                    min-height: 48px;
+                    height: 92px;
                     display: block;
+                    width: 100%;
+
+                    .imagem_destaque {
+                      display: block;
+                      width: 92px;
+                      height: 92px;
+                      float: left;
+
+                      img {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                        -webkit-border-radius: 50%;
+                        -moz-border-radius: 50%;
+                        border-radius: 50%;
+                      }
+                    }
+                    .nome {
+                      float: left;
+                      display: table;
+                      width: calc(100% - 92px);
+                      height: 100%;
+                      padding-left: 30px;
+                      box-sizing: border-box;
+
+                      span {
+                        display: table-cell;
+                        vertical-align: middle;
+                      }
+                    }
                 }
 
                 .campo {
@@ -224,6 +254,72 @@ hr {
                     input {}
 
                 } //.grupo
+
+                .tabela_arquivos {
+                  //
+
+                  table {
+                    font-size: 12px;
+                    border-collapse: collapse;
+                    border-spacing: 0;
+
+                    th, td {
+                      position: relative;
+                      top: 2px;
+                      padding: 5px 10px 3px 0;
+                      height: 29px;
+
+                      &.num_arquivo {
+                        min-width: 20px;
+                        max-width: 20px;
+                      }
+                      &.nome_arquivo {
+                        min-width: 240px;
+                        max-width: 240px;
+                      }
+                      &.descricao_arquivo {
+                        min-width: 240px;
+                        max-width: 240px;
+                      }
+                      &.destaque_arquivo {
+                        text-align: center;
+                        min-width: 60px;
+                        max-width: 60px;
+                      }
+                      &.tipo_arquivo {
+                        min-width: 68px;
+                        max-width: 68px;
+                      }
+                      &.data_arquivo {
+                        min-width: 130px;
+                        max-width: 130px;
+                      }
+                      &.remove_arquivo {
+                        text-align: center;
+                        min-width: 60px;
+                        max-width: 60px;
+                      }
+
+                      input {
+                        background-color: transparent;
+                        border: none;
+                        width: 100%;
+                        min-width: unset;
+                      }
+                    }
+
+                    tr:nth-child(even){
+                      background-color: $cinza_claro;
+                      //color: #fff;
+                    }
+
+                  }//table
+
+                  .btn_destaque {
+                    width: 18px;
+                    height: 18px;
+                  }
+                }//tabela_arquivos
 
                 .cargos {}
 

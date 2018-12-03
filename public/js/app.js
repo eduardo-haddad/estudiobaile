@@ -10749,7 +10749,7 @@ return jQuery;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function($) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return eventBus; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return eventBus; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__routes__ = __webpack_require__(42);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_pessoaFisica_index__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_pessoaFisica_index___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_pessoaFisica_index__);
@@ -10769,18 +10769,6 @@ new Vue({
         pfIndex: __WEBPACK_IMPORTED_MODULE_1__components_pessoaFisica_index___default.a
     }
 });
-
-// jQuery
-
-$(document).ready(function () {
-
-    // $('.add_contato .botao_inner').on('click', function(){
-    //
-    // });
-    // $('[data-toggle="popover"]').popover();
-
-});
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(1)))
 
 /***/ }),
 /* 3 */
@@ -38825,13 +38813,14 @@ var _this2 = this;
             return _this2.item_selecionado;
         },
         scroll: function scroll(id) {
-            var myElement = document.getElementById(id);
+            var id_scroll = id.toString();
+            var myElement = document.getElementById(id_scroll);
             var topPos = myElement.offsetTop;
             document.getElementById('lista_pf').scrollTop = topPos - 60;
         },
         highlight_menu: function highlight_menu() {
-            var menu = document.getElementById("menu_principal");
-            var items = menu.getElementsByTagName("li");
+            var menu = document.getElementById('menu_principal');
+            var items = menu.getElementsByTagName('li');
             var url = window.location.href.split('/admin#/')[1];
             for (var i = 0; i < items.length; ++i) {
                 if (url.includes(items[i].id)) items[i].className = "opcao selecionado";else items[i].className = "opcao";
@@ -39328,6 +39317,30 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -39336,6 +39349,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     created: function created() {
         this.getPessoa(this.$route.params.id);
         this.jQuery();
+        //reticências em strings maiores que "n"
+        String.prototype.trunc = function (n) {
+            return this.substr(0, n - 1) + (this.length > n ? '...' : '');
+        };
+        //basepath
+        this.root = ROOT;
     },
     data: function data() {
         return {
@@ -39352,13 +39371,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             projetos: [],
             pessoas_juridicas_relacionadas: [],
             //Campos de inclusão
+            root: '',
             novo_email: '',
             novo_telefone: '',
             novo_endereco: { rua: '', numero: '', complemento: '', bairro: '', cep: '', cidade: '', estado: '', pais: '' },
             novos_dados_bancarios: { nome_banco: '', agencia: '', conta: '', tipo_conta_id: '' },
             tags_atuais: [],
             arquivo_atual: '',
+            descricao_arquivo: '',
             mensagem_upload: '',
+            id_destaque: '',
+            imagem_destaque: '',
             //Condicionais
             adicionaEmail: false,
             adicionaTel: false,
@@ -39406,16 +39429,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 _this.contatos = dados.contatos;
                 _this.enderecos = dados.enderecos;
                 _this.arquivos = dados.arquivos;
-                console.log(_this.arquivos);
                 _this.dados_bancarios = dados.dados_bancarios;
                 _this.tags = dados.tags;
                 _this.projetos = dados.projetos;
                 _this.pessoas_juridicas_relacionadas = dados.pessoas_juridicas;
                 _this.atributos = dados.atributos;
 
+                //campo MEI
                 if (_this.pessoa.cnpj !== null || _this.pessoa.razao_social !== null) {
                     _this.mostraMei = true;
                 }
+
+                //imagem de destaque
+                _this.imagem_destaque = _this.root + '/img/perfil_vazio.png';
+                _this.getImagemDestaque();
             });
         },
         salvaForm: function salvaForm() {
@@ -39425,6 +39452,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 pessoa: this.pessoa,
                 contatos: this.contatos,
                 enderecos: this.enderecos,
+                arquivos: this.arquivos,
                 dados_bancarios: this.dados_bancarios,
                 tags: this.tags_atuais
             }).then(function (res) {
@@ -39520,21 +39548,59 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var formData = new FormData();
             formData.append('arquivo', this.arquivo_atual);
             formData.append('pessoa_id', this.$route.params.id);
+            formData.append('descricao_arquivo', this.descricao_arquivo);
 
             axios.post('/admin/ajax/pf/upload', formData, {
                 headers: { 'Content-Type': 'multipart/form-data' }
             }).then(function (res) {
-                _this9.arquivos = res.data[0];
-                _this9.mensagem_upload = res.data[1];
+                _this9.mensagem_upload = res.data['mensagem_upload'];
+                _this9.arquivos = res.data['arquivos'];
                 _this9.arquivo_atual = '';
+                _this9.descricao_arquivo = '';
+                _this9.$refs.arquivo.value = '';
             }).catch(function (res) {
                 console.log(res.data);
+            });
+        },
+        removeArquivo: function removeArquivo(id) {
+            var _this10 = this;
+
+            axios.post('/admin/ajax/pf/removeArquivo', {
+                arquivo_id: id,
+                pessoa_id: this.$route.params.id
+            }).then(function (res) {
+                _this10.arquivos = res.data['arquivos'];
+                if (res.data['remove_destaque'] === true) _this10.imagem_destaque = _this10.root + '/img/perfil_vazio.png';
             });
         },
         uploadInfo: function uploadInfo() {
             this.arquivo_atual = this.$refs.arquivo.files[0];
         },
 
+        setImagemDestaque: function setImagemDestaque(arquivo_id) {
+            var _this11 = this;
+
+            axios.post('/admin/ajax/pf/setImagemDestaque', {
+                arquivo_id: arquivo_id,
+                pessoa_id: this.$route.params.id
+            }).then(function (res) {
+                _this11.id_destaque = res.data['imagem_destaque']['id'];
+                _this11.arquivos = res.data['arquivos'];
+                if (_this11.id_destaque === 0) _this11.imagem_destaque = _this11.root + '/img/perfil_vazio.png';else _this11.imagem_destaque = _this11.root + '/thumbs/pessoas_fisicas/' + _this11.$route.params.id + '/' + res.data['imagem_destaque']['nome'];
+            });
+        },
+        getImagemDestaque: function getImagemDestaque() {
+            var _this12 = this;
+
+            axios.post('/admin/ajax/pf/getImagemDestaque', {
+                pessoa_id: this.$route.params.id
+            }).then(function (res) {
+                if (typeof res.data !== "string") {
+                    _this12.id_destaque = res.data.id;
+                    _this12.imagem_destaque = _this12.root + '/thumbs/pessoas_fisicas/' + _this12.$route.params.id + '/' + res.data.nome;
+                } else _this12.imagem_destaque = _this12.root + '/img/perfil_vazio.png';
+            });
+        },
         jQuery: function jQuery() {
 
             //Instancia atual do Vue
@@ -39598,7 +39664,13 @@ var render = function() {
     { staticClass: "formulario", attrs: { id: "container_conteudo" } },
     [
       _c("div", { staticClass: "titulo" }, [
-        _vm._v(_vm._s(this.pessoa.nome_adotado))
+        _c("div", { staticClass: "imagem_destaque" }, [
+          _c("img", { attrs: { src: _vm.imagem_destaque } })
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "nome" }, [
+          _c("span", [_vm._v(_vm._s(this.pessoa.nome_adotado))])
+        ])
       ]),
       _vm._v(" "),
       _c("br"),
@@ -39649,6 +39721,36 @@ var render = function() {
           ref: "arquivo",
           attrs: { type: "file", id: "arquivo" },
           on: { change: _vm.uploadInfo }
+        }),
+        _vm._v(" "),
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.descricao_arquivo,
+              expression: "descricao_arquivo"
+            }
+          ],
+          attrs: {
+            type: "text",
+            name: "descricao_arquivo",
+            placeholder: "Descrição"
+          },
+          domProps: { value: _vm.descricao_arquivo },
+          on: {
+            input: [
+              function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.descricao_arquivo = $event.target.value
+              },
+              function($event) {
+                _vm.descricao_arquivo = $event.target.value
+              }
+            ]
+          }
         })
       ]),
       _c("br"),
@@ -39666,27 +39768,110 @@ var render = function() {
           _vm._v(" "),
           _c("br"),
           _vm._v(" "),
-          _c("div", { staticClass: "cargos", attrs: { id: "arquivos_pf" } }, [
+          _c("div", { staticClass: "tabela_arquivos" }, [
             _c(
               "table",
-              _vm._l(_vm.arquivos, function(arquivo, index) {
-                return _c("tr", [
-                  _c("td", [_vm._v(_vm._s(index + 1) + ")")]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _c(
-                      "a",
-                      {
+              [
+                _vm._m(0),
+                _vm._v(" "),
+                _vm._l(_vm.arquivos, function(arquivo, index) {
+                  return _c("tr", [
+                    _c("td", { staticClass: "num_arquivo" }, [
+                      _vm._v(_vm._s(index + 1))
+                    ]),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "nome_arquivo" }, [
+                      _c(
+                        "a",
+                        {
+                          attrs: {
+                            href: "/admin/download/pf/" + arquivo.id,
+                            download: ""
+                          }
+                        },
+                        [_vm._v(_vm._s(arquivo.nome.substr(15).trunc(30)))]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "descricao_arquivo" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: arquivo.descricao,
+                            expression: "arquivo.descricao"
+                          }
+                        ],
                         attrs: {
-                          href: "/admin/download/pf/" + arquivo.id,
-                          download: ""
+                          autocomplete: "off",
+                          type: "text",
+                          name: "arquivo_descricao"
+                        },
+                        domProps: { value: arquivo.descricao },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(arquivo, "descricao", $event.target.value)
+                          }
                         }
-                      },
-                      [_vm._v(_vm._s(arquivo.nome.substr(9)))]
-                    )
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "destaque_arquivo" }, [
+                      _c(
+                        "a",
+                        {
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              _vm.setImagemDestaque(arquivo.id)
+                            }
+                          }
+                        },
+                        [
+                          arquivo.tipo === "imagem"
+                            ? _c("img", {
+                                staticClass: "btn_destaque",
+                                attrs: {
+                                  src:
+                                    _vm.id_destaque === arquivo.id
+                                      ? _vm.root + "/img/btn_destaque_ativo.png"
+                                      : _vm.root + "/img/btn_destaque.png"
+                                }
+                              })
+                            : _vm._e()
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "tipo_arquivo" }, [
+                      _vm._v(_vm._s(arquivo.tipo))
+                    ]),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "data_arquivo" }, [
+                      _vm._v(_vm._s(arquivo.data))
+                    ]),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "remove_arquivo" }, [
+                      _c(
+                        "a",
+                        {
+                          on: {
+                            click: function($event) {
+                              _vm.removeArquivo(arquivo.id)
+                            }
+                          }
+                        },
+                        [_vm._v("X")]
+                      )
+                    ])
                   ])
-                ])
-              })
+                })
+              ],
+              2
             )
           ])
         ]
@@ -41401,7 +41586,28 @@ var render = function() {
     2
   )
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("th", { staticClass: "num_arquivo" }, [_vm._v("#")]),
+      _vm._v(" "),
+      _c("th", { staticClass: "nome_arquivo" }, [_vm._v("Nome")]),
+      _vm._v(" "),
+      _c("th", { staticClass: "descricao_arquivo" }, [_vm._v("Descrição")]),
+      _vm._v(" "),
+      _c("th", { staticClass: "destaque_arquivo" }, [_vm._v("Destaque")]),
+      _vm._v(" "),
+      _c("th", { staticClass: "tipo_arquivo" }, [_vm._v("Tipo")]),
+      _vm._v(" "),
+      _c("th", { staticClass: "data_arquivo" }, [_vm._v("Data")]),
+      _vm._v(" "),
+      _c("th", { staticClass: "remove_arquivo" }, [_vm._v("Remover")])
+    ])
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -43405,7 +43611,6 @@ var _this2 = this;
 
         axios.get('/admin/ajax/projetos/index').then(function (res) {
             _this.projetos = res.data;
-            //console.log(this.pessoas);
         });
 
         //highlight menu

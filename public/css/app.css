@@ -743,8 +743,39 @@ hr {
 #app #principal #conteudo_geral #container_conteudo .titulo {
   color: #58595b;
   font-size: 2.5em;
-  min-height: 48px;
+  height: 92px;
   display: block;
+  width: 100%;
+}
+
+#app #principal #conteudo_geral #container_conteudo .titulo .imagem_destaque {
+  display: block;
+  width: 92px;
+  height: 92px;
+  float: left;
+}
+
+#app #principal #conteudo_geral #container_conteudo .titulo .imagem_destaque img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 50%;
+}
+
+#app #principal #conteudo_geral #container_conteudo .titulo .nome {
+  float: left;
+  display: table;
+  width: calc(100% - 92px);
+  height: 100%;
+  padding-left: 30px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+#app #principal #conteudo_geral #container_conteudo .titulo .nome span {
+  display: table-cell;
+  vertical-align: middle;
 }
 
 #app #principal #conteudo_geral #container_conteudo .campo {
@@ -768,6 +799,72 @@ hr {
 #app #principal #conteudo_geral #container_conteudo .grupo .nome_grupo {
   font-size: 1.313em;
   margin-top: 32px;
+}
+
+#app #principal #conteudo_geral #container_conteudo .tabela_arquivos table {
+  font-size: 12px;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+#app #principal #conteudo_geral #container_conteudo .tabela_arquivos table th, #app #principal #conteudo_geral #container_conteudo .tabela_arquivos table td {
+  position: relative;
+  top: 2px;
+  padding: 5px 10px 3px 0;
+  height: 29px;
+}
+
+#app #principal #conteudo_geral #container_conteudo .tabela_arquivos table th.num_arquivo, #app #principal #conteudo_geral #container_conteudo .tabela_arquivos table td.num_arquivo {
+  min-width: 20px;
+  max-width: 20px;
+}
+
+#app #principal #conteudo_geral #container_conteudo .tabela_arquivos table th.nome_arquivo, #app #principal #conteudo_geral #container_conteudo .tabela_arquivos table td.nome_arquivo {
+  min-width: 240px;
+  max-width: 240px;
+}
+
+#app #principal #conteudo_geral #container_conteudo .tabela_arquivos table th.descricao_arquivo, #app #principal #conteudo_geral #container_conteudo .tabela_arquivos table td.descricao_arquivo {
+  min-width: 240px;
+  max-width: 240px;
+}
+
+#app #principal #conteudo_geral #container_conteudo .tabela_arquivos table th.destaque_arquivo, #app #principal #conteudo_geral #container_conteudo .tabela_arquivos table td.destaque_arquivo {
+  text-align: center;
+  min-width: 60px;
+  max-width: 60px;
+}
+
+#app #principal #conteudo_geral #container_conteudo .tabela_arquivos table th.tipo_arquivo, #app #principal #conteudo_geral #container_conteudo .tabela_arquivos table td.tipo_arquivo {
+  min-width: 68px;
+  max-width: 68px;
+}
+
+#app #principal #conteudo_geral #container_conteudo .tabela_arquivos table th.data_arquivo, #app #principal #conteudo_geral #container_conteudo .tabela_arquivos table td.data_arquivo {
+  min-width: 130px;
+  max-width: 130px;
+}
+
+#app #principal #conteudo_geral #container_conteudo .tabela_arquivos table th.remove_arquivo, #app #principal #conteudo_geral #container_conteudo .tabela_arquivos table td.remove_arquivo {
+  text-align: center;
+  min-width: 60px;
+  max-width: 60px;
+}
+
+#app #principal #conteudo_geral #container_conteudo .tabela_arquivos table th input, #app #principal #conteudo_geral #container_conteudo .tabela_arquivos table td input {
+  background-color: transparent;
+  border: none;
+  width: 100%;
+  min-width: unset;
+}
+
+#app #principal #conteudo_geral #container_conteudo .tabela_arquivos table tr:nth-child(even) {
+  background-color: #f8f8f8;
+}
+
+#app #principal #conteudo_geral #container_conteudo .tabela_arquivos .btn_destaque {
+  width: 18px;
+  height: 18px;
 }
 
 #app #principal #conteudo_geral #container_conteudo .nome_grupo {

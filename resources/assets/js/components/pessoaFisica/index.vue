@@ -75,13 +75,14 @@
                 return this.item_selecionado;
             },
             scroll: (id) => {
-                let myElement = document.getElementById(id);
+                let id_scroll = id.toString();
+                let myElement = document.getElementById(id_scroll);
                 let topPos = myElement.offsetTop;
                 document.getElementById('lista_pf').scrollTop = topPos - 60;
             },
             highlight_menu: () => {
-                const menu = document.getElementById("menu_principal");
-                let items = menu.getElementsByTagName("li");
+                const menu = document.getElementById('menu_principal');
+                let items = menu.getElementsByTagName('li');
                 let url = window.location.href.split('/admin#/')[1];
                 for (let i = 0; i < items.length; ++i) {
                     if(url.includes(items[i].id))

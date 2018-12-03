@@ -32,7 +32,6 @@
         mounted() {
             axios.get('/admin/ajax/projetos/index').then(res => {
                 this.projetos = res.data;
-                //console.log(this.pessoas);
             });
 
             //highlight menu

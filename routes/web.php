@@ -124,6 +124,22 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles']], function(
         'as' => 'ajax.pf.upload',
         'roles' => $padrao
     ]);
+    Route::post('/ajax/pf/removeArquivo', [
+        'uses' => 'PessoaFisicaController@ajaxRemoveArquivo',
+        'as' => 'ajax.pf.removeArquivo',
+        'roles' => $padrao
+    ]);
+    Route::post('/ajax/pf/getImagemDestaque', [
+        'uses' => 'PessoaFisicaController@ajaxGetImagemDestaque',
+        'as' => 'ajax.pf.ajaxGetImagemDestaque',
+        'roles' => $padrao
+    ]);
+    Route::post('/ajax/pf/setImagemDestaque', [
+        'uses' => 'PessoaFisicaController@ajaxSetImagemDestaque',
+        'as' => 'ajax.pf.setImagemDestaque',
+        'roles' => $padrao
+    ]);
+
 
     // ** PESSOA JURÍDICA **
 
@@ -254,7 +270,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles']], function(
         'uses' => 'Controller@getFile',
         'roles' => $padrao
     ]);
-
 
 
     // Home

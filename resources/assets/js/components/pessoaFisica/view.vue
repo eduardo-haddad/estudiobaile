@@ -2,7 +2,14 @@
 
     <div id="container_conteudo" class="formulario">
 
-        <div class="titulo">{{ this.pessoa.nome_adotado }}</div>
+        <div class="titulo">
+            <div class="imagem_destaque">
+                <img :src="imagem_destaque" />
+            </div>
+            <div class="nome">
+                <span>{{ this.pessoa.nome_adotado }}</span>
+            </div>
+        </div>
         <br>
         <br>
         <br>
@@ -16,17 +23,34 @@
 
         <label>Enviar arquivo
             <input type="file" id="arquivo" ref="arquivo" @change="uploadInfo" />
+            <input type="text" @input="descricao_arquivo = $event.target.value" name="descricao_arquivo" v-model="descricao_arquivo" placeholder="Descrição"  />
         </label><br>
         <button @click="upload">Submit</button>
         <br><br>
         <div class="valor" style="margin-top: 3px;">
             <span class="campo">Arquivos anexos</span>
             <br>
-            <div id="arquivos_pf" class="cargos">
+            <div class="tabela_arquivos">
                 <table>
+                    <tr>
+                        <th class="num_arquivo">#</th>
+                        <th class="nome_arquivo">Nome</th>
+                        <th class="descricao_arquivo">Descrição</th>
+                        <th class="destaque_arquivo">Destaque</th>
+                        <th class="tipo_arquivo">Tipo</th>
+                        <th class="data_arquivo">Data</th>
+                        <th class="remove_arquivo">Remover</th>
+                    </tr>
                     <tr v-for="(arquivo, index) in arquivos">
-                        <td>{{ index+1 }})</td>
-                        <td><a :href="'/admin/download/pf/' + arquivo.id" download>{{ arquivo.nome.substr(9) }}</a></td>
+                        <td class="num_arquivo">{{ index+1 }}</td>
+                        <td class="nome_arquivo"><a :href="'/admin/download/pf/' + arquivo.id" download>{{ arquivo.nome.substr(15).trunc(30)  }}</a></td>
+                        <td class="descricao_arquivo">
+                            <input autocomplete="off" type="text" name="arquivo_descricao" v-model="arquivo.descricao" />
+                        </td>
+                        <td class="destaque_arquivo"><a @click.prevent="setImagemDestaque(arquivo.id)"><img v-if="arquivo.tipo === 'imagem'" class="btn_destaque" :src="id_destaque === arquivo.id ? root + '/img/btn_destaque_ativo.png' : root + '/img/btn_destaque.png'" /></a></td>
+                        <td class="tipo_arquivo">{{ arquivo.tipo }}</td>
+                        <td class="data_arquivo">{{ arquivo.data }}</td>
+                        <td class="remove_arquivo"><a @click="removeArquivo(arquivo.id)">X</a></td>
                     </tr>
                 </table>
             </div>
@@ -361,6 +385,12 @@
         created() {
             this.getPessoa(this.$route.params.id);
             this.jQuery();
+            //reticências em strings maiores que "n"
+            String.prototype.trunc = function(n){
+                return this.substr(0, n-1) + (this.length > n ? '...' : '');
+            };
+            //basepath
+            this.root = ROOT;
         },
         data() {
             return {
@@ -377,13 +407,17 @@
                 projetos: [],
                 pessoas_juridicas_relacionadas: [],
                 //Campos de inclusão
+                root: '',
                 novo_email: '',
                 novo_telefone: '',
                 novo_endereco: {rua:'',numero:'',complemento:'',bairro:'',cep:'',cidade:'',estado:'',pais:''},
                 novos_dados_bancarios: {nome_banco:'',agencia:'',conta:'',tipo_conta_id:''},
                 tags_atuais: [],
                 arquivo_atual: '',
+                descricao_arquivo: '',
                 mensagem_upload: '',
+                id_destaque: '',
+                imagem_destaque: '',
                 //Condicionais
                 adicionaEmail: false,
                 adicionaTel: false,
@@ -424,24 +458,28 @@
                     this.contatos = dados.contatos;
                     this.enderecos = dados.enderecos;
                     this.arquivos = dados.arquivos;
-                    console.log(this.arquivos);
                     this.dados_bancarios = dados.dados_bancarios;
                     this.tags = dados.tags;
                     this.projetos = dados.projetos;
                     this.pessoas_juridicas_relacionadas = dados.pessoas_juridicas;
                     this.atributos = dados.atributos;
 
+                    //campo MEI
                     if(this.pessoa.cnpj !== null || this.pessoa.razao_social !== null) {
                         this.mostraMei = true;
                     }
 
-                } );
+                    //imagem de destaque
+                    this.imagem_destaque = this.root + '/img/perfil_vazio.png';
+                    this.getImagemDestaque();
+                });
             },
             salvaForm: function(){
                 axios.post('/admin/ajax/pf/save', {
                     pessoa: this.pessoa,
                     contatos: this.contatos,
                     enderecos: this.enderecos,
+                    arquivos: this.arquivos,
                     dados_bancarios: this.dados_bancarios,
                     tags: this.tags_atuais,
                 }).then(res => {
@@ -519,25 +557,63 @@
             selecionaTags: function(data){
                 //console.log(data);
             },
-            upload() {
+            upload: function() {
                 let formData = new FormData();
                 formData.append('arquivo', this.arquivo_atual);
                 formData.append('pessoa_id', this.$route.params.id);
+                formData.append('descricao_arquivo', this.descricao_arquivo);
 
                 axios.post('/admin/ajax/pf/upload',
                     formData, {
                         headers: { 'Content-Type': 'multipart/form-data' },
                     }
                 ).then(res => {
-                    this.arquivos = res.data[0];
-                    this.mensagem_upload = res.data[1];
+                    this.mensagem_upload = res.data['mensagem_upload'];
+                    this.arquivos = res.data['arquivos'];
                     this.arquivo_atual = '';
+                    this.descricao_arquivo = '';
+                    this.$refs.arquivo.value = '';
                 }).catch(res => {
                     console.log(res.data);
                 });
             },
+            removeArquivo: function(id) {
+                axios.post('/admin/ajax/pf/removeArquivo', {
+                    arquivo_id: id,
+                    pessoa_id: this.$route.params.id,
+                }).then(res => {
+                    this.arquivos = res.data['arquivos'];
+                    if(res.data['remove_destaque'] === true)
+                        this.imagem_destaque = this.root + '/img/perfil_vazio.png';
+                });
+            },
             uploadInfo() {
                 this.arquivo_atual = this.$refs.arquivo.files[0];
+            },
+            setImagemDestaque: function(arquivo_id) {
+                axios.post('/admin/ajax/pf/setImagemDestaque', {
+                    arquivo_id: arquivo_id,
+                    pessoa_id: this.$route.params.id,
+                }).then(res => {
+                    this.id_destaque = res.data['imagem_destaque']['id'];
+                    this.arquivos = res.data['arquivos'];
+                    if(this.id_destaque === 0)
+                        this.imagem_destaque = this.root + '/img/perfil_vazio.png';
+                    else
+                        this.imagem_destaque = this.root + '/thumbs/pessoas_fisicas/' + this.$route.params.id + '/' + res.data['imagem_destaque']['nome'];
+                });
+            },
+            getImagemDestaque: function() {
+                axios.post('/admin/ajax/pf/getImagemDestaque', {
+                    pessoa_id: this.$route.params.id,
+                }).then(res => {
+                    if(typeof res.data !== "string") {
+                        this.id_destaque = res.data.id;
+                        this.imagem_destaque = this.root + '/thumbs/pessoas_fisicas/' + this.$route.params.id + '/' + res.data.nome;
+                    }
+                    else
+                        this.imagem_destaque = this.root + '/img/perfil_vazio.png';
+                });
             },
             jQuery: function(){
 
