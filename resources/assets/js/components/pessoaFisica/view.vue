@@ -43,7 +43,7 @@
                     </tr>
                     <tr v-for="(arquivo, index) in arquivos">
                         <td class="num_arquivo">{{ index+1 }}</td>
-                        <td class="nome_arquivo"><a :href="'/admin/download/pf/' + arquivo.id" download>{{ arquivo.nome.substr(15).trunc(30)  }}</a></td>
+                        <td class="nome_arquivo"><a :title="arquivo.nome.substr(15)" :href="`/admin/download/pf/${pessoa.id}/${arquivo.id}`" download>{{ arquivo.nome.substr(15).trunc(30)  }}</a></td>
                         <td class="descricao_arquivo">
                             <input autocomplete="off" type="text" name="arquivo_descricao" v-model="arquivo.descricao" />
                         </td>
@@ -470,7 +470,7 @@
                     }
 
                     //imagem de destaque
-                    this.imagem_destaque = this.root + '/img/perfil_vazio.png';
+                    this.imagem_destaque = `${this.root}/img/perfil_vazio.png`;
                     this.getImagemDestaque();
                 });
             },
@@ -584,7 +584,7 @@
                 }).then(res => {
                     this.arquivos = res.data['arquivos'];
                     if(res.data['remove_destaque'] === true)
-                        this.imagem_destaque = this.root + '/img/perfil_vazio.png';
+                        this.imagem_destaque = `${this.root}/img/perfil_vazio.png`;
                 });
             },
             uploadInfo() {
@@ -598,9 +598,9 @@
                     this.id_destaque = res.data['imagem_destaque']['id'];
                     this.arquivos = res.data['arquivos'];
                     if(this.id_destaque === 0)
-                        this.imagem_destaque = this.root + '/img/perfil_vazio.png';
+                        this.imagem_destaque = `${this.root}/img/perfil_vazio.png`;
                     else
-                        this.imagem_destaque = this.root + '/thumbs/pessoas_fisicas/' + this.$route.params.id + '/' + res.data['imagem_destaque']['nome'];
+                        this.imagem_destaque = `${this.root}/thumbs/pessoas_fisicas/${this.$route.params.id}/${res.data['imagem_destaque']['nome']}`;
                 });
             },
             getImagemDestaque: function() {
@@ -609,10 +609,10 @@
                 }).then(res => {
                     if(typeof res.data !== "string") {
                         this.id_destaque = res.data.id;
-                        this.imagem_destaque = this.root + '/thumbs/pessoas_fisicas/' + this.$route.params.id + '/' + res.data.nome;
+                        this.imagem_destaque = `${this.root}/thumbs/pessoas_fisicas/${this.$route.params.id}/${res.data.nome}`;
                     }
                     else
-                        this.imagem_destaque = this.root + '/img/perfil_vazio.png';
+                        this.imagem_destaque = `${this.root}/img/perfil_vazio.png`;
                 });
             },
             jQuery: function(){

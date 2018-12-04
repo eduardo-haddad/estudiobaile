@@ -119,6 +119,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles']], function(
         'as' => 'ajax.pf.getTagsSelecionadas',
         'roles' => $padrao
     ]);
+    //Arquivos
     Route::post('/ajax/pf/upload', [
         'uses' => 'PessoaFisicaController@ajaxUpload',
         'as' => 'ajax.pf.upload',
@@ -129,6 +130,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles']], function(
         'as' => 'ajax.pf.removeArquivo',
         'roles' => $padrao
     ]);
+    //Imagem de destaque
     Route::post('/ajax/pf/getImagemDestaque', [
         'uses' => 'PessoaFisicaController@ajaxGetImagemDestaque',
         'as' => 'ajax.pf.ajaxGetImagemDestaque',
@@ -266,7 +268,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles']], function(
     ]);
 
     /** GERAL **/
-    Route::get('/download/{tipo}/{arquivo_id}', [
+    Route::get('/download/{tipo}/{id}/{arquivo_id}', [
         'uses' => 'Controller@getFile',
         'roles' => $padrao
     ]);

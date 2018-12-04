@@ -694,10 +694,11 @@ class PessoaFisicaController extends Controller
         //Desabilita thumb se já existir
         if(!empty($destaque) && $destaque[0]->destaque == 1) {
             //Remove destaque de tabela associativa
-            $arquivo->pivot->destaque = 0;
+            $arquivo->pivot->destaque = null;
             $arquivo->pivot->save();
             //Apaga outros thumbs
             if($this->rmRecursivo($dir_thumbs)) {
+                //id == 0 na view aciona a foto de perfil vazio
                 $arquivo['id'] = 0;
                 return [
                     'imagem_destaque' => $arquivo,

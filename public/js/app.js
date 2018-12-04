@@ -39785,7 +39785,12 @@ var render = function() {
                         "a",
                         {
                           attrs: {
-                            href: "/admin/download/pf/" + arquivo.id,
+                            title: arquivo.nome.substr(15),
+                            href:
+                              "/admin/download/pf/" +
+                              _vm.pessoa.id +
+                              "/" +
+                              arquivo.id,
                             download: ""
                           }
                         },

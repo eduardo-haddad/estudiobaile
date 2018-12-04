@@ -12,14 +12,14 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    public function getFile($tipo, $arquivo_id){
+    public function getFile($tipo, $id, $arquivo_id){
 
         $arquivo = Arquivo::find($arquivo_id)->nome;
 
         switch ($tipo) {
-            case 'pf': $diretorio = 'pessoas_fisicas/'; break;
-            case 'pj': $diretorio = 'pessoas_juridicas/'; break;
-            case 'projeto': $diretorio = 'projetos/'; break;
+            case 'pf': $diretorio = "pessoas_fisicas/$id/"; break;
+            case 'pj': $diretorio = "pessoas_juridicas/$id/"; break;
+            case 'projeto': $diretorio = "projetos/$id/"; break;
         }
 
         if(empty($diretorio)) return "Arquivo inválido";
