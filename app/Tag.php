@@ -33,4 +33,19 @@ class Tag extends Model
           )
         ");
     }
+
+    public static function removeTagsNaoAtribuidas()
+    {
+        $tags_nao_atribuidas = array_map(function($t){ return $t->id; }, Tag::getTagsNaoAtribuidas());
+        if(!empty($tags_nao_atribuidas)){
+            \DB::table('tags')->whereIn('id', $tags_nao_atribuidas)->delete();
+            return true;
+        }
+        return false;
+    }
+
+
+
+
+
 }

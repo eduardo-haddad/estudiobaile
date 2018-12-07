@@ -10,12 +10,31 @@ use App\Cargo;
 use App\Contato;
 use App\Endereco;
 use App\DadoBancario;
+use App\Arquivo;
 
 class PessoaJuridicaController extends Controller
 {
     public function ajaxIndex()
     {
-        return (new PessoaJuridica)->orderBy('nome_fantasia')->get();
+        return PessoaJuridica::orderBy('nome_fantasia')->get();
+    }
+
+    public function ajaxCreate(Request $request)
+    {
+        if(!empty(request('nome_fantasia'))) {
+
+            $pessoa_juridica = PessoaJuridica::create([
+                'nome_fantasia' => request('nome_fantasia'),
+                'criado_por' => $request->user()->name,
+                'modificado_por' => $request->user()->name
+            ]);
+
+            return $pessoa_juridica['id'];
+
+        }
+
+        return "Não foi possível criar pessoa jurídica";
+
     }
 
 
@@ -32,6 +51,9 @@ class PessoaJuridicaController extends Controller
         //Endereços
         $enderecos = $pessoa_juridica->enderecos()->get();
 
+        //Arquivos
+        $arquivos = $pessoa_juridica->arquivos()->get();
+
         //Tags
         $tags = Tag::all();
 
@@ -44,6 +66,7 @@ class PessoaJuridicaController extends Controller
             'pessoas_fisicas_cargos_relacionados' => $pessoas_fisicas_cargos_relacionados,
             'contatos' => $contatos,
             'enderecos' => $enderecos,
+            'arquivos' => $arquivos,
             'projetos' => $projetos,
             'atributos' => [
                 'cargos_pf' => $cargos_pf,
@@ -56,6 +79,7 @@ class PessoaJuridicaController extends Controller
 
         $request['pessoa'] = request('pessoa');
         $request['tags'] = request('tags');
+        $request['arquivos'] = request('arquivos');
 
         //Pessoa Física
         $pessoa_juridica = (new PessoaJuridica)->find($request['pessoa']['id']);
@@ -72,6 +96,17 @@ class PessoaJuridicaController extends Controller
         endforeach;
 
         $pessoa_juridica->save();
+
+        //Arquivos
+        foreach($request['arquivos'] as $l => $arquivo):
+            $arquivo_atual = Arquivo::find($arquivo['id']);
+            foreach(json_decode($arquivo_atual) as $chave_arquivos => $valor_arquivos):
+                if(!empty($request['arquivos'][$l][$chave_arquivos]) && $chave_arquivos == "descricao") {
+                    $arquivo_atual->$chave_arquivos = $request['arquivos'][$l][$chave_arquivos];
+                }
+            endforeach;
+            $arquivo_atual->save();
+        endforeach;
 
         //Tags
         if(empty($request['tags'])) {
@@ -110,7 +145,7 @@ class PessoaJuridicaController extends Controller
     }
 
     public function ajaxGetTagsSelecionadas($id) {
-        $pessoa = (new PessoaJuridica)->find($id);
+        $pessoa = PessoaJuridica::find($id);
         $tags = $pessoa->tags()->get();
         return $tags;
     }
@@ -313,6 +348,216 @@ class PessoaJuridicaController extends Controller
 
         $todos_dados_bancarios = $pessoa->dados_bancarios()->get();
         return $todos_dados_bancarios;
+    }
+
+
+    public function ajaxUpload() {
+
+        if(isset($_FILES['arquivo'])) {
+
+            // 0 => 'Arquivo enviado com sucesso'
+            if(!$_FILES['arquivo']['error']) {
+
+                $nome_arquivo = date('YmdHis') . '_' . $_FILES['arquivo']['name'];
+                $extensao = explode('.', $_FILES['arquivo']['name']);
+                $extensao = end($extensao);
+
+                switch($extensao):
+                    //imagens
+                    case 'jpg': case 'jpeg': case 'png':
+                    $tipo = "imagem"; break;
+                    //gif
+                    case 'gif':
+                        $tipo = "gif"; break;
+                    //imagens
+                    case 'psd': case 'tiff':
+                    $tipo = "imagem+"; break;
+                    //documentos de texto
+                    case 'doc': case 'docx': case 'pdf': case 'txt':
+                    $tipo = "documento"; break;
+                    //planilhas
+                    case 'xls': case 'xlsx':
+                    $tipo = "planilha"; break;
+                    //outros
+                    default:
+                        $tipo = "arquivo";
+                endswitch;
+
+
+                $arquivo = new Arquivo();
+                $arquivo->nome = $nome_arquivo;
+                $arquivo->tipo = $tipo;
+                $arquivo->descricao = $_REQUEST['descricao_arquivo'];
+                $arquivo->extensao = $extensao;
+                $arquivo->data = date('d/m/Y H:i');
+                $arquivo->save();
+
+                $pessoa_id = $_REQUEST['pessoa_id'];
+
+                $diretorio = base_path() . "/public/uploads/pessoas_juridicas/$pessoa_id/";
+
+                // cria diretório se não existir
+                if(!is_dir($diretorio)) mkdir($diretorio);
+
+                move_uploaded_file(
+                    $_FILES['arquivo']['tmp_name'],
+                    $diretorio . $nome_arquivo
+                );
+
+                $pessoa_juridica = PessoaJuridica::find($pessoa_id);
+                $pessoa_juridica->arquivos()->attach($arquivo->id);
+
+                $erros = array(
+                    0 => 'Arquivo enviado com sucesso',
+                    1 => 'Arquivo excede o tamanho estipulado em php.ini (upload_max_filesize)',
+                    2 => 'Arquivo excede o tamanho estipulado no formulário HTML (max_file_size)',
+                    3 => 'Arquivo enviado parcialmente',
+                    4 => 'Nenhum arquivo enviado',
+                    6 => 'Diretório temporário inexistente',
+                    7 => 'Falha ao salvar arquivo no disco',
+                    8 => 'Uma extensão PHP impediu o upload'
+                );
+
+                return [
+                    'mensagem_upload' => $erros[$_FILES['arquivo']['error']],
+                    'arquivos' => $pessoa_juridica->arquivos()->get()
+                ];
+
+            }
+        }
+
+        return "Arquivo inválido";
+
+    }
+
+    public function ajaxRemoveArquivo() {
+
+        $arquivo_id = request('arquivo_id');
+        $pessoa_id = request('pessoa_id');
+
+        $arquivo = Arquivo::find($arquivo_id);
+        $pessoa_juridica = PessoaJuridica::find($pessoa_id);
+
+        $caminho_arquivo = base_path() . "/public/uploads/pessoas_juridicas/$pessoa_id/" . $arquivo->nome;
+
+        //Checa se arquivo relacionado tem destaque
+        $destaque = $this->checaDestaque($pessoa_id, $arquivo_id);
+
+        //Desabilita destaque se já existir
+        $remove_destaque = false;
+        if(!empty($destaque) && $destaque[0]->destaque == 1) {
+            //Apaga outros thumbs
+            $dir_thumbs = base_path() . "/public/thumbs/pessoas_juridicas/$pessoa_id";
+            if($this->rmRecursivo($dir_thumbs)) {
+                $remove_destaque = true;
+            }
+        }
+
+        try {
+            $pessoa_juridica->arquivos()->detach($arquivo_id);
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+
+        try {
+            $arquivo->delete();
+            unlink($caminho_arquivo);
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+
+        $arquivos = $pessoa_juridica->arquivos()->get();
+
+        return [
+            'arquivos' => $arquivos,
+            'remove_destaque' => $remove_destaque,
+        ];
+    }
+
+    public function ajaxSetImagemDestaque() {
+
+        $pessoa_id = request('pessoa_id');
+        $arquivo_id = request('arquivo_id');
+
+        $pessoa_juridica = PessoaJuridica::find($pessoa_id);
+        $arquivo = $pessoa_juridica->arquivos()->find($arquivo_id);
+        $arquivos = $pessoa_juridica->arquivos()->get();
+
+        //Dados para criação de thumbnail
+        $nome_arquivo = $arquivo['nome'];
+        $extensao = $arquivo['extensao'];
+        $origem = base_path() . "/public/uploads/pessoas_juridicas/$pessoa_id/";
+        $destino = base_path() . "/public/thumbs/pessoas_juridicas/$pessoa_id/";
+        $dir_thumbs = base_path() . "/public/thumbs/pessoas_juridicas/$pessoa_id";
+
+        //Checa se arquivo relacionado tem destaque
+        $destaque = $this->checaDestaque($pessoa_id, $arquivo_id);
+
+        //Desabilita thumb se já existir
+        if(!empty($destaque) && $destaque[0]->destaque == 1) {
+            //Remove destaque de tabela associativa
+            $arquivo->pivot->destaque = null;
+            $arquivo->pivot->save();
+            //Apaga outros thumbs
+            if($this->rmRecursivo($dir_thumbs)) {
+                //id == 0 na view aciona a foto de perfil vazio
+                $arquivo['id'] = 0;
+                return [
+                    'imagem_destaque' => $arquivo,
+                    'arquivos' => $arquivos
+                ];
+            }
+        }
+
+        if(!empty($pessoa_juridica) && $arquivo['tipo'] == 'imagem') {
+
+            //Desabilita todos destaques das imagens relacionadas
+            foreach($arquivos as $arquivos_pessoa_juridica) {
+                if($arquivos_pessoa_juridica['tipo'] == 'imagem') {
+                    $arquivos_pessoa_juridica->pivot->destaque = null;
+                    $arquivos_pessoa_juridica->pivot->save();
+                }
+            }
+
+            //Destaca arquivo clicado
+            $arquivo->pivot->destaque = 1;
+            $arquivo->pivot->save();
+
+            //Apaga outros thumbs
+            if($this->rmRecursivo($dir_thumbs)) {
+                // cria diretório se não existir
+                if(!is_dir($destino)) mkdir($destino);
+                //Gera novo thumb
+                if($this->makeThumb($origem.$nome_arquivo, $destino.$nome_arquivo, 300, $extensao)) {
+                    return [
+                        'imagem_destaque' => $arquivo,
+                        'arquivos' => $arquivos
+                    ];
+                }
+            } else return "Erro ao apagar thumbs";
+        }
+        return "Arquivo inválido";
+    }
+
+
+    public function ajaxGetImagemDestaque() {
+
+        $destaque = PessoaJuridica::find(request('pessoa_id'))->arquivos()->where('destaque', 1)->first();
+        return !empty($destaque) ? $destaque : "Destaque indisponível";
+
+    }
+
+    public function checaDestaque($pessoa_id, $arquivo_id) {
+        return \DB::select("
+            SELECT 
+                ArquivosRelacionados.destaque
+            FROM arquivos Arquivos
+                INNER JOIN arquivos_relacionados ArquivosRelacionados
+                ON Arquivos.id = ArquivosRelacionados.arquivo_id 
+                  AND ArquivosRelacionados.pessoa_juridica_id = $pessoa_id
+            WHERE ArquivosRelacionados.arquivo_id = $arquivo_id
+            LIMIT 1
+        ");
     }
 
 }

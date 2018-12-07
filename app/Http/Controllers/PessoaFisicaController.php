@@ -214,16 +214,34 @@ class PessoaFisicaController extends Controller
 
     public function ajaxIndex()
     {
-        return (new PessoaFisica)->orderBy('nome_adotado')->get();
+        return PessoaFisica::orderBy('nome_adotado')->get();
+    }
+
+    public function ajaxCreate(Request $request)
+    {
+        if(!empty(request('nome_adotado'))) {
+
+            $pessoa_fisica = PessoaFisica::create([
+                'nome_adotado' => request('nome_adotado'),
+                'criado_por' => $request->user()->name,
+                'modificado_por' => $request->user()->name
+            ]);
+
+            return $pessoa_fisica['id'];
+
+        }
+
+        return "Não foi possível criar pessoa física";
+
     }
 
 
     public function ajaxView($id)
     {
-        $pessoa_fisica = (new PessoaFisica)->find($id);
+        $pessoa_fisica = PessoaFisica::find($id);
 
         //Gênero
-        $genero = !empty($pessoa_fisica->genero_id) ? (new Genero)->find($pessoa_fisica->genero_id)->valor : null;
+        $genero = !empty($pessoa_fisica->genero_id) ? Genero::find($pessoa_fisica->genero_id)->valor : null;
 
         //Contatos
         $contatos = $pessoa_fisica->contatos()->get();
@@ -245,7 +263,7 @@ class PessoaFisicaController extends Controller
         $tags = Tag::all();
 
         //Estado Civil
-        $estado_civil = !empty($pessoa_fisica->estado_civil_id) ? (new EstadoCivil)->find($pessoa_fisica->estado_civil_id)->valor : null;
+        $estado_civil = !empty($pessoa_fisica->estado_civil_id) ? EstadoCivil::find($pessoa_fisica->estado_civil_id)->valor : null;
 
         //Projetos
         $projetos = PessoaFisica::getProjetosChancelasPorId($id);
@@ -267,7 +285,6 @@ class PessoaFisicaController extends Controller
                 'generos' => Genero::all(),
                 'estados_civis' => EstadoCivil::all(),
                 'tipos_conta_bancaria' => TipoContaBancaria::all(),
-                //'lista_tags' => Tag::all()
             ]
         ];
     }
@@ -297,14 +314,14 @@ class PessoaFisicaController extends Controller
 
         //Contatos
         foreach($request['contatos'] as $i => $contato) {
-            $contato = (new Contato)->find($request['contatos'][$i]['id']);
+            $contato = Contato::find($request['contatos'][$i]['id']);
             $contato->valor = $request['contatos'][$i]['valor'];
             $contato->save();
         }
 
         //Endereços
         foreach($request['enderecos'] as $j => $endereco):
-            $endereco_atual = (new Endereco)->find($endereco['id']);
+            $endereco_atual = Endereco::find($endereco['id']);
             foreach(json_decode($endereco_atual) as $key => $value):
                 if(!empty($request['enderecos'][$j][$key])) {
                     $endereco_atual->$key = $request['enderecos'][$j][$key];
@@ -315,7 +332,7 @@ class PessoaFisicaController extends Controller
 
         //Dados Bancários
         foreach($request['dados_bancarios'] as $k => $dados_bancarios):
-            $dados_atuais = (new DadoBancario)->find($dados_bancarios['id']);
+            $dados_atuais = DadoBancario::find($dados_bancarios['id']);
             foreach(json_decode($dados_atuais) as $chave_dados => $valor_dados):
                 if(!empty($request['dados_bancarios'][$k][$chave_dados])) {
                     $dados_atuais->$chave_dados = $request['dados_bancarios'][$k][$chave_dados];
@@ -326,7 +343,7 @@ class PessoaFisicaController extends Controller
 
         //Arquivos
         foreach($request['arquivos'] as $l => $arquivo):
-            $arquivo_atual = (new Arquivo)->find($arquivo['id']);
+            $arquivo_atual = Arquivo::find($arquivo['id']);
             foreach(json_decode($arquivo_atual) as $chave_arquivos => $valor_arquivos):
                 if(!empty($request['arquivos'][$l][$chave_arquivos]) && $chave_arquivos == "descricao") {
                     $arquivo_atual->$chave_arquivos = $request['arquivos'][$l][$chave_arquivos];
@@ -633,8 +650,8 @@ class PessoaFisicaController extends Controller
         $arquivo_id = request('arquivo_id');
         $pessoa_id = request('pessoa_id');
 
-        $arquivo = (new Arquivo)->find($arquivo_id);
-        $pessoa_fisica = (new PessoaFisica)->find($pessoa_id);
+        $arquivo = Arquivo::find($arquivo_id);
+        $pessoa_fisica = PessoaFisica::find($pessoa_id);
 
         $caminho_arquivo = base_path() . "/public/uploads/pessoas_fisicas/$pessoa_id/" . $arquivo->nome;
 

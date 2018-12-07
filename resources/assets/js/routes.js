@@ -9,6 +9,11 @@ let routes = [
                 path: 'view/:id',
                 name: 'pf-view',
                 component: require('./components/pessoaFisica/view')
+            },
+            {
+                path: 'add',
+                name: 'pf-create',
+                component: require('./components/pessoaFisica/create')
             }
         ]
     },
@@ -19,6 +24,11 @@ let routes = [
                 path: 'view/:id',
                 name: 'pj-view',
                 component: require('./components/pessoaJuridica/view')
+            },
+            {
+                path: 'add',
+                name: 'pj-create',
+                component: require('./components/pessoaJuridica/create')
             }
         ]
     },
@@ -29,8 +39,26 @@ let routes = [
                 path: 'view/:id',
                 name: 'projetos-view',
                 component: require('./components/projetos/view')
+            },
+            {
+                path: 'add',
+                name: 'projetos-create',
+                component: require('./components/projetos/create')
             }
         ]
+    },
+    {   path: '/tags',
+        name: 'tags-index', component: require('./components/tags/index'),
+        children: [
+            {
+                path: 'view/:id',
+                name: 'tags-view',
+                component: require('./components/tags/view')
+            }
+        ]
+    },
+    {   path: '/interna',
+        name: 'interna-view', component: require('./components/interna/view'),
     },
 ];
 

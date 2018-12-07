@@ -7,7 +7,9 @@
                 <img :src="imagem_destaque" />
             </div>
             <div class="nome">
-                <span>{{ this.pessoa.nome_adotado }}</span>
+                <span><input autocomplete="off" type="text"
+                     v-model="pessoa.nome_adotado"
+                     name="nome_adotado" style="border:none" /></span>
             </div>
         </div>
         <br>
@@ -21,15 +23,20 @@
         </select>
         <br><br>
 
-        <label>Enviar arquivo
-            <input type="file" id="arquivo" ref="arquivo" @change="uploadInfo" />
-            <input type="text" @input="descricao_arquivo = $event.target.value" name="descricao_arquivo" v-model="descricao_arquivo" placeholder="Descrição"  />
-        </label><br>
-        <button @click="upload">Submit</button>
-        <br><br>
+        <!-- Arquivos -->
         <div class="valor" style="margin-top: 3px;">
             <span class="campo">Arquivos anexos</span>
             <br>
+            <input type="file" class="inputfile" id="arquivo" ref="arquivo" @change="setArquivoAtual" />
+            <label for="arquivo">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17">
+                    <path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/>
+                </svg>
+                <span v-text="typeof arquivo_atual.name !== 'undefined' ? arquivo_atual.name.trunc(30) : 'Selecione um arquivo'" v-model="arquivo_atual.name"></span>
+            </label>&nbsp;&nbsp;
+            <input type="text" @input="descricao_arquivo = $event.target.value" name="descricao_arquivo" v-model="descricao_arquivo" placeholder="Descrição" autocomplete="off" style="width: 200px; min-width: unset; margin-right: 10px;" />
+            <button @click.prevent="upload">Submit</button>
+            <br><br>
             <div class="tabela_arquivos">
                 <table>
                     <tr>
@@ -41,37 +48,44 @@
                         <th class="data_arquivo">Data</th>
                         <th class="remove_arquivo">Remover</th>
                     </tr>
-                    <tr v-for="(arquivo, index) in arquivos">
+                    <tr v-for="(arquivo, index) in arquivos" :key="arquivo.id">
                         <td class="num_arquivo">{{ index+1 }}</td>
-                        <td class="nome_arquivo"><a :title="arquivo.nome.substr(15)" :href="`/admin/download/pf/${pessoa.id}/${arquivo.id}`" download>{{ arquivo.nome.substr(15).trunc(30)  }}</a></td>
+                        <td class="nome_arquivo"><a :title="arquivo.nome.substr(15)" :href="`/admin/download/pf/${pessoa.id}/${arquivo.id}`" download>{{ arquivo.nome.substr(15).trunc(30) }}</a></td>
                         <td class="descricao_arquivo">
                             <input autocomplete="off" type="text" name="arquivo_descricao" v-model="arquivo.descricao" />
                         </td>
                         <td class="destaque_arquivo"><a @click.prevent="setImagemDestaque(arquivo.id)"><img v-if="arquivo.tipo === 'imagem'" class="btn_destaque" :src="id_destaque === arquivo.id ? root + '/img/btn_destaque_ativo.png' : root + '/img/btn_destaque.png'" /></a></td>
                         <td class="tipo_arquivo">{{ arquivo.tipo }}</td>
                         <td class="data_arquivo">{{ arquivo.data }}</td>
-                        <td class="remove_arquivo"><a @click="removeArquivo(arquivo.id)">X</a></td>
+                        <td class="remove_arquivo"><a @click.prevent="removeArquivo(arquivo.id)">X</a></td>
                     </tr>
                 </table>
             </div>
         </div>
-        <br>
-        <br>
-        <br>
+        <br><br>
 
         <!-- Pessoa Física / Chancela -->
         <div id="projetos_pf" class="valor" style="margin-top: 3px;">
-            <span class="campo">Pessoas Jurídicas</span>
+            <span class="campo">Pessoas Jurídicas Relacionadas</span>
             <br>
             <div id="chancelas" class="cargos">
-                <table>
-                    <tr v-for="pessoa in pessoas_juridicas_relacionadas">
-                        <td>
-                            <router-link :id="pessoa.id" :to="{ name: 'pj-view',
-                            params: { id: pessoa.id }}">{{ pessoa.nome_fantasia }}</router-link>&nbsp;/&nbsp;{{ pessoa.cargo }}</td>
-                        <td></td>
-                    </tr>
-                </table>
+                <div class="tabela_arquivos">
+                    <table>
+                        <tr>
+                            <th class="num_arquivo">#</th>
+                            <th class="nome_arquivo">Nome</th>
+                            <th class="descricao_arquivo">Cargo</th>
+                            <th class="remove_arquivo">Remover</th>
+                        </tr>
+                        <tr v-for="(pessoa, index) in pessoas_juridicas_relacionadas" :key="pessoa.id">
+                            <td class="num_arquivo">{{ index+1 }}</td>
+                            <td class="nome_arquivo"><router-link :id="pessoa.id" :to="{ name: 'pj-view',
+                            params: { id: pessoa.id }}">{{ pessoa.nome_fantasia.trunc(30) }}</router-link></td>
+                            <td class="descricao_arquivo">{{ pessoa.cargo }}</td>
+                            <td class="remove_arquivo"><a @click.prevent="console.log('remover')">X</a></td>
+                        </tr>
+                    </table>
+                </div>
             </div>
         </div>
         <br>
@@ -79,12 +93,22 @@
         <hr style="clear:both">
         <span class="campo">Participação no(s) projeto(s) Estúdio Baile</span><br>
         <div id="projetos">
-            <table>
-                <tr v-for="projeto in projetos" v-model="projetos">
-                    <td>
-                        <router-link :id="projeto.id" :to="{ name: 'projetos-view', params: { id: projeto.id }}">{{ projeto['projeto'] }}</router-link>&nbsp;/&nbsp;{{ projeto['chancela'] }}</td>
-                </tr>
-            </table>
+            <div class="tabela_arquivos">
+                <table>
+                    <tr>
+                        <th class="num_arquivo">#</th>
+                        <th class="nome_arquivo">Projeto</th>
+                        <th class="descricao_arquivo">Chancela</th>
+                        <th class="remove_arquivo">Remover</th>
+                    </tr>
+                    <tr v-for="(projeto, index) in projetos" :key="projeto.id">
+                        <td class="num_arquivo">{{ index+1 }}</td>
+                        <td class="nome_arquivo"><router-link :id="projeto.id" :to="{ name: 'projetos-view', params: { id: projeto.id }}">{{ projeto['projeto'] }}</router-link></td>
+                        <td class="descricao_arquivo">{{ projeto['projeto'] }}</td>
+                        <td class="remove_arquivo"><a @click.prevent="console.log('remover')">X</a></td>
+                    </tr>
+                </table>
+            </div>
         </div>
         <hr>
         <!-- Emails -->
@@ -95,9 +119,9 @@
                 <a @click.prevent="removeContato(email.id)">X</a>
             </div>
             <br>
-            <a @click.prevent="adicionaEmail = true">[adicionar email]</a>
+            <a @click.prevent="adicionaEmail = !adicionaEmail" class="link_abrir_box">[adicionar email]</a>
             <div v-if="adicionaEmail" class="adiciona_contato">
-                <input @input="novo_email = $event.target.value" type="text" class="adiciona_contato" v-model="novo_email" name="novo_email" placeholder="adicionar email" />
+                <input @input="novo_email = $event.target.value" type="text" class="adiciona_contato" v-model="novo_email" name="novo_email" autocomplete="off" placeholder="adicionar email" />
                 <a @click.prevent="adicionaContato()">+</a>
             </div>
         </div>
@@ -107,13 +131,13 @@
         <div>
             <div v-for="telefone in telefones" class="valor" :key="telefone.id">
                 <span class="campo">Telefone</span>
-                <input type="text" :id="telefone.id" v-model="telefone.valor" name="telefone" />
+                <input type="text" :id="telefone.id" v-model="telefone.valor" name="telefone" autocomplete="off" />
                 <a @click.prevent="removeContato(telefone.id)">X</a>
             </div>
 
-            <a @click.prevent="adicionaTel = true">[adicionar telefone]</a>
+            <a @click.prevent="adicionaTel = !adicionaTel" class="link_abrir_box">[adicionar telefone]</a>
             <div v-if="adicionaTel" class="adiciona_contato">
-                <input @input="novo_telefone = $event.target.value" type="text" class="adiciona_contato" v-model="novo_telefone" name="novo_telefone" placeholder="adicionar telefone" />
+                <input @input="novo_telefone = $event.target.value" type="text" class="adiciona_contato" v-model="novo_telefone" name="novo_telefone" placeholder="adicionar telefone" autocomplete="off" />
                 <a @click.prevent="adicionaContato()">+</a>
             </div>
 
@@ -158,7 +182,7 @@
         </div>
 
         <!--Add novo endereço-->
-        <a @click="mostraEnderecoBox = true">[novo endereço]</a>
+        <a @click="mostraEnderecoBox = !mostraEnderecoBox" class="link_abrir_box">[adicionar endereço]</a>
         <div v-if="mostraEnderecoBox">
             <span class="campo">--- Novo Endereço</span><br>
             <div class="valor">
@@ -342,7 +366,7 @@
 
         </div>
         <!-- Add novos dados bancários -->
-        <a @click="mostraDadosBancariosBox = true">[adicionar dados bancários]</a>
+        <a @click="mostraDadosBancariosBox = !mostraDadosBancariosBox" class="link_abrir_box">[adicionar dados bancários]</a>
         <div v-if="mostraDadosBancariosBox">
             <span class="campo">--- Novos Dados Bancários</span><br>
             <div class="valor">
@@ -413,7 +437,7 @@
                 novo_endereco: {rua:'',numero:'',complemento:'',bairro:'',cep:'',cidade:'',estado:'',pais:''},
                 novos_dados_bancarios: {nome_banco:'',agencia:'',conta:'',tipo_conta_id:''},
                 tags_atuais: [],
-                arquivo_atual: '',
+                arquivo_atual: {name: 'Selecione um arquivo'},
                 descricao_arquivo: '',
                 mensagem_upload: '',
                 id_destaque: '',
@@ -449,8 +473,9 @@
         },
         methods: {
             getPessoa: function(id){
+                this.imagem_destaque = `${this.root}/img/perfil_vazio.png`;
                 axios.get('/admin/ajax/pf/' + id).then(res => {
-                    eventBus.$emit('getPessoaFisica');
+                    eventBus.$emit('getPessoaFisica', this.$route.params.id);
                     let dados = res.data;
                     this.pessoa = dados.pessoa_fisica;
                     this.pessoa.genero = dados.genero;
@@ -470,7 +495,6 @@
                     }
 
                     //imagem de destaque
-                    this.imagem_destaque = `${this.root}/img/perfil_vazio.png`;
                     this.getImagemDestaque();
                 });
             },
@@ -568,13 +592,15 @@
                         headers: { 'Content-Type': 'multipart/form-data' },
                     }
                 ).then(res => {
-                    this.mensagem_upload = res.data['mensagem_upload'];
-                    this.arquivos = res.data['arquivos'];
-                    this.arquivo_atual = '';
-                    this.descricao_arquivo = '';
-                    this.$refs.arquivo.value = '';
-                }).catch(res => {
-                    console.log(res.data);
+                    if(typeof res.data !== "string") {
+                        this.mensagem_upload = res.data['mensagem_upload'];
+                        this.arquivos = res.data['arquivos'];
+                        this.arquivo_atual = {};
+                        this.descricao_arquivo = '';
+                        this.$refs.arquivo.value = '';
+                    } else {
+                        console.log('Arquivo inválido');
+                    }
                 });
             },
             removeArquivo: function(id) {
@@ -587,7 +613,7 @@
                         this.imagem_destaque = `${this.root}/img/perfil_vazio.png`;
                 });
             },
-            uploadInfo() {
+            setArquivoAtual() {
                 this.arquivo_atual = this.$refs.arquivo.files[0];
             },
             setImagemDestaque: function(arquivo_id) {
@@ -653,11 +679,6 @@
                     }).fail(function() {
                         return false;
                     });
-
-                    // $('#tags_list').on("select2:selecting", function(e) {
-                    //
-                    // });
-
                 });
             },
         }

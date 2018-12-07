@@ -3,14 +3,18 @@
 //vue-router
 import router from './routes';
 //components
-import pfIndex from './components/pessoaFisica/index';
+import modal from './components/modal_novo_registro';
 //event bus
 export const eventBus = new Vue();
+
 //main instance
 new Vue({
     el: '#app',
     router: router,
     components: {
-        pfIndex
+        modal,
     },
+    data: {
+        showModal: false
+    }
 });

@@ -1,8 +1,61 @@
-<template v-if="this.pessoa">
+<template v-if="this.projeto">
 
     <div id="container_conteudo" class="formulario">
 
-        <div class="titulo">{{ this.projeto.nome }}</div>
+        <div class="titulo">
+            <div class="imagem_destaque">
+                <img :src="imagem_destaque" />
+            </div>
+            <div class="nome">
+                <span>
+                    <input autocomplete="off" type="text"
+                           v-model="projeto.nome"
+                           name="nome_adotado" style="border:none" />
+                </span>
+            </div>
+        </div>
+        <br><br>
+
+        <!-- Arquivos -->
+        <div class="valor" style="margin-top: 3px;">
+            <span class="campo">Arquivos anexos</span>
+            <br>
+            <input type="file" class="inputfile" id="arquivo" ref="arquivo" @change="setArquivoAtual" />
+            <label for="arquivo">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17">
+                    <path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/>
+                </svg>
+                <span v-text="typeof arquivo_atual.name !== 'undefined' ? arquivo_atual.name.trunc(30) : 'Selecione um arquivo'" v-model="arquivo_atual.name"></span>
+            </label>&nbsp;&nbsp;
+            <input type="text" @input="descricao_arquivo = $event.target.value" name="descricao_arquivo" v-model="descricao_arquivo" placeholder="Descrição" autocomplete="off" style="width: 200px; min-width: unset; margin-right: 10px;" />
+            <button @click.prevent="upload">Submit</button>
+            <br><br>
+            <div class="tabela_arquivos">
+                <table>
+                    <tr>
+                        <th class="num_arquivo">#</th>
+                        <th class="nome_arquivo">Nome</th>
+                        <th class="descricao_arquivo">Descrição</th>
+                        <th class="destaque_arquivo">Destaque</th>
+                        <th class="tipo_arquivo">Tipo</th>
+                        <th class="data_arquivo">Data</th>
+                        <th class="remove_arquivo">Remover</th>
+                    </tr>
+                    <tr v-for="(arquivo, index) in arquivos" :key="arquivo.id">
+                        <td class="num_arquivo">{{ index+1 }}</td>
+                        <td class="nome_arquivo"><a :title="arquivo.nome.substr(15)" :href="`/admin/download/projeto/${projeto.id}/${arquivo.id}`" download>{{ arquivo.nome.substr(15).trunc(30) }}</a></td>
+                        <td class="descricao_arquivo">
+                            <input autocomplete="off" type="text" name="arquivo_descricao" v-model="arquivo.descricao" />
+                        </td>
+                        <td class="destaque_arquivo"><a @click.prevent="setImagemDestaque(arquivo.id)"><img v-if="arquivo.tipo === 'imagem'" class="btn_destaque" :src="id_destaque === arquivo.id ? root + '/img/btn_destaque_ativo.png' : root + '/img/btn_destaque.png'" /></a></td>
+                        <td class="tipo_arquivo">{{ arquivo.tipo }}</td>
+                        <td class="data_arquivo">{{ arquivo.data }}</td>
+                        <td class="remove_arquivo"><a @click.prevent="removeArquivo(arquivo.id)">X</a></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <br><br>
 
         <!--DADOS GERAIS-->
         <form @submit.prevent="salvaForm" method="POST">
@@ -13,7 +66,7 @@
                        v-model="projeto.nome"
                        name="projeto-nome"
                 />
-            </div><br>
+            </div><br><br><br>
             <!-- -->
             <span class="campo">Data de início</span>
             <div class="valor">
@@ -21,7 +74,7 @@
                        v-model="projeto.dt_inicio"
                        name="projeto-data-inicio"
                 />
-            </div><br>
+            </div><br><br>
             <!-- -->
             <span class="campo">Data de término</span>
             <div class="valor">
@@ -29,27 +82,34 @@
                        v-model="projeto.dt_fim"
                        name="projeto-data-fim"
                 />
-            </div><br>
+            </div><br><br>
 
             <!-- Pessoa Física / Chancela -->
             <span class="campo">Pessoas Físicas relacionadas</span>
             <div id="projetos_pf" class="valor" style="margin-top: 3px;">
                 <div id="projetos">
-                    <table>
-                        <tr v-for="pessoa in pessoas_fisicas_chancelas_relacionadas">
-                            <td>
-                                <router-link :id="pessoa.pessoa_id" :to="{ name: 'pf-view',
-                                params: { id: pessoa.pessoa_id }}">{{ pessoa.nome }}</router-link>&nbsp;/&nbsp;{{ pessoa.chancela }}</td>
-                            <td>
-                                <a @click.prevent="removeChancelaPf(pessoa.pessoa_id, pessoa.chancela_id, true)">[X]</a>
-                            </td>
-                        </tr>
-                    </table>
+                    <div class="tabela_arquivos">
+                        <table>
+                            <tr>
+                                <th class="num_arquivo">#</th>
+                                <th class="nome_arquivo">Nome</th>
+                                <th class="descricao_arquivo">Cargo</th>
+                                <th class="remove_arquivo">Remover</th>
+                            </tr>
+                            <tr v-for="(pessoa, index) in pessoas_fisicas_chancelas_relacionadas" :key="pessoa.id">
+                                <td class="num_arquivo">{{ index+1 }}</td>
+                                <td class="nome_arquivo"><router-link :id="pessoa.pessoa_id" :to="{ name: 'pf-view',
+                                params: { id: pessoa.pessoa_id }}">{{ pessoa.nome }}</router-link></td>
+                                <td class="descricao_arquivo">{{ pessoa.chancela }}</td>
+                                <td class="remove_arquivo"><a @click.prevent="removeChancelaPf(pessoa.pessoa_id, pessoa.chancela_id, true)">X</a></td>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
             </div><br>
 
             <!-- Add novo chancela pessoa física -->
-            <a @click="mostraChancelaBoxMetodo(true)">[nova chancela pessoa física]</a>
+            <a @click="mostraChancelaBoxMetodo(true)" class="link_abrir_box">[nova chancela pessoa física]</a>
             <div v-if="mostraChancelaPfBox">
                 <span class="campo">--- Nova Chancela PF</span><br>
                 <span class="campo">Nome</span>
@@ -75,22 +135,29 @@
             <span class="campo">Pessoas Jurídicas relacionadas</span>
             <div id="" class="valor" style="margin-top: 3px;">
                 <div id="projetos_pj">
-                    <table>
-                        <tr v-for="pessoa in pessoas_juridicas_chancelas_relacionadas">
-                            <td>
-                                <router-link
+                    <div class="tabela_arquivos">
+                        <table>
+                            <tr>
+                                <th class="num_arquivo">#</th>
+                                <th class="nome_arquivo">Nome</th>
+                                <th class="descricao_arquivo">Chancela</th>
+                                <th class="remove_arquivo">Remover</th>
+                            </tr>
+                            <tr v-for="(pessoa, index) in pessoas_juridicas_chancelas_relacionadas" :key="pessoa.id">
+                                <td class="num_arquivo">{{ index+1 }}</td>
+                                <td class="nome_arquivo"><router-link
                                         :id="pessoa.pessoa_id" :to="{ name: 'pj-view',
-                                        params: { id: pessoa.pessoa_id }}">{{ pessoa.nome }}</router-link>&nbsp;/&nbsp;{{ pessoa.chancela }}</td>
-                            <td>
-                                <a @click.prevent="removeChancelaPf(pessoa.pessoa_id, pessoa.chancela_id, false)">[X]</a>
-                            </td>
-                        </tr>
-                    </table>
+                                        params: { id: pessoa.pessoa_id }}">{{ pessoa.nome }}</router-link></td>
+                                <td class="descricao_arquivo">{{ pessoa.chancela }}</td>
+                                <td class="remove_arquivo"><a @click.prevent="removeChancelaPf(pessoa.pessoa_id, pessoa.chancela_id, false)">X</a></td>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
             </div><br>
 
             <!-- Add novo chancela pessoa jurídica -->
-            <a @click="mostraChancelaBoxMetodo(false)">[nova chancela pessoa jurídica]</a>
+            <a @click="mostraChancelaBoxMetodo(false)" class="link_abrir_box">[nova chancela pessoa jurídica]</a>
             <div v-if="mostraChancelaPjBox">
                 <span class="campo">--- Nova Chancela PJ</span><br>
                 <span class="campo">Nome</span>
@@ -108,11 +175,12 @@
                 <a @click.prevent="adicionaChancela(false)">[+]</a>
 
             </div>
-
-            <br>
-            <br>
+            <br><br>
 
             <button>Salvar</button>
+
+
+            <br>
 
         </form>
 
@@ -128,6 +196,12 @@
         created() {
             this.getProjeto(this.$route.params.id);
             this.jQuery();
+            //reticências em strings maiores que "n"
+            String.prototype.trunc = function(n){
+                return this.substr(0, n-1) + (this.length > n ? '...' : '');
+            };
+            //basepath
+            this.root = ROOT;
         },
         data() {
             return {
@@ -136,13 +210,20 @@
                 atributos: [],
                 pessoas_fisicas_chancelas_relacionadas: [],
                 pessoas_juridicas_chancelas_relacionadas: [],
+                arquivos: [],
                 //Campos de inclusão
+                root: '',
                 pessoas_fisicas_atuais: [],
                 pessoas_juridicas_atuais: [],
                 chancelas_pf_atuais: [],
                 chancelas_pj_atuais: [],
                 nova_chancela_pf: {pessoa_fisica: '', chancela: ''},
                 nova_chancela_pj: {pessoa_juridica: '', chancela: ''},
+                arquivo_atual: {name: 'Selecione um arquivo'},
+                descricao_arquivo: '',
+                mensagem_upload: '',
+                id_destaque: '',
+                imagem_destaque: '',
                 //Condicionais
                 mostraChancelaPfBox: false,
                 mostraChancelaPjBox: false,
@@ -158,13 +239,18 @@
         computed: {},
         methods: {
             getProjeto: function(id){
+                this.imagem_destaque = `${this.root}/img/perfil_vazio.png`;
                 axios.get('/admin/ajax/projetos/' + id).then(res => {
-                    eventBus.$emit('getProjeto');
+                    eventBus.$emit('getProjeto', this.$route.params.id);
                     let dados = res.data;
                     this.projeto = dados.projeto;
+                    this.arquivos = dados.arquivos;
                     this.pessoas_fisicas_chancelas_relacionadas = dados.pessoas_fisicas_chancelas_relacionadas;
                     this.pessoas_juridicas_chancelas_relacionadas = dados.pessoas_juridicas_chancelas_relacionadas;
                     this.atributos = dados.atributos;
+
+                    //imagem de destaque
+                    this.getImagemDestaque();
                 } );
             },
             salvaForm: function(){
@@ -172,6 +258,7 @@
                     projeto: this.projeto,
                     pessoas_fisicas: this.pessoas_fisicas_atuais,
                     chancelas_pf: this.chancelas_pf_atuais,
+                    arquivos: this.arquivos,
                 }).then(res => {
                     this.projeto = res.data;
                     eventBus.$emit('foiSalvoProjeto', this.projeto);
@@ -214,9 +301,69 @@
                 });
             },
             mostraChancelaBoxMetodo: function(isPf){
-                if(isPf) this.mostraChancelaPfBox = true;
-                else this.mostraChancelaPjBox = true;
+                if(isPf) this.mostraChancelaPfBox = !this.mostraChancelaPfBox;
+                else this.mostraChancelaPjBox = !this.mostraChancelaPjBox;
                 this.jQuery();
+            },
+            setArquivoAtual() {
+                this.arquivo_atual = this.$refs.arquivo.files[0];
+            },
+            upload: function() {
+                let formData = new FormData();
+                formData.append('arquivo', this.arquivo_atual);
+                formData.append('projeto_id', this.$route.params.id);
+                formData.append('descricao_arquivo', this.descricao_arquivo);
+
+                axios.post('/admin/ajax/projetos/upload',
+                    formData, {
+                        headers: { 'Content-Type': 'multipart/form-data' },
+                    }
+                ).then(res => {
+                    if(typeof res.data !== "string") {
+                        this.mensagem_upload = res.data['mensagem_upload'];
+                        this.arquivos = res.data['arquivos'];
+                        this.arquivo_atual = {};
+                        this.descricao_arquivo = '';
+                        this.$refs.arquivo.value = '';
+                    } else {
+                        console.log('Arquivo inválido');
+                    }
+                });
+            },
+            removeArquivo: function(id) {
+                axios.post('/admin/ajax/projetos/removeArquivo', {
+                    arquivo_id: id,
+                    projeto_id: this.$route.params.id,
+                }).then(res => {
+                    this.arquivos = res.data['arquivos'];
+                    if(res.data['remove_destaque'] === true)
+                        this.imagem_destaque = `${this.root}/img/perfil_vazio.png`;
+                });
+            },
+            setImagemDestaque: function(arquivo_id) {
+                axios.post('/admin/ajax/projetos/setImagemDestaque', {
+                    arquivo_id: arquivo_id,
+                    projeto_id: this.$route.params.id,
+                }).then(res => {
+                    this.id_destaque = res.data['imagem_destaque']['id'];
+                    this.arquivos = res.data['arquivos'];
+                    if(this.id_destaque === 0)
+                        this.imagem_destaque = `${this.root}/img/perfil_vazio.png`;
+                    else
+                        this.imagem_destaque = `${this.root}/thumbs/projetos/${this.$route.params.id}/${res.data['imagem_destaque']['nome']}`;
+                });
+            },
+            getImagemDestaque: function() {
+                axios.post('/admin/ajax/projetos/getImagemDestaque', {
+                    projeto_id: this.$route.params.id,
+                }).then(res => {
+                    if(typeof res.data !== "string") {
+                        this.id_destaque = res.data.id;
+                        this.imagem_destaque = `${this.root}/thumbs/projetos/${this.$route.params.id}/${res.data.nome}`;
+                    }
+                    else
+                        this.imagem_destaque = `${this.root}/img/perfil_vazio.png`;
+                });
             },
             jQuery: function(){
 

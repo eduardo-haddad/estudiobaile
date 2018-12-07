@@ -57,6 +57,12 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles']], function(
         'as' => 'ajax.pf.index',
         'roles' => $padrao
     ]);
+    //Criar
+    Route::post('/ajax/pf/create', [
+        'uses' => 'PessoaFisicaController@ajaxCreate',
+        'as' => 'ajax.pf.create',
+        'roles' => $padrao
+    ]);
     //View
     Route::get('/ajax/pf/{id}', [
         'uses' => 'PessoaFisicaController@ajaxView',
@@ -151,6 +157,12 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles']], function(
         'as' => 'ajax.pj.index',
         'roles' => $padrao
     ]);
+    //Criar
+    Route::post('/ajax/pj/create', [
+        'uses' => 'PessoaJuridicaController@ajaxCreate',
+        'as' => 'ajax.pj.create',
+        'roles' => $padrao
+    ]);
     //View
     Route::get('/ajax/pj/{id}', [
         'uses' => 'PessoaJuridicaController@ajaxView',
@@ -213,6 +225,28 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles']], function(
         'as' => 'ajax.pj.removeDadosBancarios',
         'roles' => $padrao
     ]);
+    //Arquivos
+    Route::post('/ajax/pj/upload', [
+        'uses' => 'PessoaJuridicaController@ajaxUpload',
+        'as' => 'ajax.pj.upload',
+        'roles' => $padrao
+    ]);
+    Route::post('/ajax/pj/removeArquivo', [
+        'uses' => 'PessoaJuridicaController@ajaxRemoveArquivo',
+        'as' => 'ajax.pj.removeArquivo',
+        'roles' => $padrao
+    ]);
+    //Imagem de destaque
+    Route::post('/ajax/pj/getImagemDestaque', [
+        'uses' => 'PessoaJuridicaController@ajaxGetImagemDestaque',
+        'as' => 'ajax.pj.ajaxGetImagemDestaque',
+        'roles' => $padrao
+    ]);
+    Route::post('/ajax/pj/setImagemDestaque', [
+        'uses' => 'PessoaJuridicaController@ajaxSetImagemDestaque',
+        'as' => 'ajax.pj.setImagemDestaque',
+        'roles' => $padrao
+    ]);
 
     // ** PROJETOS **
 
@@ -220,6 +254,12 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles']], function(
     Route::get('/ajax/projetos/index', [
         'uses' => 'ProjetoController@ajaxIndex',
         'as' => 'ajax.projetos.index',
+        'roles' => $padrao
+    ]);
+    //Criar
+    Route::post('/ajax/projetos/create', [
+        'uses' => 'ProjetoController@ajaxCreate',
+        'as' => 'ajax.projetos.create',
         'roles' => $padrao
     ]);
     //View
@@ -266,6 +306,56 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles']], function(
         'as' => 'ajax.projetos.removeChancelaPj',
         'roles' => $padrao
     ]);
+    //Arquivos
+    Route::post('/ajax/projetos/upload', [
+        'uses' => 'ProjetoController@ajaxUpload',
+        'as' => 'ajax.projetos.upload',
+        'roles' => $padrao
+    ]);
+    Route::post('/ajax/projetos/removeArquivo', [
+        'uses' => 'ProjetoController@ajaxRemoveArquivo',
+        'as' => 'ajax.projetos.removeArquivo',
+        'roles' => $padrao
+    ]);
+    //Imagem de destaque
+    Route::post('/ajax/projetos/getImagemDestaque', [
+        'uses' => 'ProjetoController@ajaxGetImagemDestaque',
+        'as' => 'ajax.projetos.ajaxGetImagemDestaque',
+        'roles' => $padrao
+    ]);
+    Route::post('/ajax/projetos/setImagemDestaque', [
+        'uses' => 'ProjetoController@ajaxSetImagemDestaque',
+        'as' => 'ajax.projetos.setImagemDestaque',
+        'roles' => $padrao
+    ]);
+
+    /** TAGS **/
+
+    //Lista
+    Route::get('/ajax/tags/index', [
+        'uses' => 'TagController@ajaxIndex',
+        'as' => 'ajax.tags.index',
+        'roles' => $padrao
+    ]);
+    //View
+    Route::get('/ajax/tags/{id}', [
+        'uses' => 'TagController@ajaxView',
+        'as' => 'ajax.tags.view',
+        'roles' => $padrao
+    ]);
+    //Salva formulário
+    Route::post('/ajax/tags/save', [
+        'uses' => 'TagController@ajaxSave',
+        'as' => 'ajax.tags.save',
+        'roles' => $padrao
+    ]);
+    //Remove tag
+    Route::post('/ajax/tags/ajaxRemoveTag/{id}', [
+        'uses' => 'TagController@ajaxRemoveTag',
+        'as' => 'ajax.tags.removeTag',
+        'roles' => $padrao
+    ]);
+
 
     /** GERAL **/
     Route::get('/download/{tipo}/{id}/{arquivo_id}', [

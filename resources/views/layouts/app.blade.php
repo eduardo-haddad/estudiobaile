@@ -20,6 +20,7 @@
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
         <link href="{{ asset('css/bootstrap/bootstrap.css') }}" rel="stylesheet">
         <link href="{{ asset('css/bootstrap/bootstrap-theme.min.css') }}" rel="stylesheet">
+
     </head>
 <body>
 
@@ -44,7 +45,13 @@
                     <router-view></router-view>
                 </div>
 
+                <modal v-if="showModal" @close="showModal = false">
+                    <h3 slot="header">Novo registro</h3>
+                </modal>
+
             </div>
+
+
 
         </div>
 
