@@ -1,0 +1,1 @@
+echo "rsync estudiobaile - webfaction" && rsync -a --no-links -Crvzpe "ssh " --exclude-from=/Applications/XAMPP/xamppfiles/htdocs/estudiobaile/rsync-exclude --omit-dir-times --stats /Applications/XAMPP/xamppfiles/htdocs/estudiobaile/ tfarkas@estudiobaile.org:/home/tfarkas/webapps/admin/

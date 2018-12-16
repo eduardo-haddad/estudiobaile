@@ -1,7 +1,9 @@
 import VueRouter from 'vue-router';
 
 let routes = [
-
+    {   path: '/',
+        name: 'home', component: require('./components/home/view'),
+    },
     {   path: '/pf',
         name: 'pf-index', component: require('./components/pessoaFisica/index'),
         children: [

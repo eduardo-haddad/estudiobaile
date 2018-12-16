@@ -1,43 +1,34 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
 //Rotas padrão
-Route::get('/', function () {
-    return view('home');
-});
 Route::get('/admin', function () {
     return view('home');
+})->middleware('notLoggedIn');
+//Route::get('/', function () {
+//    return redirect('/admin');
+//});
+Route::get('/', function () {
+    return redirect('login');
 });
-
 
 // Rotas de autenticação (override em Auth::routes())
 
 //Auth::routes();
 
 // Login/Logout
-$this->get('admin/login', 'Auth\LoginController@showLoginForm')->name('login');
-$this->post('admin/login', 'Auth\LoginController@login');
-$this->post('admin/logout', 'Auth\LoginController@logout')->name('logout');
+$this->get('login', 'Auth\LoginController@showLoginForm')->name('login');
+$this->post('login', 'Auth\LoginController@login');
+$this->post('logout', 'Auth\LoginController@logout')->name('logout');
 
 // Registrar
-$this->get('admin/register', 'Auth\RegisterController@showRegistrationForm')->name('register')->middleware('isAdmin');
-$this->post('admin/register', 'Auth\RegisterController@register');
+$this->get('register', 'Auth\RegisterController@showRegistrationForm')->name('register')->middleware('isAdmin');
+$this->post('register', 'Auth\RegisterController@register');
 
 // Senhas
-$this->get('admin/password/reset/{token?}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
-$this->post('admin/password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
-$this->post('admin/password/reset', 'Auth\ResetPasswordController@reset');
-$this->get('admin/password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
+$this->get('password/reset/{token?}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
+$this->post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+$this->post('password/reset', 'Auth\ResetPasswordController@reset');
+$this->get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
 
 //Rotas de admin
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles']], function(){ 

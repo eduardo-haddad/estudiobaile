@@ -1048,7 +1048,7 @@ hr {
           box-sizing: border-box;
   width: auto;
   min-width: 350px;
-  border-bottom: 1px solid lightgray;
+  border-bottom: 1px solid transparent;
 }
 
 #app #principal #conteudo_geral #container_conteudo input[type=text]:focus {
@@ -1198,6 +1198,35 @@ hr {
   vertical-align: middle;
   font-size: 17px;
   padding-left: 15px;
+}
+
+#app #principal #conteudo_geral .home.detalhe {
+  background-image: url("../img/home-limpa.png");
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  padding: 0;
+}
+
+#app #principal #conteudo_geral .home.detalhe #detalhe_container {
+  display: table;
+  height: calc(100vh - 61px);
+  min-height: calc(100vh - 61px);
+  max-height: calc(100vh - 61px);
+}
+
+#app #principal #conteudo_geral .home.detalhe #detalhe_container #container_conteudo {
+  display: table-cell;
+  vertical-align: middle;
+  color: #ffffff;
+  font-family: "GTWalsheimProRegular";
+  font-size: 24px;
+  padding: 0 0 0 48px;
+}
+
+#app #principal #conteudo_geral .home.detalhe #detalhe_container #container_conteudo span {
+  font-family: "GTWalsheimProBold";
 }
 
 #app #principal #conteudo_geral .detalhe {

@@ -604,7 +604,7 @@ class PessoaFisicaController extends Controller
                 $arquivo->tipo = $tipo;
                 $arquivo->descricao = $_REQUEST['descricao_arquivo'];
                 $arquivo->extensao = $extensao;
-                $arquivo->data = date('d/m/Y H:i');
+                $arquivo->data = date('Y M d H:i');
                 $arquivo->save();
 
                 $pessoa_id = $_REQUEST['pessoa_id'];

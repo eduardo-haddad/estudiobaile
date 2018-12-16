@@ -501,7 +501,7 @@ hr {
                     box-sizing: border-box;
                     width: auto;
                     min-width: 350px;
-                    border-bottom: 1px solid lightgray;
+                    border-bottom: 1px solid transparent;
                 }
 
                 input[type=text]:focus {
@@ -631,6 +631,38 @@ hr {
                     } //li
                 } //ul
             } //lista
+
+            .home.detalhe {
+              background-image: url('../img/home-limpa.png');
+              background-position: center center;
+              background-repeat: no-repeat;
+              background-attachment: fixed;
+              background-size: cover;
+              padding: 0;
+
+              #detalhe_container {
+                display: table;
+                height: calc(100vh - #{$cabecalho});
+                min-height: calc(100vh - #{$cabecalho});
+                max-height: calc(100vh - #{$cabecalho});
+
+                #container_conteudo {
+                  display: table-cell;
+                  vertical-align: middle;
+                  color: $cor_fundo;
+                  font-family: $fonte-projeto-regular;
+                  font-size: 24px;
+                  padding: 0 0 0 48px;
+
+                  span {
+                    font-family: $fonte-projeto-bold;
+                  }
+                }
+              }
+
+
+
+            } //.home.detalhe
 
             .detalhe {
                 width: calc(100% - #{$lista_w});

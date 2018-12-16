@@ -118,7 +118,7 @@
                     <tr>
                         <th class="num_arquivo">#</th>
                         <th class="nome_arquivo">Nome</th>
-                        <th class="descricao_arquivo">Cargo</th>
+                        <th class="descricao_arquivo">Chancela</th>
                         <th class="remove_arquivo">Remover</th>
                     </tr>
                     <tr v-for="(projeto, index) in projetos" :key="projeto.id">
@@ -213,6 +213,14 @@
                 <input autocomplete="off" type="text"
                        v-model="pessoa.inscricao_municipal"
                        name="nome"
+                />
+            </div>
+
+            <div class="valor">
+                <span class="campo">Website</span>
+                <input autocomplete="off" type="text"
+                       v-model="pessoa.website"
+                       name="website"
                 />
             </div>
             <br>

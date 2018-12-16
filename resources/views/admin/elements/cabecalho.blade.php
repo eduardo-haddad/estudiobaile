@@ -1,10 +1,9 @@
 <div class="container">
 
     <div class="logo">
-        {{-- <a href="{{ url('/') }}">
-            {{ config('app.name') }}
-        </a> --}}
-        <img src="{{ asset('img/logo.png') }}" />
+        <router-link :to="{ name: 'home'}">
+            <img src="{{ asset('img/logo.png') }}" />
+        </router-link>
     </div>
             
     <div class="usuario">    

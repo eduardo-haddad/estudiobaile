@@ -283,14 +283,6 @@
             />
         </div><br>
 
-        <div class="valor">
-            <span class="campo">Website</span>
-            <input autocomplete="off" type="text"
-                   v-model="pessoa.website"
-                   name="website"
-            />
-        </div><br>
-
         <!-- DOCUMENTOS -->
         <div class="valor">
             <span class="campo">RG</span>
@@ -334,6 +326,14 @@
                        name="razao_social"
                 />
             </div>
+
+            <div class="valor">
+                <span class="campo">Website</span>
+                <input autocomplete="off" type="text"
+                       v-model="pessoa.website"
+                       name="website"
+                />
+            </div><br>
         </div>
 
 

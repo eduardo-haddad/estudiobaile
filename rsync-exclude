@@ -13,6 +13,12 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
-invisible-rsync-direto
+estudiobaile-rsync-direto
 rsync-exclude
 
+public/uploads/pessoas_fisicas/*
+public/uploads/pessoas_juridicas/*
+public/uploads/projetos/*
+public/thumbs/pessoas_fisicas/*
+public/thumbs/pessoas_juridicas/*
+public/thumbs/projetos/*
