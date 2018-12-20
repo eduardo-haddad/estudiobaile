@@ -43,6 +43,8 @@ class DatabaseSeeder extends Seeder
         $this->call(ContatoSeeder::class);
         // Projeto
         $this->call(ProjetoSeeder::class);
+        // Interna
+        $this->call(InternaSeeder::class);
         
     }
 }

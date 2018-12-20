@@ -17,6 +17,9 @@
                             <p><a @click.prevent="navegar('projetos')">Projeto</a></p>
                             <p><a @click.prevent="navegar('pf')">Pessoa Física</a></p>
                             <p><a @click.prevent="navegar('pj')">Pessoa Jurídica</a></p>
+                            <hr />
+                            <p><a @click.prevent="navegar('usuarios')">Usuário</a></p>
+
                         </slot>
                     </div>
 
@@ -36,7 +39,12 @@
 <script>
     export default {
         mounted() {
-            //
+            this.isAdmin = ISADMIN;
+        },
+        data() {
+            return {
+                isAdmin: '',
+            }
         },
         methods: {
             navegar: function(tipo) {

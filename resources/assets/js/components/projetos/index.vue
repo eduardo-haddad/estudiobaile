@@ -84,7 +84,7 @@
         },
         methods: {
             getLista: function(id) {
-                axios.get('/admin/ajax/projetos/index')
+                axios.get('/ajax/projetos/index')
                     .then(res => this.projetos = res.data)
                     .then(() => this.highlight_menu)
                     .then(() => this.scrollOnLoad(id));
@@ -107,7 +107,7 @@
             highlight_menu: () => {
                 const menu = document.getElementById('menu_principal');
                 let items = menu.getElementsByTagName('li');
-                let url = window.location.href.split('/admin#/')[1];
+                let url = window.location.hash;
                 for (let i = 0; i < items.length; ++i) {
                     if(url.includes(items[i].id))
                         items[i].className = 'opcao selecionado';

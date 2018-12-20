@@ -19,6 +19,12 @@
         <router-link :to="{ name: 'interna-view'}">Interna</router-link>
     </li>
 
+    @if(!Auth::user()->hasRole('usuario'))
+        <li class="opcao" id="usuarios">
+            <router-link :to="{ name: 'usuarios-index'}">Usuários</router-link>
+        </li>
+    @endif
+
 </ul>
 
 <div id="inferior">

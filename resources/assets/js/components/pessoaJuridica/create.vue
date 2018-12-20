@@ -58,7 +58,7 @@
         computed: {},
         methods: {
             criar: function(nome) {
-                axios.post('/admin/ajax/pj/create', {
+                axios.post('/ajax/pj/create', {
                     nome_fantasia: nome,
                 }).then(res => {
                     if(typeof res.data !== "string") {

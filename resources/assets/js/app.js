@@ -1,3 +1,3 @@
-import './bootstrap';
+// import './bootstrap';
 import './estudiobaile';
-import './forms';
+// import './forms';

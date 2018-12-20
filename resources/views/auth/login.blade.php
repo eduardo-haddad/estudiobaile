@@ -2,6 +2,37 @@
 
 @section('login')
 
+<div class="container login" id="login">
+        <div class="login-page">
+            <div class="form">
+                <form class="login-form" method="POST" action="{{ route('login') }}">
+                    {{--@csrf--}}
+                    {{ csrf_field() }}
+                    <input type="text" class="{{ $errors->has('username') ? ' is-invalid' : '' }}" placeholder="usuário" name="username" value="{{ old('username') }}" required autofocus/>
+                    @if ($errors->has('username'))
+                        <span class="invalid-feedback">
+                        <strong>{{ $errors->first('username') }}</strong>
+                    </span>
+                    @endif
+                    <input type="password" placeholder="senha" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required />
+                    @if ($errors->has('password'))
+                        <span class="invalid-feedback">
+                        <strong>{{ $errors->first('password') }}</strong>
+                    </span>
+                    @endif
+
+                    <button type="submit">Entrar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
+@endsection
+
+@section('login-old')
+
 <!-- Styles -->
 
 <div class="container login">
@@ -58,9 +89,9 @@
                                     Entrar
                                 </button>
 
-                                {{--<a class="btn btn-link" href="{{ route('password.request') }}">--}}
-                                    {{--{{ __('Forgot Your Password?') }}--}}
-                                {{--</a>--}}
+                                <a class="btn btn-link" href="{{ route('password.request') }}">
+                                    {{ __('Forgot Your Password?') }}
+                                </a>
                             </div>
                         </div>
                     </form>

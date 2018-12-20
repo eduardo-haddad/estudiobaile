@@ -49,7 +49,7 @@
             //     console.log('interna');
             // },
             // salvaForm: function(){
-            //     axios.post('/admin/ajax/tags/save', {
+            //     axios.post('/ajax/tags/save', {
             //         tag: this.tag,
             //     }).then(res => {
             //         this.tag = res.data;
@@ -59,7 +59,7 @@
             // highlight_menu: () => {
             //     const menu = document.getElementById('menu_principal');
             //     let items = menu.getElementsByTagName('li');
-            //     let url = window.location.href.split('/admin#/')[1];
+            //     let url = window.location.hash;
             //     for (let i = 0; i < items.length; ++i) {
             //         if(url.includes(items[i].id))
             //             items[i].className = 'opcao selecionado';

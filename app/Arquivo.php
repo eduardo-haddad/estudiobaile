@@ -28,4 +28,14 @@ class Arquivo extends Model
         return $this->belongsToMany('App\Projeto', 'arquivos_relacionados', 'arquivo_id', 'projeto_id');
     }
 
+    public function usuarios()
+    {
+        return $this->belongsToMany('App\User', 'arquivos_relacionados', 'arquivo_id', 'usuario_id');
+    }
+
+    public function interna()
+    {
+        return $this->belongsToMany('App\User', 'arquivos_relacionados', 'arquivo_id', 'interna_id');
+    }
+
 }

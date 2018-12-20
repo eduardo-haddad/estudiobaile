@@ -24,19 +24,17 @@ class PessoaJuridicaSeeder extends Seeder
         $pj->criado_por = 'Eduardo Haddad';
         $pj->modificado_por = 'Eduardo Haddad';
         $pj->save();
-        $pj->categorias()->attach(Categoria::find(1));
         $pj->pessoas_fisicas()->attach(PessoaFisica::find(1), ['cargo_id' => 1]);
         $pj2 = new PessoaJuridica();
-        $pj2->nome_fantasia = 'Videobrasil';
-        $pj2->razao_social = 'Associação Cultural Videobrasil';
-        $pj2->cnpj = '01.000000/0001-00';
-        $pj2->website = 'http://videobrasil.org.br';
-        $pj2->inscricao_municipal = '00000';
-        $pj2->inscricao_estadual = '00000';
+        $pj2->nome_fantasia = 'Adomuka';
+        $pj2->razao_social = 'Adomuka - Desenvolvimento e Tecnologia da Informação';
+        $pj2->cnpj = '32.197.197/0001-97';
+        $pj2->website = '';
+        $pj2->inscricao_municipal = '';
+        $pj2->inscricao_estadual = '';
         $pj2->criado_por = 'Eduardo Haddad';
         $pj2->modificado_por = 'Eduardo Haddad';
         $pj2->save();
-        $pj2->categorias()->attach(Categoria::find(1));
 
     }
 }

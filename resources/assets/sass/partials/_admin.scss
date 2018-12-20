@@ -10,8 +10,28 @@ body {
     overflow: hidden;
 }
 
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+*:before,
+*:after {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+input, button, select, textarea {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
 ul {
     list-style: none;
+    margin-top: 0;
 }
 
 a {
@@ -25,8 +45,8 @@ a {
 }
 
 hr {
-    border-top: 1px solid #efefef !important;
-    margin: 30px 0 !important;
+    border-top: 1px solid #efefef;
+    margin: 30px 0;
 }
 
 #app {
@@ -53,6 +73,123 @@ hr {
             position:relative;
             width: 100%;
             min-height: 100vh;
+            //
+            background-image: url('../img/home-limpa.png');
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+            padding: 0;
+
+
+            #login {
+              //
+              .login-page {
+                width: 360px;
+                padding: 8% 0 0;
+                margin: auto;
+              }
+              .form {
+                position: relative;
+                z-index: 1;
+                background: $cor_fundo;
+                max-width: 360px;
+                margin: 0 auto 100px;
+                padding: 45px;
+                text-align: center;
+                box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+
+                input {
+                  font-family: $fonte-projeto-regular;
+                  outline: 0;
+                  background: #f2f2f2;
+                  width: 100%;
+                  border: 0;
+                  margin: 0 0 15px;
+                  padding: 15px;
+                  box-sizing: border-box;
+                  font-size: 14px;
+                }
+
+                button {
+                  font-family: $fonte-projeto-bold;
+                  text-transform: uppercase;
+                  outline: 0;
+                  background: $magenta;
+                  width: 100%;
+                  border: 0;
+                  padding: 15px;
+                  color: $cor_fundo;
+                  font-size: 14px;
+                  -webkit-transition: all 0.3 ease;
+                  transition: all 0.3 ease;
+                  cursor: pointer;
+
+                  &:hover,&:active,&:focus {
+                    background: $laranja;
+                  }
+                }
+
+                .message {
+                  margin: 15px 0 0;
+                  color: #b3b3b3;
+                  font-size: 12px;
+                }
+
+                .message a {
+                  color: #4CAF50;
+                  text-decoration: none;
+                }
+
+                .register-form {
+                  display: none;
+                }
+              } //.form
+
+              .container {
+                position: relative;
+                z-index: 1;
+                max-width: 300px;
+                margin: 0 auto;
+
+                &:before, &:after {
+                  content: "";
+                  display: block;
+                  clear: both;
+                }
+
+                .info {
+                  margin: 50px auto;
+                  text-align: center;
+
+                  h1 {
+                    margin: 0 0 15px;
+                    padding: 0;
+                    font-size: 36px;
+                    font-weight: 300;
+                    color: #1a1a1a;
+                  }
+
+                  span {
+                    color: #4d4d4d;
+                    font-size: 12px;
+
+                    a {
+                      color: #000000;
+                      text-decoration: none;
+                    }
+
+                    .fa {
+                      color: #EF3B3A;
+                    }
+
+                  } //span
+
+                } //.info
+
+              } //.container
+
+            } //#login
 
             .modal-mask {
               position: fixed;
@@ -150,6 +287,8 @@ hr {
             height: $cabecalho;
             background-color: $cor_fundo;
             border-bottom: 1px solid $cinza_borda;
+            box-sizing: border-box;
+            font-size: 16px;
 
             a {
                 color: $laranja;
@@ -180,7 +319,7 @@ hr {
                     margin-top: 10px;
     
                     .login,
-                    .nome_usuario,
+                    #nome_usuario,
                     .registrar,
                     .logout {
                         display: inline-block;
@@ -225,6 +364,7 @@ hr {
                     a {
                         text-decoration: none;
                         color: $cinza_escuro;
+                        font-size: 17px;
                     }
                 } //li
             } //ul
@@ -270,7 +410,8 @@ hr {
             min-height: calc(100vh - #{$cabecalho});
 
             .login {
-                padding: 50px 0 0 50px;
+                padding: 0 0 0 30px;
+                margin: 80px 0 0 0;
 
                 .login-label {
                     margin-top: 7px;
@@ -312,6 +453,11 @@ hr {
                       span {
                         display: table-cell;
                         vertical-align: middle;
+                        color: $cinza_escuro;
+
+                        input {
+                          color: inherit;
+                        }
                       }
                     }
                 }
@@ -333,6 +479,11 @@ hr {
                   color: $laranja;
                   margin: 18px 0;
                   display: inline-block;
+
+                  &.delete {
+                    color: $vermelho;
+                  }
+
                 }
 
                 .grupo {
@@ -400,6 +551,7 @@ hr {
                       top: 2px;
                       padding: 5px 10px 3px 0;
                       height: 29px;
+                      text-align: left;
 
                       &.num_arquivo {
                         min-width: 20px;
@@ -415,12 +567,12 @@ hr {
                       }
                       &.destaque_arquivo {
                         text-align: center;
-                        min-width: 60px;
-                        max-width: 60px;
+                        min-width: 75px;
+                        max-width: 75px;
                       }
                       &.tipo_arquivo {
-                        min-width: 68px;
-                        max-width: 68px;
+                        min-width: 78px;
+                        max-width: 78px;
                       }
                       &.data_arquivo {
                         min-width: 130px;
@@ -494,7 +646,8 @@ hr {
                     display: block;
                 }
 
-                input[type=text] {
+                input[type=text],
+                input[type=password] {
                     outline: none;
                     border: none;
                     display: inline-block;
@@ -547,6 +700,7 @@ hr {
                     border-bottom: 1px solid $cinza_borda;
                     border-left: 1px solid $cinza_borda;
                     border-right: 1px solid $cinza_borda;
+                    box-sizing: border-box;
 
                     .lupa_texto {
                         vertical-align: middle;
@@ -569,6 +723,7 @@ hr {
                             height: $lupa;
                             font-size: 19px;
                             color: $cinza_escuro;
+                            box-sizing: border-box;
 
                             &:focus {
                                 outline: none;
@@ -602,6 +757,7 @@ hr {
                 border-left: 1px solid $cinza_borda;
                 border-right: 1px solid $cinza_borda;
                 padding: 0;
+                box-sizing: border-box;
 
                 ul {
                     display: block;
@@ -657,6 +813,7 @@ hr {
                   span {
                     font-family: $fonte-projeto-bold;
                   }
+
                 }
               }
 
@@ -707,4 +864,17 @@ hr {
 
 #projetos_pf .select2-container {
     margin-top: 2px !important;
+}
+
+//Quill
+#editor {
+  //
+  hr {
+    margin: 20px 0 !important;
+  }
+
+  .ql-editor .ql-size-large {
+    font-size: 1.4em;
+  }
+
 }

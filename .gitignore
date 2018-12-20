@@ -16,13 +16,19 @@ yarn-error.log
 /public/uploads/pessoas_fisicas/*
 /public/uploads/pessoas_juridicas/*
 /public/uploads/projetos/*
+/public/uploads/usuarios/*
+/public/uploads/interna/*
 /public/thumbs/pessoas_fisicas/*
 /public/thumbs/pessoas_juridicas/*
 /public/thumbs/projetos/*
+/public/thumbs/usuarios/*
 
 !/public/uploads/pessoas_fisicas/.gitkeep
 !/public/uploads/pessoas_juridicas/.gitkeep
 !/public/uploads/projetos/.gitkeep
+!/public/uploads/usuarios/.gitkeep
+!/public/uploads/interna/.gitkeep
 !/public/thumbs/pessoas_fisicas/.gitkeep
 !/public/thumbs/pessoas_juridicas/.gitkeep
 !/public/thumbs/projetos/.gitkeep
+!/public/thumbs/usuarios/.gitkeep

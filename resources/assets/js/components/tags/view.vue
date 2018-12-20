@@ -15,7 +15,8 @@
         <form @submit.prevent="salvaForm" method="POST">
             <button>Salvar</button>
         </form>
-        <br><br><br>
+
+        <hr>
 
         <!-- Pessoas Físicas relacionadas -->
         <div class="valor" style="margin-top: 3px;">
@@ -36,7 +37,9 @@
                 </table>
             </div>
         </div>
-        <br><br><br>
+
+        <br>
+        <hr>
 
         <!-- Pessoas Jurídicas relacionadas -->
         <div class="valor" style="margin-top: 3px;">
@@ -97,7 +100,7 @@
         computed: {},
         methods: {
             getTag: function(id){
-                axios.get('/admin/ajax/tags/' + id).then(res => {
+                axios.get('/ajax/tags/' + id).then(res => {
                     eventBus.$emit('getTag', this.$route.params.id);
                     this.tag = res.data['tag'];
                     this.pessoas_fisicas_relacionadas = res.data['pessoas_fisicas_relacionadas'];
@@ -105,7 +108,7 @@
                 } );
             },
             removeTag: function(pessoa_id, tipo){
-                axios.post('/admin/ajax/tags/ajaxRemoveTag/' + this.tag.id, {
+                axios.post('/ajax/tags/ajaxRemoveTag/' + this.tag.id, {
                     pessoa_id: pessoa_id,
                     pessoa_tipo: tipo
                 }).then(res => {
@@ -118,7 +121,7 @@
                 });
             },
             salvaForm: function(){
-                axios.post('/admin/ajax/tags/save', {
+                axios.post('/ajax/tags/save', {
                     tag: this.tag,
                 }).then(res => {
                     this.tag = res.data;

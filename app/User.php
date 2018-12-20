@@ -65,4 +65,9 @@ class User extends Authenticatable
     {
         return null !== $this->roles()->where('name', $role)->first();
     }
+
+    public function arquivos()
+    {
+        return $this->belongsToMany('App\Arquivo', 'arquivos_relacionados', 'usuario_id', 'arquivo_id');
+    }
 }

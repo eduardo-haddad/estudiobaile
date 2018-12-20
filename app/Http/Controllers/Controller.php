@@ -20,6 +20,7 @@ class Controller extends BaseController
             case 'pf': $diretorio = "pessoas_fisicas/$id/"; break;
             case 'pj': $diretorio = "pessoas_juridicas/$id/"; break;
             case 'projeto': $diretorio = "projetos/$id/"; break;
+            case 'usuario': $diretorio = "usuarios/$id/"; break;
         }
 
         if(empty($diretorio)) return "Arquivo inválido";

@@ -62,6 +62,21 @@ let routes = [
     {   path: '/interna',
         name: 'interna-view', component: require('./components/interna/view'),
     },
+    {   path: '/usuarios',
+        name: 'usuarios-index', component: require('./components/usuarios/index'),
+        children: [
+            {
+                path: 'view/:id',
+                name: 'usuarios-view',
+                component: require('./components/usuarios/view')
+            },
+            {
+                path: 'add',
+                name: 'usuarios-create',
+                component: require('./components/usuarios/create')
+            }
+        ]
+    },
 ];
 
 
