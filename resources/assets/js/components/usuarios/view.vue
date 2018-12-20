@@ -38,6 +38,12 @@
             <input autocomplete="off" type="text" name="usuario" v-model="usuario.username" />
         </div><br>
 
+        <!-- Senha -->
+        <div class="valor">
+            <span class="campo">Senha</span>
+            <input autocomplete="off" type="password" name="password" v-model="usuario.password" />
+        </div><br>
+
         <!-- Arquivos -->
         <div class="valor" style="margin-top: 3px;">
             <span class="campo">Arquivos anexos</span>

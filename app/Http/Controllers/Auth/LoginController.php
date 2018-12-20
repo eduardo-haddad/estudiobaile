@@ -51,5 +51,7 @@ class LoginController extends Controller
         if (\Auth::attempt($login, true)) {
             return redirect()->intended('/');
         }
+
+        return redirect('/');
     }
 }

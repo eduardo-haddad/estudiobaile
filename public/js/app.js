@@ -56004,6 +56004,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 
@@ -56309,6 +56315,32 @@ var render = function() {
                 return
               }
               _vm.$set(_vm.usuario, "username", $event.target.value)
+            }
+          }
+        })
+      ]),
+      _c("br"),
+      _vm._v(" "),
+      _c("div", { staticClass: "valor" }, [
+        _c("span", { staticClass: "campo" }, [_vm._v("Senha")]),
+        _vm._v(" "),
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.usuario.password,
+              expression: "usuario.password"
+            }
+          ],
+          attrs: { autocomplete: "off", type: "password", name: "password" },
+          domProps: { value: _vm.usuario.password },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.$set(_vm.usuario, "password", $event.target.value)
             }
           }
         })

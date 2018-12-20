@@ -70,6 +70,8 @@ class UserController extends Controller
         foreach(json_decode($usuario) as $chave => $valor):
             if($chave == "modificado_por") {
                 $usuario->$chave = $r->user()->name;
+            } else if($chave == "password"){
+                $usuario->$chave = bcrypt($valor);
             }
             else {
                 if(!empty($request['usuario'][$chave])) {
