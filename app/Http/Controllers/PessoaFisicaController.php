@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\DadoBancario;
+use App\PessoaJuridica;
 use Illuminate\Http\Request;
 use App\PessoaFisica;
 use App\TipoContato;
@@ -14,6 +15,7 @@ use App\Endereco;
 use App\TipoContaBancaria;
 use App\Tag;
 use App\Arquivo;
+use App\Cargo;
 use Session;
 use DB;
 
@@ -239,6 +241,9 @@ class PessoaFisicaController extends Controller
     public function ajaxView($id)
     {
         $pessoa_fisica = PessoaFisica::find($id);
+        $pessoas_juridicas = PessoaJuridica::all();
+        $pessoas_juridicas_relacionadas = PessoaFisica::getPessoasJuridicasRelacionadasPorId($id);
+        $chancelas_pj = Cargo::all();
 
         //Gênero
         $genero = !empty($pessoa_fisica->genero_id) ? Genero::find($pessoa_fisica->genero_id)->valor : null;
@@ -253,11 +258,10 @@ class PessoaFisicaController extends Controller
         $arquivos = $pessoa_fisica->arquivos()->get();
 
         //Pessoas Jurídicas
-        $pessoas_juridicas = PessoaFisica::getPessoasJuridicasRelacionadasPorId($id);
+        //$pessoas_juridicas = PessoaFisica::getPessoasJuridicasRelacionadasPorId($id);
 
         //Dados Bancários
         $dados_bancarios = $pessoa_fisica->dados_bancarios()->get();
-        //$dados_bancarios = PessoaFisica::getDadosBancariosPessoaFisicaPorId($id);
 
         //Tags
         $tags = Tag::all();
@@ -278,9 +282,12 @@ class PessoaFisicaController extends Controller
             'arquivos' => $arquivos,
             'dados_bancarios' => $dados_bancarios,
             'tags' => $tags,
-            'pessoas_juridicas' => $pessoas_juridicas,
+            'pessoas_juridicas_relacionadas' => $pessoas_juridicas_relacionadas,
+            //'pessoas_juridicas' => $pessoas_juridicas,
             'projetos' => $projetos,
             'atributos' => [
+                'pessoas_juridicas' => $pessoas_juridicas,
+                'chancelas_pj' => $chancelas_pj,
                 'tipos_contato' => TipoContato::all(),
                 'generos' => Genero::all(),
                 'estados_civis' => EstadoCivil::all(),
@@ -563,6 +570,46 @@ class PessoaFisicaController extends Controller
         $pessoa = (new PessoaFisica)->find($id);
         $tags = $pessoa->tags()->get();
         return $tags;
+
+    }
+
+    public function ajaxAddChancelaPj() {
+
+        $chancela = request('nova_chancela');
+        $pessoa_fisica_id = request('pessoa_fisica_id');
+        $pessoa_juridica_id = request('pessoa_juridica_id');
+
+        if(!empty($chancela) && !empty($pessoa_juridica_id)) {
+
+            if(substr($chancela, 0, 4) == 'new:'){
+                $nova_chancela = strtolower(substr($chancela,4));
+                $cargoObj = Cargo::where('valor', $nova_chancela)->first();
+                if(empty($cargoObj)){
+                    $nova_chancela = Cargo::create(['valor' => $nova_chancela]);
+                    $chancela = $nova_chancela->id;
+                }
+            }
+            $pessoa_juridica = PessoaJuridica::find($pessoa_juridica_id);
+            $pessoa_juridica->pessoas_fisicas()->attach(PessoaFisica::find($pessoa_fisica_id), ['cargo_id' => $chancela]);
+        } else {
+            return "Chancela inválida";
+        }
+
+        return [ PessoaFisica::getPessoasJuridicasRelacionadasPorId($pessoa_fisica_id), Cargo::all() ];
+
+    }
+
+    public function ajaxRemoveChancelaPj() {
+
+        $chancela = request('chancela');
+        $pessoa_fisica_id = request('pessoa_fisica_id');
+        $pessoa_juridica_id = request('pessoa_juridica_id');
+
+        if(PessoaFisica::removeChancelaPj($chancela, $pessoa_fisica_id, $pessoa_juridica_id)){
+            return PessoaFisica::getPessoasJuridicasRelacionadasPorId($pessoa_fisica_id);
+        }
+
+        return "Chancela inválida";
 
     }
 

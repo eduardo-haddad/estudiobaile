@@ -121,6 +121,17 @@ Route::group($opcoes_rotas, function(){
         'as' => 'ajax.pf.getTagsSelecionadas',
         'roles' => $geral
     ]);
+    //Cargos
+    Route::post('/ajax/pf/ajaxAddChancelaPj', [
+        'uses' => 'PessoaFisicaController@ajaxAddChancelaPj',
+        'as' => 'ajax.pf.addChancelaPj',
+        'roles' => $geral
+    ]);
+    Route::post('/ajax/pf/ajaxRemoveChancelaPj', [
+        'uses' => 'PessoaFisicaController@ajaxRemoveChancelaPj',
+        'as' => 'ajax.pf.removeChancelaPj',
+        'roles' => $geral
+    ]);
     //Arquivos
     Route::post('/ajax/pf/upload', [
         'uses' => 'PessoaFisicaController@ajaxUpload',

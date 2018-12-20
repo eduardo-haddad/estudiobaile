@@ -40,7 +40,7 @@ class PessoaJuridicaController extends Controller
 
     public function ajaxView($id)
     {
-        $pessoa_juridica = (new PessoaJuridica)->find($id);
+        $pessoa_juridica = PessoaJuridica::find($id);
         $pessoas_fisicas = PessoaFisica::all();
         $pessoas_fisicas_cargos_relacionados = PessoaJuridica::getPessoasFisicasRelacionadas($id);
         $cargos_pf = Cargo::all();

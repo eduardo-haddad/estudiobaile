@@ -98,10 +98,11 @@ class PessoaFisica extends Model
     public static function getPessoasJuridicasRelacionadasPorId($id) {
         return \DB::select("
             SELECT 
-                PessoaJuridica.id AS id,
+                PessoaJuridica.id AS pessoa_juridica_id,
                 PessoaJuridica.nome_fantasia AS nome_fantasia,
                 PessoaJuridica.razao_social AS razao_social,
-                Cargo.valor AS cargo
+                Cargo.valor AS cargo,
+                Cargo.id AS cargo_id
             FROM pessoas_juridicas PessoaJuridica
                 INNER JOIN pf_pj PessoaFisicaJuridica
                 ON PessoaJuridica.id = PessoaFisicaJuridica.pessoa_juridica_id
@@ -140,6 +141,21 @@ class PessoaFisica extends Model
                 ON Chancela.id = PfProjeto.chancela_id
             ORDER BY Projeto.dt_inicio DESC
         ");
+    }
+
+    public static function removeChancelaPj($chancela_id, $pessoa_fisica_id, $pessoa_juridica_id) {
+
+        try {
+            \DB::select("
+            DELETE FROM pf_pj
+            WHERE cargo_id = $chancela_id
+                AND pessoa_fisica_id = $pessoa_fisica_id
+                AND pessoa_juridica_id = $pessoa_juridica_id
+        ");
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+        return true;
     }
 
 

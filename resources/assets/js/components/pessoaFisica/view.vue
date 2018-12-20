@@ -192,25 +192,45 @@
                         <tr>
                             <th class="num_arquivo">#</th>
                             <th class="nome_arquivo">Nome</th>
-                            <th class="descricao_arquivo">Cargo</th>
+                            <th class="descricao_arquivo">Chancela</th>
                             <th class="destaque_arquivo"></th>
                             <th class="tipo_arquivo"></th>
                             <th class="data_arquivo"></th>
                             <th class="remove_arquivo">Remover</th>
                         </tr>
-                        <tr v-for="(pessoa, index) in pessoas_juridicas_relacionadas" :key="pessoa.id">
+                        <tr v-for="(pessoa, index) in pessoas_juridicas_relacionadas" :key="pessoa.pessoa_juridica_id">
                             <td class="num_arquivo">{{ index+1 }}</td>
-                            <td class="nome_arquivo"><router-link :id="pessoa.id" :to="{ name: 'pj-view',
-                            params: { id: pessoa.id }}">{{ pessoa.nome_fantasia.trunc(30) }}</router-link></td>
+                            <td class="nome_arquivo"><router-link :id="pessoa.pessoa_juridica_id" :to="{ name: 'pj-view',
+                            params: { id: pessoa.pessoa_juridica_id }}">{{ pessoa.nome_fantasia.trunc(30) }}</router-link></td>
                             <td class="descricao_arquivo">{{ pessoa.cargo }}</td>
                             <td class="destaque_arquivo"></td>
                             <td class="tipo_arquivo"></td>
                             <td class="data_arquivo"></td>
-                            <td class="remove_arquivo"><a @click.prevent="console.log('remover')">X</a></td>
+                            <td class="remove_arquivo"><a @click.prevent="removeChancelaPj(pessoa.pessoa_juridica_id, pessoa.cargo_id)">X</a></td>
                         </tr>
                     </table>
                 </div>
             </div>
+        </div>
+
+        <!-- Add novo chancela pessoa jurídica -->
+        <a @click="mostraChancelaPjBoxMetodo" class="link_abrir_box">[adicionar pessoa jurídica]</a>
+        <div v-if="mostraChancelaPjBox">
+            <!--novo_cargo-->
+            <span class="campo">Nome</span>
+            <select @change="" name="pessoas_juridicas" class="pj_lista">
+                <option disabled selected value> -- Selecione um nome -- </option>
+                <option v-for="pessoa in atributos.pessoas_juridicas" :value="pessoa.id">
+                    {{ pessoa.nome_fantasia }}
+                </option>
+            </select><br>
+            <span class="campo">Chancela</span>
+            <select @change="" name="chancelas" class="chancelas_pj_lista">
+                <option disabled selected value> -- Selecione uma chancela -- </option>
+                <option v-for="chancela in atributos.chancelas_pj" :value="chancela.id">{{ chancela.valor }}</option>
+            </select>
+            <a @click.prevent="adicionaChancelaPj">[+]</a>
+
         </div>
 
         <br>
@@ -456,6 +476,8 @@
                 pessoas_juridicas_relacionadas: [],
                 //Campos de inclusão
                 root: '',
+                pessoa_juridica_id: '',
+                nova_chancela: '',
                 novo_email: '',
                 novo_telefone: '',
                 novo_endereco: {rua:'',numero:'',complemento:'',bairro:'',cep:'',cidade:'',estado:'',pais:''},
@@ -467,6 +489,7 @@
                 id_destaque: '',
                 imagem_destaque: '',
                 //Condicionais
+                mostraChancelaPjBox: false,
                 adicionaEmail: false,
                 adicionaTel: false,
                 mostraEnderecoBox: false,
@@ -510,7 +533,7 @@
                     this.dados_bancarios = dados.dados_bancarios;
                     this.tags = dados.tags;
                     this.projetos = dados.projetos;
-                    this.pessoas_juridicas_relacionadas = dados.pessoas_juridicas;
+                    this.pessoas_juridicas_relacionadas = dados.pessoas_juridicas_relacionadas;
                     this.atributos = dados.atributos;
 
                     //campo MEI
@@ -534,6 +557,35 @@
                     this.pessoa = res.data;
                     eventBus.$emit('foiSalvoPessoaFisica', this.pessoa);
                 });
+            },
+            adicionaChancelaPj: function(){
+                axios.post('/ajax/pf/ajaxAddChancelaPj', {
+                    pessoa_fisica_id: this.$route.params.id,
+                    pessoa_juridica_id: this.pessoa_juridica_id,
+                    nova_chancela: this.nova_chancela,
+
+                }).then(res => {
+                    if(typeof res.data[0] !== "string") {
+                        this.pessoas_juridicas_relacionadas = res.data[0];
+                        this.atributos.chancelas = res.data[1];
+                        this.pessoa_juridica_id = '';
+                        this.nova_chancela = '';
+                        this.mostraChancelaPjBox = false;
+                    }
+                });
+            },
+            removeChancelaPj: function(pessoa_juridica_id, chancela_id){
+                axios.post('/ajax/pf/ajaxRemoveChancelaPj', {
+                    chancela: chancela_id,
+                    pessoa_juridica_id: pessoa_juridica_id,
+                    pessoa_fisica_id: this.$route.params.id,
+                }).then(res => {
+                    this.pessoas_juridicas_relacionadas = res.data;
+                });
+            },
+            mostraChancelaPjBoxMetodo: function(){
+                this.mostraChancelaPjBox = !this.mostraChancelaPjBox;
+                this.jQuery();
             },
             adicionaContato: function(){
                 axios.post('/ajax/pf/addContato', {
@@ -703,6 +755,46 @@
                     }).fail(function() {
                         return false;
                     });
+
+                    //Carrega select2 de pessoas físicas
+                    $('.pj_lista').select2({
+                        placeholder: "Digite um nome",
+                        tags: false,
+                        multiple: false,
+                        tokenSeparators: [","],
+                        dropdownAutoWidth : true,
+                        //dropdownCssClass : 'select2-dropdown-custom',
+                        //minimumInputLength: 1,
+                        createTag: function(newTag) {
+                            if ($.trim(newTag.term) === '') { return null; }
+                            return {
+                                id: 'new:' + newTag.term,
+                                text: newTag.term + ' (novo)'
+                            };
+                        },
+                    }).on('change', function(){
+                        Vue.pessoa_juridica_id = $(this).val();
+                    });
+
+                    //Cargos
+
+                    //Carrega select2 de cargos
+                    $('.chancelas_pj_lista').select2({
+                        placeholder: "Digite uma chancela",
+                        tags: true,
+                        multiple: false,
+                        tokenSeparators: [","],
+                        createTag: function(newTag) {
+                            if ($.trim(newTag.term) === '') { return null; }
+                            return {
+                                id: 'new:' + newTag.term,
+                                text: newTag.term + ' (novo)'
+                            };
+                        }
+                    }).on('change', function(){
+                        Vue.nova_chancela = $(this).val();
+                    });
+
                 });
             },
         }
