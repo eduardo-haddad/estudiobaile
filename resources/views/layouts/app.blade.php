@@ -12,7 +12,7 @@
         <!-- CSRF Token -->
         <meta name="csrf-token" content="{{ csrf_token() }}">
     
-        <title>{{ config('app.name', 'Estúdio Baile') }}</title>
+        <title>Estúdio Baile</title>
 
         <!-- Variáveis globais -->
         <script>
