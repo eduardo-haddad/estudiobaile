@@ -63,8 +63,15 @@ class UserController extends Controller
         $request['usuario'] = request('usuario');
         $request['arquivos'] = request('arquivos');
         $request['funcao'] = request('funcao');
+        $request['nova_senha'] = request('nova_senha');
 
         $usuario = User::find($request['usuario']['id']);
+
+        if($request['nova_senha'] == )
+
+        if(!empty($request['usuario']['password'])) {
+            $usuario->password = bcrypt($request['usuario']['password']);
+        }
 
         //Usuario
         foreach(json_decode($usuario) as $chave => $valor):
@@ -73,11 +80,7 @@ class UserController extends Controller
             } else {
                 $dado = $request['usuario'][$chave];
                 if(!empty($dado)) {
-                    if($chave == "password") {
-                        $usuario->$chave = bcrypt($dado);
-                    } else {
-                        $usuario->$chave = $dado;
-                    }
+                   $usuario->$chave = $dado;
                 }
             }
         endforeach;

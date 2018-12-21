@@ -29,19 +29,23 @@
         <!-- Nome -->
         <div class="valor">
             <span class="campo">Nome</span>
-            <input autocomplete="off" type="text" name="nome" v-model="usuario.name" />
+            <input autocomplete="off" type="text" name="usuario.name" v-model="usuario.name" />
         </div><br>
 
         <!-- Usuário -->
         <div class="valor">
             <span class="campo">Usuário</span>
-            <input autocomplete="off" type="text" name="usuario" v-model="usuario.username" />
+            <input autocomplete="off" type="text" name="usuario.username" v-model="usuario.username" />
         </div><br>
 
         <!-- Senha -->
         <div class="valor">
-            <span class="campo">Senha</span>
-            <input autocomplete="off" type="password" name="password" v-model="usuario.password" />
+            <span class="campo">Senha atual</span>
+            <input autocomplete="off" type="password" name="usuario.oldpassword" @input="nova_senha = $event.target.value" />
+        </div><br>
+        <div class="valor">
+            <span class="campo">Nova senha</span>
+            <input autocomplete="off" type="password" name="usuario.newpassword" v-model="usuario.password" />
         </div><br>
 
         <!-- Arquivos -->
@@ -127,6 +131,7 @@
                 mensagem_upload: '',
                 id_destaque: '',
                 imagem_destaque: '',
+                nova_senha: '',
                 //Condicionais
                 usuario_atual_logado: false,
             }
@@ -165,6 +170,7 @@
                     usuario: this.usuario,
                     arquivos: this.arquivos,
                     funcao: this.funcao.id,
+                    nova_senha: this.nova_senha
                 }).then(res => {
                     this.usuario = res.data;
                     eventBus.$emit('foiSalvoUsuario', this.usuario);

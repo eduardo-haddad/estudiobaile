@@ -293,13 +293,13 @@ Route::group($opcoes_rotas, function(){
         'as' => 'ajax.projetos.ajaxGetChancelasSelecionadas',
         'roles' => $geral
     ]);
-    Route::post('/ajax/projetos/ajaxAddChancelaPf', [
-        'uses' => 'ProjetoController@ajaxAddChancelaPf',
+    Route::post('/ajax/projetos/ajaxAddChancela', [
+        'uses' => 'ProjetoController@ajaxAddChancela',
         'as' => 'ajax.projetos.addChancelaPf',
         'roles' => $geral
     ]);
-    Route::post('/ajax/projetos/ajaxRemoveChancelaPf', [
-        'uses' => 'ProjetoController@ajaxRemoveChancelaPf',
+    Route::post('/ajax/projetos/ajaxRemoveChancela', [
+        'uses' => 'ProjetoController@ajaxRemoveChancela',
         'as' => 'ajax.projetos.removeChancelaPf',
         'roles' => $geral
     ]);

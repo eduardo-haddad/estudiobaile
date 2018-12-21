@@ -114,7 +114,7 @@
                                 <td class="destaque_arquivo"></td>
                                 <td class="tipo_arquivo"></td>
                                 <td class="data_arquivo"></td>
-                                <td class="remove_arquivo"><a @click.prevent="removeChancelaPf(pessoa.pessoa_id, pessoa.chancela_id, true)">X</a></td>
+                                <td class="remove_arquivo"><a @click.prevent="removeChancela(pessoa.pessoa_id, pessoa.chancela_id, true)">X</a></td>
                             </tr>
                         </table>
                     </div>
@@ -167,7 +167,7 @@
                                 <td class="destaque_arquivo"></td>
                                 <td class="tipo_arquivo"></td>
                                 <td class="data_arquivo"></td>
-                                <td class="remove_arquivo"><a @click.prevent="removeChancelaPf(pessoa.pessoa_id, pessoa.chancela_id, false)">X</a></td>
+                                <td class="remove_arquivo"><a @click.prevent="removeChancela(pessoa.pessoa_id, pessoa.chancela_id, false)">X</a></td>
                             </tr>
                         </table>
                     </div>
@@ -179,14 +179,14 @@
             <div v-if="mostraChancelaPjBox">
                 <span class="campo">--- Nova Chancela PJ</span><br>
                 <span class="campo">Nome</span>
-                <select @change="" name="pessoas_juridicas" class="pj_lista">
+                <select name="pessoas_juridicas" class="pj_lista">
                     <option disabled selected value> -- Selecione um nome -- </option>
                     <option v-for="pessoa in atributos.pessoas_juridicas" :value="pessoa.id">
                         {{ pessoa.nome_fantasia }}
                     </option>
                 </select><br>
                 <span class="campo">Chancela</span>
-                <select @change="" name="chancelas" class="chancelas_pj_lista">
+                <select name="chancelas" class="chancelas_pj_lista">
                     <option disabled selected value> -- Selecione uma chancela -- </option>
                     <option v-for="chancela in atributos.chancelas" :value="chancela.id">{{ chancela.valor }}</option>
                 </select>
@@ -286,7 +286,7 @@
             },
             adicionaChancela: function(isPf){
                 const nova_chancela = isPf ? this.nova_chancela_pf : this.nova_chancela_pj;
-                axios.post('/ajax/projetos/ajaxAddChancelaPf', {
+                axios.post('/ajax/projetos/ajaxAddChancela', {
                     projeto_id: this.$route.params.id,
                     nova_chancela: nova_chancela
                 }).then(res => {
@@ -305,12 +305,12 @@
                     }
                 });
             },
-            removeChancelaPf: function(pessoa_id, chancela_id, isPf){
+            removeChancela: function(pessoa_id, chancela_id, isPf){
                 let pessoa_fisica_id, pessoa_juridica_id;
                 pessoa_fisica_id = isPf === true ? pessoa_id : false;
                 pessoa_juridica_id = isPf === true ? false : pessoa_id;
 
-                axios.post('/ajax/projetos/ajaxRemoveChancelaPf', {
+                axios.post('/ajax/projetos/ajaxRemoveChancela', {
                     pessoa_fisica_id: pessoa_fisica_id,
                     pessoa_juridica_id: pessoa_juridica_id,
                     chancela_id: chancela_id,

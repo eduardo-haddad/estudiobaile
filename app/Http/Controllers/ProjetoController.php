@@ -92,31 +92,31 @@ class ProjetoController extends Controller
         }
 
         //Chancelas Pessoa Física
-        $pessoa_fisica = PessoaFisica::find($request['pessoas_fisicas']);
-
-        if(empty($request['chancelas_pf'])) {
-            $projeto->pessoas_fisicas()->detach();
-            $projeto->pessoas_fisicas()->attach(PessoaFisica::find($request['pessoas_fisicas']), ['chancela_id' => null]);
-        } else {
-            $chancela_pf = $request['chancelas_pf'];
-            if (substr($chancela_pf, 0, 4) == 'new:')
-            {
-                $chancela_pf = strtolower(substr($chancela_pf,4));
-                $chancelaPfObj = Chancela::where('valor', $chancela_pf)->first();
-                if(empty($chancelaPfObj)){
-                    $nova_chancela = Chancela::create(['valor' => $chancela_pf]);
-                    $chancela_pf_id = $nova_chancela->id;
-                } else {
-                    $chancela_pf_id = $chancelaPfObj->id;
-                }
-            } else {
-                $chancela_pf_id = $chancela_pf;
-            }
-
-            $projeto->pessoas_fisicas()->detach();
-            $projeto->pessoas_fisicas()->attach(PessoaFisica::find($request['pessoas_fisicas']), ['chancela_id' => $chancela_pf_id]);
-
-        }
+//        $pessoa_fisica = PessoaFisica::find($request['pessoas_fisicas']);
+//
+//        if(empty($request['chancelas_pf'])) {
+//            $projeto->pessoas_fisicas()->detach();
+//            $projeto->pessoas_fisicas()->attach(PessoaFisica::find($request['pessoas_fisicas']), ['chancela_id' => null]);
+//        } else {
+//            $chancela_pf = $request['chancelas_pf'];
+//            if (substr($chancela_pf, 0, 4) == 'new:')
+//            {
+//                $chancela_pf = strtolower(substr($chancela_pf,4));
+//                $chancelaPfObj = Chancela::where('valor', $chancela_pf)->first();
+//                if(empty($chancelaPfObj)){
+//                    $nova_chancela = Chancela::create(['valor' => $chancela_pf]);
+//                    $chancela_pf_id = $nova_chancela->id;
+//                } else {
+//                    $chancela_pf_id = $chancelaPfObj->id;
+//                }
+//            } else {
+//                $chancela_pf_id = $chancela_pf;
+//            }
+//
+//            $projeto->pessoas_fisicas()->detach();
+//            $projeto->pessoas_fisicas()->attach(PessoaFisica::find($request['pessoas_fisicas']), ['chancela_id' => $chancela_pf_id]);
+//
+//        }
 
         //Arquivos
         foreach($request['arquivos'] as $l => $arquivo):
@@ -155,7 +155,7 @@ class ProjetoController extends Controller
     }
 
 
-    public function ajaxAddChancelaPf() {
+    public function ajaxAddChancela() {
 
         $chancela = request('nova_chancela');
         $projeto_id = request('projeto_id');
@@ -195,7 +195,7 @@ class ProjetoController extends Controller
         return [ Projeto::getPessoasDeProjetos($projeto_id, $isPf, $isPj), Chancela::all() ];
     }
 
-    public function ajaxRemoveChancelaPf() {
+    public function ajaxRemoveChancela() {
 
         $projeto_id = request('projeto_id');
         $chancela_id = request('chancela_id');

@@ -53120,7 +53120,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this3 = this;
 
             var nova_chancela = isPf ? this.nova_chancela_pf : this.nova_chancela_pj;
-            axios.post('/ajax/projetos/ajaxAddChancelaPf', {
+            axios.post('/ajax/projetos/ajaxAddChancela', {
                 projeto_id: this.$route.params.id,
                 nova_chancela: nova_chancela
             }).then(function (res) {
@@ -53138,7 +53138,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 }
             });
         },
-        removeChancelaPf: function removeChancelaPf(pessoa_id, chancela_id, isPf) {
+        removeChancela: function removeChancela(pessoa_id, chancela_id, isPf) {
             var _this4 = this;
 
             var pessoa_fisica_id = void 0,
@@ -53146,7 +53146,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             pessoa_fisica_id = isPf === true ? pessoa_id : false;
             pessoa_juridica_id = isPf === true ? false : pessoa_id;
 
-            axios.post('/ajax/projetos/ajaxRemoveChancelaPf', {
+            axios.post('/ajax/projetos/ajaxRemoveChancela', {
                 pessoa_fisica_id: pessoa_fisica_id,
                 pessoa_juridica_id: pessoa_juridica_id,
                 chancela_id: chancela_id,
@@ -53736,7 +53736,7 @@ var render = function() {
                                   on: {
                                     click: function($event) {
                                       $event.preventDefault()
-                                      _vm.removeChancelaPf(
+                                      _vm.removeChancela(
                                         pessoa.pessoa_id,
                                         pessoa.chancela_id,
                                         true
@@ -53918,7 +53918,7 @@ var render = function() {
                                   on: {
                                     click: function($event) {
                                       $event.preventDefault()
-                                      _vm.removeChancelaPf(
+                                      _vm.removeChancela(
                                         pessoa.pessoa_id,
                                         pessoa.chancela_id,
                                         false
@@ -53967,8 +53967,7 @@ var render = function() {
                   "select",
                   {
                     staticClass: "pj_lista",
-                    attrs: { name: "pessoas_juridicas" },
-                    on: { change: function($event) {} }
+                    attrs: { name: "pessoas_juridicas" }
                   },
                   [
                     _c(
@@ -53997,8 +53996,7 @@ var render = function() {
                   "select",
                   {
                     staticClass: "chancelas_pj_lista",
-                    attrs: { name: "chancelas" },
-                    on: { change: function($event) {} }
+                    attrs: { name: "chancelas" }
                   },
                   [
                     _c(
@@ -56010,6 +56008,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -56042,6 +56044,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             mensagem_upload: '',
             id_destaque: '',
             imagem_destaque: '',
+            nova_senha: '',
             //Condicionais
             usuario_atual_logado: false
         };
@@ -56083,7 +56086,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             axios.post('/ajax/usuarios/save', {
                 usuario: this.usuario,
                 arquivos: this.arquivos,
-                funcao: this.funcao.id
+                funcao: this.funcao.id,
+                nova_senha: this.nova_senha
             }).then(function (res) {
                 _this2.usuario = res.data;
                 __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$emit('foiSalvoUsuario', _this2.usuario);
@@ -56281,7 +56285,7 @@ var render = function() {
               expression: "usuario.name"
             }
           ],
-          attrs: { autocomplete: "off", type: "text", name: "nome" },
+          attrs: { autocomplete: "off", type: "text", name: "usuario.name" },
           domProps: { value: _vm.usuario.name },
           on: {
             input: function($event) {
@@ -56307,7 +56311,11 @@ var render = function() {
               expression: "usuario.username"
             }
           ],
-          attrs: { autocomplete: "off", type: "text", name: "usuario" },
+          attrs: {
+            autocomplete: "off",
+            type: "text",
+            name: "usuario.username"
+          },
           domProps: { value: _vm.usuario.username },
           on: {
             input: function($event) {
@@ -56322,7 +56330,25 @@ var render = function() {
       _c("br"),
       _vm._v(" "),
       _c("div", { staticClass: "valor" }, [
-        _c("span", { staticClass: "campo" }, [_vm._v("Senha")]),
+        _c("span", { staticClass: "campo" }, [_vm._v("Senha atual")]),
+        _vm._v(" "),
+        _c("input", {
+          attrs: {
+            autocomplete: "off",
+            type: "password",
+            name: "usuario.oldpassword"
+          },
+          on: {
+            input: function($event) {
+              _vm.nova_senha = $event.target.value
+            }
+          }
+        })
+      ]),
+      _c("br"),
+      _vm._v(" "),
+      _c("div", { staticClass: "valor" }, [
+        _c("span", { staticClass: "campo" }, [_vm._v("Nova senha")]),
         _vm._v(" "),
         _c("input", {
           directives: [
@@ -56333,7 +56359,11 @@ var render = function() {
               expression: "usuario.password"
             }
           ],
-          attrs: { autocomplete: "off", type: "password", name: "password" },
+          attrs: {
+            autocomplete: "off",
+            type: "password",
+            name: "usuario.newpassword"
+          },
           domProps: { value: _vm.usuario.password },
           on: {
             input: function($event) {
