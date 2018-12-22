@@ -3,7 +3,12 @@
     <div id="container_conteudo" class="formulario">
 
         <div class="titulo">
-            <div class="imagem_destaque">
+            <div v-if="destaqueAtivo" class="imagem_destaque">
+                <a :href="imagem_destaque_original" data-lightbox="imagem_destaque" :data-title="pessoa.nome_adotado">
+                    <img :src="imagem_destaque" />
+                </a>
+            </div>
+            <div v-else class="imagem_destaque">
                 <img :src="imagem_destaque" />
             </div>
             <div class="nome">
@@ -45,18 +50,33 @@
                         <th class="num_arquivo">#</th>
                         <th class="nome_arquivo">Nome</th>
                         <th class="descricao_arquivo">Descrição</th>
+                        <th class="preview_arquivo">Visualizar</th>
                         <th class="destaque_arquivo">Destaque</th>
                         <th class="tipo_arquivo">Tipo</th>
                         <th class="data_arquivo">Data</th>
                         <th class="remove_arquivo">Remover</th>
                     </tr>
-                    <tr v-for="(arquivo, index) in arquivos" :key="arquivo.id">
+                    <tr v-for="(arquivo, index) in arquivos" :key="index + arquivo.id">
                         <td class="num_arquivo">{{ index+1 }}</td>
                         <td class="nome_arquivo"><a :title="arquivo.nome.substr(15)" :href="`/download/pf/${pessoa.id}/${arquivo.id}`" download>{{ arquivo.nome.substr(15).trunc(30) }}</a></td>
                         <td class="descricao_arquivo">
                             <input autocomplete="off" type="text" name="arquivo_descricao" v-model="arquivo.descricao" />
                         </td>
-                        <td class="destaque_arquivo"><a @click.prevent="setImagemDestaque(arquivo.id)"><img v-if="arquivo.tipo === 'imagem'" class="btn_destaque" :src="id_destaque === arquivo.id ? root + '/img/btn_destaque_ativo.png' : root + '/img/btn_destaque.png'" /></a></td>
+                        <td class="preview_arquivo">
+                            <a v-if="arquivo.tipo === 'imagem'"
+                               :href="`/uploads/pessoas_fisicas/${pessoa.id}/${arquivo.nome}`"
+                               :data-lightbox="'imagem_preview'+index" :data-title="arquivo.nome.substr(15)">
+                                <img class="btn_preview"
+                                     :src="root + '/img/btn_preview.png'" />
+                            </a>
+                        </td>
+                        <td class="destaque_arquivo">
+                            <a @click.prevent="setImagemDestaque(arquivo.id)">
+                                <img v-if="arquivo.tipo === 'imagem'"
+                                     class="btn_destaque"
+                                     :src="id_destaque === arquivo.id ? root + '/img/btn_destaque_ativo.png' : root + '/img/btn_destaque.png'" />
+                            </a>
+                        </td>
                         <td class="tipo_arquivo">{{ arquivo.tipo }}</td>
                         <td class="data_arquivo">{{ arquivo.data }}</td>
                         <td class="remove_arquivo"><a @click.prevent="removeArquivo(arquivo.id)">X</a></td>
@@ -88,7 +108,7 @@
         <div class="valor">
             <span class="campo">Gênero</span>
             <select name="genero" v-model="pessoa.genero_id">
-                <option v-for="genero in atributos.generos" :value="genero.id" :key="genero.id">
+                <option v-for="(genero, index) in atributos.generos" :value="genero.id" :key="index + genero.id">
                     {{ genero.valor == 'F' ? 'Feminino' : 'Masculino' }}
                 </option>
             </select>
@@ -97,7 +117,7 @@
         <div class="valor">
             <span class="campo">Estado civil</span>
             <select name="estado_civil" v-model="pessoa.estado_civil_id">
-                <option v-for="estado_civil in atributos.estados_civis" :value="estado_civil.id" :key="estado_civil.id">
+                <option v-for="(estado_civil, index) in atributos.estados_civis" :value="estado_civil.id" :key="index + estado_civil.id">
                     {{ estado_civil.valor }}
                 </option>
             </select>
@@ -192,13 +212,13 @@
                         <tr>
                             <th class="num_arquivo">#</th>
                             <th class="nome_arquivo">Nome</th>
-                            <th class="descricao_arquivo">Chancela</th>
+                            <th class="descricao_arquivo">Cargo</th>
                             <th class="destaque_arquivo"></th>
                             <th class="tipo_arquivo"></th>
                             <th class="data_arquivo"></th>
                             <th class="remove_arquivo">Remover</th>
                         </tr>
-                        <tr v-for="(pessoa, index) in pessoas_juridicas_relacionadas" :key="pessoa.pessoa_juridica_id">
+                        <tr v-for="(pessoa, index) in pessoas_juridicas_relacionadas" :key="index + pessoa.pessoa_juridica_id">
                             <td class="num_arquivo">{{ index+1 }}</td>
                             <td class="nome_arquivo"><router-link :id="pessoa.pessoa_juridica_id" :to="{ name: 'pj-view',
                             params: { id: pessoa.pessoa_juridica_id }}">{{ pessoa.nome_fantasia.trunc(30) }}</router-link></td>
@@ -239,7 +259,7 @@
 
         <!-- Emails -->
         <div>
-            <div v-for="(email, index) in emails" class="valor" :key="email.id">
+            <div v-for="(email, index) in emails" class="valor" :key="index + email.id">
                 <span class="campo">E-mail {{ index+1 }}</span>
                 <input autocomplete="off" type="text" :id="email.id" v-model="email.valor" name="email" />
                 <a @click.prevent="removeContato(email.id)">X</a>
@@ -256,7 +276,7 @@
 
         <!-- Telefones -->
         <div>
-            <div v-for="telefone in telefones" class="valor" :key="telefone.id">
+            <div v-for="(telefone, index) in telefones" class="valor" :key="index + telefone.id">
                 <span class="campo">Telefone</span>
                 <input type="text" :id="telefone.id" v-model="telefone.valor" name="telefone" autocomplete="off" />
                 <a @click.prevent="removeContato(telefone.id)">X</a>
@@ -286,10 +306,10 @@
                         <th class="data_arquivo"></th>
                         <th class="remove_arquivo">Remover</th>
                     </tr>
-                    <tr v-for="(projeto, index) in projetos" :key="projeto.id">
+                    <tr v-for="(projeto, index) in projetos" :key="index + projeto.id">
                         <td class="num_arquivo">{{ index+1 }}</td>
                         <td class="nome_arquivo"><router-link :id="projeto.id" :to="{ name: 'projetos-view', params: { id: projeto.id }}">{{ projeto['projeto'] }}</router-link></td>
-                        <td class="descricao_arquivo">{{ projeto['projeto'] }}</td>
+                        <td class="descricao_arquivo">{{ projeto['chancela'] }}</td>
                         <td class="destaque_arquivo"></td>
                         <td class="tipo_arquivo"></td>
                         <td class="data_arquivo"></td>
@@ -302,7 +322,7 @@
         <hr>
 
         <!-- Endereços -->
-        <div v-for="(endereco, index) in enderecos" :key="endereco.id" class="form_endereco">
+        <div v-for="(endereco, index) in enderecos" :key="index + endereco.id" class="form_endereco">
 
             <span class="campo">Endereço {{index+1}}:</span> <a @click="removeEndereco(endereco.id)">X</a> <br>
             <div class="valor">
@@ -488,6 +508,7 @@
                 mensagem_upload: '',
                 id_destaque: '',
                 imagem_destaque: '',
+                imagem_destaque_original: '',
                 //Condicionais
                 mostraChancelaPjBox: false,
                 adicionaEmail: false,
@@ -495,6 +516,7 @@
                 mostraEnderecoBox: false,
                 mostraDadosBancariosBox: false,
                 mostraMei: false,
+                destaqueAtivo: false
             }
         },
         watch: {
@@ -699,10 +721,15 @@
                 }).then(res => {
                     this.id_destaque = res.data['imagem_destaque']['id'];
                     this.arquivos = res.data['arquivos'];
-                    if(this.id_destaque === 0)
+                    if(this.id_destaque === 0) {
                         this.imagem_destaque = `${this.root}/img/perfil_vazio.png`;
-                    else
+                        this.destaqueAtivo = false;
+                    }
+                    else {
                         this.imagem_destaque = `${this.root}/thumbs/pessoas_fisicas/${this.$route.params.id}/${res.data['imagem_destaque']['nome']}`;
+                        this.imagem_destaque_original = `${this.root}/uploads/pessoas_fisicas/${this.$route.params.id}/${res.data['imagem_destaque']['nome']}`;
+                        this.destaqueAtivo = true;
+                    }
                 });
             },
             getImagemDestaque: function() {
@@ -712,9 +739,13 @@
                     if(typeof res.data !== "string") {
                         this.id_destaque = res.data.id;
                         this.imagem_destaque = `${this.root}/thumbs/pessoas_fisicas/${this.$route.params.id}/${res.data.nome}`;
+                        this.imagem_destaque_original = `${this.root}/uploads/pessoas_fisicas/${this.$route.params.id}/${res.data.nome}`;
+                        this.destaqueAtivo = true;
                     }
-                    else
+                    else {
                         this.imagem_destaque = `${this.root}/img/perfil_vazio.png`;
+                        this.destaqueAtivo = false;
+                    }
                 });
             },
             jQuery: function(){

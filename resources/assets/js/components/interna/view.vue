@@ -109,14 +109,15 @@
                 bounds: '#editor',
             };
 
+            //linha horizontal no menu
             const BlockEmbed = Quill.import('blots/block/embed');
             class DividerBlot extends BlockEmbed { }
             DividerBlot.blotName = 'divider';
             DividerBlot.tagName = 'hr';
             Quill.register(DividerBlot);
-
+            //inicialização
             const editor = new Quill(container, opcoesEditor);
-
+            //botão linha horizontal
             this.$el.querySelector('.ql-divider').style.cssText = `
                 background: url('img/hr.png') center center / 10px 10px no-repeat;
             `;

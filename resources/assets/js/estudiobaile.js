@@ -18,6 +18,10 @@ try {
 import select2 from 'select2';
 window.select2 = select2;
 
+//Lightbox
+import lightbox from 'lightbox2';
+window.lightbox = lightbox;
+
 //Quill - Vue
 Vue.component('editor', require('./components/Quill'));
 import quill from 'quill';

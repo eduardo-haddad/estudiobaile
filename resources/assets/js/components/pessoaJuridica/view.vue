@@ -3,7 +3,12 @@
     <div id="container_conteudo" class="formulario">
 
         <div class="titulo">
-            <div class="imagem_destaque">
+            <div v-if="destaqueAtivo" class="imagem_destaque">
+                <a :href="imagem_destaque_original" data-lightbox="imagem_destaque" :data-title="pessoa.nome_fantasia">
+                    <img :src="imagem_destaque" />
+                </a>
+            </div>
+            <div v-else class="imagem_destaque">
                 <img :src="imagem_destaque" />
             </div>
             <div class="nome">
@@ -47,6 +52,7 @@
                         <th class="num_arquivo">#</th>
                         <th class="nome_arquivo">Nome</th>
                         <th class="descricao_arquivo">Descrição</th>
+                        <th class="preview_arquivo">Visualizar</th>
                         <th class="destaque_arquivo">Destaque</th>
                         <th class="tipo_arquivo">Tipo</th>
                         <th class="data_arquivo">Data</th>
@@ -58,7 +64,21 @@
                         <td class="descricao_arquivo">
                             <input autocomplete="off" type="text" name="arquivo_descricao" v-model="arquivo.descricao" />
                         </td>
-                        <td class="destaque_arquivo"><a @click.prevent="setImagemDestaque(arquivo.id)"><img v-if="arquivo.tipo === 'imagem'" class="btn_destaque" :src="id_destaque === arquivo.id ? root + '/img/btn_destaque_ativo.png' : root + '/img/btn_destaque.png'" /></a></td>
+                        <td class="preview_arquivo">
+                            <a v-if="arquivo.tipo === 'imagem'"
+                               :href="`/uploads/pessoas_juridicas/${pessoa.id}/${arquivo.nome}`"
+                               :data-lightbox="'imagem_preview'+index" :data-title="arquivo.nome.substr(15)">
+                                <img class="btn_preview"
+                                     :src="root + '/img/btn_preview.png'" />
+                            </a>
+                        </td>
+                        <td class="destaque_arquivo">
+                            <a @click.prevent="setImagemDestaque(arquivo.id)">
+                                <img v-if="arquivo.tipo === 'imagem'"
+                                     class="btn_destaque"
+                                     :src="id_destaque === arquivo.id ? root + '/img/btn_destaque_ativo.png' : root + '/img/btn_destaque.png'" />
+                            </a>
+                        </td>
                         <td class="tipo_arquivo">{{ arquivo.tipo }}</td>
                         <td class="data_arquivo">{{ arquivo.data }}</td>
                         <td class="remove_arquivo"><a @click.prevent="removeArquivo(arquivo.id)">X</a></td>
@@ -184,9 +204,9 @@
             </div>
         </div>
 
+        <hr>
+
         <!-- Telefones -->
-        <br>
-        <br>
         <div>
             <div v-for="telefone in telefones" class="valor" :key="telefone.id">
                 <span class="campo">Telefone</span>
@@ -226,8 +246,8 @@
                 </table>
             </div>
         </div>
-        <br>
-        <br>
+
+        <hr>
 
         <!-- Endereços -->
         <div v-for="(endereco, index) in enderecos" :key="endereco.id">
@@ -352,12 +372,14 @@
                 mensagem_upload: '',
                 id_destaque: '',
                 imagem_destaque: '',
+                imagem_destaque_original: '',
                 //Condicionais
                 mostraCargoPfBox: false,
                 adicionaEmail: false,
                 adicionaTel: false,
                 mostraEnderecoBox: false,
                 mostraDadosBancariosBox: false,
+                destaqueAtivo: false
             }
         },
         watch: {
@@ -542,10 +564,15 @@
                 }).then(res => {
                     this.id_destaque = res.data['imagem_destaque']['id'];
                     this.arquivos = res.data['arquivos'];
-                    if(this.id_destaque === 0)
+                    if(this.id_destaque === 0) {
                         this.imagem_destaque = `${this.root}/img/perfil_vazio.png`;
-                    else
+                        this.destaqueAtivo = false;
+                    }
+                    else {
                         this.imagem_destaque = `${this.root}/thumbs/pessoas_juridicas/${this.$route.params.id}/${res.data['imagem_destaque']['nome']}`;
+                        this.imagem_destaque_original = `${this.root}/uploads/pessoas_juridicas/${this.$route.params.id}/${res.data['imagem_destaque']['nome']}`;
+                        this.destaqueAtivo = true;
+                    }
                 });
             },
             getImagemDestaque: function() {
@@ -555,9 +582,13 @@
                     if(typeof res.data !== "string") {
                         this.id_destaque = res.data.id;
                         this.imagem_destaque = `${this.root}/thumbs/pessoas_juridicas/${this.$route.params.id}/${res.data.nome}`;
+                        this.imagem_destaque_original = `${this.root}/uploads/pessoas_juridicas/${this.$route.params.id}/${res.data.nome}`;
+                        this.destaqueAtivo = true;
                     }
-                    else
+                    else {
                         this.imagem_destaque = `${this.root}/img/perfil_vazio.png`;
+                        this.destaqueAtivo = false;
+                    }
                 });
             },
             jQuery: function(){

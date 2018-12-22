@@ -565,7 +565,8 @@ hr {
                         min-width: 240px;
                         max-width: 240px;
                       }
-                      &.destaque_arquivo {
+                      &.destaque_arquivo,
+                      &.preview_arquivo {
                         text-align: center;
                         min-width: 75px;
                         max-width: 75px;
@@ -599,7 +600,8 @@ hr {
 
                   }//table
 
-                  .btn_destaque {
+                  .btn_destaque,
+                  .btn_preview {
                     width: 18px;
                     height: 18px;
                   }

@@ -4,10 +4,13 @@
 
 // Select2
 @import "../../../node_modules/select2/dist/css/select2.css";
-// Main file
-@import "partials/admin";
 //Quill
 @import "../../../node_modules/quill/dist/quill.snow.css";
+//Lightbox
+@import "../../../node_modules/lightbox2/dist/css/lightbox.css";
+// Main file
+@import "partials/admin";
+
 
 //Bootstrap
 // @import '~bootstrap/scss/bootstrap';
