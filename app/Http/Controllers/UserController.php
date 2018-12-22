@@ -67,7 +67,7 @@ class UserController extends Controller
 
         $usuario = User::find($request['usuario']['id']);
 
-        if($request['nova_senha'] == )
+//        if($request['nova_senha'] == )
 
         if(!empty($request['usuario']['password'])) {
             $usuario->password = bcrypt($request['usuario']['password']);

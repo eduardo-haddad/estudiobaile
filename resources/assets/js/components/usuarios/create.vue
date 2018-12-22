@@ -18,43 +18,45 @@
 
         <!--DADOS GERAIS-->
 
-        <!-- Função -->
-        <div class="valor">
-            <span class="campo">Função</span>
-            <select name="funcao" @change="funcao_id = $event.target.value">
-                <option v-for="funcao in funcoes" :value="funcao.id" :key="funcao.id">
-                    {{ funcao.name }}
-                </option>
-            </select>
-        </div><br>
+        <div class="dados">
+            <!-- Função -->
+            <div class="valor">
+                <span class="campo">Função</span>
+                <select name="funcao" @change="funcao_id = $event.target.value">
+                    <option v-for="funcao in funcoes" :value="funcao.id" :key="funcao.id">
+                        {{ funcao.name }}
+                    </option>
+                </select>
+            </div><br>
 
-        <div class="valor">
-            <span class="campo">Nome</span>
-            <input autocomplete="off" type="text"
-                   name="usuario.name"
-                   @input="name = $event.target.value"
-            />
+            <div class="valor">
+                <span class="campo">Nome</span>
+                <input autocomplete="off" type="text"
+                       name="usuario.name" placeholder=" "
+                       @input="name = $event.target.value"
+                />
+            </div>
+            <br>
+            <div class="valor">
+                <span class="campo">Usuário</span>
+                <input autocomplete="off" type="text"
+                       name="usuario.username" placeholder=" "
+                       @input="username = $event.target.value"
+                />
+            </div>
+            <br>
+            <div class="valor">
+                <span class="campo">Senha</span>
+                <input autocomplete="off" type="password"
+                       name="usuario.password" placeholder=" "
+                       @input="password = $event.target.value"
+                />
+            </div>
+            <br>
+            <br>
+            <br>
+            <button @click.prevent="criar(funcao_id, name, username, password)">Salvar</button>
         </div>
-        <br>
-        <div class="valor">
-            <span class="campo">Usuário</span>
-            <input autocomplete="off" type="text"
-                   name="usuario.username"
-                   @input="username = $event.target.value"
-            />
-        </div>
-        <br>
-        <div class="valor">
-            <span class="campo">Senha</span>
-            <input autocomplete="off" type="password"
-                   name="usuario.password"
-                   @input="password = $event.target.value"
-            />
-        </div>
-        <br>
-        <br>
-        <br>
-        <button @click.prevent="criar(funcao_id, name, username, password)">Salvar</button>
 
     </div>
 

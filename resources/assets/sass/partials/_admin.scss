@@ -45,7 +45,7 @@ a {
 }
 
 hr {
-    border-top: 1px solid #efefef;
+    border: 1px solid #efefef;
     margin: 30px 0;
 }
 
@@ -462,12 +462,51 @@ hr {
                     }
                 }
 
+                //somente campos de formulários de dados gerais
+                .dados {
+                  .campo {
+                    text-align: right;
+                    position: relative;
+                    top: 5px;
+                    width: 100px;
+                  }
+
+                  input[type=text],
+                  input[type=password] {
+                    padding: 1px 8px 0 7px;
+                    height: 25px;
+                  }
+
+                  // campos vazios que tenham placeholder
+                  input[type=text]:placeholder-shown,
+                  input[type=password]:placeholder-shown {
+                    //border-bottom: 1px solid $cinza_placeholder;
+                    background-color: $cinza_claro;
+                  }
+
+                } //.form
+
+                .titulo_bloco {
+                  color: $cinza;
+                  font-family: $fonte-projeto-bold;
+                  margin-bottom: 22px;
+                  display: inline-block;
+                  text-transform: uppercase;
+                }
+
                 .campo {
-                    width: auto;
-                    margin-bottom: 12px;
                     color: $cinza;
                     margin-right: 20px;
-                    text-align: left;
+                }
+
+                .campo,
+                .valor {
+                  float: left;
+                }
+
+                .valor {
+                  width: 100%;
+                  margin-bottom: 8px;
                 }
 
                 label {
@@ -627,15 +666,6 @@ hr {
                     }
                 }
 
-                .campo,
-                .valor {
-                    float: left;
-                }
-
-                .valor {
-                    width: 100%;
-                }
-
                 .adiciona_contato {
                     display: inline-block;
                 }
@@ -651,18 +681,18 @@ hr {
                 input[type=text],
                 input[type=password] {
                     outline: none;
-                    border: none;
+                    border: 1px solid transparent;
                     display: inline-block;
                     box-sizing: border-box;
-                    width: auto;
                     min-width: 350px;
-                    border-bottom: 1px solid transparent;
                 }
 
-                input[type=text]:focus {
+                input[type=text]:focus,
+                input[type=password]:focus {
                     box-shadow: $cor_fundo;
-                    border-bottom: 1px solid lightgray;
                 }
+
+
 
                 select {
                     background-color: $cor_fundo;
@@ -848,9 +878,13 @@ hr {
 } //#app
 
 
-//
-// Select2 overrides
-//
+
+/**
+    OVERRIDES
+ **/
+
+
+// Select2
 .select2-container {
     min-width: 400px;
     margin-top: -8px;
@@ -870,13 +904,13 @@ hr {
 
 //Quill
 #editor {
-  //
-  hr {
-    margin: 20px 0 !important;
-  }
-
-  .ql-editor .ql-size-large {
-    font-size: 1.4em;
-  }
-
+  hr { margin: 20px 0 !important; }
+  .ql-editor .ql-size-large { font-size: 1.4em; }
 }
+
+//Lightbox
+.lb-cancel { background: url(../img/lightbox/loading.gif) no-repeat; }
+.lb-nav a.lb-prev { background: url(../img/lightbox/prev.png) left 48% no-repeat; }
+.lb-nav a.lb-next { background: url(../img/lightbox/next.png) right 48% no-repeat; }
+.lb-data .lb-close { background: url(../img/lightbox/close.png) top right no-repeat; }
+.lightbox .lb-image { border: none; border-radius: 0; }

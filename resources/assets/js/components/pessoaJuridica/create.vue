@@ -18,17 +18,19 @@
 
         <!--DADOS GERAIS-->
 
-        <div class="valor">
-            <span class="campo">Nome fantasia</span>
-            <input autocomplete="off" type="text"
-                   name="nome_fantasia"
-                   @input="nome_fantasia = $event.target.value"
-            />
+        <div class="dados">
+            <div class="valor">
+                <span class="campo">Nome fantasia</span>
+                <input autocomplete="off" type="text"
+                       name="nome_fantasia" placeholder=" "
+                       @input="nome_fantasia = $event.target.value"
+                />
+            </div>
+            <br>
+            <br>
+            <br>
+            <button @click.prevent="criar(nome_fantasia)">Salvar</button>
         </div>
-        <br>
-        <br>
-        <br>
-        <button @click.prevent="criar(nome_fantasia)">Salvar</button>
 
     </div>
 

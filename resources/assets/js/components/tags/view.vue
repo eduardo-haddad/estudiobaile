@@ -20,7 +20,7 @@
 
         <!-- Pessoas Físicas relacionadas -->
         <div class="valor" style="margin-top: 3px;">
-            <span class="campo">Pessoas físicas relacionadas</span>
+            <span class="titulo_bloco">Pessoas físicas relacionadas</span>
             <br>
             <div class="tabela_arquivos">
                 <table>
@@ -43,7 +43,7 @@
 
         <!-- Pessoas Jurídicas relacionadas -->
         <div class="valor" style="margin-top: 3px;">
-            <span class="campo">Pessoas jurídicas relacionadas</span>
+            <span class="titulo_bloco">Pessoas jurídicas relacionadas</span>
             <br>
             <div class="tabela_arquivos">
                 <table>

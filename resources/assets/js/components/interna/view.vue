@@ -16,7 +16,7 @@
 
             <!-- Arquivos -->
             <div class="valor" style="margin-top: 3px;">
-                <span class="campo">Arquivos anexos</span>
+                <span class="titulo_bloco">Arquivos anexos</span>
                 <br>
                 <input type="file" class="inputfile" id="arquivo" ref="arquivo" @change="setArquivoAtual" />
                 <label for="arquivo">
@@ -34,6 +34,8 @@
                             <th class="num_arquivo">#</th>
                             <th class="nome_arquivo">Nome</th>
                             <th class="descricao_arquivo">Descrição</th>
+                            <th class="preview_arquivo">Visualizar</th>
+                            <th class="destaque_arquivo">Destaque</th>
                             <th class="tipo_arquivo">Tipo</th>
                             <th class="data_arquivo">Data</th>
                             <th class="remove_arquivo">Remover</th>
@@ -43,6 +45,21 @@
                             <td class="nome_arquivo"><a :title="arquivo.nome.substr(15)" :href="`/download/interna/${arquivo.id}`" download>{{ arquivo.nome.substr(15).trunc(30) }}</a></td>
                             <td class="descricao_arquivo">
                                 <input autocomplete="off" type="text" name="arquivo_descricao" v-model="arquivo.descricao" />
+                            </td>
+                            <td class="preview_arquivo">
+                                <a v-if="arquivo.tipo === 'imagem'"
+                                   :href="`/uploads/interna/${arquivo.nome}`"
+                                   :data-lightbox="'imagem_preview'+index" :data-title="arquivo.nome.substr(15)">
+                                    <img class="btn_preview"
+                                         :src="root + '/img/btn_preview.png'" />
+                                </a>
+                            </td>
+                            <td class="destaque_arquivo">
+                                <a @click.prevent="setImagemDestaque(arquivo.id)">
+                                    <img v-if="arquivo.tipo === 'imagem'"
+                                         class="btn_destaque"
+                                         :src="id_destaque === arquivo.id ? root + '/img/btn_destaque_ativo.png' : root + '/img/btn_destaque.png'" />
+                                </a>
                             </td>
                             <td class="tipo_arquivo">{{ arquivo.tipo }}</td>
                             <td class="data_arquivo">{{ arquivo.data }}</td>
@@ -90,6 +107,10 @@
             String.prototype.trunc = function(n){
                 return this.substr(0, n-1) + (this.length > n ? '...' : '');
             };
+            //lightbox
+            lightbox.option({
+                'disableScrolling': true,
+            });
         },
         mounted() {
             //highlight menu

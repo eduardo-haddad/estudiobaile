@@ -13,9 +13,10 @@
             </div>
             <div class="nome">
                 <span>
-                    <input autocomplete="off" type="text"
-                           v-model="projeto.nome"
-                           name="nome_adotado" style="border:none" />
+                    <!--<input autocomplete="off" type="text"-->
+                           <!--v-model="projeto.nome"-->
+                           <!--name="nome_adotado" style="border:none" />-->
+                    {{ projeto.nome }}
                 </span>
             </div>
         </div>
@@ -26,7 +27,7 @@
 
         <!-- Arquivos -->
         <div class="valor" style="margin-top: 3px;">
-            <span class="campo">Arquivos anexos</span>
+            <span class="titulo_bloco">Arquivos anexos</span>
             <br>
             <input type="file" class="inputfile" id="arquivo" ref="arquivo" @change="setArquivoAtual" />
             <label for="arquivo">
@@ -50,7 +51,7 @@
                         <th class="data_arquivo">Data</th>
                         <th class="remove_arquivo">Remover</th>
                     </tr>
-                    <tr v-for="(arquivo, index) in arquivos" :key="arquivo.id">
+                    <tr v-for="(arquivo, index) in arquivos" :key="'arquivo-'+index+arquivo.id">
                         <td class="num_arquivo">{{ index+1 }}</td>
                         <td class="nome_arquivo"><a :title="arquivo.nome.substr(15)" :href="`/download/projeto/${projeto.id}/${arquivo.id}`" download>{{ arquivo.nome.substr(15).trunc(30) }}</a></td>
                         <td class="descricao_arquivo">
@@ -82,7 +83,9 @@
         <br><hr>
 
         <!--DADOS GERAIS-->
-        <form @submit.prevent="salvaForm" method="POST">
+        <div class="dados">
+
+            <span class="titulo_bloco">Dados gerais</span>
 
             <div class="valor">
                 <span class="campo">Nome</span>
@@ -112,8 +115,9 @@
             <hr>
 
             <!-- Pessoas Físicas relacionadas -->
-            <span class="campo">Pessoas Físicas relacionadas</span>
-            <div id="projetos_pf" class="valor" style="margin-top: 3px;">
+            <span class="titulo_bloco">Pessoas Físicas relacionadas</span>
+
+            <div id="projetos_pf" class="valor">
                 <div id="projetos">
                     <div class="tabela_arquivos">
                         <table>
@@ -126,7 +130,7 @@
                                 <th class="data_arquivo"></th>
                                 <th class="remove_arquivo">Remover</th>
                             </tr>
-                            <tr v-for="(pessoa, index) in pessoas_fisicas_chancelas_relacionadas" :key="pessoa.id">
+                            <tr v-for="(pessoa, index) in pessoas_fisicas_chancelas_relacionadas" :key="'pf-'+index+pessoa.id">
                                 <td class="num_arquivo">{{ index+1 }}</td>
                                 <td class="nome_arquivo"><router-link :id="pessoa.pessoa_id" :to="{ name: 'pf-view',
                                 params: { id: pessoa.pessoa_id }}">{{ pessoa.nome }}</router-link></td>
@@ -164,7 +168,8 @@
             <hr>
 
             <!-- Pessoa Jurídica / Chancela -->
-            <span class="campo">Pessoas Jurídicas relacionadas</span>
+            <span class="titulo_bloco">Pessoas Jurídicas relacionadas</span>
+
             <div id="" class="valor" style="margin-top: 3px;">
                 <div id="projetos_pj">
                     <div class="tabela_arquivos">
@@ -178,7 +183,7 @@
                                 <th class="data_arquivo"></th>
                                 <th class="remove_arquivo">Remover</th>
                             </tr>
-                            <tr v-for="(pessoa, index) in pessoas_juridicas_chancelas_relacionadas" :key="pessoa.id">
+                            <tr v-for="(pessoa, index) in pessoas_juridicas_chancelas_relacionadas" :key="'pj-'+index+pessoa.id">
                                 <td class="num_arquivo">{{ index+1 }}</td>
                                 <td class="nome_arquivo"><router-link
                                         :id="pessoa.pessoa_id" :to="{ name: 'pj-view',
@@ -217,12 +222,12 @@
             <hr>
             <br>
 
-            <button>Salvar</button>
+            <button @click.prevent="salvaForm">Salvar</button>
 
 
             <br>
 
-        </form>
+        </div>
 
     </div>
 
@@ -242,6 +247,10 @@
             };
             //basepath
             this.root = ROOT;
+            //lightbox
+            lightbox.option({
+                'disableScrolling': true,
+            });
         },
         data() {
             return {
@@ -378,8 +387,10 @@
                     projeto_id: this.$route.params.id,
                 }).then(res => {
                     this.arquivos = res.data['arquivos'];
-                    if(res.data['remove_destaque'] === true)
+                    if(res.data['remove_destaque'] === true) {
                         this.imagem_destaque = `${this.root}/img/perfil_vazio.png`;
+                        this.destaqueAtivo = false;
+                    }
                 });
             },
             setImagemDestaque: function(arquivo_id) {
