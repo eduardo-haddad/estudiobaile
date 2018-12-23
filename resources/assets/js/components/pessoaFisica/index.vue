@@ -29,13 +29,6 @@
     import { eventBus } from '../../estudiobaile';
 
     export default {
-        beforeDestroy() {console.log('beforeDestroy')},
-        destroyed() {console.log('destroyed')},
-        beforeUpdate() {console.log('beforeUpdate')},
-        updated() {
-            console.log('updated');
-            if(this.item_carregado) this.item_carregado = false;
-        },
         created() {
             //carrega lista
             this.getLista();
@@ -45,16 +38,11 @@
             this.highlight_menu();
 
             //evento - pessoa física carregada
-            eventBus.$on('getPessoaFisica', (id) => {
-                this.getLista(id);
-                this.item_carregado = true;
-                console.log(`item_carregado em getPessoaFisica: ${this.item_carregado}`);
-            });
+            eventBus.$on('getPessoaFisica', (id) => this.getLista(id));
 
             //evento - página de criação de pessoa física
             eventBus.$on('pessoaFisicaCreate', () => {
                 this.item_carregado = true;
-                console.log(`item_carregado em pessoaFisicaCreate: ${this.item_carregado}`);
                 this.create = true;
             });
 
@@ -67,17 +55,12 @@
             });
 
             //evento - mudança de pessoa física
-            eventBus.$on('changePessoaFisica', () => {
-                this.item_carregado = false
-                console.log(`item_carregado em changePessoaFisica: ${this.item_carregado}`);
-            });
+            eventBus.$on('changePessoaFisica', () => this.item_carregado = false);
         },
         watch: {
             '$route' () {
                 //this.highlight_menu();
             },
-            //'item_carregado' (valor) {console.log(`item_carregado: ${valor}`)},
-
         },
         data() {
             return {
@@ -101,9 +84,7 @@
         methods: {
             getLista: function(id) {
                 axios.get('/ajax/pf/index')
-                    .then(res => {
-                        this.pessoas = res.data;
-                    })
+                    .then(res => this.pessoas = res.data)
                     .then(() => this.highlight_menu)
                     .then(() => this.scrollOnLoad(id));
             },
@@ -120,8 +101,7 @@
                 if(this.primeiro_load) this.primeiro_load = false;
                 if(this.create) this.create = false;
                 if(this.primeiro_load || this.create) this.scroll(id);
-                // this.item_carregado = false;
-                // console.log(`item_carregado em scrollOnLoad: ${this.item_carregado}`);
+                this.item_carregado = true;
             },
             highlight_menu: () => {
                 const menu = document.getElementById('menu_principal');
