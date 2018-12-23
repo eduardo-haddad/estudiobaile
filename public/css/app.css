@@ -2172,10 +2172,15 @@ hr {
   width: 100px;
 }
 
+#app #principal #conteudo_geral #container_conteudo .dados select,
+#app #principal #conteudo_geral #container_conteudo .dados input[type=text],
+#app #principal #conteudo_geral #container_conteudo .dados input[type=password] {
+  height: 25px;
+}
+
 #app #principal #conteudo_geral #container_conteudo .dados input[type=text],
 #app #principal #conteudo_geral #container_conteudo .dados input[type=password] {
   padding: 1px 8px 0 7px;
-  height: 25px;
 }
 
 #app #principal #conteudo_geral #container_conteudo .dados input[type=text]:placeholder-shown,
@@ -2214,7 +2219,7 @@ hr {
   font-size: 14px;
   color: #f59921;
   margin: 18px 0;
-  display: inline-block;
+  display: block;
 }
 
 #app #principal #conteudo_geral #container_conteudo .link_abrir_box.delete {

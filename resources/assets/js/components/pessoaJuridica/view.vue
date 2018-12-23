@@ -231,7 +231,7 @@
                     <input type="text" placeholder=" " :id="telefone.id" v-model="telefone.valor" name="telefone" />
                     <a @click.prevent="removeContato(telefone.id)">X</a>
                 </div>
-
+                <br>
                 <a @click.prevent="adicionaTel = !adicionaTel" class="link_abrir_box">[adicionar telefone]</a>
                 <div v-if="adicionaTel" class="adiciona_contato">
                     <input @input="novo_telefone = $event.target.value" type="text" class="adiciona_contato" v-model="novo_telefone" name="novo_telefone" placeholder="adicionar telefone" />

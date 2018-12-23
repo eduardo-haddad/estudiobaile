@@ -164,12 +164,6 @@
         },
         computed: {},
         methods: {
-            quillDivider: function(){
-                let range = quill.getSelection(true);
-                quill.insertText(range.index, '\n', Quill.sources.USER);
-                quill.insertEmbed(range.index + 1, 'divider', true, Quill.sources.USER);
-                quill.setSelection(range.index + 2, Quill.sources.SILENT);
-            },
             getInterna: function(){
                 axios.get('/ajax/interna/getInterna').then(res => {
                     // eventBus.$emit('getInterna');

@@ -471,10 +471,15 @@ hr {
                     width: 100px;
                   }
 
+                  select,
+                  input[type=text],
+                  input[type=password] {
+                    height: 25px;
+                  }
+
                   input[type=text],
                   input[type=password] {
                     padding: 1px 8px 0 7px;
-                    height: 25px;
                   }
 
                   // campos vazios que tenham placeholder
@@ -517,7 +522,7 @@ hr {
                   font-size: 14px;
                   color: $laranja;
                   margin: 18px 0;
-                  display: inline-block;
+                  display: block;
 
                   &.delete {
                     color: $vermelho;

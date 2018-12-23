@@ -46685,6 +46685,19 @@ var _this4 = this;
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+    beforeDestroy: function beforeDestroy() {
+        console.log('beforeDestroy');
+    },
+    destroyed: function destroyed() {
+        console.log('destroyed');
+    },
+    beforeUpdate: function beforeUpdate() {
+        console.log('beforeUpdate');
+    },
+    updated: function updated() {
+        console.log('updated');
+        if (this.item_carregado) this.item_carregado = false;
+    },
     created: function created() {
         //carrega lista
         this.getLista();
@@ -46697,12 +46710,15 @@ var _this4 = this;
 
         //evento - pessoa física carregada
         __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$on('getPessoaFisica', function (id) {
-            return _this.getLista(id);
+            _this.getLista(id);
+            _this.item_carregado = true;
+            console.log('item_carregado em getPessoaFisica: ' + _this.item_carregado);
         });
 
         //evento - página de criação de pessoa física
         __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$on('pessoaFisicaCreate', function () {
             _this.item_carregado = true;
+            console.log('item_carregado em pessoaFisicaCreate: ' + _this.item_carregado);
             _this.create = true;
         });
 
@@ -46718,7 +46734,8 @@ var _this4 = this;
 
         //evento - mudança de pessoa física
         __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$on('changePessoaFisica', function () {
-            return _this.item_carregado = false;
+            _this.item_carregado = false;
+            console.log('item_carregado em changePessoaFisica: ' + _this.item_carregado);
         });
     },
 
@@ -46754,7 +46771,7 @@ var _this4 = this;
             var _this3 = this;
 
             axios.get('/ajax/pf/index').then(function (res) {
-                return _this3.pessoas = res.data;
+                _this3.pessoas = res.data;
             }).then(function () {
                 return _this3.highlight_menu;
             }).then(function () {
@@ -46774,7 +46791,8 @@ var _this4 = this;
             if (this.primeiro_load) this.primeiro_load = false;
             if (this.create) this.create = false;
             if (this.primeiro_load || this.create) this.scroll(id);
-            this.item_carregado = true;
+            // this.item_carregado = false;
+            // console.log(`item_carregado em scrollOnLoad: ${this.item_carregado}`);
         },
         highlight_menu: function highlight_menu() {
             var menu = document.getElementById('menu_principal');
@@ -48996,6 +49014,8 @@ var render = function() {
                   ]
                 )
               }),
+              _vm._v(" "),
+              _c("br"),
               _vm._v(" "),
               _c(
                 "a",
@@ -52434,6 +52454,8 @@ var render = function() {
                   ]
                 )
               }),
+              _vm._v(" "),
+              _c("br"),
               _vm._v(" "),
               _c(
                 "a",
@@ -56297,12 +56319,6 @@ var toolbarOptions = [['bold', 'italic', 'underline', 'strike', 'link'], // togg
     },
     computed: {},
     methods: {
-        quillDivider: function quillDivider() {
-            var range = quill.getSelection(true);
-            quill.insertText(range.index, '\n', Quill.sources.USER);
-            quill.insertEmbed(range.index + 1, 'divider', true, Quill.sources.USER);
-            quill.setSelection(range.index + 2, Quill.sources.SILENT);
-        },
         getInterna: function getInterna() {
             var _this2 = this;
 
