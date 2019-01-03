@@ -1,6 +1,6 @@
 <template v-if="this.pessoa">
 
-    <div id="container_conteudo" class="formulario">
+    <div id="container_conteudo" class="formulario" :class="{ loading: !item_carregado, loaded: item_carregado }">
 
         <div class="titulo">
             <div v-if="destaqueAtivo" class="imagem_destaque">
@@ -535,7 +535,8 @@
                 mostraEnderecoBox: false,
                 mostraDadosBancariosBox: false,
                 mostraMei: false,
-                destaqueAtivo: false
+                destaqueAtivo: false,
+                item_carregado: false,
             }
         },
         watch: {
@@ -561,30 +562,33 @@
         },
         methods: {
             getPessoa: function(id){
+                this.item_carregado = false;
                 this.imagem_destaque = `${this.root}/img/perfil_vazio.png`;
-                axios.get('/ajax/pf/' + id).then(res => {
-                    eventBus.$emit('getPessoaFisica', this.$route.params.id);
-                    let dados = res.data;
-                    this.pessoa = dados.pessoa_fisica;
-                    this.pessoa.genero = dados.genero;
-                    this.pessoa.estado_civil = dados.estado_civil;
-                    this.contatos = dados.contatos;
-                    this.enderecos = dados.enderecos;
-                    this.arquivos = dados.arquivos;
-                    this.dados_bancarios = dados.dados_bancarios;
-                    this.tags = dados.tags;
-                    this.projetos = dados.projetos;
-                    this.pessoas_juridicas_relacionadas = dados.pessoas_juridicas_relacionadas;
-                    this.atributos = dados.atributos;
+                axios.get('/ajax/pf/' + id)
+                    .then(res => {
+                        eventBus.$emit('getPessoaFisica', this.$route.params.id);
+                        let dados = res.data;
+                        this.pessoa = dados.pessoa_fisica;
+                        this.pessoa.genero = dados.genero;
+                        this.pessoa.estado_civil = dados.estado_civil;
+                        this.contatos = dados.contatos;
+                        this.enderecos = dados.enderecos;
+                        this.arquivos = dados.arquivos;
+                        this.dados_bancarios = dados.dados_bancarios;
+                        this.tags = dados.tags;
+                        this.projetos = dados.projetos;
+                        this.pessoas_juridicas_relacionadas = dados.pessoas_juridicas_relacionadas;
+                        this.atributos = dados.atributos;
 
-                    //campo MEI
-                    if(this.pessoa.cnpj !== null || this.pessoa.razao_social !== null) {
-                        this.mostraMei = true;
-                    }
+                        //campo MEI
+                        if(this.pessoa.cnpj !== null || this.pessoa.razao_social !== null) {
+                            this.mostraMei = true;
+                        }
 
-                    //imagem de destaque
-                    this.getImagemDestaque();
-                });
+                        //imagem de destaque
+                        this.getImagemDestaque();
+                    })
+                    .then(() => this.item_carregado = true);
             },
             salvaForm: function(){
                 axios.post('/ajax/pf/save', {

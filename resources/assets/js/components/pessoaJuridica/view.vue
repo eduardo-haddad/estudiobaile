@@ -1,6 +1,6 @@
 <template v-if="this.pessoa">
 
-    <div id="container_conteudo" class="formulario">
+    <div id="container_conteudo" class="formulario" :class="{ loading: !item_carregado, loaded: item_carregado }">
 
         <div class="titulo">
             <div v-if="destaqueAtivo" class="imagem_destaque">
@@ -408,7 +408,8 @@
                 adicionaTel: false,
                 mostraEnderecoBox: false,
                 mostraDadosBancariosBox: false,
-                destaqueAtivo: false
+                destaqueAtivo: false,
+                item_carregado: false
             }
         },
         watch: {
@@ -428,22 +429,25 @@
         },
         methods: {
             getPessoa: function(id){
+                this.item_carregado = false;
                 this.imagem_destaque = `${this.root}/img/perfil_vazio.png`;
-                axios.get('/ajax/pj/' + id).then(res => {
-                    eventBus.$emit('getPessoaJuridica', this.$route.params.id);
-                    let dados = res.data;
-                    this.pessoa = dados.pessoa_juridica;
-                    this.tags = dados.tags;
-                    this.contatos = dados.contatos;
-                    this.enderecos = dados.enderecos;
-                    this.arquivos = dados.arquivos;
-                    this.projetos = dados.projetos;
-                    this.atributos = dados.atributos;
-                    this.pessoas_fisicas_cargos_relacionados = dados.pessoas_fisicas_cargos_relacionados;
+                axios.get('/ajax/pj/' + id)
+                    .then(res => {
+                        eventBus.$emit('getPessoaJuridica', this.$route.params.id);
+                        let dados = res.data;
+                        this.pessoa = dados.pessoa_juridica;
+                        this.tags = dados.tags;
+                        this.contatos = dados.contatos;
+                        this.enderecos = dados.enderecos;
+                        this.arquivos = dados.arquivos;
+                        this.projetos = dados.projetos;
+                        this.atributos = dados.atributos;
+                        this.pessoas_fisicas_cargos_relacionados = dados.pessoas_fisicas_cargos_relacionados;
 
-                    //imagem de destaque
-                    this.getImagemDestaque();
-                } );
+                        //imagem de destaque
+                        this.getImagemDestaque();
+                    })
+                    .then(() => this.item_carregado = true);
             },
             salvaForm: function(){
                 axios.post('/ajax/pj/save', {

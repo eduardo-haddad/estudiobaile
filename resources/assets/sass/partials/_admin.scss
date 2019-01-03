@@ -721,6 +721,15 @@ hr {
 
                 }
 
+                &.loading {
+                  opacity: 0.2;
+                  @extend %transition_fast;
+                }
+                &.loaded {
+                  opacity: 1;
+                  @extend %transition_fast;
+                }
+
             } //#container_conteudo
 
             .busca_lista {
@@ -868,14 +877,14 @@ hr {
                 box-sizing: border-box;
                 padding: 45px 50px 70px 50px;
 
-                &.loading {
-                    opacity: 0.2;
-                    @extend %transition_fast;
-                }
-                &.loaded {
-                    opacity: 1;
-                    @extend %transition_fast;
-                }
+                //&.loading {
+                //    opacity: 0.2;
+                //    @extend %transition_fast;
+                //}
+                //&.loaded {
+                //    opacity: 1;
+                //    @extend %transition_fast;
+                //}
             }
 
         } //#conteudo_geral

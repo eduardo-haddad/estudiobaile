@@ -17,7 +17,7 @@
             </nav>
         </div>
 
-        <div class="detalhe" :class="{ loading: !item_carregado, loaded: item_carregado }">
+        <div class="detalhe">
             <router-view></router-view>
         </div>
     </div>
@@ -47,7 +47,6 @@
             });
             //evento - tag carregada
             eventBus.$on('getTag', (id) => {
-                this.item_carregado = true;
                 //Scroll
                 if(this.primeiro_load) {
                     this.scroll(id);
@@ -55,7 +54,7 @@
                 }
             });
             //evento - mudança de projeto
-            eventBus.$on('changeTag', () => this.item_carregado = false);
+            eventBus.$on('changeTag', () => {});
             //evento - tag removida - atualiza lista de tags se não atribuída a ninguém
             eventBus.$on('tagRemovida', (tags) => this.tags = tags);
         },
@@ -68,7 +67,6 @@
             return {
                 tags: [],
                 item_selecionado: false,
-                item_carregado: false,
                 primeiro_load: true
             }
         },

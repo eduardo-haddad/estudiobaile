@@ -46685,24 +46685,27 @@ var _this4 = this;
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+    updated: function updated() {
+        console.log('updated');
+    },
     created: function created() {
         //carrega lista
+        console.log('created');
         this.getLista();
     },
     mounted: function mounted() {
         var _this = this;
 
+        console.log('mounted');
         //highlight menu principal
+        console.log('highlight_menu en created');
         this.highlight_menu();
 
         //evento - pessoa física carregada
-        __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$on('getPessoaFisica', function (id) {
-            return _this.getLista(id);
-        });
+        __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$on('getPessoaFisica', function () {});
 
         //evento - página de criação de pessoa física
         __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$on('pessoaFisicaCreate', function () {
-            _this.item_carregado = true;
             _this.create = true;
         });
 
@@ -46717,9 +46720,7 @@ var _this4 = this;
         });
 
         //evento - mudança de pessoa física
-        __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$on('changePessoaFisica', function () {
-            return _this.item_carregado = false;
-        });
+        __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$on('changePessoaFisica', function () {});
     },
 
     watch: {
@@ -46734,7 +46735,6 @@ var _this4 = this;
             busca: '',
             //Condicionais
             item_selecionado: false,
-            item_carregado: false,
             primeiro_load: true,
             create: false
         };
@@ -46758,7 +46758,7 @@ var _this4 = this;
             }).then(function () {
                 return _this3.highlight_menu;
             }).then(function () {
-                return _this3.scrollOnLoad(id);
+                if (typeof id !== "undefined") _this3.scrollOnLoad(id);
             });
         },
         itemAtual: function itemAtual(id_pessoa, id_rota) {
@@ -46774,7 +46774,6 @@ var _this4 = this;
             if (this.primeiro_load) this.primeiro_load = false;
             if (this.create) this.create = false;
             if (this.primeiro_load || this.create) this.scroll(id);
-            this.item_carregado = true;
         },
         highlight_menu: function highlight_menu() {
             var menu = document.getElementById('menu_principal');
@@ -46857,15 +46856,7 @@ var render = function() {
       ])
     ]),
     _vm._v(" "),
-    _c(
-      "div",
-      {
-        staticClass: "detalhe",
-        class: { loading: !_vm.item_carregado, loaded: _vm.item_carregado }
-      },
-      [_c("router-view")],
-      1
-    )
+    _c("div", { staticClass: "detalhe" }, [_c("router-view")], 1)
   ])
 }
 var staticRenderFns = []
@@ -47469,7 +47460,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             mostraEnderecoBox: false,
             mostraDadosBancariosBox: false,
             mostraMei: false,
-            destaqueAtivo: false
+            destaqueAtivo: false,
+            item_carregado: false
         };
     },
 
@@ -47502,6 +47494,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         getPessoa: function getPessoa(id) {
             var _this = this;
 
+            this.item_carregado = false;
             this.imagem_destaque = this.root + '/img/perfil_vazio.png';
             axios.get('/ajax/pf/' + id).then(function (res) {
                 __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$emit('getPessoaFisica', _this.$route.params.id);
@@ -47525,6 +47518,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
                 //imagem de destaque
                 _this.getImagemDestaque();
+            }).then(function () {
+                return _this.item_carregado = true;
             });
         },
         salvaForm: function salvaForm() {
@@ -47832,7 +47827,11 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "formulario", attrs: { id: "container_conteudo" } },
+    {
+      staticClass: "formulario",
+      class: { loading: !_vm.item_carregado, loaded: _vm.item_carregado },
+      attrs: { id: "container_conteudo" }
+    },
     [
       _c("div", { staticClass: "titulo" }, [
         _vm.destaqueAtivo
@@ -50584,7 +50583,6 @@ var _this4 = this;
 
         //evento - página de criação de pessoa jurídica
         __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$on('pessoaJuridicaCreate', function () {
-            _this.item_carregado = true;
             _this.create = true;
         });
 
@@ -50600,9 +50598,7 @@ var _this4 = this;
         });
 
         //evento - mudança de pessoa física
-        __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$on('changePessoaJuridica', function () {
-            return _this.item_carregado = false;
-        });
+        __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$on('changePessoaJuridica', function () {});
     },
 
     watch: {
@@ -50617,7 +50613,6 @@ var _this4 = this;
             busca: '',
             //Condicionais
             item_selecionado: false,
-            item_carregado: false,
             primeiro_load: true,
             create: false
         };
@@ -50657,7 +50652,6 @@ var _this4 = this;
             if (this.primeiro_load) this.primeiro_load = false;
             if (this.create) this.create = false;
             if (this.primeiro_load || this.create) this.scroll(id);
-            this.item_carregado = true;
         },
         highlight_menu: function highlight_menu() {
             var menu = document.getElementById('menu_principal');
@@ -50740,15 +50734,7 @@ var render = function() {
       ])
     ]),
     _vm._v(" "),
-    _c(
-      "div",
-      {
-        staticClass: "detalhe",
-        class: { loading: !_vm.item_carregado, loaded: _vm.item_carregado }
-      },
-      [_c("router-view")],
-      1
-    )
+    _c("div", { staticClass: "detalhe" }, [_c("router-view")], 1)
   ])
 }
 var staticRenderFns = []
@@ -51225,7 +51211,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             adicionaTel: false,
             mostraEnderecoBox: false,
             mostraDadosBancariosBox: false,
-            destaqueAtivo: false
+            destaqueAtivo: false,
+            item_carregado: false
         };
     },
 
@@ -51252,6 +51239,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         getPessoa: function getPessoa(id) {
             var _this = this;
 
+            this.item_carregado = false;
             this.imagem_destaque = this.root + '/img/perfil_vazio.png';
             axios.get('/ajax/pj/' + id).then(function (res) {
                 __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$emit('getPessoaJuridica', _this.$route.params.id);
@@ -51267,6 +51255,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
                 //imagem de destaque
                 _this.getImagemDestaque();
+            }).then(function () {
+                return _this.item_carregado = true;
             });
         },
         salvaForm: function salvaForm() {
@@ -51567,7 +51557,11 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "formulario", attrs: { id: "container_conteudo" } },
+    {
+      staticClass: "formulario",
+      class: { loading: !_vm.item_carregado, loaded: _vm.item_carregado },
+      attrs: { id: "container_conteudo" }
+    },
     [
       _c("div", { staticClass: "titulo" }, [
         _vm.destaqueAtivo
@@ -53599,7 +53593,6 @@ var _this4 = this;
 
         //evento - página de criação de projeto
         __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$on('projetoCreate', function () {
-            _this.item_carregado = true;
             _this.create = true;
         });
 
@@ -53615,9 +53608,7 @@ var _this4 = this;
         });
 
         //evento - mudança de projeto
-        __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$on('changeProjeto', function () {
-            return _this.item_carregado = false;
-        });
+        __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$on('changeProjeto', function () {});
     },
 
     watch: {
@@ -53632,7 +53623,6 @@ var _this4 = this;
             busca: '',
             //Condicionais
             item_selecionado: false,
-            item_carregado: false,
             primeiro_load: true,
             create: false
         };
@@ -53672,7 +53662,6 @@ var _this4 = this;
             if (this.primeiro_load) this.primeiro_load = false;
             if (this.create) this.create = false;
             if (this.primeiro_load || this.create) this.scroll(id);
-            this.item_carregado = true;
         },
         highlight_menu: function highlight_menu() {
             var menu = document.getElementById('menu_principal');
@@ -53758,15 +53747,7 @@ var render = function() {
       ])
     ]),
     _vm._v(" "),
-    _c(
-      "div",
-      {
-        staticClass: "detalhe",
-        class: { loading: !_vm.item_carregado, loaded: _vm.item_carregado }
-      },
-      [_c("router-view")],
-      1
-    )
+    _c("div", { staticClass: "detalhe" }, [_c("router-view")], 1)
   ])
 }
 var staticRenderFns = []
@@ -54112,7 +54093,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             //Condicionais
             mostraChancelaPfBox: false,
             mostraChancelaPjBox: false,
-            destaqueAtivo: false
+            destaqueAtivo: false,
+            item_carregado: false
         };
     },
 
@@ -54128,6 +54110,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         getProjeto: function getProjeto(id) {
             var _this = this;
 
+            this.item_carregado = false;
             this.imagem_destaque = this.root + '/img/perfil_vazio.png';
             axios.get('/ajax/projetos/' + id).then(function (res) {
                 __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$emit('getProjeto', _this.$route.params.id);
@@ -54140,6 +54123,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
                 //imagem de destaque
                 _this.getImagemDestaque();
+            }).then(function () {
+                return _this.item_carregado = true;
             });
         },
         salvaForm: function salvaForm() {
@@ -54350,7 +54335,11 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "formulario", attrs: { id: "container_conteudo" } },
+    {
+      staticClass: "formulario",
+      class: { loading: !_vm.item_carregado, loaded: _vm.item_carregado },
+      attrs: { id: "container_conteudo" }
+    },
     [
       _c("div", { staticClass: "titulo" }, [
         _vm.destaqueAtivo
@@ -55503,7 +55492,6 @@ var _this2 = this;
         });
         //evento - tag carregada
         __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$on('getTag', function (id) {
-            _this.item_carregado = true;
             //Scroll
             if (_this.primeiro_load) {
                 _this.scroll(id);
@@ -55511,9 +55499,7 @@ var _this2 = this;
             }
         });
         //evento - mudança de projeto
-        __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$on('changeTag', function () {
-            return _this.item_carregado = false;
-        });
+        __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$on('changeTag', function () {});
         //evento - tag removida - atualiza lista de tags se não atribuída a ninguém
         __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$on('tagRemovida', function (tags) {
             return _this.tags = tags;
@@ -55529,7 +55515,6 @@ var _this2 = this;
         return {
             tags: [],
             item_selecionado: false,
-            item_carregado: false,
             primeiro_load: true
         };
     },
@@ -55600,15 +55585,7 @@ var render = function() {
       ])
     ]),
     _vm._v(" "),
-    _c(
-      "div",
-      {
-        staticClass: "detalhe",
-        class: { loading: !_vm.item_carregado, loaded: _vm.item_carregado }
-      },
-      [_c("router-view")],
-      1
-    )
+    _c("div", { staticClass: "detalhe" }, [_c("router-view")], 1)
   ])
 }
 var staticRenderFns = [
@@ -55778,7 +55755,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             pessoas_fisicas_relacionadas: [],
             pessoas_juridicas_relacionadas: [],
             //Campos de inclusão
-            root: ''
+            root: '',
+            //Condicionais
+            item_carregado: false
         };
     },
 
@@ -55793,11 +55772,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         getTag: function getTag(id) {
             var _this = this;
 
+            this.item_carregado = false;
             axios.get('/ajax/tags/' + id).then(function (res) {
                 __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$emit('getTag', _this.$route.params.id);
                 _this.tag = res.data['tag'];
                 _this.pessoas_fisicas_relacionadas = res.data['pessoas_fisicas_relacionadas'];
                 _this.pessoas_juridicas_relacionadas = res.data['pessoas_juridicas_relacionadas'];
+            }).then(function () {
+                return _this.item_carregado = true;
             });
         },
         removeTag: function removeTag(pessoa_id, tipo) {
@@ -55838,7 +55820,11 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "formulario", attrs: { id: "container_conteudo" } },
+    {
+      staticClass: "formulario",
+      class: { loading: !_vm.item_carregado, loaded: _vm.item_carregado },
+      attrs: { id: "container_conteudo" }
+    },
     [
       _c("div", { staticClass: "titulo" }, [
         _c(
@@ -56304,14 +56290,16 @@ var toolbarOptions = [['bold', 'italic', 'underline', 'strike', 'link'], // togg
         getInterna: function getInterna() {
             var _this2 = this;
 
+            this.item_carregado = false;
             axios.get('/ajax/interna/getInterna').then(function (res) {
                 // eventBus.$emit('getInterna');
                 var dados = res.data;
-                _this2.item_carregado = true;
                 _this2.conteudoEditor = dados.conteudoEditor;
                 _this2.arquivos = dados.arquivos;
 
                 document.querySelector('#editor').children[0].innerHTML = _this2.conteudoEditor;
+            }).then(function () {
+                return _this2.item_carregado = true;
             });
         },
         salvaForm: function salvaForm() {
@@ -56385,13 +56373,16 @@ var render = function() {
     "div",
     {
       staticClass: "detalhe",
-      class: { loading: !_vm.item_carregado, loaded: _vm.item_carregado },
       staticStyle: { width: "100%", "border-left": "1px solid #babcbd" }
     },
     [
       _c(
         "div",
-        { staticClass: "formulario", attrs: { id: "container_conteudo" } },
+        {
+          staticClass: "formulario",
+          class: { loading: !_vm.item_carregado, loaded: _vm.item_carregado },
+          attrs: { id: "container_conteudo" }
+        },
         [
           _vm._m(0),
           _vm._v(" "),
@@ -56818,7 +56809,6 @@ var _this4 = this;
 
         //evento - página de criação de pessoa física
         __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$on('usuarioCreate', function () {
-            _this.item_carregado = true;
             _this.create = true;
         });
 
@@ -56833,9 +56823,7 @@ var _this4 = this;
         });
 
         //evento - mudança de usuario
-        __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$on('changeUsuario', function () {
-            return _this.item_carregado = false;
-        });
+        __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$on('changeUsuario', function () {});
         //evento - usuario removido - atualiza lista de usuarios
         __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$on('usuarioRemovido', function (usuarios) {
             return _this.usuarios = usuarios;
@@ -56854,7 +56842,6 @@ var _this4 = this;
             busca: '',
             //Condicionais
             item_selecionado: false,
-            item_carregado: false,
             primeiro_load: true,
             create: false
         };
@@ -56894,7 +56881,6 @@ var _this4 = this;
             if (this.primeiro_load) this.primeiro_load = false;
             if (this.create) this.create = false;
             if (this.primeiro_load || this.create) this.scroll(id);
-            this.item_carregado = true;
         },
         highlight_menu: function highlight_menu() {
             var menu = document.getElementById('menu_principal');
@@ -56980,15 +56966,7 @@ var render = function() {
       ])
     ]),
     _vm._v(" "),
-    _c(
-      "div",
-      {
-        staticClass: "detalhe",
-        class: { loading: !_vm.item_carregado, loaded: _vm.item_carregado }
-      },
-      [_c("router-view")],
-      1
-    )
+    _c("div", { staticClass: "detalhe" }, [_c("router-view")], 1)
   ])
 }
 var staticRenderFns = []
@@ -57227,7 +57205,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             nova_senha: '',
             //Condicionais
             usuario_atual_logado: false,
-            destaqueAtivo: false
+            destaqueAtivo: false,
+            item_carregado: false
         };
     },
 
@@ -57242,6 +57221,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         getUsuario: function getUsuario(id) {
             var _this = this;
 
+            this.item_carregado = false;
             this.imagem_destaque = this.root + '/img/perfil_vazio.png';
             axios.get('/ajax/usuarios/' + id).then(function (res) {
                 __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$emit('getUsuario', _this.$route.params.id);
@@ -57256,6 +57236,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 // this.usuarioAtualLogado(this.usuario.id);
                 _this.usuario_atual_logado = parseInt(id, 10) === parseInt(_this.usuario_logado, 10);
                 //console.log(`usuario_logado: ${this.usuario_logado} / usuario_atual_logado: ${this.usuario_atual_logado}`);
+            }).then(function () {
+                return _this.item_carregado = true;
             });
         },
         // usuarioAtualLogado: function(id = 0){
@@ -57381,7 +57363,11 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "formulario", attrs: { id: "container_conteudo" } },
+    {
+      staticClass: "formulario",
+      class: { loading: !_vm.item_carregado, loaded: _vm.item_carregado },
+      attrs: { id: "container_conteudo" }
+    },
     [
       _c("div", { staticClass: "titulo" }, [
         _vm.destaqueAtivo

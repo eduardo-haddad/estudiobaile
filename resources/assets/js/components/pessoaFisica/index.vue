@@ -17,7 +17,7 @@
             </nav>
         </div>
 
-        <div class="detalhe" :class="{ loading: !item_carregado, loaded: item_carregado }">
+        <div class="detalhe">
             <router-view></router-view>
         </div>
     </div>
@@ -29,20 +29,23 @@
     import { eventBus } from '../../estudiobaile';
 
     export default {
+        updated(){console.log(`updated`);},
         created() {
             //carrega lista
+            console.log(`created`);
             this.getLista();
         },
         mounted() {
+            console.log(`mounted`);
             //highlight menu principal
+            console.log(`highlight_menu en created`);
             this.highlight_menu();
 
             //evento - pessoa física carregada
-            eventBus.$on('getPessoaFisica', (id) => this.getLista(id));
+            eventBus.$on('getPessoaFisica', () => {});
 
             //evento - página de criação de pessoa física
             eventBus.$on('pessoaFisicaCreate', () => {
-                this.item_carregado = true;
                 this.create = true;
             });
 
@@ -55,7 +58,7 @@
             });
 
             //evento - mudança de pessoa física
-            eventBus.$on('changePessoaFisica', () => this.item_carregado = false);
+            eventBus.$on('changePessoaFisica', () => {});
         },
         watch: {
             '$route' () {
@@ -69,7 +72,6 @@
                 busca: '',
                 //Condicionais
                 item_selecionado: false,
-                item_carregado: false,
                 primeiro_load: true,
                 create: false,
             }
@@ -86,7 +88,9 @@
                 axios.get('/ajax/pf/index')
                     .then(res => this.pessoas = res.data)
                     .then(() => this.highlight_menu)
-                    .then(() => this.scrollOnLoad(id));
+                    .then(() => {
+                        if(typeof id !== "undefined") this.scrollOnLoad(id);
+                    })
             },
             itemAtual: (id_pessoa, id_rota) => {
                 this.item_selecionado = parseInt(id_pessoa, 10) === parseInt(id_rota, 10);
@@ -101,7 +105,6 @@
                 if(this.primeiro_load) this.primeiro_load = false;
                 if(this.create) this.create = false;
                 if(this.primeiro_load || this.create) this.scroll(id);
-                this.item_carregado = true;
             },
             highlight_menu: () => {
                 const menu = document.getElementById('menu_principal');

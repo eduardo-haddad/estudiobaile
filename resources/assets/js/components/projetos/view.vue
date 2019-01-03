@@ -1,6 +1,6 @@
 <template v-if="this.projeto">
 
-    <div id="container_conteudo" class="formulario">
+    <div id="container_conteudo" class="formulario" :class="{ loading: !item_carregado, loaded: item_carregado }">
 
         <div class="titulo">
             <div v-if="destaqueAtivo" class="imagem_destaque">
@@ -277,7 +277,8 @@
                 //Condicionais
                 mostraChancelaPfBox: false,
                 mostraChancelaPjBox: false,
-                destaqueAtivo: false
+                destaqueAtivo: false,
+                item_carregado: false
             }
         },
         watch: {
@@ -290,19 +291,22 @@
         computed: {},
         methods: {
             getProjeto: function(id){
+                this.item_carregado = false;
                 this.imagem_destaque = `${this.root}/img/perfil_vazio.png`;
-                axios.get('/ajax/projetos/' + id).then(res => {
-                    eventBus.$emit('getProjeto', this.$route.params.id);
-                    let dados = res.data;
-                    this.projeto = dados.projeto;
-                    this.arquivos = dados.arquivos;
-                    this.pessoas_fisicas_chancelas_relacionadas = dados.pessoas_fisicas_chancelas_relacionadas;
-                    this.pessoas_juridicas_chancelas_relacionadas = dados.pessoas_juridicas_chancelas_relacionadas;
-                    this.atributos = dados.atributos;
+                axios.get('/ajax/projetos/' + id)
+                    .then(res => {
+                        eventBus.$emit('getProjeto', this.$route.params.id);
+                        let dados = res.data;
+                        this.projeto = dados.projeto;
+                        this.arquivos = dados.arquivos;
+                        this.pessoas_fisicas_chancelas_relacionadas = dados.pessoas_fisicas_chancelas_relacionadas;
+                        this.pessoas_juridicas_chancelas_relacionadas = dados.pessoas_juridicas_chancelas_relacionadas;
+                        this.atributos = dados.atributos;
 
-                    //imagem de destaque
-                    this.getImagemDestaque();
-                } );
+                        //imagem de destaque
+                        this.getImagemDestaque();
+                    })
+                    .then(() => this.item_carregado = true);
             },
             salvaForm: function(){
                 axios.post('/ajax/projetos/save', {

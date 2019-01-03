@@ -1649,7 +1649,7 @@ html.lb-disable-scrolling {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
   opacity: 1;
 }
-a:hover, #app #principal #conteudo_geral .detalhe.loading, #app #principal #conteudo_geral .detalhe.loaded {
+a:hover, #app #principal #conteudo_geral #container_conteudo.loading, #app #principal #conteudo_geral #container_conteudo.loaded {
   text-decoration: none;
   -webkit-transition-property: all;
   transition-property: all;
@@ -1657,7 +1657,7 @@ a:hover, #app #principal #conteudo_geral .detalhe.loading, #app #principal #cont
   transition-timing-function: cubic-bezier(0.165, 0.63, 0.14, 0.82);
 }
 
-a:hover, #app #principal #conteudo_geral .detalhe.loading, #app #principal #conteudo_geral .detalhe.loaded {
+a:hover, #app #principal #conteudo_geral #container_conteudo.loading, #app #principal #conteudo_geral #container_conteudo.loaded {
   -webkit-transition-duration: 0.18s;
           transition-duration: 0.18s;
 }
@@ -2403,6 +2403,14 @@ hr {
   margin-right: 5px;
 }
 
+#app #principal #conteudo_geral #container_conteudo.loading {
+  opacity: 0.2;
+}
+
+#app #principal #conteudo_geral #container_conteudo.loaded {
+  opacity: 1;
+}
+
 #app #principal #conteudo_geral .busca_lista {
   width: 300px;
   display: inline-block;
@@ -2574,14 +2582,6 @@ hr {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   padding: 45px 50px 70px 50px;
-}
-
-#app #principal #conteudo_geral .detalhe.loading {
-  opacity: 0.2;
-}
-
-#app #principal #conteudo_geral .detalhe.loaded {
-  opacity: 1;
 }
 
 /**

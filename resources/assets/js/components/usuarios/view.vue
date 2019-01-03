@@ -1,6 +1,6 @@
 <template v-if="this.usuario">
 
-    <div id="container_conteudo" class="formulario">
+    <div id="container_conteudo" class="formulario" :class="{ loading: !item_carregado, loaded: item_carregado }">
 
         <div class="titulo">
             <div v-if="destaqueAtivo" class="imagem_destaque">
@@ -170,7 +170,8 @@
                 nova_senha: '',
                 //Condicionais
                 usuario_atual_logado: false,
-                destaqueAtivo: false
+                destaqueAtivo: false,
+                item_carregado: false
             }
         },
         watch: {
@@ -182,22 +183,24 @@
         computed: {},
         methods: {
             getUsuario: function(id){
+                this.item_carregado = false;
                 this.imagem_destaque = `${this.root}/img/perfil_vazio.png`;
-                axios.get('/ajax/usuarios/' + id).then(res => {
-                    eventBus.$emit('getUsuario', this.$route.params.id);
-                    let dados = res.data;
-                    this.usuario = dados.usuario;
-                    this.funcao = dados.funcao;
-                    this.arquivos = dados.arquivos;
-                    this.atributos = dados.atributos;
-                    //imagem de destaque
-                    this.getImagemDestaque();
-                    //atual
-                    // this.usuarioAtualLogado(this.usuario.id);
-                    this.usuario_atual_logado = parseInt(id, 10) === parseInt(this.usuario_logado, 10);
-                    //console.log(`usuario_logado: ${this.usuario_logado} / usuario_atual_logado: ${this.usuario_atual_logado}`);
-
-                });
+                axios.get('/ajax/usuarios/' + id)
+                    .then(res => {
+                        eventBus.$emit('getUsuario', this.$route.params.id);
+                        let dados = res.data;
+                        this.usuario = dados.usuario;
+                        this.funcao = dados.funcao;
+                        this.arquivos = dados.arquivos;
+                        this.atributos = dados.atributos;
+                        //imagem de destaque
+                        this.getImagemDestaque();
+                        //atual
+                        // this.usuarioAtualLogado(this.usuario.id);
+                        this.usuario_atual_logado = parseInt(id, 10) === parseInt(this.usuario_logado, 10);
+                        //console.log(`usuario_logado: ${this.usuario_logado} / usuario_atual_logado: ${this.usuario_atual_logado}`);
+                    })
+                    .then(() => this.item_carregado = true);
             },
             // usuarioAtualLogado: function(id = 0){
             //     this.usuario_atual_logado = parseInt(id, 10) === parseInt(this.usuario_logado, 10);

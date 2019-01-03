@@ -1,8 +1,8 @@
 <template>
 
-    <div class="detalhe" :class="{ loading: !item_carregado, loaded: item_carregado }" style="width: 100%; border-left: 1px solid #babcbd;">
+    <div class="detalhe" style="width: 100%; border-left: 1px solid #babcbd;">
 
-        <div id="container_conteudo" class="formulario">
+        <div id="container_conteudo" class="formulario" :class="{ loading: !item_carregado, loaded: item_carregado }">
 
             <div class="titulo">
                 <div class="nome" style="padding-left: 0;">
@@ -165,15 +165,17 @@
         computed: {},
         methods: {
             getInterna: function(){
-                axios.get('/ajax/interna/getInterna').then(res => {
-                    // eventBus.$emit('getInterna');
-                    let dados = res.data;
-                    this.item_carregado = true;
-                    this.conteudoEditor = dados.conteudoEditor;
-                    this.arquivos = dados.arquivos;
+                this.item_carregado = false;
+                axios.get('/ajax/interna/getInterna')
+                    .then(res => {
+                        // eventBus.$emit('getInterna');
+                        let dados = res.data;
+                        this.conteudoEditor = dados.conteudoEditor;
+                        this.arquivos = dados.arquivos;
 
-                    document.querySelector('#editor').children[0].innerHTML = this.conteudoEditor;
-                });
+                        document.querySelector('#editor').children[0].innerHTML = this.conteudoEditor;
+                    })
+                    .then(() => this.item_carregado = true);
             },
             salvaForm: function(){
                 this.item_carregado = false;

@@ -17,7 +17,7 @@
             </nav>
         </div>
 
-        <div class="detalhe" :class="{ loading: !item_carregado, loaded: item_carregado }">
+        <div class="detalhe">
             <router-view></router-view>
         </div>
     </div>
@@ -42,7 +42,6 @@
 
             //evento - página de criação de pessoa física
             eventBus.$on('usuarioCreate', () => {
-                this.item_carregado = true;
                 this.create = true;
             });
 
@@ -55,7 +54,7 @@
             });
 
             //evento - mudança de usuario
-            eventBus.$on('changeUsuario', () => this.item_carregado = false);
+            eventBus.$on('changeUsuario', () => {});
             //evento - usuario removido - atualiza lista de usuarios
             eventBus.$on('usuarioRemovido', (usuarios) => this.usuarios = usuarios);
         },
@@ -71,7 +70,6 @@
                 busca: '',
                 //Condicionais
                 item_selecionado: false,
-                item_carregado: false,
                 primeiro_load: true,
                 create: false,
             }
@@ -103,7 +101,6 @@
                 if(this.primeiro_load) this.primeiro_load = false;
                 if(this.create) this.create = false;
                 if(this.primeiro_load || this.create) this.scroll(id);
-                this.item_carregado = true;
             },
             highlight_menu: () => {
                 const menu = document.getElementById('menu_principal');

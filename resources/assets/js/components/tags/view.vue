@@ -1,6 +1,6 @@
 <template v-if="this.tag">
 
-    <div id="container_conteudo" class="formulario">
+    <div id="container_conteudo" class="formulario" :class="{ loading: !item_carregado, loaded: item_carregado }">
 
         <div class="titulo">
             <div class="nome" style="padding-left: 0;">
@@ -89,6 +89,8 @@
                 pessoas_juridicas_relacionadas: [],
                 //Campos de inclusão
                 root: '',
+                //Condicionais
+                item_carregado: false
             }
         },
         watch: {
@@ -100,12 +102,15 @@
         computed: {},
         methods: {
             getTag: function(id){
-                axios.get('/ajax/tags/' + id).then(res => {
-                    eventBus.$emit('getTag', this.$route.params.id);
-                    this.tag = res.data['tag'];
-                    this.pessoas_fisicas_relacionadas = res.data['pessoas_fisicas_relacionadas'];
-                    this.pessoas_juridicas_relacionadas = res.data['pessoas_juridicas_relacionadas'];
-                } );
+                this.item_carregado = false;
+                axios.get('/ajax/tags/' + id)
+                    .then(res => {
+                        eventBus.$emit('getTag', this.$route.params.id);
+                        this.tag = res.data['tag'];
+                        this.pessoas_fisicas_relacionadas = res.data['pessoas_fisicas_relacionadas'];
+                        this.pessoas_juridicas_relacionadas = res.data['pessoas_juridicas_relacionadas'];
+                    })
+                    .then(() => this.item_carregado = true);
             },
             removeTag: function(pessoa_id, tipo){
                 axios.post('/ajax/tags/ajaxRemoveTag/' + this.tag.id, {
