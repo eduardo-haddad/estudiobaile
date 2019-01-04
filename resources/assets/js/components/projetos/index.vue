@@ -85,7 +85,9 @@
                 axios.get('/ajax/projetos/index')
                     .then(res => this.projetos = res.data)
                     .then(() => this.highlight_menu)
-                    .then(() => this.scrollOnLoad(id));
+                    .then(() => {
+                        if(typeof id !== "undefined") this.scrollOnLoad(id);
+                    })
             },
             itemAtual: (id_pessoa, id_rota) => {
                 this.item_selecionado = parseInt(id_pessoa, 10) === parseInt(id_rota, 10);

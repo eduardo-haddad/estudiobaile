@@ -49,9 +49,7 @@ class PessoaFisicaController extends Controller
     public function ajaxView($id)
     {
         $pessoa_fisica = PessoaFisica::find($id);
-        $pessoas_juridicas = PessoaJuridica::all();
         $pessoas_juridicas_relacionadas = PessoaFisica::getPessoasJuridicasRelacionadasPorId($id);
-        $chancelas_pj = Cargo::all();
 
         //Gênero
         $genero = !empty($pessoa_fisica->genero_id) ? Genero::find($pessoa_fisica->genero_id)->valor : null;
@@ -91,15 +89,14 @@ class PessoaFisicaController extends Controller
             'dados_bancarios' => $dados_bancarios,
             'tags' => $tags,
             'pessoas_juridicas_relacionadas' => $pessoas_juridicas_relacionadas,
-            //'pessoas_juridicas' => $pessoas_juridicas,
             'projetos' => $projetos,
             'atributos' => [
-                'pessoas_juridicas' => $pessoas_juridicas,
-                'chancelas_pj' => $chancelas_pj,
+                'pessoas_juridicas' => PessoaJuridica::all(),
+                'chancelas_pj' => Cargo::all(),
                 'tipos_contato' => TipoContato::all(),
                 'generos' => Genero::all(),
                 'estados_civis' => EstadoCivil::all(),
-                'tipos_conta_bancaria' => TipoContaBancaria::all(),
+                'tipos_conta_bancaria' => TipoContaBancaria::all()
             ]
         ];
     }

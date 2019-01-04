@@ -50636,7 +50636,7 @@ var _this4 = this;
             }).then(function () {
                 return _this3.highlight_menu;
             }).then(function () {
-                return _this3.scrollOnLoad(id);
+                if (typeof id !== "undefined") _this3.scrollOnLoad(id);
             });
         },
         itemAtual: function itemAtual(id_pessoa, id_rota) {
@@ -51161,6 +51161,64 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -51185,6 +51243,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             //Models
             pessoa: {},
             tags: [],
+            dados_bancarios: [],
             contatos: [],
             enderecos: [],
             arquivos: [],
@@ -51249,6 +51308,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 _this.contatos = dados.contatos;
                 _this.enderecos = dados.enderecos;
                 _this.arquivos = dados.arquivos;
+                _this.dados_bancarios = dados.dados_bancarios;
                 _this.projetos = dados.projetos;
                 _this.atributos = dados.atributos;
                 _this.pessoas_fisicas_cargos_relacionados = dados.pessoas_fisicas_cargos_relacionados;
@@ -51265,7 +51325,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             axios.post('/ajax/pj/save', {
                 pessoa: this.pessoa,
                 tags: this.tags_atuais,
-                arquivos: this.arquivos
+                arquivos: this.arquivos,
+                dados_bancarios: this.dados_bancarios
             }).then(function (res) {
                 _this2.pessoa = res.data;
                 __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$emit('foiSalvoPessoaJuridica', _this2.pessoa);
@@ -53186,6 +53247,399 @@ var render = function() {
                   [_vm._v("[+]")]
                 )
               ])
+            : _vm._e(),
+          _vm._v(" "),
+          _c("hr"),
+          _vm._v(" "),
+          _c("span", { staticClass: "titulo_bloco" }, [
+            _vm._v("Dados bancários")
+          ]),
+          _vm._v(" "),
+          _vm._l(_vm.dados_bancarios, function(dado_bancario, index) {
+            return _c("div", [
+              _c("span", { staticClass: "titulo_bloco" }, [
+                _vm._v("# " + _vm._s(index + 1) + ":")
+              ]),
+              _vm._v(" "),
+              _c(
+                "a",
+                {
+                  on: {
+                    click: function($event) {
+                      _vm.removeDadosBancarios(dado_bancario.id)
+                    }
+                  }
+                },
+                [_vm._v("X")]
+              ),
+              _vm._v(" "),
+              _c("br"),
+              _vm._v(" "),
+              _c("div", { staticClass: "valor" }, [
+                _c("span", { staticClass: "campo" }, [_vm._v("Banco")]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: dado_bancario.nome_banco,
+                      expression: "dado_bancario.nome_banco"
+                    }
+                  ],
+                  attrs: {
+                    autocomplete: "off",
+                    type: "text",
+                    placeholder: " ",
+                    name: "dado_bancario.nome_banco"
+                  },
+                  domProps: { value: dado_bancario.nome_banco },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(dado_bancario, "nome_banco", $event.target.value)
+                    }
+                  }
+                })
+              ]),
+              _c("br"),
+              _vm._v(" "),
+              _c("div", { staticClass: "valor" }, [
+                _c("span", { staticClass: "campo" }, [_vm._v("Agência")]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: dado_bancario.agencia,
+                      expression: "dado_bancario.agencia"
+                    }
+                  ],
+                  attrs: {
+                    autocomplete: "off",
+                    type: "text",
+                    placeholder: " ",
+                    name: "dado_bancario.agencia"
+                  },
+                  domProps: { value: dado_bancario.agencia },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(dado_bancario, "agencia", $event.target.value)
+                    }
+                  }
+                })
+              ]),
+              _c("br"),
+              _vm._v(" "),
+              _c("div", { staticClass: "valor" }, [
+                _c("span", { staticClass: "campo" }, [_vm._v("Conta")]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: dado_bancario.conta,
+                      expression: "dado_bancario.conta"
+                    }
+                  ],
+                  attrs: {
+                    autocomplete: "off",
+                    type: "text",
+                    placeholder: " ",
+                    name: "dado_bancario.conta"
+                  },
+                  domProps: { value: dado_bancario.conta },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(dado_bancario, "conta", $event.target.value)
+                    }
+                  }
+                })
+              ]),
+              _c("br"),
+              _vm._v(" "),
+              _c("div", { staticClass: "valor" }, [
+                _c("span", { staticClass: "campo" }, [_vm._v("Tipo")]),
+                _vm._v(" "),
+                _c(
+                  "select",
+                  {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: dado_bancario.tipo_conta_id,
+                        expression: "dado_bancario.tipo_conta_id"
+                      }
+                    ],
+                    attrs: { name: "dado_bancario.tipo_conta_id" },
+                    on: {
+                      change: function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.$set(
+                          dado_bancario,
+                          "tipo_conta_id",
+                          $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        )
+                      }
+                    }
+                  },
+                  _vm._l(_vm.atributos.tipos_conta_bancaria, function(
+                    tipo_conta
+                  ) {
+                    return _c(
+                      "option",
+                      { domProps: { value: tipo_conta.id } },
+                      [
+                        _vm._v(
+                          "\n                        " +
+                            _vm._s(tipo_conta.valor) +
+                            "\n                    "
+                        )
+                      ]
+                    )
+                  })
+                )
+              ]),
+              _c("br"),
+              _c("br")
+            ])
+          }),
+          _vm._v(" "),
+          _c(
+            "a",
+            {
+              staticClass: "link_abrir_box",
+              on: {
+                click: function($event) {
+                  _vm.mostraDadosBancariosBox = !_vm.mostraDadosBancariosBox
+                }
+              }
+            },
+            [_vm._v("[adicionar dados bancários]")]
+          ),
+          _vm._v(" "),
+          _vm.mostraDadosBancariosBox
+            ? _c("div", [
+                _c("span", { staticClass: "campo" }, [
+                  _vm._v("--- Novos Dados Bancários")
+                ]),
+                _c("br"),
+                _vm._v(" "),
+                _c("div", { staticClass: "valor" }, [
+                  _c("span", { staticClass: "campo" }, [_vm._v("Banco")]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.novos_dados_bancarios.nome_banco,
+                        expression: "novos_dados_bancarios.nome_banco"
+                      }
+                    ],
+                    attrs: {
+                      autocomplete: "off",
+                      type: "text",
+                      placeholder: " ",
+                      name: "novos_dados_bancarios.nome_banco"
+                    },
+                    domProps: { value: _vm.novos_dados_bancarios.nome_banco },
+                    on: {
+                      input: [
+                        function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.novos_dados_bancarios,
+                            "nome_banco",
+                            $event.target.value
+                          )
+                        },
+                        function($event) {
+                          _vm.novos_dados_bancarios.nome_banco =
+                            $event.target.value
+                        }
+                      ]
+                    }
+                  })
+                ]),
+                _c("br"),
+                _vm._v(" "),
+                _c("div", { staticClass: "valor" }, [
+                  _c("span", { staticClass: "campo" }, [_vm._v("Agência")]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.novos_dados_bancarios.agencia,
+                        expression: "novos_dados_bancarios.agencia"
+                      }
+                    ],
+                    attrs: {
+                      autocomplete: "off",
+                      type: "text",
+                      placeholder: " ",
+                      name: "novos_dados_bancarios.agencia"
+                    },
+                    domProps: { value: _vm.novos_dados_bancarios.agencia },
+                    on: {
+                      input: [
+                        function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.novos_dados_bancarios,
+                            "agencia",
+                            $event.target.value
+                          )
+                        },
+                        function($event) {
+                          _vm.novos_dados_bancarios.agencia =
+                            $event.target.value
+                        }
+                      ]
+                    }
+                  })
+                ]),
+                _c("br"),
+                _vm._v(" "),
+                _c("div", { staticClass: "valor" }, [
+                  _c("span", { staticClass: "campo" }, [_vm._v("Conta")]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.novos_dados_bancarios.conta,
+                        expression: "novos_dados_bancarios.conta"
+                      }
+                    ],
+                    attrs: {
+                      autocomplete: "off",
+                      type: "text",
+                      placeholder: " ",
+                      name: "novos_dados_bancarios.conta"
+                    },
+                    domProps: { value: _vm.novos_dados_bancarios.conta },
+                    on: {
+                      input: [
+                        function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.novos_dados_bancarios,
+                            "conta",
+                            $event.target.value
+                          )
+                        },
+                        function($event) {
+                          _vm.novos_dados_bancarios.conta = $event.target.value
+                        }
+                      ]
+                    }
+                  })
+                ]),
+                _c("br"),
+                _vm._v(" "),
+                _c("div", { staticClass: "valor" }, [
+                  _c("span", { staticClass: "campo" }, [_vm._v("Tipo")]),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.novos_dados_bancarios.tipo_conta_id,
+                          expression: "novos_dados_bancarios.tipo_conta_id"
+                        }
+                      ],
+                      attrs: { name: "dado_bancario.tipo_conta_id" },
+                      on: {
+                        change: [
+                          function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.$set(
+                              _vm.novos_dados_bancarios,
+                              "tipo_conta_id",
+                              $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            )
+                          },
+                          function($event) {
+                            _vm.novos_dados_bancarios.tipo_conta_id =
+                              $event.target.value
+                          }
+                        ]
+                      }
+                    },
+                    _vm._l(_vm.atributos.tipos_conta_bancaria, function(
+                      tipo_conta
+                    ) {
+                      return _c(
+                        "option",
+                        { domProps: { value: tipo_conta.id } },
+                        [
+                          _vm._v(
+                            "\n                        " +
+                              _vm._s(tipo_conta.valor) +
+                              "\n                    "
+                          )
+                        ]
+                      )
+                    })
+                  )
+                ]),
+                _c("br"),
+                _vm._v(" "),
+                _c(
+                  "a",
+                  {
+                    on: {
+                      click: function($event) {
+                        $event.preventDefault()
+                        return _vm.adicionaDadosBancarios($event)
+                      }
+                    }
+                  },
+                  [_vm._v("[+]")]
+                )
+              ])
             : _vm._e()
         ],
         2
@@ -53646,7 +54100,7 @@ var _this4 = this;
             }).then(function () {
                 return _this3.highlight_menu;
             }).then(function () {
-                return _this3.scrollOnLoad(id);
+                if (typeof id !== "undefined") _this3.scrollOnLoad(id);
             });
         },
         itemAtual: function itemAtual(id_pessoa, id_rota) {
@@ -56865,7 +57319,7 @@ var _this4 = this;
             }).then(function () {
                 return _this3.highlight_menu;
             }).then(function () {
-                return _this3.scrollOnLoad(id);
+                if (typeof id !== "undefined") _this3.scrollOnLoad(id);
             });
         },
         itemAtual: function itemAtual(id_usuario, id_rota) {

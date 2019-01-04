@@ -10,6 +10,7 @@ use App\Cargo;
 use App\Contato;
 use App\Endereco;
 use App\DadoBancario;
+use App\TipoContaBancaria;
 use App\Arquivo;
 
 class PessoaJuridicaController extends Controller
@@ -41,9 +42,7 @@ class PessoaJuridicaController extends Controller
     public function ajaxView($id)
     {
         $pessoa_juridica = PessoaJuridica::find($id);
-        $pessoas_fisicas = PessoaFisica::all();
         $pessoas_fisicas_cargos_relacionados = PessoaJuridica::getPessoasFisicasRelacionadas($id);
-        $cargos_pf = Cargo::all();
 
         //Contatos
         $contatos = $pessoa_juridica->contatos()->get();
@@ -53,6 +52,9 @@ class PessoaJuridicaController extends Controller
 
         //Arquivos
         $arquivos = $pessoa_juridica->arquivos()->get();
+
+        //Dados Bancários
+        $dados_bancarios = $pessoa_juridica->dados_bancarios()->get();
 
         //Tags
         $tags = Tag::all();
@@ -67,10 +69,12 @@ class PessoaJuridicaController extends Controller
             'contatos' => $contatos,
             'enderecos' => $enderecos,
             'arquivos' => $arquivos,
+            'dados_bancarios' => $dados_bancarios,
             'projetos' => $projetos,
             'atributos' => [
-                'cargos_pf' => $cargos_pf,
-                'pessoas_fisicas' => $pessoas_fisicas,
+                'cargos_pf' => Cargo::all(),
+                'pessoas_fisicas' => PessoaFisica::all(),
+                'tipos_conta_bancaria' => TipoContaBancaria::all()
             ]
         ];
     }
@@ -80,6 +84,7 @@ class PessoaJuridicaController extends Controller
         $request['pessoa'] = request('pessoa');
         $request['tags'] = request('tags');
         $request['arquivos'] = request('arquivos');
+        $request['dados_bancarios'] = request('dados_bancarios');
 
         //Pessoa Física
         $pessoa_juridica = (new PessoaJuridica)->find($request['pessoa']['id']);
@@ -106,6 +111,17 @@ class PessoaJuridicaController extends Controller
                 }
             endforeach;
             $arquivo_atual->save();
+        endforeach;
+
+        //Dados Bancários
+        foreach($request['dados_bancarios'] as $k => $dados_bancarios):
+            $dados_atuais = DadoBancario::find($dados_bancarios['id']);
+            foreach(json_decode($dados_atuais) as $chave_dados => $valor_dados):
+                if(!empty($request['dados_bancarios'][$k][$chave_dados])) {
+                    $dados_atuais->$chave_dados = $request['dados_bancarios'][$k][$chave_dados];
+                }
+            endforeach;
+            $dados_atuais->save();
         endforeach;
 
         //Tags
@@ -318,7 +334,7 @@ class PessoaJuridicaController extends Controller
             return $e->getMessage();
         }
 
-        $pessoa_juridica = (new PessoaJuridica)->find($pessoa_id);
+        $pessoa_juridica = PessoaJuridica::find($pessoa_id);
         $pessoa_juridica->dados_bancarios()->attach($novos_dados_bancarios->id);
 
         $todos_dados_bancarios = $pessoa_juridica->dados_bancarios()->get();
@@ -331,8 +347,8 @@ class PessoaJuridicaController extends Controller
         $dados_bancarios_id = request('dados_bancarios_id');
         $pessoa_id = request('pessoa_id');
 
-        $dados_bancarios = (new DadoBancario)->find($dados_bancarios_id);
-        $pessoa = (new PessoaFisica)->find($pessoa_id);
+        $dados_bancarios = DadoBancario::find($dados_bancarios_id);
+        $pessoa = PessoaJuridica::find($pessoa_id);
 
         try {
             $pessoa->dados_bancarios()->detach($dados_bancarios_id);

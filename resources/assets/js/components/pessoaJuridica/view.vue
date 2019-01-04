@@ -347,6 +347,64 @@
 
             </div>
 
+            <hr>
+
+            <!-- Dados Bancários -->
+            <span class="titulo_bloco">Dados bancários</span>
+
+            <div v-for="(dado_bancario, index) in dados_bancarios">
+                <span class="titulo_bloco"># {{index+1}}:</span> <a @click="removeDadosBancarios(dado_bancario.id)">X</a> <br>
+                <div class="valor">
+                    <span class="campo">Banco</span>
+                    <input autocomplete="off" type="text" placeholder=" " name="dado_bancario.nome_banco" v-model="dado_bancario.nome_banco" />
+                </div><br>
+                <div class="valor">
+                    <span class="campo">Agência</span>
+                    <input autocomplete="off" type="text" placeholder=" " name="dado_bancario.agencia" v-model="dado_bancario.agencia" />
+                </div><br>
+                <div class="valor">
+                    <span class="campo">Conta</span>
+                    <input autocomplete="off" type="text" placeholder=" " name="dado_bancario.conta" v-model="dado_bancario.conta" />
+                </div><br>
+                <div class="valor">
+                    <span class="campo">Tipo</span>
+                    <select name="dado_bancario.tipo_conta_id" v-model="dado_bancario.tipo_conta_id">
+                        <option v-for="tipo_conta in atributos.tipos_conta_bancaria" :value="tipo_conta.id">
+                            {{ tipo_conta.valor }}
+                        </option>
+                    </select>
+                </div><br><br>
+
+            </div>
+            <!-- Add novos dados bancários -->
+            <a @click="mostraDadosBancariosBox = !mostraDadosBancariosBox" class="link_abrir_box">[adicionar dados bancários]</a>
+            <div v-if="mostraDadosBancariosBox">
+                <span class="campo">--- Novos Dados Bancários</span><br>
+                <div class="valor">
+                    <span class="campo">Banco</span>
+                    <input @input="novos_dados_bancarios.nome_banco = $event.target.value" autocomplete="off" type="text" placeholder=" " name="novos_dados_bancarios.nome_banco" v-model="novos_dados_bancarios.nome_banco" />
+                </div><br>
+                <div class="valor">
+                    <span class="campo">Agência</span>
+                    <input @input="novos_dados_bancarios.agencia = $event.target.value" autocomplete="off" type="text" placeholder=" " name="novos_dados_bancarios.agencia" v-model="novos_dados_bancarios.agencia" />
+                </div><br>
+                <div class="valor">
+                    <span class="campo">Conta</span>
+                    <input @input="novos_dados_bancarios.conta = $event.target.value" autocomplete="off" type="text" placeholder=" " name="novos_dados_bancarios.conta" v-model="novos_dados_bancarios.conta" />
+                </div><br>
+                <div class="valor">
+                    <span class="campo">Tipo</span>
+                    <select @change="novos_dados_bancarios.tipo_conta_id = $event.target.value" name="dado_bancario.tipo_conta_id" v-model="novos_dados_bancarios.tipo_conta_id">
+                        <option v-for="tipo_conta in atributos.tipos_conta_bancaria" :value="tipo_conta.id">
+                            {{ tipo_conta.valor }}
+                        </option>
+                    </select>
+                </div><br>
+
+                <a @click.prevent="adicionaDadosBancarios">[+]</a>
+
+            </div>
+
         </div>
 
         <hr>
@@ -382,6 +440,7 @@
                 //Models
                 pessoa: {},
                 tags: [],
+                dados_bancarios: [],
                 contatos: [],
                 enderecos: [],
                 arquivos: [],
@@ -440,6 +499,7 @@
                         this.contatos = dados.contatos;
                         this.enderecos = dados.enderecos;
                         this.arquivos = dados.arquivos;
+                        this.dados_bancarios = dados.dados_bancarios;
                         this.projetos = dados.projetos;
                         this.atributos = dados.atributos;
                         this.pessoas_fisicas_cargos_relacionados = dados.pessoas_fisicas_cargos_relacionados;
@@ -454,6 +514,7 @@
                     pessoa: this.pessoa,
                     tags: this.tags_atuais,
                     arquivos: this.arquivos,
+                    dados_bancarios: this.dados_bancarios,
                 }).then(res => {
                     this.pessoa = res.data;
                     eventBus.$emit('foiSalvoPessoaJuridica', this.pessoa);

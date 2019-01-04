@@ -49,6 +49,11 @@ class PessoaJuridica extends Model
         return $this->belongsToMany('App\Arquivo', 'arquivos_relacionados', 'pessoa_juridica_id', 'arquivo_id');
     }
 
+    public function dados_bancarios()
+    {
+        return $this->belongsToMany('App\DadoBancario', 'pessoa_dados_bancarios', 'pessoa_juridica_id', 'dado_bancario_id');
+    }
+
     public function tags()
     {
         return $this->belongsToMany('App\Tag', 'pessoa_tag', 'pessoa_juridica_id', 'tag_id');
