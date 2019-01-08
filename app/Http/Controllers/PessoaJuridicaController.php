@@ -12,6 +12,7 @@ use App\Endereco;
 use App\DadoBancario;
 use App\TipoContaBancaria;
 use App\Arquivo;
+use App\Projeto;
 
 class PessoaJuridicaController extends Controller
 {
@@ -159,6 +160,87 @@ class PessoaJuridicaController extends Controller
 
         return $pessoa_juridica;
     }
+
+
+    public function ajaxDelete() {
+
+        $pessoa = PessoaJuridica::find(request('pessoa'));
+
+        //Dados bancários
+        $dados_bancarios = $pessoa->dados_bancarios()->get();
+        if(!$dados_bancarios->isEmpty()){
+            foreach($dados_bancarios as $dado_pessoa) {
+                $pessoa->dados_bancarios()->detach($dado_pessoa['id']);
+                $dado_bancario = DadoBancario::find($dado_pessoa['id']);
+                $dado_bancario->delete();
+            }
+        }
+
+        //Endereços
+        $enderecos = $pessoa->enderecos()->get();
+        if(!$enderecos->isEmpty()){
+            foreach($enderecos as $endereco_pessoa) {
+                $pessoa->enderecos()->detach($endereco_pessoa['id']);
+                $endereco = Endereco::find($endereco_pessoa['id']);
+                $endereco->delete();
+            }
+        }
+
+        //Tags
+        $tags = $pessoa->tags()->get();
+        if(!$tags->isEmpty()){
+            $pessoa->tags()->detach();
+            //Deleta tags não atribuídas a ninguém
+            $tags_nao_atribuidas = array_map(function($t){ return $t->id; }, Tag::getTagsNaoAtribuidas());
+            if(!empty($tags_nao_atribuidas)){
+                \DB::table('tags')->whereIn('id', $tags_nao_atribuidas)->delete();
+            }
+        }
+
+        //Contatos
+        $contatos = $pessoa->contatos()->get();
+        if(!$contatos->isEmpty()) $pessoa->contatos()->delete();
+
+        //Pessoas Físicas
+        $pf_relacionadas = PessoaJuridica::getPessoasFisicasRelacionadas(request('pessoa'));
+        if(!empty($pf_relacionadas)){
+            foreach($pf_relacionadas as $pf){
+                PessoaJuridica::removeCargoPf($pf->cargo_id, $pf->pessoa_fisica_id, request('pessoa'));
+            }
+        }
+
+        //Projetos
+        $projetos = $pessoa->projetos()->get();
+        if(!$projetos->isEmpty()){
+            foreach($projetos as $projeto){
+                $pessoas_projeto = Projeto::getPessoasDeProjetos($projeto['id'], null, true);
+                foreach($pessoas_projeto as $pessoa_projeto){
+                    if($pessoa_projeto->pessoa_id == request('pessoa')){
+                        Projeto::removeChancelaDeProjeto($projeto['id'], $pessoa_projeto->chancela_id, null, request('pessoa'));
+                    }
+                }
+            }
+        }
+
+        //Arquivos
+        $arquivos = $pessoa->arquivos()->get();
+        if(!$arquivos->isEmpty()){
+            foreach($arquivos as $arquivo){
+                $this->removeArquivo($arquivo['id'], request('pessoa'));
+            }
+        }
+
+        try {
+            $pessoa->delete();
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+
+        return PessoaJuridica::all();
+
+    }
+
+
 
     public function ajaxGetTagsSelecionadas($id) {
         $pessoa = PessoaJuridica::find($id);
@@ -445,11 +527,8 @@ class PessoaJuridicaController extends Controller
         return "Arquivo inválido";
 
     }
-
-    public function ajaxRemoveArquivo() {
-
-        $arquivo_id = request('arquivo_id');
-        $pessoa_id = request('pessoa_id');
+    
+    public function removeArquivo($arquivo_id, $pessoa_id){
 
         $arquivo = Arquivo::find($arquivo_id);
         $pessoa_juridica = PessoaJuridica::find($pessoa_id);
@@ -457,7 +536,7 @@ class PessoaJuridicaController extends Controller
         $caminho_arquivo = base_path() . "/public/uploads/pessoas_juridicas/$pessoa_id/" . $arquivo->nome;
 
         //Checa se arquivo relacionado tem destaque
-        $destaque = $this->checaDestaque($pessoa_id, $arquivo_id);
+        $destaque = PessoaJuridica::checaDestaque($pessoa_id, $arquivo_id);
 
         //Desabilita destaque se já existir
         $remove_destaque = false;
@@ -482,7 +561,19 @@ class PessoaJuridicaController extends Controller
             return $e->getMessage();
         }
 
-        $arquivos = $pessoa_juridica->arquivos()->get();
+        return $remove_destaque;
+    }
+    
+
+    public function ajaxRemoveArquivo() {
+
+        $arquivo_id = request('arquivo_id');
+        $pessoa_id = request('pessoa_id');
+
+        //removeArquivo() retorna true se remove destaque
+        $remove_destaque = $this->removeArquivo($arquivo_id, $pessoa_id);
+
+        $arquivos = PessoaJuridica::find($pessoa_id)->arquivos()->get();
 
         return [
             'arquivos' => $arquivos,
@@ -507,7 +598,7 @@ class PessoaJuridicaController extends Controller
         $dir_thumbs = base_path() . "/public/thumbs/pessoas_juridicas/$pessoa_id";
 
         //Checa se arquivo relacionado tem destaque
-        $destaque = $this->checaDestaque($pessoa_id, $arquivo_id);
+        $destaque = PessoaJuridica::checaDestaque($pessoa_id, $arquivo_id);
 
         //Desabilita thumb se já existir
         if(!empty($destaque) && $destaque[0]->destaque == 1) {
@@ -561,19 +652,6 @@ class PessoaJuridicaController extends Controller
         $destaque = PessoaJuridica::find(request('pessoa_id'))->arquivos()->where('destaque', 1)->first();
         return !empty($destaque) ? $destaque : "Destaque indisponível";
 
-    }
-
-    public function checaDestaque($pessoa_id, $arquivo_id) {
-        return \DB::select("
-            SELECT 
-                ArquivosRelacionados.destaque
-            FROM arquivos Arquivos
-                INNER JOIN arquivos_relacionados ArquivosRelacionados
-                ON Arquivos.id = ArquivosRelacionados.arquivo_id 
-                  AND ArquivosRelacionados.pessoa_juridica_id = $pessoa_id
-            WHERE ArquivosRelacionados.arquivo_id = $arquivo_id
-            LIMIT 1
-        ");
     }
 
 }

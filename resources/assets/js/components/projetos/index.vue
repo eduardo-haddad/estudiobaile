@@ -54,6 +54,11 @@
                 });
             });
 
+            //evento - projeto deletado
+            eventBus.$on('deleteProjeto', (projetos) => {
+                this.projetos = projetos;
+            });
+
             //evento - mudança de projeto
             eventBus.$on('changeProjeto', () => {});
         },

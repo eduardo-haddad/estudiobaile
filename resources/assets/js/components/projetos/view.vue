@@ -124,7 +124,7 @@
                             <tr>
                                 <th class="num_arquivo">#</th>
                                 <th class="nome_arquivo">Nome</th>
-                                <th class="descricao_arquivo">Cargo</th>
+                                <th class="descricao_arquivo">Chancela</th>
                                 <th class="destaque_arquivo"></th>
                                 <th class="tipo_arquivo"></th>
                                 <th class="data_arquivo"></th>
@@ -224,8 +224,9 @@
 
             <button @click.prevent="salvaForm">Salvar</button>
 
+            <hr>
 
-            <br>
+            <a @click.prevent="deleteProjeto" class="link_abrir_box delete">[deletar projeto]</a>
 
         </div>
 
@@ -317,6 +318,17 @@
                 }).then(res => {
                     this.projeto = res.data;
                     eventBus.$emit('foiSalvoProjeto', this.projeto);
+                });
+            },
+            deleteProjeto: function(){
+                axios.post('/ajax/projetos/delete', {
+                    projeto: this.$route.params.id,
+                }).then(res => {
+                    if(typeof res.data !== "string") {
+                        eventBus.$emit('deleteProjeto', res.data);
+                        this.$router.push({ name: 'projetos-index'});
+                    } else
+                        console.log('Erro ao deletar projeto');
                 });
             },
             adicionaChancela: function(isPf){

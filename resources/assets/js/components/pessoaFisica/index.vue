@@ -29,24 +29,25 @@
     import { eventBus } from '../../estudiobaile';
 
     export default {
-        updated(){console.log(`updated`);},
         created() {
             //carrega lista
-            console.log(`created`);
             this.getLista();
         },
         mounted() {
-            console.log(`mounted`);
             //highlight menu principal
-            console.log(`highlight_menu en created`);
             this.highlight_menu();
 
             //evento - pessoa física carregada
-            eventBus.$on('getPessoaFisica', () => {});
+            eventBus.$on('getPessoaFisica', (id) => this.getLista(id));
 
             //evento - página de criação de pessoa física
             eventBus.$on('pessoaFisicaCreate', () => {
                 this.create = true;
+            });
+
+            //evento - pessoa física deletada
+            eventBus.$on('deletePessoaFisica', (pessoas) => {
+                this.pessoas = pessoas;
             });
 
             //evento - registro salvo em pf-view

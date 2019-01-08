@@ -109,5 +109,18 @@ class PessoaJuridica extends Model
         ");
     }
 
+    public static function checaDestaque($pessoa_id, $arquivo_id) {
+        return \DB::select("
+            SELECT 
+                ArquivosRelacionados.destaque
+            FROM arquivos Arquivos
+                INNER JOIN arquivos_relacionados ArquivosRelacionados
+                ON Arquivos.id = ArquivosRelacionados.arquivo_id 
+                  AND ArquivosRelacionados.pessoa_juridica_id = $pessoa_id
+            WHERE ArquivosRelacionados.arquivo_id = $arquivo_id
+            LIMIT 1
+        ");
+    }
+
 
 }

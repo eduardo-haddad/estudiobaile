@@ -411,6 +411,10 @@
         <br>
         <button @click.prevent="salvaForm">Salvar</button>
 
+        <hr>
+
+        <a @click.prevent="deletePessoa" class="link_abrir_box delete">[deletar pessoa]</a>
+
 
     </div>
 
@@ -518,6 +522,17 @@
                 }).then(res => {
                     this.pessoa = res.data;
                     eventBus.$emit('foiSalvoPessoaJuridica', this.pessoa);
+                });
+            },
+            deletePessoa: function(){
+                axios.post('/ajax/pj/delete', {
+                    pessoa: this.$route.params.id,
+                }).then(res => {
+                    if(typeof res.data !== "string") {
+                        eventBus.$emit('deletePessoaJuridica', res.data);
+                        this.$router.push({ name: 'pj-index'});
+                    } else
+                        console.log('Erro ao deletar pessoa jurídica');
                 });
             },
             adicionaCargoPf: function(){

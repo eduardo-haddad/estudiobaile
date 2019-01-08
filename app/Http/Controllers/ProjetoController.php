@@ -132,6 +132,45 @@ class ProjetoController extends Controller
         return $projeto;
     }
 
+    public function ajaxDelete(){
+
+        $projeto = Projeto::find(request('projeto'));
+
+        //Arquivos
+        $arquivos = $projeto->arquivos()->get();
+        if(!$arquivos->isEmpty()){
+            foreach($arquivos as $arquivo){
+                $this->removeArquivo($arquivo['id'], request('projeto'));
+            }
+        }
+
+        //Pessoas físicas
+        $pessoas_fisicas_projeto = Projeto::getPessoasDeProjetos($projeto['id'], true, null);
+        foreach($pessoas_fisicas_projeto as $pf){
+            if(!Projeto::removeChancelaDeProjeto($projeto['id'], $pf->chancela_id, $pf->pessoa_id, null)){
+                return "Erro ao remover chancela";
+            }
+        }
+
+        //Pessoas jurídicas
+        $pessoas_juridicas_projeto = Projeto::getPessoasDeProjetos($projeto['id'], null, true);
+        foreach($pessoas_juridicas_projeto as $pj){
+            if(!Projeto::removeChancelaDeProjeto($projeto['id'], $pj->chancela_id, null, $pj->pessoa_id)){
+                return "Erro ao remover chancela";
+            }
+        }
+
+        try {
+            $projeto->delete();
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+
+        return Projeto::all();
+
+    }
+
+
     public function ajaxGetPfSelecionadas($id) {
 
         $projeto = (new Projeto)->find($id);
@@ -289,10 +328,7 @@ class ProjetoController extends Controller
 
     }
 
-    public function ajaxRemoveArquivo() {
-
-        $arquivo_id = request('arquivo_id');
-        $projeto_id = request('projeto_id');
+    public function removeArquivo($arquivo_id, $projeto_id){
 
         $arquivo = Arquivo::find($arquivo_id);
         $projeto = Projeto::find($projeto_id);
@@ -300,7 +336,7 @@ class ProjetoController extends Controller
         $caminho_arquivo = base_path() . "/public/uploads/projetos/$projeto_id/" . $arquivo->nome;
 
         //Checa se arquivo relacionado tem destaque
-        $destaque = $this->checaDestaque($projeto_id, $arquivo_id);
+        $destaque = Projeto::checaDestaque($projeto_id, $arquivo_id);
 
         //Desabilita destaque se já existir
         $remove_destaque = false;
@@ -325,7 +361,19 @@ class ProjetoController extends Controller
             return $e->getMessage();
         }
 
-        $arquivos = $projeto->arquivos()->get();
+        return $remove_destaque;
+    }
+
+
+    public function ajaxRemoveArquivo() {
+
+        $arquivo_id = request('arquivo_id');
+        $projeto_id = request('projeto_id');
+
+        //removeArquivo() retorna true se remove destaque
+        $remove_destaque = $this->removeArquivo($arquivo_id, $projeto_id);
+
+        $arquivos = Projeto::find($projeto_id)->arquivos()->get();
 
         return [
             'arquivos' => $arquivos,
@@ -350,7 +398,7 @@ class ProjetoController extends Controller
         $dir_thumbs = base_path() . "/public/thumbs/projetos/$projeto_id";
 
         //Checa se arquivo relacionado tem destaque
-        $destaque = $this->checaDestaque($projeto_id, $arquivo_id);
+        $destaque = Projeto::checaDestaque($projeto_id, $arquivo_id);
 
         //Desabilita thumb se já existir
         if(!empty($destaque) && $destaque[0]->destaque == 1) {
@@ -406,93 +454,6 @@ class ProjetoController extends Controller
 
     }
 
-    public function checaDestaque($projeto_id, $arquivo_id) {
-        return \DB::select("
-            SELECT 
-                ArquivosRelacionados.destaque
-            FROM arquivos Arquivos
-                INNER JOIN arquivos_relacionados ArquivosRelacionados
-                ON Arquivos.id = ArquivosRelacionados.arquivo_id 
-                  AND ArquivosRelacionados.projeto_id = $projeto_id
-            WHERE ArquivosRelacionados.arquivo_id = $arquivo_id
-            LIMIT 1
-        ");
-    }
 
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
+    
 }

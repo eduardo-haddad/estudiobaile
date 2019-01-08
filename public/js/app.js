@@ -46685,28 +46685,29 @@ var _this4 = this;
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    updated: function updated() {
-        console.log('updated');
-    },
     created: function created() {
         //carrega lista
-        console.log('created');
         this.getLista();
     },
     mounted: function mounted() {
         var _this = this;
 
-        console.log('mounted');
         //highlight menu principal
-        console.log('highlight_menu en created');
         this.highlight_menu();
 
         //evento - pessoa física carregada
-        __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$on('getPessoaFisica', function () {});
+        __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$on('getPessoaFisica', function (id) {
+            return _this.getLista(id);
+        });
 
         //evento - página de criação de pessoa física
         __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$on('pessoaFisicaCreate', function () {
             _this.create = true;
+        });
+
+        //evento - pessoa física deletada
+        __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$on('deletePessoaFisica', function (pessoas) {
+            _this.pessoas = pessoas;
         });
 
         //evento - registro salvo em pf-view
@@ -47405,6 +47406,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -47537,8 +47542,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$emit('foiSalvoPessoaFisica', _this2.pessoa);
             });
         },
-        adicionaChancelaPj: function adicionaChancelaPj() {
+        deletePessoa: function deletePessoa() {
             var _this3 = this;
+
+            axios.post('/ajax/pf/delete', {
+                pessoa: this.$route.params.id
+            }).then(function (res) {
+                if (typeof res.data !== "string") {
+                    __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$emit('deletePessoaFisica', res.data);
+                    _this3.$router.push({ name: 'pf-index' });
+                } else console.log('Erro ao deletar pessoa física');
+            });
+        },
+        adicionaChancelaPj: function adicionaChancelaPj() {
+            var _this4 = this;
 
             axios.post('/ajax/pf/ajaxAddChancelaPj', {
                 pessoa_fisica_id: this.$route.params.id,
@@ -47547,23 +47564,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             }).then(function (res) {
                 if (typeof res.data[0] !== "string") {
-                    _this3.pessoas_juridicas_relacionadas = res.data[0];
-                    _this3.atributos.chancelas = res.data[1];
-                    _this3.pessoa_juridica_id = '';
-                    _this3.nova_chancela = '';
-                    _this3.mostraChancelaPjBox = false;
+                    _this4.pessoas_juridicas_relacionadas = res.data[0];
+                    _this4.atributos.chancelas = res.data[1];
+                    _this4.pessoa_juridica_id = '';
+                    _this4.nova_chancela = '';
+                    _this4.mostraChancelaPjBox = false;
                 }
             });
         },
         removeChancelaPj: function removeChancelaPj(pessoa_juridica_id, chancela_id) {
-            var _this4 = this;
+            var _this5 = this;
 
             axios.post('/ajax/pf/ajaxRemoveChancelaPj', {
                 chancela: chancela_id,
                 pessoa_juridica_id: pessoa_juridica_id,
                 pessoa_fisica_id: this.$route.params.id
             }).then(function (res) {
-                _this4.pessoas_juridicas_relacionadas = res.data;
+                _this5.pessoas_juridicas_relacionadas = res.data;
             });
         },
         mostraChancelaPjBoxMetodo: function mostraChancelaPjBoxMetodo() {
@@ -47571,7 +47588,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.jQuery();
         },
         adicionaContato: function adicionaContato() {
-            var _this5 = this;
+            var _this6 = this;
 
             axios.post('/ajax/pf/addContato', {
                 pessoa_id: this.$route.params.id,
@@ -47580,80 +47597,80 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }).then(function (res) {
                 console.log(res.data);
                 if (typeof res.data !== "string") {
-                    _this5.contatos = res.data;
+                    _this6.contatos = res.data;
                 }
-                _this5.novo_email = '';
-                _this5.novo_telefone = '';
-                _this5.adicionaEmail = false;
-                _this5.adicionaTel = false;
+                _this6.novo_email = '';
+                _this6.novo_telefone = '';
+                _this6.adicionaEmail = false;
+                _this6.adicionaTel = false;
             });
         },
         removeContato: function removeContato(id) {
-            var _this6 = this;
+            var _this7 = this;
 
             axios.post('/ajax/pf/removeContato', {
                 contato_id: id,
                 pessoa_id: this.$route.params.id
             }).then(function (res) {
                 if (typeof res.data !== "string") {
-                    _this6.contatos = res.data;
+                    _this7.contatos = res.data;
                 }
             });
         },
         adicionaEndereco: function adicionaEndereco() {
-            var _this7 = this;
+            var _this8 = this;
 
             axios.post('/ajax/pf/addEndereco', {
                 pessoa_id: this.$route.params.id,
                 endereco: this.novo_endereco
             }).then(function (res) {
                 if (typeof res.data !== "string") {
-                    _this7.enderecos = res.data;
-                    _this7.novo_endereco = {};
-                    _this7.mostraEnderecoBox = false;
+                    _this8.enderecos = res.data;
+                    _this8.novo_endereco = {};
+                    _this8.mostraEnderecoBox = false;
                 }
             });
         },
         removeEndereco: function removeEndereco(id) {
-            var _this8 = this;
+            var _this9 = this;
 
             axios.post('/ajax/pf/removeEndereco', {
                 endereco_id: id,
                 pessoa_id: this.$route.params.id
             }).then(function (res) {
                 console.log(res.data);
-                _this8.enderecos = res.data;
+                _this9.enderecos = res.data;
             });
         },
         adicionaDadosBancarios: function adicionaDadosBancarios() {
-            var _this9 = this;
+            var _this10 = this;
 
             axios.post('/ajax/pf/addDadosBancarios', {
                 pessoa_id: this.$route.params.id,
                 dados_bancarios: this.novos_dados_bancarios
             }).then(function (res) {
                 if (typeof res.data !== "string") {
-                    _this9.dados_bancarios = res.data;
-                    _this9.novos_dados_bancarios = {};
-                    _this9.mostraDadosBancariosBox = false;
+                    _this10.dados_bancarios = res.data;
+                    _this10.novos_dados_bancarios = {};
+                    _this10.mostraDadosBancariosBox = false;
                 }
             });
         },
         removeDadosBancarios: function removeDadosBancarios(id) {
-            var _this10 = this;
+            var _this11 = this;
 
             axios.post('/ajax/pf/removeDadosBancarios', {
                 dados_bancarios_id: id,
                 pessoa_id: this.$route.params.id
             }).then(function (res) {
-                _this10.dados_bancarios = res.data;
+                _this11.dados_bancarios = res.data;
             });
         },
         selecionaTags: function selecionaTags(data) {
             //console.log(data);
         },
         upload: function upload() {
-            var _this11 = this;
+            var _this12 = this;
 
             var formData = new FormData();
             formData.append('arquivo', this.arquivo_atual);
@@ -47664,27 +47681,27 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 headers: { 'Content-Type': 'multipart/form-data' }
             }).then(function (res) {
                 if (typeof res.data !== "string") {
-                    _this11.mensagem_upload = res.data['mensagem_upload'];
-                    _this11.arquivos = res.data['arquivos'];
-                    _this11.arquivo_atual = {};
-                    _this11.descricao_arquivo = '';
-                    _this11.$refs.arquivo.value = '';
+                    _this12.mensagem_upload = res.data['mensagem_upload'];
+                    _this12.arquivos = res.data['arquivos'];
+                    _this12.arquivo_atual = {};
+                    _this12.descricao_arquivo = '';
+                    _this12.$refs.arquivo.value = '';
                 } else {
                     console.log('Arquivo inválido');
                 }
             });
         },
         removeArquivo: function removeArquivo(id) {
-            var _this12 = this;
+            var _this13 = this;
 
             axios.post('/ajax/pf/removeArquivo', {
                 arquivo_id: id,
                 pessoa_id: this.$route.params.id
             }).then(function (res) {
-                _this12.arquivos = res.data['arquivos'];
+                _this13.arquivos = res.data['arquivos'];
                 if (res.data['remove_destaque'] === true) {
-                    _this12.imagem_destaque = _this12.root + '/img/perfil_vazio.png';
-                    _this12.destaqueAtivo = false;
+                    _this13.imagem_destaque = _this13.root + '/img/perfil_vazio.png';
+                    _this13.destaqueAtivo = false;
                 }
             });
         },
@@ -47693,38 +47710,38 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
 
         setImagemDestaque: function setImagemDestaque(arquivo_id) {
-            var _this13 = this;
+            var _this14 = this;
 
             axios.post('/ajax/pf/setImagemDestaque', {
                 arquivo_id: arquivo_id,
                 pessoa_id: this.$route.params.id
             }).then(function (res) {
-                _this13.id_destaque = res.data['imagem_destaque']['id'];
-                _this13.arquivos = res.data['arquivos'];
-                if (_this13.id_destaque === 0) {
-                    _this13.imagem_destaque = _this13.root + '/img/perfil_vazio.png';
-                    _this13.destaqueAtivo = false;
+                _this14.id_destaque = res.data['imagem_destaque']['id'];
+                _this14.arquivos = res.data['arquivos'];
+                if (_this14.id_destaque === 0) {
+                    _this14.imagem_destaque = _this14.root + '/img/perfil_vazio.png';
+                    _this14.destaqueAtivo = false;
                 } else {
-                    _this13.imagem_destaque = _this13.root + '/thumbs/pessoas_fisicas/' + _this13.$route.params.id + '/' + res.data['imagem_destaque']['nome'];
-                    _this13.imagem_destaque_original = _this13.root + '/uploads/pessoas_fisicas/' + _this13.$route.params.id + '/' + res.data['imagem_destaque']['nome'];
-                    _this13.destaqueAtivo = true;
+                    _this14.imagem_destaque = _this14.root + '/thumbs/pessoas_fisicas/' + _this14.$route.params.id + '/' + res.data['imagem_destaque']['nome'];
+                    _this14.imagem_destaque_original = _this14.root + '/uploads/pessoas_fisicas/' + _this14.$route.params.id + '/' + res.data['imagem_destaque']['nome'];
+                    _this14.destaqueAtivo = true;
                 }
             });
         },
         getImagemDestaque: function getImagemDestaque() {
-            var _this14 = this;
+            var _this15 = this;
 
             axios.post('/ajax/pf/getImagemDestaque', {
                 pessoa_id: this.$route.params.id
             }).then(function (res) {
                 if (typeof res.data !== "string") {
-                    _this14.id_destaque = res.data.id;
-                    _this14.imagem_destaque = _this14.root + '/thumbs/pessoas_fisicas/' + _this14.$route.params.id + '/' + res.data.nome;
-                    _this14.imagem_destaque_original = _this14.root + '/uploads/pessoas_fisicas/' + _this14.$route.params.id + '/' + res.data.nome;
-                    _this14.destaqueAtivo = true;
+                    _this15.id_destaque = res.data.id;
+                    _this15.imagem_destaque = _this15.root + '/thumbs/pessoas_fisicas/' + _this15.$route.params.id + '/' + res.data.nome;
+                    _this15.imagem_destaque_original = _this15.root + '/uploads/pessoas_fisicas/' + _this15.$route.params.id + '/' + res.data.nome;
+                    _this15.destaqueAtivo = true;
                 } else {
-                    _this14.imagem_destaque = _this14.root + '/img/perfil_vazio.png';
-                    _this14.destaqueAtivo = false;
+                    _this15.imagem_destaque = _this15.root + '/img/perfil_vazio.png';
+                    _this15.destaqueAtivo = false;
                 }
             });
         },
@@ -50183,6 +50200,22 @@ var render = function() {
           }
         },
         [_vm._v("Salvar")]
+      ),
+      _vm._v(" "),
+      _c("hr"),
+      _vm._v(" "),
+      _c(
+        "a",
+        {
+          staticClass: "link_abrir_box delete",
+          on: {
+            click: function($event) {
+              $event.preventDefault()
+              return _vm.deletePessoa($event)
+            }
+          }
+        },
+        [_vm._v("[deletar pessoa]")]
       )
     ]
   )
@@ -50584,6 +50617,11 @@ var _this4 = this;
         //evento - página de criação de pessoa jurídica
         __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$on('pessoaJuridicaCreate', function () {
             _this.create = true;
+        });
+
+        //evento - pessoa física deletada
+        __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$on('deletePessoaJuridica', function (pessoas) {
+            _this.pessoas = pessoas;
         });
 
         //evento - registro salvo em pj-view
@@ -51219,6 +51257,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -51332,8 +51374,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$emit('foiSalvoPessoaJuridica', _this2.pessoa);
             });
         },
-        adicionaCargoPf: function adicionaCargoPf() {
+        deletePessoa: function deletePessoa() {
             var _this3 = this;
+
+            axios.post('/ajax/pj/delete', {
+                pessoa: this.$route.params.id
+            }).then(function (res) {
+                if (typeof res.data !== "string") {
+                    __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$emit('deletePessoaJuridica', res.data);
+                    _this3.$router.push({ name: 'pj-index' });
+                } else console.log('Erro ao deletar pessoa jurídica');
+            });
+        },
+        adicionaCargoPf: function adicionaCargoPf() {
+            var _this4 = this;
 
             axios.post('/ajax/pj/ajaxAddCargoPf', {
                 pessoa_juridica_id: this.$route.params.id,
@@ -51342,23 +51396,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             }).then(function (res) {
                 if (typeof res.data[0] !== "string") {
-                    _this3.pessoas_fisicas_cargos_relacionados = res.data[0];
-                    _this3.atributos.cargos = res.data[1];
-                    _this3.pessoa_fisica_id = '';
-                    _this3.novo_cargo = '';
-                    _this3.mostraCargoPfBox = false;
+                    _this4.pessoas_fisicas_cargos_relacionados = res.data[0];
+                    _this4.atributos.cargos = res.data[1];
+                    _this4.pessoa_fisica_id = '';
+                    _this4.novo_cargo = '';
+                    _this4.mostraCargoPfBox = false;
                 }
             });
         },
         removeCargoPf: function removeCargoPf(pessoa_fisica_id, cargo_id) {
-            var _this4 = this;
+            var _this5 = this;
 
             axios.post('/ajax/pj/ajaxRemoveCargoPf', {
                 cargo: cargo_id,
                 pessoa_fisica_id: pessoa_fisica_id,
                 pessoa_juridica_id: this.$route.params.id
             }).then(function (res) {
-                _this4.pessoas_fisicas_cargos_relacionados = res.data;
+                _this5.pessoas_fisicas_cargos_relacionados = res.data;
             });
         },
         mostraCargoPfBoxMetodo: function mostraCargoPfBoxMetodo() {
@@ -51366,7 +51420,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.jQuery();
         },
         adicionaContato: function adicionaContato() {
-            var _this5 = this;
+            var _this6 = this;
 
             axios.post('/ajax/pj/addContato', {
                 pessoa_id: this.$route.params.id,
@@ -51375,77 +51429,77 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }).then(function (res) {
                 console.log(res.data);
                 if (typeof res.data !== "string") {
-                    _this5.contatos = res.data;
+                    _this6.contatos = res.data;
                 }
-                _this5.novo_email = '';
-                _this5.novo_telefone = '';
-                _this5.adicionaEmail = false;
-                _this5.adicionaTel = false;
+                _this6.novo_email = '';
+                _this6.novo_telefone = '';
+                _this6.adicionaEmail = false;
+                _this6.adicionaTel = false;
             });
         },
         removeContato: function removeContato(id) {
-            var _this6 = this;
+            var _this7 = this;
 
             axios.post('/ajax/pj/removeContato', {
                 contato_id: id,
                 pessoa_id: this.$route.params.id
             }).then(function (res) {
                 if (typeof res.data !== "string") {
-                    _this6.contatos = res.data;
+                    _this7.contatos = res.data;
                 }
             });
         },
         adicionaEndereco: function adicionaEndereco() {
-            var _this7 = this;
+            var _this8 = this;
 
             axios.post('/ajax/pj/addEndereco', {
                 pessoa_id: this.$route.params.id,
                 endereco: this.novo_endereco
             }).then(function (res) {
                 if (typeof res.data !== "string") {
-                    _this7.enderecos = res.data;
-                    _this7.novo_endereco = {};
-                    _this7.mostraEnderecoBox = false;
+                    _this8.enderecos = res.data;
+                    _this8.novo_endereco = {};
+                    _this8.mostraEnderecoBox = false;
                 }
             });
         },
         removeEndereco: function removeEndereco(id) {
-            var _this8 = this;
+            var _this9 = this;
 
             axios.post('/ajax/pj/removeEndereco', {
                 endereco_id: id,
                 pessoa_id: this.$route.params.id
             }).then(function (res) {
                 console.log(res.data);
-                _this8.enderecos = res.data;
+                _this9.enderecos = res.data;
             });
         },
         adicionaDadosBancarios: function adicionaDadosBancarios() {
-            var _this9 = this;
+            var _this10 = this;
 
             axios.post('/ajax/pj/addDadosBancarios', {
                 pessoa_id: this.$route.params.id,
                 dados_bancarios: this.novos_dados_bancarios
             }).then(function (res) {
                 if (typeof res.data !== "string") {
-                    _this9.dados_bancarios = res.data;
-                    _this9.novos_dados_bancarios = {};
-                    _this9.mostraDadosBancariosBox = false;
+                    _this10.dados_bancarios = res.data;
+                    _this10.novos_dados_bancarios = {};
+                    _this10.mostraDadosBancariosBox = false;
                 }
             });
         },
         removeDadosBancarios: function removeDadosBancarios(id) {
-            var _this10 = this;
+            var _this11 = this;
 
             axios.post('/ajax/pj/removeDadosBancarios', {
                 dados_bancarios_id: id,
                 pessoa_id: this.$route.params.id
             }).then(function (res) {
-                _this10.dados_bancarios = res.data;
+                _this11.dados_bancarios = res.data;
             });
         },
         upload: function upload() {
-            var _this11 = this;
+            var _this12 = this;
 
             var formData = new FormData();
             formData.append('arquivo', this.arquivo_atual);
@@ -51456,27 +51510,27 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 headers: { 'Content-Type': 'multipart/form-data' }
             }).then(function (res) {
                 if (typeof res.data !== "string") {
-                    _this11.mensagem_upload = res.data['mensagem_upload'];
-                    _this11.arquivos = res.data['arquivos'];
-                    _this11.arquivo_atual = {};
-                    _this11.descricao_arquivo = '';
-                    _this11.$refs.arquivo.value = '';
+                    _this12.mensagem_upload = res.data['mensagem_upload'];
+                    _this12.arquivos = res.data['arquivos'];
+                    _this12.arquivo_atual = {};
+                    _this12.descricao_arquivo = '';
+                    _this12.$refs.arquivo.value = '';
                 } else {
                     console.log('Arquivo inválido');
                 }
             });
         },
         removeArquivo: function removeArquivo(id) {
-            var _this12 = this;
+            var _this13 = this;
 
             axios.post('/ajax/pj/removeArquivo', {
                 arquivo_id: id,
                 pessoa_id: this.$route.params.id
             }).then(function (res) {
-                _this12.arquivos = res.data['arquivos'];
+                _this13.arquivos = res.data['arquivos'];
                 if (res.data['remove_destaque'] === true) {
-                    _this12.imagem_destaque = _this12.root + '/img/perfil_vazio.png';
-                    _this12.destaqueAtivo = false;
+                    _this13.imagem_destaque = _this13.root + '/img/perfil_vazio.png';
+                    _this13.destaqueAtivo = false;
                 }
             });
         },
@@ -51485,38 +51539,38 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
 
         setImagemDestaque: function setImagemDestaque(arquivo_id) {
-            var _this13 = this;
+            var _this14 = this;
 
             axios.post('/ajax/pj/setImagemDestaque', {
                 arquivo_id: arquivo_id,
                 pessoa_id: this.$route.params.id
             }).then(function (res) {
-                _this13.id_destaque = res.data['imagem_destaque']['id'];
-                _this13.arquivos = res.data['arquivos'];
-                if (_this13.id_destaque === 0) {
-                    _this13.imagem_destaque = _this13.root + '/img/perfil_vazio.png';
-                    _this13.destaqueAtivo = false;
+                _this14.id_destaque = res.data['imagem_destaque']['id'];
+                _this14.arquivos = res.data['arquivos'];
+                if (_this14.id_destaque === 0) {
+                    _this14.imagem_destaque = _this14.root + '/img/perfil_vazio.png';
+                    _this14.destaqueAtivo = false;
                 } else {
-                    _this13.imagem_destaque = _this13.root + '/thumbs/pessoas_juridicas/' + _this13.$route.params.id + '/' + res.data['imagem_destaque']['nome'];
-                    _this13.imagem_destaque_original = _this13.root + '/uploads/pessoas_juridicas/' + _this13.$route.params.id + '/' + res.data['imagem_destaque']['nome'];
-                    _this13.destaqueAtivo = true;
+                    _this14.imagem_destaque = _this14.root + '/thumbs/pessoas_juridicas/' + _this14.$route.params.id + '/' + res.data['imagem_destaque']['nome'];
+                    _this14.imagem_destaque_original = _this14.root + '/uploads/pessoas_juridicas/' + _this14.$route.params.id + '/' + res.data['imagem_destaque']['nome'];
+                    _this14.destaqueAtivo = true;
                 }
             });
         },
         getImagemDestaque: function getImagemDestaque() {
-            var _this14 = this;
+            var _this15 = this;
 
             axios.post('/ajax/pj/getImagemDestaque', {
                 pessoa_id: this.$route.params.id
             }).then(function (res) {
                 if (typeof res.data !== "string") {
-                    _this14.id_destaque = res.data.id;
-                    _this14.imagem_destaque = _this14.root + '/thumbs/pessoas_juridicas/' + _this14.$route.params.id + '/' + res.data.nome;
-                    _this14.imagem_destaque_original = _this14.root + '/uploads/pessoas_juridicas/' + _this14.$route.params.id + '/' + res.data.nome;
-                    _this14.destaqueAtivo = true;
+                    _this15.id_destaque = res.data.id;
+                    _this15.imagem_destaque = _this15.root + '/thumbs/pessoas_juridicas/' + _this15.$route.params.id + '/' + res.data.nome;
+                    _this15.imagem_destaque_original = _this15.root + '/uploads/pessoas_juridicas/' + _this15.$route.params.id + '/' + res.data.nome;
+                    _this15.destaqueAtivo = true;
                 } else {
-                    _this14.imagem_destaque = _this14.root + '/img/perfil_vazio.png';
-                    _this14.destaqueAtivo = false;
+                    _this15.imagem_destaque = _this15.root + '/img/perfil_vazio.png';
+                    _this15.destaqueAtivo = false;
                 }
             });
         },
@@ -53660,6 +53714,22 @@ var render = function() {
           }
         },
         [_vm._v("Salvar")]
+      ),
+      _vm._v(" "),
+      _c("hr"),
+      _vm._v(" "),
+      _c(
+        "a",
+        {
+          staticClass: "link_abrir_box delete",
+          on: {
+            click: function($event) {
+              $event.preventDefault()
+              return _vm.deletePessoa($event)
+            }
+          }
+        },
+        [_vm._v("[deletar pessoa]")]
       )
     ]
   )
@@ -54059,6 +54129,11 @@ var _this4 = this;
                 nome: projeto.nome,
                 id: projeto.id
             });
+        });
+
+        //evento - projeto deletado
+        __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$on('deleteProjeto', function (projetos) {
+            _this.projetos = projetos;
         });
 
         //evento - mudança de projeto
@@ -54503,6 +54578,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -54594,8 +54670,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$emit('foiSalvoProjeto', _this2.projeto);
             });
         },
-        adicionaChancela: function adicionaChancela(isPf) {
+        deleteProjeto: function deleteProjeto() {
             var _this3 = this;
+
+            axios.post('/ajax/projetos/delete', {
+                projeto: this.$route.params.id
+            }).then(function (res) {
+                if (typeof res.data !== "string") {
+                    __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$emit('deleteProjeto', res.data);
+                    _this3.$router.push({ name: 'projetos-index' });
+                } else console.log('Erro ao deletar projeto');
+            });
+        },
+        adicionaChancela: function adicionaChancela(isPf) {
+            var _this4 = this;
 
             var nova_chancela = isPf ? this.nova_chancela_pf : this.nova_chancela_pj;
             axios.post('/ajax/projetos/ajaxAddChancela', {
@@ -54604,20 +54692,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }).then(function (res) {
                 if (typeof res.data[0] !== "string") {
                     if (isPf) {
-                        _this3.pessoas_fisicas_chancelas_relacionadas = res.data[0];
-                        _this3.nova_chancela_pf = {};
-                        _this3.mostraChancelaPfBox = false;
+                        _this4.pessoas_fisicas_chancelas_relacionadas = res.data[0];
+                        _this4.nova_chancela_pf = {};
+                        _this4.mostraChancelaPfBox = false;
                     } else {
-                        _this3.pessoas_juridicas_chancelas_relacionadas = res.data[0];
-                        _this3.nova_chancela_pj = {};
-                        _this3.mostraChancelaPjBox = false;
+                        _this4.pessoas_juridicas_chancelas_relacionadas = res.data[0];
+                        _this4.nova_chancela_pj = {};
+                        _this4.mostraChancelaPjBox = false;
                     }
-                    _this3.atributos.chancelas = res.data[1];
+                    _this4.atributos.chancelas = res.data[1];
                 }
             });
         },
         removeChancela: function removeChancela(pessoa_id, chancela_id, isPf) {
-            var _this4 = this;
+            var _this5 = this;
 
             var pessoa_fisica_id = void 0,
                 pessoa_juridica_id = void 0;
@@ -54630,7 +54718,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 chancela_id: chancela_id,
                 projeto_id: this.$route.params.id
             }).then(function (res) {
-                if (isPf === true) _this4.pessoas_fisicas_chancelas_relacionadas = res.data;else _this4.pessoas_juridicas_chancelas_relacionadas = res.data;
+                if (isPf === true) _this5.pessoas_fisicas_chancelas_relacionadas = res.data;else _this5.pessoas_juridicas_chancelas_relacionadas = res.data;
             });
         },
         mostraChancelaBoxMetodo: function mostraChancelaBoxMetodo(isPf) {
@@ -54642,7 +54730,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
 
         upload: function upload() {
-            var _this5 = this;
+            var _this6 = this;
 
             var formData = new FormData();
             formData.append('arquivo', this.arquivo_atual);
@@ -54653,63 +54741,63 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 headers: { 'Content-Type': 'multipart/form-data' }
             }).then(function (res) {
                 if (typeof res.data !== "string") {
-                    _this5.mensagem_upload = res.data['mensagem_upload'];
-                    _this5.arquivos = res.data['arquivos'];
-                    _this5.arquivo_atual = {};
-                    _this5.descricao_arquivo = '';
-                    _this5.$refs.arquivo.value = '';
+                    _this6.mensagem_upload = res.data['mensagem_upload'];
+                    _this6.arquivos = res.data['arquivos'];
+                    _this6.arquivo_atual = {};
+                    _this6.descricao_arquivo = '';
+                    _this6.$refs.arquivo.value = '';
                 } else {
                     console.log('Arquivo inválido');
                 }
             });
         },
         removeArquivo: function removeArquivo(id) {
-            var _this6 = this;
+            var _this7 = this;
 
             axios.post('/ajax/projetos/removeArquivo', {
                 arquivo_id: id,
                 projeto_id: this.$route.params.id
             }).then(function (res) {
-                _this6.arquivos = res.data['arquivos'];
+                _this7.arquivos = res.data['arquivos'];
                 if (res.data['remove_destaque'] === true) {
-                    _this6.imagem_destaque = _this6.root + '/img/perfil_vazio.png';
-                    _this6.destaqueAtivo = false;
+                    _this7.imagem_destaque = _this7.root + '/img/perfil_vazio.png';
+                    _this7.destaqueAtivo = false;
                 }
             });
         },
         setImagemDestaque: function setImagemDestaque(arquivo_id) {
-            var _this7 = this;
+            var _this8 = this;
 
             axios.post('/ajax/projetos/setImagemDestaque', {
                 arquivo_id: arquivo_id,
                 projeto_id: this.$route.params.id
             }).then(function (res) {
-                _this7.id_destaque = res.data['imagem_destaque']['id'];
-                _this7.arquivos = res.data['arquivos'];
-                if (_this7.id_destaque === 0) {
-                    _this7.imagem_destaque = _this7.root + '/img/perfil_vazio.png';
-                    _this7.destaqueAtivo = false;
+                _this8.id_destaque = res.data['imagem_destaque']['id'];
+                _this8.arquivos = res.data['arquivos'];
+                if (_this8.id_destaque === 0) {
+                    _this8.imagem_destaque = _this8.root + '/img/perfil_vazio.png';
+                    _this8.destaqueAtivo = false;
                 } else {
-                    _this7.imagem_destaque = _this7.root + '/thumbs/projetos/' + _this7.$route.params.id + '/' + res.data['imagem_destaque']['nome'];
-                    _this7.imagem_destaque_original = _this7.root + '/uploads/projetos/' + _this7.$route.params.id + '/' + res.data['imagem_destaque']['nome'];
-                    _this7.destaqueAtivo = true;
+                    _this8.imagem_destaque = _this8.root + '/thumbs/projetos/' + _this8.$route.params.id + '/' + res.data['imagem_destaque']['nome'];
+                    _this8.imagem_destaque_original = _this8.root + '/uploads/projetos/' + _this8.$route.params.id + '/' + res.data['imagem_destaque']['nome'];
+                    _this8.destaqueAtivo = true;
                 }
             });
         },
         getImagemDestaque: function getImagemDestaque() {
-            var _this8 = this;
+            var _this9 = this;
 
             axios.post('/ajax/projetos/getImagemDestaque', {
                 projeto_id: this.$route.params.id
             }).then(function (res) {
                 if (typeof res.data !== "string") {
-                    _this8.id_destaque = res.data.id;
-                    _this8.imagem_destaque = _this8.root + '/thumbs/projetos/' + _this8.$route.params.id + '/' + res.data.nome;
-                    _this8.imagem_destaque_original = _this8.root + '/uploads/projetos/' + _this8.$route.params.id + '/' + res.data.nome;
-                    _this8.destaqueAtivo = true;
+                    _this9.id_destaque = res.data.id;
+                    _this9.imagem_destaque = _this9.root + '/thumbs/projetos/' + _this9.$route.params.id + '/' + res.data.nome;
+                    _this9.imagem_destaque_original = _this9.root + '/uploads/projetos/' + _this9.$route.params.id + '/' + res.data.nome;
+                    _this9.destaqueAtivo = true;
                 } else {
-                    _this8.imagem_destaque = _this8.root + '/img/perfil_vazio.png';
-                    _this8.destaqueAtivo = false;
+                    _this9.imagem_destaque = _this9.root + '/img/perfil_vazio.png';
+                    _this9.destaqueAtivo = false;
                 }
             });
         },
@@ -55541,7 +55629,21 @@ var render = function() {
           [_vm._v("Salvar")]
         ),
         _vm._v(" "),
-        _c("br")
+        _c("hr"),
+        _vm._v(" "),
+        _c(
+          "a",
+          {
+            staticClass: "link_abrir_box delete",
+            on: {
+              click: function($event) {
+                $event.preventDefault()
+                return _vm.deleteProjeto($event)
+              }
+            }
+          },
+          [_vm._v("[deletar projeto]")]
+        )
       ])
     ]
   )
@@ -55578,7 +55680,7 @@ var staticRenderFns = [
       _vm._v(" "),
       _c("th", { staticClass: "nome_arquivo" }, [_vm._v("Nome")]),
       _vm._v(" "),
-      _c("th", { staticClass: "descricao_arquivo" }, [_vm._v("Cargo")]),
+      _c("th", { staticClass: "descricao_arquivo" }, [_vm._v("Chancela")]),
       _vm._v(" "),
       _c("th", { staticClass: "destaque_arquivo" }),
       _vm._v(" "),

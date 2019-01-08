@@ -476,6 +476,10 @@
 
         <button @click.prevent="salvaForm">Salvar</button>
 
+        <hr>
+
+        <a @click.prevent="deletePessoa" class="link_abrir_box delete">[deletar pessoa]</a>
+
     </div>
 
 </template>
@@ -601,6 +605,17 @@
                 }).then(res => {
                     this.pessoa = res.data;
                     eventBus.$emit('foiSalvoPessoaFisica', this.pessoa);
+                });
+            },
+            deletePessoa: function(){
+                axios.post('/ajax/pf/delete', {
+                    pessoa: this.$route.params.id,
+                }).then(res => {
+                    if(typeof res.data !== "string") {
+                        eventBus.$emit('deletePessoaFisica', res.data);
+                        this.$router.push({ name: 'pf-index'});
+                    } else
+                        console.log('Erro ao deletar pessoa física');
                 });
             },
             adicionaChancelaPj: function(){

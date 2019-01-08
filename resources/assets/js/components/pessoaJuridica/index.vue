@@ -45,6 +45,11 @@
                 this.create = true;
             });
 
+            //evento - pessoa física deletada
+            eventBus.$on('deletePessoaJuridica', (pessoas) => {
+                this.pessoas = pessoas;
+            });
+
             //evento - registro salvo em pj-view
             eventBus.$on('foiSalvoPessoaJuridica', pessoa => {
                 let id_atual = this.$route.params.id;

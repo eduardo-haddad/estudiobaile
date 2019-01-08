@@ -77,6 +77,12 @@ Route::group($opcoes_rotas, function(){
         'as' => 'ajax.pf.save',
         'roles' => $geral
     ]);
+    //Delete
+    Route::post('/ajax/pf/delete', [
+        'uses' => 'PessoaFisicaController@ajaxDelete',
+        'as' => 'ajax.pf.delete',
+        'roles' => $geral
+    ]);
     //Contatos
     Route::post('/ajax/pf/addContato', [
         'uses' => 'PessoaFisicaController@ajaxAddContato',
@@ -182,6 +188,12 @@ Route::group($opcoes_rotas, function(){
         'as' => 'ajax.pj.save',
         'roles' => $geral
     ]);
+    //Delete
+    Route::post('/ajax/pj/delete', [
+        'uses' => 'PessoaJuridicaController@ajaxDelete',
+        'as' => 'ajax.pj.delete',
+        'roles' => $geral
+    ]);
     //Tags
     Route::get('/ajax/pj/getTagsSelecionadas/{id}', [
         'uses' => 'PessoaJuridicaController@ajaxGetTagsSelecionadas',
@@ -279,6 +291,12 @@ Route::group($opcoes_rotas, function(){
     Route::post('/ajax/projetos/save', [
         'uses' => 'ProjetoController@ajaxSave',
         'as' => 'ajax.projetos.save',
+        'roles' => $geral
+    ]);
+    //Delete
+    Route::post('/ajax/projetos/delete', [
+        'uses' => 'ProjetoController@ajaxDelete',
+        'as' => 'ajax.projetos.delete',
         'roles' => $geral
     ]);
     //Pessoas físicas selecionadas
