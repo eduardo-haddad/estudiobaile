@@ -47537,6 +47537,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -47977,6 +47984,58 @@ var render = function() {
       attrs: { id: "container_conteudo" }
     },
     [
+      _c("div", { staticClass: "editbar" }, [
+        _c("div", { staticClass: "salvar" }, [
+          _c(
+            "a",
+            {
+              on: {
+                click: function($event) {
+                  $event.preventDefault()
+                  return _vm.salvaForm($event)
+                }
+              }
+            },
+            [_vm._v("Salvar")]
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "exportar" }, [
+          _c(
+            "a",
+            {
+              on: {
+                click: function($event) {
+                  $event.preventDefault()
+                  return _vm.deletePessoa($event)
+                }
+              }
+            },
+            [_vm._v("Excluir")]
+          ),
+          _vm._v(" "),
+          _c(
+            "a",
+            {
+              on: {
+                click: function($event) {
+                  $event.preventDefault()
+                }
+              }
+            },
+            [
+              _c("img", {
+                attrs: {
+                  src:
+                    "data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTguMS4xLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4PSIwcHgiIHk9IjBweCIgdmlld0JveD0iMCAwIDQ2MS44MzMgNDYxLjgzMyIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgNDYxLjgzMyA0NjEuODMzOyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIgd2lkdGg9IjY0cHgiIGhlaWdodD0iNjRweCI+CjxnPgoJPGc+CgkJPHBhdGggZD0iTTQ0Miw0NDQuODMzVjE0NC4yMTdjMC00LjgxNy0xLjk4My05LjM1LTUuMzgzLTEyLjQ2N0wyOTkuNzY3LDQuNTMzQzI5Ni42NSwxLjcsMjkyLjQsMCwyODguMTUsMEg3Ni41ICAgIGMtOS4zNSwwLTE3LDcuNjUtMTcsMTd2MTg5LjgzM2MwLDkuMzUsNy42NSwxNywxNywxN3MxNy03LjY1LDE3LTE3VjM0aDE3Mi44MzN2MTMwLjMzM2MwLDkuMzUsNy42NSwxNywxNywxN2gxMjEuODMzICAgIGMwLjg1LDAsMS45ODMsMCwyLjgzMy0wLjI4M3YyNDYuNzgzSDkzLjV2LTY4YzAtOS4zNS03LjY1LTE3LTE3LTE3cy0xNyw3LjY1LTE3LDE3djg1YzAsOS4zNSw3LjY1LDE3LDE3LDE3SDQyNSAgICBDNDM0LjM1LDQ2MS44MzMsNDQyLDQ1NC4xODMsNDQyLDQ0NC44MzN6IE0zMDAuMzMzLDUxLjU2N2wxMDIuODUsOTUuNzY3aC0xMDIuODVWNTEuNTY3eiIgZmlsbD0iIzU4NTk1YiIvPgoJCTxwYXRoIGQ9Ik0xOS44MzMsMjgwLjVjMCw5LjM1LDcuNjUsMTcsMTcsMTdoMTc3LjA4M2wtNTQuNjgzLDQ4LjczM2MtNy4wODMsNi4yMzMtNy42NSwxNy0xLjQxNywyNC4wODMgICAgYzMuNCwzLjY4Myw3LjkzMyw1LjY2NywxMi43NSw1LjY2N2MzLjk2NywwLDcuOTMzLTEuNDE3LDExLjMzMy00LjI1bDg4LjQtNzguNzY3YzMuNjgzLTMuMTE3LDUuNjY3LTcuOTMzLDUuNjY3LTEyLjc1ICAgIHMtMS45ODMtOS4zNS01LjY2Ny0xMi43NUwxODEuOSwxODguN2MtNy4wODMtNi4yMzMtMTcuODUtNS42NjctMjQuMDgzLDEuNDE3Yy02LjIzMyw3LjA4My01LjY2NywxNy44NSwxLjQxNywyNC4wODNsNTUuNTMzLDQ5LjMgICAgSDM2LjgzM0MyNy40ODMsMjYzLjUsMTkuODMzLDI3MS4xNSwxOS44MzMsMjgwLjV6IiBmaWxsPSIjNTg1OTViIi8+Cgk8L2c+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPC9zdmc+Cg=="
+                }
+              }),
+              _vm._v("\n                Exportar\n            ")
+            ]
+          )
+        ])
+      ]),
+      _vm._v(" "),
       _c("div", { staticClass: "titulo" }, [
         _vm.destaqueAtivo
           ? _c("div", { staticClass: "imagem_destaque" }, [
@@ -50315,39 +50374,6 @@ var render = function() {
             : _vm._e()
         ],
         2
-      ),
-      _vm._v(" "),
-      _c("hr"),
-      _vm._v(" "),
-      _c("br"),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          on: {
-            click: function($event) {
-              $event.preventDefault()
-              return _vm.salvaForm($event)
-            }
-          }
-        },
-        [_vm._v("Salvar")]
-      ),
-      _vm._v(" "),
-      _c("hr"),
-      _vm._v(" "),
-      _c(
-        "a",
-        {
-          staticClass: "link_abrir_box delete",
-          on: {
-            click: function($event) {
-              $event.preventDefault()
-              return _vm.deletePessoa($event)
-            }
-          }
-        },
-        [_vm._v("[deletar pessoa]")]
       )
     ]
   )

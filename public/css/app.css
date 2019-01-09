@@ -2122,6 +2122,54 @@ hr {
   margin-top: 7px;
 }
 
+#app #principal #conteudo_geral #container_conteudo .editbar {
+  position: fixed;
+  top: 61px;
+  left: 525px;
+  height: 45px;
+  background-color: #ffffff;
+  display: table;
+  width: calc(100% - 225px - 315px);
+  padding: 10px 15px;
+  border-bottom: 1px solid #babcbd;
+  border-left: 0;
+  border-right: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  z-index: 1;
+}
+
+#app #principal #conteudo_geral #container_conteudo .editbar .salvar,
+#app #principal #conteudo_geral #container_conteudo .editbar .exportar {
+  font-family: "GTWalsheimProBold";
+  float: left;
+  width: 50%;
+  color: #ed2487;
+  font-size: 16px;
+}
+
+#app #principal #conteudo_geral #container_conteudo .editbar .salvar a:hover {
+  color: #ed2487;
+}
+
+#app #principal #conteudo_geral #container_conteudo .editbar .exportar {
+  text-align: right;
+}
+
+#app #principal #conteudo_geral #container_conteudo .editbar .exportar a:hover {
+  color: #58595b;
+}
+
+#app #principal #conteudo_geral #container_conteudo .editbar .exportar a {
+  margin-left: 8px;
+  color: #58595b;
+}
+
+#app #principal #conteudo_geral #container_conteudo .editbar .exportar img {
+  width: 12px;
+  height: 12px;
+}
+
 #app #principal #conteudo_geral #container_conteudo .titulo {
   color: #58595b;
   font-size: 2.5em;
@@ -2574,7 +2622,7 @@ hr {
   float: left;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
-  padding: 45px 50px 70px 50px;
+  padding: 70px 50px 70px 50px;
 }
 
 /**
