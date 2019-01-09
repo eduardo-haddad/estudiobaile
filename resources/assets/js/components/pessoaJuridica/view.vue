@@ -2,6 +2,12 @@
 
     <div id="container_conteudo" class="formulario" :class="{ loading: !item_carregado, loaded: item_carregado }">
 
+        <modal v-if="modalDelete" @close="modalDelete = false">
+            <h3 slot="header">Excluir registro?</h3>
+        </modal>
+
+        <editbar></editbar>
+
         <div class="titulo">
             <div v-if="destaqueAtivo" class="imagem_destaque">
                 <a :href="imagem_destaque_original" data-lightbox="imagem_destaque" :data-title="pessoa.nome_fantasia">
@@ -407,15 +413,6 @@
 
         </div>
 
-        <hr>
-        <br>
-        <button @click.prevent="salvaForm">Salvar</button>
-
-        <hr>
-
-        <a @click.prevent="deletePessoa" class="link_abrir_box delete">[deletar pessoa]</a>
-
-
     </div>
 
 </template>
@@ -423,8 +420,14 @@
 <script>
 
     import { eventBus } from '../../estudiobaile';
+    import modal from '../modals/modal_delete';
+    import editbar from '../editbar';
 
     export default {
+        components: {
+            modal,
+            editbar
+        },
         created() {
             this.getPessoa(this.$route.params.id);
             this.jQuery();
@@ -438,7 +441,25 @@
             lightbox.option({
                 'disableScrolling': true,
             });
-          },
+        },
+        mounted() {
+            //evento - salvar formulário
+            eventBus.$on('editbar-salvar', () => {
+                this.salvaForm();
+            });
+            //evento - mostrar modal de exclusão
+            eventBus.$on('editbar-excluir', () => {
+                this.modalDelete = true;
+            });
+            //evento - excluir registro
+            eventBus.$on('excluir-pj', () => {
+                this.deletePessoa();
+            });
+            //evento - exportar
+            eventBus.$on('editbar-exportar', () => {
+                //
+            });
+        },
         data() {
             return {
                 //Models
@@ -472,7 +493,8 @@
                 mostraEnderecoBox: false,
                 mostraDadosBancariosBox: false,
                 destaqueAtivo: false,
-                item_carregado: false
+                item_carregado: false,
+                modalDelete: false,
             }
         },
         watch: {
@@ -514,15 +536,18 @@
                     .then(() => this.item_carregado = true);
             },
             salvaForm: function(){
+                this.item_carregado = false;
                 axios.post('/ajax/pj/save', {
                     pessoa: this.pessoa,
                     tags: this.tags_atuais,
                     arquivos: this.arquivos,
                     dados_bancarios: this.dados_bancarios,
-                }).then(res => {
+                })
+                .then(res => {
                     this.pessoa = res.data;
                     eventBus.$emit('foiSalvoPessoaJuridica', this.pessoa);
-                });
+                })
+                .then(() => this.item_carregado = true);
             },
             deletePessoa: function(){
                 axios.post('/ajax/pj/delete', {
@@ -536,12 +561,14 @@
                 });
             },
             adicionaCargoPf: function(){
+                this.item_carregado = false;
                 axios.post('/ajax/pj/ajaxAddCargoPf', {
                     pessoa_juridica_id: this.$route.params.id,
                     pessoa_fisica_id: this.pessoa_fisica_id,
                     novo_cargo: this.novo_cargo,
 
-                }).then(res => {
+                })
+                .then(res => {
                     if(typeof res.data[0] !== "string") {
                         this.pessoas_fisicas_cargos_relacionados = res.data[0];
                         this.atributos.cargos = res.data[1];
@@ -549,27 +576,33 @@
                         this.novo_cargo = '';
                         this.mostraCargoPfBox = false;
                     }
-                });
+                })
+                .then(() => this.item_carregado = true);
             },
             removeCargoPf: function(pessoa_fisica_id, cargo_id){
+                this.item_carregado = false;
                 axios.post('/ajax/pj/ajaxRemoveCargoPf', {
                     cargo: cargo_id,
                     pessoa_fisica_id: pessoa_fisica_id,
                     pessoa_juridica_id: this.$route.params.id,
-                }).then(res => {
+                })
+                .then(res => {
                     this.pessoas_fisicas_cargos_relacionados = res.data;
-                });
+                })
+                .then(() => this.item_carregado = true);
             },
             mostraCargoPfBoxMetodo: function(){
                 this.mostraCargoPfBox = !this.mostraCargoPfBox;
                 this.jQuery();
             },
             adicionaContato: function(){
+                this.item_carregado = false;
                 axios.post('/ajax/pj/addContato', {
                     pessoa_id: this.$route.params.id,
                     email: this.novo_email,
                     telefone: this.novo_telefone
-                }).then(res => {
+                })
+                .then(res => {
                     console.log(res.data);
                     if(typeof res.data !== "string") {
                         this.contatos = res.data;
@@ -578,60 +611,77 @@
                     this.novo_telefone = '';
                     this.adicionaEmail = false;
                     this.adicionaTel = false;
-                });
+                })
+                .then(() => this.item_carregado = true);
             },
             removeContato: function(id){
+                this.item_carregado = false;
                 axios.post('/ajax/pj/removeContato', {
                     contato_id: id,
                     pessoa_id: this.$route.params.id,
-                }).then(res => {
+                })
+                .then(res => {
                     if(typeof res.data !== "string") {
                         this.contatos = res.data;
                     }
-                });
+                })
+                .then(() => this.item_carregado = true);
             },
             adicionaEndereco: function(){
+                this.item_carregado = false;
                 axios.post('/ajax/pj/addEndereco', {
                     pessoa_id: this.$route.params.id,
                     endereco: this.novo_endereco
-                }).then(res => {
+                })
+                .then(res => {
                     if(typeof res.data !== "string") {
                         this.enderecos = res.data;
                         this.novo_endereco = {};
                         this.mostraEnderecoBox = false;
                     }
-                });
+                })
+                .then(() => this.item_carregado = true);
             },
             removeEndereco: function(id){
+                this.item_carregado = false;
                 axios.post('/ajax/pj/removeEndereco', {
                     endereco_id: id,
                     pessoa_id: this.$route.params.id,
-                }).then(res => {
+                })
+                .then(res => {
                     console.log(res.data);
                     this.enderecos = res.data;
-                });
+                })
+                .then(() => this.item_carregado = true);
             },
             adicionaDadosBancarios: function(){
+                this.item_carregado = false;
                 axios.post('/ajax/pj/addDadosBancarios', {
                     pessoa_id: this.$route.params.id,
                     dados_bancarios: this.novos_dados_bancarios
-                }).then(res => {
+                })
+                .then(res => {
                     if(typeof res.data !== "string") {
                         this.dados_bancarios = res.data;
                         this.novos_dados_bancarios = {};
                         this.mostraDadosBancariosBox = false;
                     }
-                });
+                })
+                .then(() => this.item_carregado = true);
             },
             removeDadosBancarios: function(id){
+                this.item_carregado = false;
                 axios.post('/ajax/pj/removeDadosBancarios', {
                     dados_bancarios_id: id,
                     pessoa_id: this.$route.params.id,
-                }).then(res => {
+                })
+                .then(res => {
                     this.dados_bancarios = res.data;
-                });
+                })
+                .then(() => this.item_carregado = true);
             },
             upload: function() {
+                this.item_carregado = false;
                 let formData = new FormData();
                 formData.append('arquivo', this.arquivo_atual);
                 formData.append('pessoa_id', this.$route.params.id);
@@ -641,7 +691,8 @@
                     formData, {
                         headers: { 'Content-Type': 'multipart/form-data' },
                     }
-                ).then(res => {
+                )
+                .then(res => {
                     if(typeof res.data !== "string") {
                         this.mensagem_upload = res.data['mensagem_upload'];
                         this.arquivos = res.data['arquivos'];
@@ -651,19 +702,23 @@
                     } else {
                         console.log('Arquivo inválido');
                     }
-                });
+                })
+                .then(() => this.item_carregado = true);
             },
             removeArquivo: function(id) {
+                this.item_carregado = false;
                 axios.post('/ajax/pj/removeArquivo', {
                     arquivo_id: id,
                     pessoa_id: this.$route.params.id,
-                }).then(res => {
+                })
+                .then(res => {
                     this.arquivos = res.data['arquivos'];
                     if(res.data['remove_destaque'] === true) {
                         this.imagem_destaque = `${this.root}/img/perfil_vazio.png`;
                         this.destaqueAtivo = false;
                     }
-                });
+                })
+                .then(() => this.item_carregado = true);
             },
             setArquivoAtual() {
                 this.arquivo_atual = this.$refs.arquivo.files[0];

@@ -235,6 +235,7 @@ hr {
 
             .modal-header {
               padding: 14px 0 2px 0;
+              height: 44px;
             }
 
             .modal-header h3 {
@@ -246,11 +247,16 @@ hr {
             .modal-body {
               margin: 20px 0;
               padding: 0;
+              p {
+                color: $cinza_escuro;
+              }
             }
 
             .modal-footer {
               padding: 6px 15px 15px 0;
               border-top: none;
+              color: $magenta;
+              font-size: 16px;
             }
 
             .modal-default-button {
@@ -443,6 +449,8 @@ hr {
                         //margin-top: 2px;
                         color: $magenta;
                         font-size: 16px;
+                        position: relative;
+                        top: 1px;
                     }
 
                   .salvar {

@@ -2,21 +2,11 @@
 
     <div id="container_conteudo" class="formulario" :class="{ loading: !item_carregado, loaded: item_carregado }">
 
-        <div class="editbar">
-            <div class="salvar">
-                <a @click.prevent="salvaForm">Salvar</a>
-            </div>
-            <div class="exportar">
-                <a @click.prevent="deletePessoa">Excluir</a>
-                <a @click.prevent="">
-                    <!-- magenta -->
-                    <!--<img src="data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTguMS4xLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4PSIwcHgiIHk9IjBweCIgdmlld0JveD0iMCAwIDQ2MS44MzMgNDYxLjgzMyIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgNDYxLjgzMyA0NjEuODMzOyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIgd2lkdGg9IjY0cHgiIGhlaWdodD0iNjRweCI+CjxnPgoJPGc+CgkJPHBhdGggZD0iTTQ0Miw0NDQuODMzVjE0NC4yMTdjMC00LjgxNy0xLjk4My05LjM1LTUuMzgzLTEyLjQ2N0wyOTkuNzY3LDQuNTMzQzI5Ni42NSwxLjcsMjkyLjQsMCwyODguMTUsMEg3Ni41ICAgIGMtOS4zNSwwLTE3LDcuNjUtMTcsMTd2MTg5LjgzM2MwLDkuMzUsNy42NSwxNywxNywxN3MxNy03LjY1LDE3LTE3VjM0aDE3Mi44MzN2MTMwLjMzM2MwLDkuMzUsNy42NSwxNywxNywxN2gxMjEuODMzICAgIGMwLjg1LDAsMS45ODMsMCwyLjgzMy0wLjI4M3YyNDYuNzgzSDkzLjV2LTY4YzAtOS4zNS03LjY1LTE3LTE3LTE3cy0xNyw3LjY1LTE3LDE3djg1YzAsOS4zNSw3LjY1LDE3LDE3LDE3SDQyNSAgICBDNDM0LjM1LDQ2MS44MzMsNDQyLDQ1NC4xODMsNDQyLDQ0NC44MzN6IE0zMDAuMzMzLDUxLjU2N2wxMDIuODUsOTUuNzY3aC0xMDIuODVWNTEuNTY3eiIgZmlsbD0iI2VkMjQ4NyIvPgoJCTxwYXRoIGQ9Ik0xOS44MzMsMjgwLjVjMCw5LjM1LDcuNjUsMTcsMTcsMTdoMTc3LjA4M2wtNTQuNjgzLDQ4LjczM2MtNy4wODMsNi4yMzMtNy42NSwxNy0xLjQxNywyNC4wODMgICAgYzMuNCwzLjY4Myw3LjkzMyw1LjY2NywxMi43NSw1LjY2N2MzLjk2NywwLDcuOTMzLTEuNDE3LDExLjMzMy00LjI1bDg4LjQtNzguNzY3YzMuNjgzLTMuMTE3LDUuNjY3LTcuOTMzLDUuNjY3LTEyLjc1ICAgIHMtMS45ODMtOS4zNS01LjY2Ny0xMi43NUwxODEuOSwxODguN2MtNy4wODMtNi4yMzMtMTcuODUtNS42NjctMjQuMDgzLDEuNDE3Yy02LjIzMyw3LjA4My01LjY2NywxNy44NSwxLjQxNywyNC4wODNsNTUuNTMzLDQ5LjMgICAgSDM2LjgzM0MyNy40ODMsMjYzLjUsMTkuODMzLDI3MS4xNSwxOS44MzMsMjgwLjV6IiBmaWxsPSIjZWQyNDg3Ii8+Cgk8L2c+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPC9zdmc+Cg==" />-->
-                    <!-- cinza -->
-                    <img src="data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTguMS4xLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4PSIwcHgiIHk9IjBweCIgdmlld0JveD0iMCAwIDQ2MS44MzMgNDYxLjgzMyIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgNDYxLjgzMyA0NjEuODMzOyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIgd2lkdGg9IjY0cHgiIGhlaWdodD0iNjRweCI+CjxnPgoJPGc+CgkJPHBhdGggZD0iTTQ0Miw0NDQuODMzVjE0NC4yMTdjMC00LjgxNy0xLjk4My05LjM1LTUuMzgzLTEyLjQ2N0wyOTkuNzY3LDQuNTMzQzI5Ni42NSwxLjcsMjkyLjQsMCwyODguMTUsMEg3Ni41ICAgIGMtOS4zNSwwLTE3LDcuNjUtMTcsMTd2MTg5LjgzM2MwLDkuMzUsNy42NSwxNywxNywxN3MxNy03LjY1LDE3LTE3VjM0aDE3Mi44MzN2MTMwLjMzM2MwLDkuMzUsNy42NSwxNywxNywxN2gxMjEuODMzICAgIGMwLjg1LDAsMS45ODMsMCwyLjgzMy0wLjI4M3YyNDYuNzgzSDkzLjV2LTY4YzAtOS4zNS03LjY1LTE3LTE3LTE3cy0xNyw3LjY1LTE3LDE3djg1YzAsOS4zNSw3LjY1LDE3LDE3LDE3SDQyNSAgICBDNDM0LjM1LDQ2MS44MzMsNDQyLDQ1NC4xODMsNDQyLDQ0NC44MzN6IE0zMDAuMzMzLDUxLjU2N2wxMDIuODUsOTUuNzY3aC0xMDIuODVWNTEuNTY3eiIgZmlsbD0iIzU4NTk1YiIvPgoJCTxwYXRoIGQ9Ik0xOS44MzMsMjgwLjVjMCw5LjM1LDcuNjUsMTcsMTcsMTdoMTc3LjA4M2wtNTQuNjgzLDQ4LjczM2MtNy4wODMsNi4yMzMtNy42NSwxNy0xLjQxNywyNC4wODMgICAgYzMuNCwzLjY4Myw3LjkzMyw1LjY2NywxMi43NSw1LjY2N2MzLjk2NywwLDcuOTMzLTEuNDE3LDExLjMzMy00LjI1bDg4LjQtNzguNzY3YzMuNjgzLTMuMTE3LDUuNjY3LTcuOTMzLDUuNjY3LTEyLjc1ICAgIHMtMS45ODMtOS4zNS01LjY2Ny0xMi43NUwxODEuOSwxODguN2MtNy4wODMtNi4yMzMtMTcuODUtNS42NjctMjQuMDgzLDEuNDE3Yy02LjIzMyw3LjA4My01LjY2NywxNy44NSwxLjQxNywyNC4wODNsNTUuNTMzLDQ5LjMgICAgSDM2LjgzM0MyNy40ODMsMjYzLjUsMTkuODMzLDI3MS4xNSwxOS44MzMsMjgwLjV6IiBmaWxsPSIjNTg1OTViIi8+Cgk8L2c+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPC9zdmc+Cg==" />
-                    Exportar
-                </a>
-            </div>
-        </div>
+        <modal v-if="modalDelete" @close="modalDelete = false">
+            <h3 slot="header">Excluir registro?</h3>
+        </modal>
+
+        <editbar></editbar>
 
         <div class="titulo">
             <div v-if="destaqueAtivo" class="imagem_destaque">
@@ -494,8 +484,14 @@
 <script>
 
     import { eventBus } from '../../estudiobaile';
+    import modal from '../modals/modal_delete';
+    import editbar from '../editbar';
 
     export default {
+        components: {
+            modal,
+            editbar
+        },
         created() {
             this.getPessoa(this.$route.params.id);
             this.jQuery();
@@ -509,6 +505,25 @@
             lightbox.option({
                 'disableScrolling': true,
             });
+        },
+        mounted() {
+            //evento - salvar formulário
+            eventBus.$on('editbar-salvar', () => {
+                this.salvaForm();
+            });
+            //evento - mostrar modal de exclusão
+            eventBus.$on('editbar-excluir', () => {
+                this.modalDelete = true;
+            });
+            //evento - excluir registro
+            eventBus.$on('excluir-pf', () => {
+                this.deletePessoa();
+            });
+            //evento - exportar
+            eventBus.$on('editbar-exportar', () => {
+                //
+            });
+
         },
         data() {
             return {
@@ -548,6 +563,7 @@
                 mostraMei: false,
                 destaqueAtivo: false,
                 item_carregado: false,
+                modalDelete: false,
             }
         },
         watch: {
@@ -602,6 +618,7 @@
                     .then(() => this.item_carregado = true);
             },
             salvaForm: function(){
+                this.item_carregado = false;
                 axios.post('/ajax/pf/save', {
                     pessoa: this.pessoa,
                     contatos: this.contatos,
@@ -609,10 +626,12 @@
                     arquivos: this.arquivos,
                     dados_bancarios: this.dados_bancarios,
                     tags: this.tags_atuais,
-                }).then(res => {
+                })
+                .then(res => {
                     this.pessoa = res.data;
                     eventBus.$emit('foiSalvoPessoaFisica', this.pessoa);
-                });
+                })
+                .then(() => this.item_carregado = true);
             },
             deletePessoa: function(){
                 axios.post('/ajax/pf/delete', {
@@ -626,12 +645,14 @@
                 });
             },
             adicionaChancelaPj: function(){
+                this.item_carregado = false;
                 axios.post('/ajax/pf/ajaxAddChancelaPj', {
                     pessoa_fisica_id: this.$route.params.id,
                     pessoa_juridica_id: this.pessoa_juridica_id,
                     nova_chancela: this.nova_chancela,
 
-                }).then(res => {
+                })
+                .then(res => {
                     if(typeof res.data[0] !== "string") {
                         this.pessoas_juridicas_relacionadas = res.data[0];
                         this.atributos.chancelas = res.data[1];
@@ -639,27 +660,33 @@
                         this.nova_chancela = '';
                         this.mostraChancelaPjBox = false;
                     }
-                });
+                })
+                .then(() => this.item_carregado = true);
             },
             removeChancelaPj: function(pessoa_juridica_id, chancela_id){
+                this.item_carregado = false;
                 axios.post('/ajax/pf/ajaxRemoveChancelaPj', {
                     chancela: chancela_id,
                     pessoa_juridica_id: pessoa_juridica_id,
                     pessoa_fisica_id: this.$route.params.id,
-                }).then(res => {
+                })
+                .then(res => {
                     this.pessoas_juridicas_relacionadas = res.data;
-                });
+                })
+                .then(() => this.item_carregado = true);
             },
             mostraChancelaPjBoxMetodo: function(){
                 this.mostraChancelaPjBox = !this.mostraChancelaPjBox;
                 this.jQuery();
             },
             adicionaContato: function(){
+                this.item_carregado = false;
                 axios.post('/ajax/pf/addContato', {
                     pessoa_id: this.$route.params.id,
                     email: this.novo_email,
                     telefone: this.novo_telefone
-                }).then(res => {
+                })
+                .then(res => {
                     console.log(res.data);
                     if(typeof res.data !== "string") {
                         this.contatos = res.data;
@@ -668,63 +695,80 @@
                     this.novo_telefone = '';
                     this.adicionaEmail = false;
                     this.adicionaTel = false;
-                });
+                })
+                .then(() => this.item_carregado = true);
             },
             removeContato: function(id){
+                this.item_carregado = false;
                 axios.post('/ajax/pf/removeContato', {
                     contato_id: id,
                     pessoa_id: this.$route.params.id,
-                }).then(res => {
+                })
+                .then(res => {
                     if(typeof res.data !== "string") {
                         this.contatos = res.data;
                     }
-                });
+                })
+                .then(() => this.item_carregado = true);
             },
             adicionaEndereco: function(){
+                this.item_carregado = false;
                 axios.post('/ajax/pf/addEndereco', {
                     pessoa_id: this.$route.params.id,
                     endereco: this.novo_endereco
-                }).then(res => {
+                })
+                .then(res => {
                     if(typeof res.data !== "string") {
                         this.enderecos = res.data;
                         this.novo_endereco = {};
                         this.mostraEnderecoBox = false;
                     }
-                });
+                })
+                .then(() => this.item_carregado = true);
             },
             removeEndereco: function(id){
+                this.item_carregado = false;
                 axios.post('/ajax/pf/removeEndereco', {
                     endereco_id: id,
                     pessoa_id: this.$route.params.id,
-                }).then(res => {
+                })
+                .then(res => {
                     console.log(res.data);
                     this.enderecos = res.data;
-                });
+                })
+                .then(() => this.item_carregado = true);
             },
             adicionaDadosBancarios: function(){
+                this.item_carregado = false;
                 axios.post('/ajax/pf/addDadosBancarios', {
                     pessoa_id: this.$route.params.id,
                     dados_bancarios: this.novos_dados_bancarios
-                }).then(res => {
+                })
+                .then(res => {
                     if(typeof res.data !== "string") {
                         this.dados_bancarios = res.data;
                         this.novos_dados_bancarios = {};
                         this.mostraDadosBancariosBox = false;
                     }
-                });
+                })
+                .then(() => this.item_carregado = true);
             },
             removeDadosBancarios: function(id){
+                this.item_carregado = false;
                 axios.post('/ajax/pf/removeDadosBancarios', {
                     dados_bancarios_id: id,
                     pessoa_id: this.$route.params.id,
-                }).then(res => {
+                })
+                .then(res => {
                     this.dados_bancarios = res.data;
-                });
+                })
+                .then(() => this.item_carregado = true);
             },
             selecionaTags: function(data){
                 //console.log(data);
             },
             upload: function() {
+                this.item_carregado = false;
                 let formData = new FormData();
                 formData.append('arquivo', this.arquivo_atual);
                 formData.append('pessoa_id', this.$route.params.id);
@@ -734,7 +778,8 @@
                     formData, {
                         headers: { 'Content-Type': 'multipart/form-data' },
                     }
-                ).then(res => {
+                )
+                .then(res => {
                     if(typeof res.data !== "string") {
                         this.mensagem_upload = res.data['mensagem_upload'];
                         this.arquivos = res.data['arquivos'];
@@ -744,19 +789,23 @@
                     } else {
                         console.log('Arquivo inválido');
                     }
-                });
+                })
+                .then(() => this.item_carregado = true);
             },
             removeArquivo: function(id) {
+                this.item_carregado = false;
                 axios.post('/ajax/pf/removeArquivo', {
                     arquivo_id: id,
                     pessoa_id: this.$route.params.id,
-                }).then(res => {
+                })
+                .then(res => {
                     this.arquivos = res.data['arquivos'];
                     if(res.data['remove_destaque'] === true) {
                         this.imagem_destaque = `${this.root}/img/perfil_vazio.png`;
                         this.destaqueAtivo = false;
                     }
-                });
+                })
+                .then(() => this.item_carregado = true);
             },
             setArquivoAtual() {
                 this.arquivo_atual = this.$refs.arquivo.files[0];

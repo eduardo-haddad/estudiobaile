@@ -49,7 +49,7 @@ if (token) {
 //vue-router
 import router from './routes';
 //components
-import modal from './components/modal_novo_registro';
+import modal from './components/modals/modal_novo_registro';
 //event bus
 export const eventBus = new Vue();
 

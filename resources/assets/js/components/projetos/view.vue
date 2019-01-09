@@ -2,6 +2,12 @@
 
     <div id="container_conteudo" class="formulario" :class="{ loading: !item_carregado, loaded: item_carregado }">
 
+        <modal v-if="modalDelete" @close="modalDelete = false">
+            <h3 slot="header">Excluir registro?</h3>
+        </modal>
+
+        <editbar></editbar>
+
         <div class="titulo">
             <div v-if="destaqueAtivo" class="imagem_destaque">
                 <a :href="imagem_destaque_original" data-lightbox="imagem_destaque" :data-title="projeto.nome">
@@ -219,15 +225,6 @@
 
             </div>
 
-            <hr>
-            <br>
-
-            <button @click.prevent="salvaForm">Salvar</button>
-
-            <hr>
-
-            <a @click.prevent="deleteProjeto" class="link_abrir_box delete">[deletar projeto]</a>
-
         </div>
 
     </div>
@@ -237,8 +234,14 @@
 <script>
 
     import { eventBus } from '../../estudiobaile';
+    import modal from '../modals/modal_delete';
+    import editbar from '../editbar';
 
     export default {
+        components: {
+            modal,
+            editbar
+        },
         created() {
             this.getProjeto(this.$route.params.id);
             this.jQuery();
@@ -251,6 +254,24 @@
             //lightbox
             lightbox.option({
                 'disableScrolling': true,
+            });
+        },
+        mounted() {
+            //evento - salvar formulário
+            eventBus.$on('editbar-salvar', () => {
+                this.salvaForm();
+            });
+            //evento - mostrar modal de exclusão
+            eventBus.$on('editbar-excluir', () => {
+                this.modalDelete = true;
+            });
+            //evento - excluir registro
+            eventBus.$on('excluir-projeto', () => {
+                this.deleteProjeto();
+            });
+            //evento - exportar
+            eventBus.$on('editbar-exportar', () => {
+                //
             });
         },
         data() {
@@ -279,7 +300,8 @@
                 mostraChancelaPfBox: false,
                 mostraChancelaPjBox: false,
                 destaqueAtivo: false,
-                item_carregado: false
+                item_carregado: false,
+                modalDelete: false,
             }
         },
         watch: {
@@ -310,15 +332,18 @@
                     .then(() => this.item_carregado = true);
             },
             salvaForm: function(){
+                this.item_carregado = false;
                 axios.post('/ajax/projetos/save', {
                     projeto: this.projeto,
                     pessoas_fisicas: this.pessoas_fisicas_atuais,
                     chancelas_pf: this.chancelas_pf_atuais,
                     arquivos: this.arquivos,
-                }).then(res => {
+                })
+                .then(res => {
                     this.projeto = res.data;
                     eventBus.$emit('foiSalvoProjeto', this.projeto);
-                });
+                })
+                .then(() => this.item_carregado = true);
             },
             deleteProjeto: function(){
                 axios.post('/ajax/projetos/delete', {
@@ -332,11 +357,13 @@
                 });
             },
             adicionaChancela: function(isPf){
+                this.item_carregado = false;
                 const nova_chancela = isPf ? this.nova_chancela_pf : this.nova_chancela_pj;
                 axios.post('/ajax/projetos/ajaxAddChancela', {
                     projeto_id: this.$route.params.id,
                     nova_chancela: nova_chancela
-                }).then(res => {
+                })
+                .then(res => {
                     if(typeof res.data[0] !== "string") {
                         if(isPf) {
                             this.pessoas_fisicas_chancelas_relacionadas = res.data[0];
@@ -350,9 +377,11 @@
                         }
                         this.atributos.chancelas = res.data[1];
                     }
-                });
+                })
+                .then(() => this.item_carregado = true);
             },
             removeChancela: function(pessoa_id, chancela_id, isPf){
+                this.item_carregado = false;
                 let pessoa_fisica_id, pessoa_juridica_id;
                 pessoa_fisica_id = isPf === true ? pessoa_id : false;
                 pessoa_juridica_id = isPf === true ? false : pessoa_id;
@@ -362,10 +391,12 @@
                     pessoa_juridica_id: pessoa_juridica_id,
                     chancela_id: chancela_id,
                     projeto_id: this.$route.params.id,
-                }).then(res => {
+                })
+                .then(res => {
                     if(isPf === true) this.pessoas_fisicas_chancelas_relacionadas = res.data;
                     else this.pessoas_juridicas_chancelas_relacionadas = res.data;
-                });
+                })
+                .then(() => this.item_carregado = true);
             },
             mostraChancelaBoxMetodo: function(isPf){
                 if(isPf) this.mostraChancelaPfBox = !this.mostraChancelaPfBox;
@@ -376,6 +407,7 @@
                 this.arquivo_atual = this.$refs.arquivo.files[0];
             },
             upload: function() {
+                this.item_carregado = false;
                 let formData = new FormData();
                 formData.append('arquivo', this.arquivo_atual);
                 formData.append('projeto_id', this.$route.params.id);
@@ -385,7 +417,8 @@
                     formData, {
                         headers: { 'Content-Type': 'multipart/form-data' },
                     }
-                ).then(res => {
+                )
+                .then(res => {
                     if(typeof res.data !== "string") {
                         this.mensagem_upload = res.data['mensagem_upload'];
                         this.arquivos = res.data['arquivos'];
@@ -395,19 +428,23 @@
                     } else {
                         console.log('Arquivo inválido');
                     }
-                });
+                })
+                .then(() => this.item_carregado = true);
             },
             removeArquivo: function(id) {
+                this.item_carregado = false;
                 axios.post('/ajax/projetos/removeArquivo', {
                     arquivo_id: id,
                     projeto_id: this.$route.params.id,
-                }).then(res => {
+                })
+                .then(res => {
                     this.arquivos = res.data['arquivos'];
                     if(res.data['remove_destaque'] === true) {
                         this.imagem_destaque = `${this.root}/img/perfil_vazio.png`;
                         this.destaqueAtivo = false;
                     }
-                });
+                })
+                .then(() => this.item_carregado = true);
             },
             setImagemDestaque: function(arquivo_id) {
                 axios.post('/ajax/projetos/setImagemDestaque', {
