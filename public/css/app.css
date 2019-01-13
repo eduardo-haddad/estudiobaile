@@ -2524,13 +2524,6 @@ hr {
   /* Firefox */
 }
 
-#app #principal #conteudo_geral .busca_lista .lupa_texto_container .lupa_texto input:-ms-input-placeholder {
-  /* Chrome, Firefox, Opera, Safari 10.1+ */
-  color: #bebdbd;
-  opacity: 1;
-  /* Firefox */
-}
-
 #app #principal #conteudo_geral .busca_lista .lupa_texto_container .lupa_texto input::-ms-input-placeholder {
   /* Chrome, Firefox, Opera, Safari 10.1+ */
   color: #bebdbd;

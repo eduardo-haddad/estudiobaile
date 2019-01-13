@@ -137,10 +137,15 @@
 
             <div class="valor">
                 <span class="campo">Data de Nasc.</span>
-                <input autocomplete="off" type="text" placeholder=" "
+                <input autocomplete="off" type="x   " placeholder=" "
                        v-model="pessoa.dt_nascimento"
                        name="dt_nascimento"
                 />
+                <!--<masked-input placeholder=" "-->
+                              <!--type="text"-->
+                       <!--v-model="pessoa.dt_nascimento"-->
+                       <!--mask="11 / 11 / 1111"-->
+                <!--/>-->
             </div><br>
 
             <div class="valor">
@@ -486,11 +491,15 @@
     import { eventBus } from '../../estudiobaile';
     import modal from '../modals/modal_delete';
     import editbar from '../editbar';
+    import MaskedInput from 'vue-masked-input';
+    import {TheMask} from 'vue-the-mask';
 
     export default {
         components: {
             modal,
-            editbar
+            editbar,
+            MaskedInput,
+            TheMask
         },
         created() {
             this.getPessoa(this.$route.params.id);

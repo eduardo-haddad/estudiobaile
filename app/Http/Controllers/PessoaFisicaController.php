@@ -111,11 +111,14 @@ class PessoaFisicaController extends Controller
         $request['tags'] = request('tags');
 
         //Pessoa Física
-        $pessoa_fisica = (new PessoaFisica)->find($request['pessoa']['id']);
+        $pessoa_fisica = PessoaFisica::find($request['pessoa']['id']);
 
         foreach(json_decode($pessoa_fisica) as $chave => $valor):
             if($chave == "modificado_por") {
                 $pessoa_fisica->$chave = $r->user()->name;
+            }
+            else if($chave == "dt_nascimento"){
+                 $pessoa_fisica->$chave = date('d-m-Y', strtotime($request['pessoa'][$chave]));
             }
             else {
                 $pessoa_fisica->$chave = $request['pessoa'][$chave];
