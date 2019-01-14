@@ -525,17 +525,23 @@ hr {
 
                   select,
                   input[type=text],
-                  input[type=password] {
+                  input[type=email],
+                  input[type=password],
+                  .mask-input {
                     height: 25px;
                   }
 
                   input[type=text],
-                  input[type=password] {
+                  input[type=email],
+                  input[type=password],
+                  .mask-input {
                     padding: 1px 8px 0 7px;
                   }
 
                   // campos vazios que tenham placeholder
                   input[type=text]:placeholder-shown,
+                  input[type=email]:placeholder-shown,
+                  .mask-input:placeholder-shown,
                   input[type=password]:placeholder-shown {
                     //border-bottom: 1px solid $cinza_placeholder;
                     background-color: $cinza_claro;
@@ -736,7 +742,9 @@ hr {
                 }
 
                 input[type=text],
-                input[type=password] {
+                input[type=email],
+                input[type=password],
+                .mask-input {
                     outline: none;
                     border: 1px solid transparent;
                     display: inline-block;
@@ -745,7 +753,9 @@ hr {
                 }
 
                 input[type=text]:focus,
-                input[type=password]:focus {
+                input[type=email]:focus,
+                input[type=password]:focus,
+                .mask-input:focus {
                     box-shadow: $cor_fundo;
                 }
 

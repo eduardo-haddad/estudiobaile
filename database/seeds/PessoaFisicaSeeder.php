@@ -33,13 +33,22 @@ class PessoaFisicaSeeder extends Seeder
         $pf1->website = '';
         $pf1->criado_por = 'Eduardo Haddad';
         $pf1->modificado_por = 'Eduardo Haddad';
-        $pf1->genero_id = Genero::find(2)->id;
+        $pf1->genero = 'Masculino';
         $pf1->estado_civil_id = EstadoCivil::find(2)->id;
         $pf1->save();
 
         $pf1->enderecos()->attach(Endereco::find(1)->id);
         $pf1->dados_bancarios()->attach([DadoBancario::find(1)->id]);
         $pf1->tags()->attach([Tag::find(1)->id, Tag::find(2)->id, Tag::find(3)->id]);
+
+//        for($i=0;$i<5000;$i++){
+//            $pf = "pf$i";
+//            $$pf = new PessoaFisica();
+//            $$pf->nome_adotado = "Nome $i";
+//            $$pf->criado_por = 'Eduardo Haddad';
+//            $$pf->modificado_por = 'Eduardo Haddad';
+//            $$pf->save();
+//        }
 
     }
 }

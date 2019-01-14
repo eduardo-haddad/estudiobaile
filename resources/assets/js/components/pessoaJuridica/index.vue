@@ -52,11 +52,12 @@
 
             //evento - registro salvo em pj-view
             eventBus.$on('foiSalvoPessoaJuridica', pessoa => {
-                let id_atual = this.$route.params.id;
-                this.$set(this.pessoas, this.pessoas.findIndex(p => p.id == id_atual), {
-                    nome_fantasia: pessoa.nome_fantasia,
-                    id: pessoa.id
-                });
+                //let id_atual = this.$route.params.id;
+                // this.$set(this.pessoas, this.pessoas.findIndex(p => p.id == id_atual), {
+                //     nome_fantasia: pessoa.nome_fantasia,
+                //     id: pessoa.id
+                // });
+                this.getLista(pessoa.id);
             });
 
             //evento - mudança de pessoa física

@@ -13,7 +13,7 @@ class ProjetoController extends Controller
 {
     public function ajaxIndex()
     {
-        return Projeto::orderBy('nome')->get();
+        return Projeto::select('id', 'nome')->orderBy('nome')->get();
     }
 
     public function ajaxCreate(Request $request)

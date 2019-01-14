@@ -18,7 +18,7 @@ class PessoaJuridicaController extends Controller
 {
     public function ajaxIndex()
     {
-        return PessoaJuridica::orderBy('nome_fantasia')->get();
+        return PessoaJuridica::select('id', 'nome_fantasia')->orderBy('nome_fantasia')->get();
     }
 
     public function ajaxCreate(Request $request)

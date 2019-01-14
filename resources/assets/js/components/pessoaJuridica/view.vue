@@ -122,11 +122,14 @@
 
             <div class="valor">
                 <span class="campo">CNPJ</span>
-                <input autocomplete="off" type="text"
-                       v-model="pessoa.cnpj"
-                       name="nome"
-                       placeholder=" "
-                />
+                <the-mask
+                        :mask="['##.###.###/####-##']"
+                        class="mask-input cnpj"
+                        v-model="pessoa.cnpj"
+                        type="text"
+                        autocomplete="off"
+                        name="cnpj"
+                        placeholder=" " />
             </div><br>
 
             <div class="valor">
@@ -149,11 +152,14 @@
 
             <div class="valor">
                 <span class="campo">Website</span>
-                <input autocomplete="off" type="text"
-                       v-model="pessoa.website"
-                       name="website"
-                       placeholder=" "
-                />
+                <the-mask
+                        :mask="['http://XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX']"
+                        class="mask-input website"
+                        v-model="pessoa.website"
+                        type="text"
+                        autocomplete="off"
+                        name="website"
+                        placeholder=" " />
             </div>
 
 
@@ -215,13 +221,13 @@
 
                 <div v-for="(email, index) in emails" class="valor" :key="'email-'+index+email.id">
                     <span class="campo">E-mail</span>
-                    <input type="text" placeholder=" " :id="email.id" v-model="email.valor" name="email" />
+                    <input type="email" autocomplete="off" placeholder=" " :id="email.id" v-model="email.valor" name="email" />
                     <a @click.prevent="removeContato(email.id)">X</a>
                 </div>
                 <br>
                 <a @click.prevent="adicionaEmail = !adicionaEmail" class="link_abrir_box">[adicionar email]</a>
                 <div v-if="adicionaEmail" class="adiciona_contato">
-                    <input @input="novo_email = $event.target.value" type="text" class="adiciona_contato" v-model="novo_email" name="novo_email" placeholder="adicionar email" />
+                    <input @input="novo_email = $event.target.value" type="email" autocomplete="off" class="adiciona_contato" v-model="novo_email" name="novo_email" placeholder="adicionar email" />
                     <a @click.prevent="adicionaContato()">+</a>
                 </div>
             </div>
@@ -287,6 +293,14 @@
                 <div class="valor">
                     <span class="campo">Número</span>
                     <input autocomplete="off" type="text" placeholder=" " name="endereco.numero" v-model="endereco.numero" />
+                    <the-mask
+                            :mask="['######']"
+                            class="mask-input numero"
+                            v-model="endereco.numero"
+                            type="text"
+                            autocomplete="off"
+                            name="endereco.numero"
+                            placeholder=" " />
                 </div><br>
                 <div class="valor">
                     <span class="campo">Complemento</span>
@@ -298,7 +312,14 @@
                 </div><br>
                 <div class="valor">
                     <span class="campo">CEP</span>
-                    <input autocomplete="off" type="text" placeholder=" " name="endereco.cep" v-model="endereco.cep" />
+                    <the-mask
+                            :mask="['#####-###']"
+                            class="mask-input cep"
+                            v-model="endereco.cep"
+                            type="text"
+                            autocomplete="off"
+                            name="endereco.cep"
+                            placeholder=" " />
                 </div><br>
                 <div class="valor">
                     <span class="campo">Cidade</span>
@@ -323,7 +344,15 @@
                 </div><br>
                 <div class="valor">
                     <span class="campo">Número</span>
-                    <input @input="novo_endereco.numero = $event.target.value" autocomplete="off" type="text" placeholder=" " name="novo_endereco.numero" v-model="novo_endereco.numero" />
+                    <the-mask
+                            :mask="['######']"
+                            @input="novo_endereco.numero = $event.target.value"
+                            class="mask-input numero"
+                            v-model="novo_endereco.numero"
+                            type="text"
+                            autocomplete="off"
+                            name="novo_endereco.numero"
+                            placeholder=" " />
                 </div><br>
                 <div class="valor">
                     <span class="campo">Complemento</span>
@@ -335,7 +364,15 @@
                 </div><br>
                 <div class="valor">
                     <span class="campo">CEP</span>
-                    <input @input="novo_endereco.cep = $event.target.value" autocomplete="off" type="text" placeholder=" " name="novo_endereco.cep" v-model="novo_endereco.cep" />
+                    <the-mask
+                            :mask="['#####-###']"
+                            @input="novo_endereco.cep = $event.target.value"
+                            class="mask-input cep"
+                            v-model="novo_endereco.cep"
+                            type="text"
+                            autocomplete="off"
+                            name="novo_endereco.cep"
+                            placeholder=" " />
                 </div><br>
                 <div class="valor">
                     <span class="campo">Cidade</span>
@@ -422,11 +459,13 @@
     import { eventBus } from '../../estudiobaile';
     import modal from '../modals/modal_delete';
     import editbar from '../editbar';
+    import { TheMask } from 'vue-the-mask';
 
     export default {
         components: {
             modal,
-            editbar
+            editbar,
+            TheMask
         },
         created() {
             this.getPessoa(this.$route.params.id);

@@ -47,11 +47,12 @@
 
             //evento - registro salvo em projetos-view
             eventBus.$on('foiSalvoProjeto', projeto => {
-                let id_atual = this.$route.params.id;
-                this.$set(this.projetos, this.projetos.findIndex(p => p.id == id_atual), {
-                    nome: projeto.nome,
-                    id: projeto.id
-                });
+                //let id_atual = this.$route.params.id;
+                // this.$set(this.projetos, this.projetos.findIndex(p => p.id == id_atual), {
+                //     nome: projeto.nome,
+                //     id: projeto.id
+                // });
+                this.getLista(projeto.id);
             });
 
             //evento - projeto deletado

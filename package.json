@@ -26,7 +26,6 @@
     "dependencies": {
         "lightbox2": "^2.10.0",
         "quill": "^1.3.6",
-        "vue-masked-input": "^0.5.2",
         "vue-the-mask": "^0.11.1"
     }
 }

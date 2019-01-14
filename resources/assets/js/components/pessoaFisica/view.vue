@@ -119,11 +119,19 @@
 
             <div class="valor">
                 <span class="campo">Gênero</span>
-                <select name="genero" v-model="pessoa.genero_id">
-                    <option v-for="(genero, index) in atributos.generos" :value="genero.id" :key="'genero-'+index + genero.id">
-                        {{ genero.valor == 'F' ? 'Feminino' : 'Masculino' }}
-                    </option>
-                </select>
+                <!--<select name="genero" v-model="pessoa.genero_id">-->
+                    <!--<option v-for="(genero, index) in atributos.generos" :value="genero.id" :key="'genero-'+index + genero.id">-->
+                        <!--{{ genero.valor == 'F' ? 'Feminino' : 'Masculino' }}-->
+                    <!--</option>-->
+                <!--</select>-->
+                <the-mask
+                        :mask="['Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa']"
+                        class="mask-input genero"
+                        v-model="pessoa.genero"
+                        type="text"
+                        autocomplete="off"
+                        name="pessoa.genero"
+                        placeholder=" " />
             </div><br>
 
             <div class="valor">
@@ -137,15 +145,20 @@
 
             <div class="valor">
                 <span class="campo">Data de Nasc.</span>
-                <input autocomplete="off" type="x   " placeholder=" "
-                       v-model="pessoa.dt_nascimento"
-                       name="dt_nascimento"
-                />
-                <!--<masked-input placeholder=" "-->
-                              <!--type="text"-->
-                       <!--v-model="pessoa.dt_nascimento"-->
-                       <!--mask="11 / 11 / 1111"-->
-                <!--/>-->
+                <input
+                        type="text"
+                        v-model="nova_dt_nascimento"
+                        name="dt_nascimento"
+                        placeholder=" "
+                        onkeyup="
+                            var v = this.value;
+                            if (v.match(/^\d{2}$/) !== null) {
+                                this.value = v + '/';
+                            } else if (v.match(/^\d{2}\/\d{2}$/) !== null) {
+                                this.value = v + '/';
+                            }"
+                        maxlength="10"
+                        @input="formataDataNascimento($event.target.value)">
             </div><br>
 
             <div class="valor">
@@ -167,18 +180,26 @@
             <!-- DOCUMENTOS -->
             <div class="valor">
                 <span class="campo">RG</span>
-                <input autocomplete="off" type="text" placeholder=" "
-                       v-model="pessoa.rg"
-                       name="rg"
-                />
+                <the-mask
+                        :mask="['XX.XXX.XXX-X']"
+                        class="mask-input cpf"
+                        v-model="pessoa.rg"
+                        type="text"
+                        autocomplete="off"
+                        name="rg"
+                        placeholder=" " />
             </div><br>
 
             <div class="valor">
                 <span class="campo">CPF</span>
-                <input autocomplete="off" type="text" placeholder=" "
-                       v-model="pessoa.cpf"
-                       name="cpf"
-                />
+                <the-mask
+                        :mask="['###.###.###-##']"
+                        class="mask-input cpf"
+                        v-model="pessoa.cpf"
+                        type="text"
+                        autocomplete="off"
+                        name="cpf"
+                        placeholder=" " />
             </div><br>
 
             <div class="valor">
@@ -354,7 +375,14 @@
                 </div><br>
                 <div class="valor">
                     <span class="campo">Número</span>
-                    <input autocomplete="off" type="text" placeholder=" " name="endereco.numero" v-model="endereco.numero" />
+                    <the-mask
+                            :mask="['######']"
+                            class="mask-input numero"
+                            v-model="endereco.numero"
+                            type="text"
+                            autocomplete="off"
+                            name="endereco.numero"
+                            placeholder=" " />
                 </div><br>
                 <div class="valor">
                     <span class="campo">Complemento</span>
@@ -366,7 +394,14 @@
                 </div><br>
                 <div class="valor">
                     <span class="campo">cep</span>
-                    <input autocomplete="off" type="text" placeholder=" " name="endereco.cep" v-model="endereco.cep" />
+                    <the-mask
+                            :mask="['#####-###']"
+                            class="mask-input cep"
+                            v-model="endereco.cep"
+                            type="text"
+                            autocomplete="off"
+                            name="endereco.cep"
+                            placeholder=" " />
                 </div><br>
                 <div class="valor">
                     <span class="campo">cidade</span>
@@ -374,7 +409,14 @@
                 </div><br>
                 <div class="valor">
                     <span class="campo">uf</span>
-                    <input autocomplete="off" type="text" placeholder=" " name="endereco.estado" v-model="endereco.estado" />
+                    <the-mask
+                            :mask="['AA']"
+                            class="mask-input uf"
+                            v-model="endereco.estado"
+                            type="text"
+                            autocomplete="off"
+                            name="endereco.estado"
+                            placeholder=" " />
                 </div><br>
                 <div class="valor">
                     <span class="campo">País</span>
@@ -392,7 +434,15 @@
                 </div><br>
                 <div class="valor">
                     <span class="campo">Número</span>
-                    <input @input="novo_endereco.numero = $event.target.value" autocomplete="off" type="text" placeholder=" " name="novo_endereco.numero" v-model="novo_endereco.numero" />
+                    <the-mask
+                            :mask="['######']"
+                            @input="novo_endereco.numero = $event.target.value"
+                            class="mask-input numero"
+                            v-model="novo_endereco.numero"
+                            type="text"
+                            autocomplete="off"
+                            name="novo_endereco.numero"
+                            placeholder=" " />
                 </div><br>
                 <div class="valor">
                     <span class="campo">Complemento</span>
@@ -404,7 +454,15 @@
                 </div><br>
                 <div class="valor">
                     <span class="campo">cep</span>
-                    <input @input="novo_endereco.cep = $event.target.value" autocomplete="off" type="text" placeholder=" " name="novo_endereco.cep" v-model="novo_endereco.cep" />
+                    <the-mask
+                            :mask="['#####-###']"
+                            @input="novo_endereco.cep = $event.target.value"
+                            class="mask-input cep"
+                            v-model="novo_endereco.cep"
+                            type="text"
+                            autocomplete="off"
+                            name="novo_endereco.cep"
+                            placeholder=" " />
                 </div><br>
                 <div class="valor">
                     <span class="campo">cidade</span>
@@ -412,7 +470,15 @@
                 </div><br>
                 <div class="valor">
                     <span class="campo">uf</span>
-                    <input @input="novo_endereco.estado = $event.target.value" autocomplete="off" type="text" placeholder=" " name="novo_endereco.estado" v-model="novo_endereco.estado" />
+                     <the-mask
+                            :mask="['AA']"
+                            @input="novo_endereco.estado = $event.target.value"
+                            class="mask-input uf"
+                            v-model="novo_endereco.estado"
+                            type="text"
+                            autocomplete="off"
+                            name="novo_endereco.estado"
+                            placeholder=" " />
                 </div><br>
                 <div class="valor">
                     <span class="campo">País</span>
@@ -491,14 +557,12 @@
     import { eventBus } from '../../estudiobaile';
     import modal from '../modals/modal_delete';
     import editbar from '../editbar';
-    import MaskedInput from 'vue-masked-input';
-    import {TheMask} from 'vue-the-mask';
+    import { TheMask } from 'vue-the-mask';
 
     export default {
         components: {
             modal,
             editbar,
-            MaskedInput,
             TheMask
         },
         created() {
@@ -548,6 +612,7 @@
                 generos: {},
                 projetos: [],
                 pessoas_juridicas_relacionadas: [],
+                nova_dt_nascimento: '',
                 //Campos de inclusão
                 root: '',
                 pessoa_juridica_id: '',
@@ -597,6 +662,7 @@
             }
         },
         methods: {
+            console: function(x){ console.log(x) },
             getPessoa: function(id){
                 this.item_carregado = false;
                 this.imagem_destaque = `${this.root}/img/perfil_vazio.png`;
@@ -605,7 +671,6 @@
                         eventBus.$emit('getPessoaFisica', this.$route.params.id);
                         let dados = res.data;
                         this.pessoa = dados.pessoa_fisica;
-                        this.pessoa.genero = dados.genero;
                         this.pessoa.estado_civil = dados.estado_civil;
                         this.contatos = dados.contatos;
                         this.enderecos = dados.enderecos;
@@ -623,6 +688,12 @@
 
                         //imagem de destaque
                         this.getImagemDestaque();
+
+                        //data de nascimento formatada
+                        if(this.pessoa.dt_nascimento !== null && typeof this.pessoa.dt_nascimento !== "undefined") {
+                            let dt = this.pessoa.dt_nascimento.split('-');
+                            this.nova_dt_nascimento = `${dt[2]}/${dt[1]}/${dt[0]}`;
+                        }
                     })
                     .then(() => this.item_carregado = true);
             },
@@ -641,6 +712,13 @@
                     eventBus.$emit('foiSalvoPessoaFisica', this.pessoa);
                 })
                 .then(() => this.item_carregado = true);
+            },
+            formataDataNascimento: function(dt_nascimento){
+                if(dt_nascimento.length == 10) {
+                    let dt = dt_nascimento.split('/');
+                    let dia = dt[0]; let mes = dt[1]; let ano = dt[2];
+                    this.pessoa.dt_nascimento = `${ano}-${mes}-${dia}`;
+                }
             },
             deletePessoa: function(){
                 axios.post('/ajax/pf/delete', {

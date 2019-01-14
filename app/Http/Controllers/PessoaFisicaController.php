@@ -24,7 +24,7 @@ class PessoaFisicaController extends Controller
 
     public function ajaxIndex()
     {
-        return PessoaFisica::orderBy('nome_adotado')->get();
+        return PessoaFisica::select('id', 'nome_adotado')->orderBy('id')->get();
     }
 
     public function ajaxCreate(Request $request)
@@ -52,7 +52,7 @@ class PessoaFisicaController extends Controller
         $pessoas_juridicas_relacionadas = PessoaFisica::getPessoasJuridicasRelacionadasPorId($id);
 
         //Gênero
-        $genero = !empty($pessoa_fisica->genero_id) ? Genero::find($pessoa_fisica->genero_id)->valor : null;
+//        $genero = !empty($pessoa_fisica->genero_id) ? Genero::find($pessoa_fisica->genero_id)->valor : null;
 
         //Contatos
         $contatos = $pessoa_fisica->contatos()->get();
@@ -81,7 +81,7 @@ class PessoaFisicaController extends Controller
 
         return [
             'pessoa_fisica' => $pessoa_fisica,
-            'genero' => $genero,
+            //'genero' => $genero,
             'estado_civil' => $estado_civil,
             'contatos' => $contatos,
             'enderecos' => $enderecos,
@@ -116,11 +116,7 @@ class PessoaFisicaController extends Controller
         foreach(json_decode($pessoa_fisica) as $chave => $valor):
             if($chave == "modificado_por") {
                 $pessoa_fisica->$chave = $r->user()->name;
-            }
-            else if($chave == "dt_nascimento"){
-                 $pessoa_fisica->$chave = date('d-m-Y', strtotime($request['pessoa'][$chave]));
-            }
-            else {
+            } else {
                 $pessoa_fisica->$chave = $request['pessoa'][$chave];
             }
         endforeach;
