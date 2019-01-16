@@ -31,6 +31,29 @@ class Controller extends BaseController
 
     }
 
+    public function getTipoArquivo($ext){
+        switch($ext):
+            //imagens
+            case 'jpg': case 'jpeg': case 'png':
+                return "imagem";
+            //gif
+            case 'gif':
+                return "gif";
+            //imagens
+            case 'psd': case 'tiff':
+                return "img alta";
+            //documentos de texto
+            case 'doc': case 'docx': case 'pdf': case 'txt':
+                return "documento";
+            //planilhas
+            case 'xls': case 'xlsx':
+                return "planilha";
+            //outros
+            default:
+                return "arquivo";
+        endswitch;
+    }
+
     public function makeThumb($src, $dest, $desired_width, $ext) {
 
         /* read the source image */

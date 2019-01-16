@@ -51761,7 +51761,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 
 
@@ -53320,32 +53319,6 @@ var render = function() {
                 { staticClass: "valor" },
                 [
                   _c("span", { staticClass: "campo" }, [_vm._v("Número")]),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: endereco.numero,
-                        expression: "endereco.numero"
-                      }
-                    ],
-                    attrs: {
-                      autocomplete: "off",
-                      type: "text",
-                      placeholder: " ",
-                      name: "endereco.numero"
-                    },
-                    domProps: { value: endereco.numero },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(endereco, "numero", $event.target.value)
-                      }
-                    }
-                  }),
                   _vm._v(" "),
                   _c("the-mask", {
                     staticClass: "mask-input numero",

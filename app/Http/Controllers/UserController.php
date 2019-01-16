@@ -138,28 +138,8 @@ class UserController extends Controller
                 $nome_arquivo = date('YmdHis') . '_' . $_FILES['arquivo']['name'];
                 $extensao = explode('.', $_FILES['arquivo']['name']);
                 $extensao = end($extensao);
-
-                switch($extensao):
-                    //imagens
-                    case 'jpg': case 'jpeg': case 'png':
-                    $tipo = "imagem"; break;
-                    //gif
-                    case 'gif':
-                        $tipo = "gif"; break;
-                    //imagens
-                    case 'psd': case 'tiff':
-                    $tipo = "imagem+"; break;
-                    //documentos de texto
-                    case 'doc': case 'docx': case 'pdf': case 'txt':
-                    $tipo = "documento"; break;
-                    //planilhas
-                    case 'xls': case 'xlsx':
-                    $tipo = "planilha"; break;
-                    //outros
-                    default:
-                        $tipo = "arquivo";
-                endswitch;
-
+                $extensao = strtolower($extensao);
+                $tipo = $this->getTipoArquivo($extensao);
 
                 $arquivo = new Arquivo();
                 $arquivo->nome = $nome_arquivo;

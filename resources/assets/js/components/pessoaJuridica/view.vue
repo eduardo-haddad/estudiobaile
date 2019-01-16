@@ -292,7 +292,6 @@
                 </div><br>
                 <div class="valor">
                     <span class="campo">Número</span>
-                    <input autocomplete="off" type="text" placeholder=" " name="endereco.numero" v-model="endereco.numero" />
                     <the-mask
                             :mask="['######']"
                             class="mask-input numero"
