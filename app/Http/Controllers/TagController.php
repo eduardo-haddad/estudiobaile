@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\PessoaFisica;
 use App\PessoaJuridica;
+use App\Projeto;
 use Illuminate\Http\Request;
 use DB;
 use App\Tag;
@@ -13,22 +14,68 @@ class TagController extends Controller
 
     public function ajaxIndex()
     {
-        return Tag::orderBy('text')->get();
+        return Tag::select('id', 'text')->orderBy('text')->get();
     }
 
 
     public function ajaxView($id)
     {
         $tag = Tag::find($id);
+        $pessoas_relacionadas = null;
+        $pf_relacionadas = null;
+        $pj_relacionadas = null;
 
-        $pessoas_fisicas_relacionadas = $this->pessoasRelacionadas($id, "pessoa_fisica");
-        $pessoas_juridicas_relacionadas = $this->pessoasRelacionadas($id, "pessoa_juridica");
+        if(!empty($tag) && $tag->tipo == "tag") {
+            return [
+                'tag' => $tag,
+                'pessoas_fisicas_relacionadas' => Tag::pessoasRelacionadas($id, "pessoa_fisica"),
+                'pessoas_juridicas_relacionadas' => Tag::pessoasRelacionadas($id, "pessoa_juridica")
+            ];
 
-        return [
-            'tag' => $tag,
-            'pessoas_fisicas_relacionadas' => $pessoas_fisicas_relacionadas,
-            'pessoas_juridicas_relacionadas' => $pessoas_juridicas_relacionadas
-        ];
+        } else if(!empty($tag) && $tag->tipo == "cargo") {
+            $pf_pj_relacionados = Tag::getIdsPessoasRelacionadasCargo($id);
+            foreach($pf_pj_relacionados as $pf_pj) {
+                $pessoas_relacionadas[] = [
+                    'pessoa_fisica' => PessoaFisica::find($pf_pj->pessoa_fisica_id),
+                    'pessoa_juridica' => PessoaJuridica::find($pf_pj->pessoa_juridica_id),
+                ];
+            }
+            return [
+                'tag' => $tag,
+                'pessoas_relacionadas' => $pessoas_relacionadas,
+            ];
+
+        } else if(!empty($tag) && $tag->tipo == "chancela") {
+            $pf_relacionadas_ids = Tag::getIdsPfRelacionadasChancela($id);
+            $pj_relacionadas_ids = Tag::getIdsPjRelacionadasChancela($id);
+
+            foreach($pf_relacionadas_ids as $pf){
+                $pf_relacionadas[] = [
+                    'id' => $pf->id,
+                    'nome_adotado' => $pf->nome_adotado,
+                    'projeto_nome' => $pf->projeto_nome,
+                    'projeto_id' => $pf->projeto_id
+                ];
+            }
+            foreach($pj_relacionadas_ids as $pj){
+                $pj_relacionadas[] = [
+                    'id' => $pj->id,
+                    'nome_fantasia' => $pj->nome_fantasia,
+                    'projeto_nome' => $pj->projeto_nome,
+                    'projeto_id' => $pj->projeto_id
+                ];
+            }
+
+            return [
+                'tag' => $tag,
+                'pessoas_fisicas_relacionadas' => $pf_relacionadas,
+                'pessoas_juridicas_relacionadas' => $pj_relacionadas,
+            ];
+
+        }
+
+        return "tipo de tag inválido";
+
     }
 
 
@@ -51,7 +98,7 @@ class TagController extends Controller
 
         $tag->save();
 
-        return $tag;
+        return $this->ajaxIndex();
     }
 
     public function ajaxRemoveTag($id) {
@@ -68,41 +115,47 @@ class TagController extends Controller
         //Deleta tags não atribuídas a ninguém
         Tag::removeTagsNaoAtribuidas();
 
-        if(Tag::where('id', $id)->exists()) return "ok";
-
-        return $this->ajaxIndex();
+        return [
+            'empty' => !(Tag::where('id', $id)->exists()),
+            'index' => $this->ajaxIndex()
+        ];
 
     }
 
+    public function ajaxRemoveCargo() {
+        $tag_id = request('tag_id');
+        $pessoa_fisica_id = request('pessoa_fisica_id');
+        $pessoa_juridica_id = request('pessoa_juridica_id');
 
-    public function pessoasRelacionadas($id, $tipo) {
+        if(PessoaFisica::removeChancelaPj($tag_id, $pessoa_fisica_id, $pessoa_juridica_id)){
+            //Deleta tags não atribuídas a ninguém
+            Tag::removeTagsNaoAtribuidas();
 
-        switch($tipo):
-            case 'pessoa_fisica':
-                $pessoa = 'PessoaFisica';
-                $nome = 'nome_adotado';
-                $tabela = 'pessoas_fisicas';
-                $chave = 'pessoa_fisica_id';
-                break;
-            case 'pessoa_juridica':
-                $pessoa = 'PessoaJuridica';
-                $nome = 'nome_fantasia';
-                $tabela = 'pessoas_juridicas';
-                $chave = 'pessoa_juridica_id';
-                break;
-            default:
-                return 'Tipo de pessoa inválido';
-        endswitch;
-
-        return DB::Select("
-            SELECT $pessoa.id, $pessoa.$nome
-                FROM tags Tag
-                INNER JOIN pessoa_tag PessoaTag ON PessoaTag.tag_id = Tag.id
-                INNER JOIN $tabela $pessoa ON $pessoa.id = PessoaTag.$chave
-            WHERE Tag.id = $id
-        ");
+            return [
+                'empty' => !(Tag::where('id', $tag_id)->exists()),
+                'index' => $this->ajaxIndex()
+            ];
+        }
+        return false;
     }
 
+    public function ajaxRemoveChancela() {
 
+        $tag_id = request('tag_id');
+        $pessoa_fisica_id = request('pessoa_fisica_id');
+        $pessoa_juridica_id = request('pessoa_juridica_id');
+        $projeto_id = request('projeto_id');
+
+        if(Projeto::removeChancelaDeProjeto($projeto_id, $tag_id, $pessoa_fisica_id, $pessoa_juridica_id)){
+            //Deleta tags não atribuídas a ninguém
+            Tag::removeTagsNaoAtribuidas();
+
+            return [
+                'empty' => !(Tag::where('id', $tag_id)->exists()),
+                'index' => $this->ajaxIndex()
+            ];
+        }
+        return false;
+    }
 
 }

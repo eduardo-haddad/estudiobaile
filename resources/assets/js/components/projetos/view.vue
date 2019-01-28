@@ -6,7 +6,7 @@
             <h3 slot="header">Excluir registro?</h3>
         </modal>
 
-        <editbar></editbar>
+        <editbar export="false" delete="true"></editbar>
 
         <div class="titulo">
             <div v-if="destaqueAtivo" class="imagem_destaque">
@@ -140,11 +140,11 @@
                                 <td class="num_arquivo">{{ index+1 }}</td>
                                 <td class="nome_arquivo"><router-link :id="pessoa.pessoa_id" :to="{ name: 'pf-view',
                                 params: { id: pessoa.pessoa_id }}">{{ pessoa.nome }}</router-link></td>
-                                <td class="descricao_arquivo">{{ pessoa.chancela }}</td>
+                                <td class="descricao_arquivo">{{ pessoa.tag }}</td>
                                 <td class="destaque_arquivo"></td>
                                 <td class="tipo_arquivo"></td>
                                 <td class="data_arquivo"></td>
-                                <td class="remove_arquivo"><a @click.prevent="removeChancela(pessoa.pessoa_id, pessoa.chancela_id, true)">X</a></td>
+                                <td class="remove_arquivo"><a @click.prevent="removeChancela(pessoa.pessoa_id, pessoa.tag_id, true)">X</a></td>
                             </tr>
                         </table>
                     </div>
@@ -165,7 +165,7 @@
                 <span class="campo">Chancela</span>
                 <select @change="" name="chancelas" class="chancelas_pf_lista">
                     <option disabled selected value> -- Selecione uma chancela -- </option>
-                    <option v-for="chancela in atributos.chancelas" :value="chancela.id">{{ chancela.valor }}</option>
+                    <option v-for="chancela in atributos.chancelas" :value="chancela.id">{{ chancela.text }}</option>
                 </select>
                 <a @click.prevent="adicionaChancela(true)">[+]</a>
 
@@ -194,11 +194,11 @@
                                 <td class="nome_arquivo"><router-link
                                         :id="pessoa.pessoa_id" :to="{ name: 'pj-view',
                                         params: { id: pessoa.pessoa_id }}">{{ pessoa.nome }}</router-link></td>
-                                <td class="descricao_arquivo">{{ pessoa.chancela }}</td>
+                                <td class="descricao_arquivo">{{ pessoa.tag }}</td>
                                 <td class="destaque_arquivo"></td>
                                 <td class="tipo_arquivo"></td>
                                 <td class="data_arquivo"></td>
-                                <td class="remove_arquivo"><a @click.prevent="removeChancela(pessoa.pessoa_id, pessoa.chancela_id, false)">X</a></td>
+                                <td class="remove_arquivo"><a @click.prevent="removeChancela(pessoa.pessoa_id, pessoa.tag_id, false)">X</a></td>
                             </tr>
                         </table>
                     </div>
@@ -219,7 +219,7 @@
                 <span class="campo">Chancela</span>
                 <select name="chancelas" class="chancelas_pj_lista">
                     <option disabled selected value> -- Selecione uma chancela -- </option>
-                    <option v-for="chancela in atributos.chancelas" :value="chancela.id">{{ chancela.valor }}</option>
+                    <option v-for="chancela in atributos.chancelas" :value="chancela.id">{{ chancela.text }}</option>
                 </select>
                 <a @click.prevent="adicionaChancela(false)">[+]</a>
 
@@ -380,7 +380,7 @@
                 })
                 .then(() => this.item_carregado = true);
             },
-            removeChancela: function(pessoa_id, chancela_id, isPf){
+            removeChancela: function(pessoa_id, tag_id, isPf){
                 this.item_carregado = false;
                 let pessoa_fisica_id, pessoa_juridica_id;
                 pessoa_fisica_id = isPf === true ? pessoa_id : false;
@@ -389,7 +389,7 @@
                 axios.post('/ajax/projetos/ajaxRemoveChancela', {
                     pessoa_fisica_id: pessoa_fisica_id,
                     pessoa_juridica_id: pessoa_juridica_id,
-                    chancela_id: chancela_id,
+                    tag_id: tag_id,
                     projeto_id: this.$route.params.id,
                 })
                 .then(res => {

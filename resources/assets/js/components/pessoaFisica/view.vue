@@ -6,7 +6,7 @@
             <h3 slot="header">Excluir registro?</h3>
         </modal>
 
-        <editbar></editbar>
+        <editbar export="false" delete="true"></editbar>
 
         <div class="titulo">
             <div v-if="destaqueAtivo" class="imagem_destaque">
@@ -119,14 +119,7 @@
 
             <div class="valor">
                 <span class="campo">Gênero</span>
-                <!--<select name="genero" v-model="pessoa.genero_id">-->
-                    <!--<option v-for="(genero, index) in atributos.generos" :value="genero.id" :key="'genero-'+index + genero.id">-->
-                        <!--{{ genero.valor == 'F' ? 'Feminino' : 'Masculino' }}-->
-                    <!--</option>-->
-                <!--</select>-->
-                <the-mask
-                        :mask="['Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa']"
-                        class="mask-input genero"
+                <input
                         v-model="pessoa.genero"
                         type="text"
                         autocomplete="off"
@@ -145,20 +138,158 @@
 
             <div class="valor">
                 <span class="campo">Data de Nasc.</span>
-                <input
-                        type="text"
-                        v-model="nova_dt_nascimento"
-                        name="dt_nascimento"
-                        placeholder=" "
-                        onkeyup="
-                            var v = this.value;
-                            if (v.match(/^\d{2}$/) !== null) {
-                                this.value = v + '/';
-                            } else if (v.match(/^\d{2}\/\d{2}$/) !== null) {
-                                this.value = v + '/';
-                            }"
-                        maxlength="10"
-                        @input="formataDataNascimento($event.target.value)">
+                <select v-model="dt_nascimento_dia" @input="formataDtNascimento($event.target.value, 'dia')" class="dt_nascimento_dia">
+                    <option value="00">Dia</option>
+                    <option value="01">1</option>
+                    <option value="02">2</option>
+                    <option value="03">3</option>
+                    <option value="04">4</option>
+                    <option value="05">5</option>
+                    <option value="06">6</option>
+                    <option value="07">7</option>
+                    <option value="08">8</option>
+                    <option value="09">9</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                    <option value="13">13</option>
+                    <option value="14">14</option>
+                    <option value="15">15</option>
+                    <option value="16">16</option>
+                    <option value="17">17</option>
+                    <option value="18">18</option>
+                    <option value="19">19</option>
+                    <option value="20">20</option>
+                    <option value="21">21</option>
+                    <option value="22">22</option>
+                    <option value="23">23</option>
+                    <option value="24">24</option>
+                    <option value="25">25</option>
+                    <option value="26">26</option>
+                    <option value="27">27</option>
+                    <option value="28">28</option>
+                    <option value="29">29</option>
+                    <option value="30">30</option>
+                    <option value="31">31</option>
+                </select>
+                <select v-model="dt_nascimento_mes" @input="formataDtNascimento($event.target.value, 'mes')" class="dt_nascimento_mes">
+                    <option value="00">Mês</option>
+                    <option value="01">Janeiro</option>
+                    <option value="02">Fevereiro</option>
+                    <option value="03">Março</option>
+                    <option value="04">Abril</option>
+                    <option value="05">Maio</option>
+                    <option value="06">Junho</option>
+                    <option value="07">Julho</option>
+                    <option value="08">Agosto</option>
+                    <option value="09">Setembro</option>
+                    <option value="10">Outubro</option>
+                    <option value="11">Novembro</option>
+                    <option value="12">Dezembro</option>
+                </select>
+                <select v-model="dt_nascimento_ano" @input="formataDtNascimento($event.target.value, 'ano')" class="dt_nascimento_ano">
+                    <option value="0000">Ano</option>
+                    <option value="2019">2019</option>
+                    <option value="2018">2018</option>
+                    <option value="2017">2017</option>
+                    <option value="2016">2016</option>
+                    <option value="2015">2015</option>
+                    <option value="2014">2014</option>
+                    <option value="2013">2013</option>
+                    <option value="2012">2012</option>
+                    <option value="2011">2011</option>
+                    <option value="2010">2010</option>
+                    <option value="2009">2009</option>
+                    <option value="2008">2008</option>
+                    <option value="2007">2007</option>
+                    <option value="2006">2006</option>
+                    <option value="2005">2005</option>
+                    <option value="2004">2004</option>
+                    <option value="2003">2003</option>
+                    <option value="2002">2002</option>
+                    <option value="2001">2001</option>
+                    <option value="2000">2000</option>
+                    <option value="1999">1999</option>
+                    <option value="1998">1998</option>
+                    <option value="1997">1997</option>
+                    <option value="1996">1996</option>
+                    <option value="1995">1995</option>
+                    <option value="1994">1994</option>
+                    <option value="1993">1993</option>
+                    <option value="1992">1992</option>
+                    <option value="1991">1991</option>
+                    <option value="1990">1990</option>
+                    <option value="1989">1989</option>
+                    <option value="1988">1988</option>
+                    <option value="1987">1987</option>
+                    <option value="1986">1986</option>
+                    <option value="1985">1985</option>
+                    <option value="1984">1984</option>
+                    <option value="1983">1983</option>
+                    <option value="1982">1982</option>
+                    <option value="1981">1981</option>
+                    <option value="1980">1980</option>
+                    <option value="1979">1979</option>
+                    <option value="1978">1978</option>
+                    <option value="1977">1977</option>
+                    <option value="1976">1976</option>
+                    <option value="1975">1975</option>
+                    <option value="1974">1974</option>
+                    <option value="1973">1973</option>
+                    <option value="1972">1972</option>
+                    <option value="1971">1971</option>
+                    <option value="1970">1970</option>
+                    <option value="1969">1969</option>
+                    <option value="1968">1968</option>
+                    <option value="1967">1967</option>
+                    <option value="1966">1966</option>
+                    <option value="1965">1965</option>
+                    <option value="1964">1964</option>
+                    <option value="1963">1963</option>
+                    <option value="1962">1962</option>
+                    <option value="1961">1961</option>
+                    <option value="1960">1960</option>
+                    <option value="1959">1959</option>
+                    <option value="1958">1958</option>
+                    <option value="1957">1957</option>
+                    <option value="1956">1956</option>
+                    <option value="1955">1955</option>
+                    <option value="1954">1954</option>
+                    <option value="1953">1953</option>
+                    <option value="1952">1952</option>
+                    <option value="1951">1951</option>
+                    <option value="1950">1950</option>
+                    <option value="1949">1949</option>
+                    <option value="1948">1948</option>
+                    <option value="1947">1947</option>
+                    <option value="1946">1946</option>
+                    <option value="1945">1945</option>
+                    <option value="1944">1944</option>
+                    <option value="1943">1943</option>
+                    <option value="1942">1942</option>
+                    <option value="1941">1941</option>
+                    <option value="1940">1940</option>
+                    <option value="1939">1939</option>
+                    <option value="1938">1938</option>
+                    <option value="1937">1937</option>
+                    <option value="1936">1936</option>
+                    <option value="1935">1935</option>
+                    <option value="1934">1934</option>
+                    <option value="1933">1933</option>
+                    <option value="1932">1932</option>
+                    <option value="1931">1931</option>
+                    <option value="1930">1930</option>
+                    <option value="1929">1929</option>
+                    <option value="1928">1928</option>
+                    <option value="1927">1927</option>
+                    <option value="1926">1926</option>
+                    <option value="1925">1925</option>
+                    <option value="1924">1924</option>
+                    <option value="1923">1923</option>
+                    <option value="1922">1922</option>
+                    <option value="1921">1921</option>
+                    <option value="1920">1920</option>
+                </select>
             </div><br>
 
             <div class="valor">
@@ -260,11 +391,11 @@
                                 <td class="num_arquivo">{{ index+1 }}</td>
                                 <td class="nome_arquivo"><router-link :id="pessoa.pessoa_juridica_id" :to="{ name: 'pj-view',
                                 params: { id: pessoa.pessoa_juridica_id }}">{{ pessoa.nome_fantasia.trunc(30) }}</router-link></td>
-                                <td class="descricao_arquivo">{{ pessoa.cargo }}</td>
+                                <td class="descricao_arquivo">{{ pessoa.tag }}</td>
                                 <td class="destaque_arquivo"></td>
                                 <td class="tipo_arquivo"></td>
                                 <td class="data_arquivo"></td>
-                                <td class="remove_arquivo"><a @click.prevent="removeChancelaPj(pessoa.pessoa_juridica_id, pessoa.cargo_id)">X</a></td>
+                                <td class="remove_arquivo"><a @click.prevent="removeChancelaPj(pessoa.pessoa_juridica_id, pessoa.tag_id)">X</a></td>
                             </tr>
                         </table>
                     </div>
@@ -272,7 +403,7 @@
             </div><br>
 
             <!-- Add novo chancela pessoa jurídica -->
-            <a @click="mostraChancelaPjBoxMetodo" class="link_abrir_box">[adicionar pessoa jurídica]</a>
+            <a @click.prevent="mostraChancelaPjBoxMetodo" class="link_abrir_box">[adicionar pessoa jurídica]</a>
             <div v-if="mostraChancelaPjBox">
                 <!--novo_cargo-->
                 <span class="campo">Nome</span>
@@ -282,12 +413,12 @@
                         {{ pessoa.nome_fantasia }}
                     </option>
                 </select><br>
-                <span class="campo">Chancela</span>
-                <select @change="" name="chancelas" class="chancelas_pj_lista">
-                    <option disabled selected value> -- Selecione uma chancela -- </option>
-                    <option v-for="chancela in atributos.chancelas_pj" :value="chancela.id">{{ chancela.valor }}</option>
+                <span class="campo">Cargo</span>
+                <select @change="" name="cargos" class="cargos_pj_lista">
+                    <option disabled selected value> -- Selecione um cargo -- </option>
+                    <option v-for="cargo in atributos.cargos_pj" :value="cargo.id">{{ cargo.text }}</option>
                 </select>
-                <a @click.prevent="adicionaChancelaPj">[+]</a>
+                <a @click.prevent="adicionaCargoPj">[+]</a>
 
             </div>
 
@@ -318,7 +449,7 @@
 
             <div>
                 <div v-for="(telefone, index) in telefones" class="valor" :key="'telefone-'+index + telefone.id">
-                    <span class="campo">Telefone</span>
+                    <span class="campo">Telefone {{ index+1 }}</span>
                     <input type="text" placeholder=" " :id="telefone.id" v-model="telefone.valor" name="telefone" autocomplete="off" />
                     <a @click.prevent="removeContato(telefone.id)">X</a>
                 </div>
@@ -368,7 +499,7 @@
 
             <div v-for="(endereco, index) in enderecos" :key="'endereco-'+index + endereco.id" class="form_endereco">
 
-                <span class="titulo_bloco"># {{index+1}}:</span> <a @click="removeEndereco(endereco.id)">X</a> <br>
+                <span class="titulo_bloco"># {{index+1}}:</span> <a @click.prevent="removeEndereco(endereco.id)">X</a> <br>
                 <div class="valor">
                     <span class="campo">Logradouro</span>
                     <input autocomplete="off" type="text" placeholder=" " name="endereco.rua" v-model="endereco.rua" />
@@ -425,7 +556,7 @@
             </div>
 
             <!--Add novo endereço-->
-            <a @click="mostraEnderecoBox = !mostraEnderecoBox" class="link_abrir_box">[adicionar endereço]</a>
+            <a @click.prevent="mostraEnderecoBox = !mostraEnderecoBox" class="link_abrir_box">[adicionar endereço]</a>
             <div v-if="mostraEnderecoBox">
                 <span class="campo">--- Novo Endereço</span><br>
                 <div class="valor">
@@ -494,7 +625,7 @@
             <span class="titulo_bloco">Dados bancários</span>
 
             <div v-for="(dado_bancario, index) in dados_bancarios">
-                <span class="titulo_bloco"># {{index+1}}:</span> <a @click="removeDadosBancarios(dado_bancario.id)">X</a> <br>
+                <span class="titulo_bloco"># {{index+1}}:</span> <a @click.prevent="removeDadosBancarios(dado_bancario.id)">X</a> <br>
                 <div class="valor">
                     <span class="campo">Banco</span>
                     <input autocomplete="off" type="text" placeholder=" " name="dado_bancario.nome_banco" v-model="dado_bancario.nome_banco" />
@@ -518,7 +649,7 @@
 
             </div>
             <!-- Add novos dados bancários -->
-            <a @click="mostraDadosBancariosBox = !mostraDadosBancariosBox" class="link_abrir_box">[adicionar dados bancários]</a>
+            <a @click.prevent="mostraDadosBancariosBox = !mostraDadosBancariosBox" class="link_abrir_box">[adicionar dados bancários]</a>
             <div v-if="mostraDadosBancariosBox">
                 <span class="campo">--- Novos Dados Bancários</span><br>
                 <div class="valor">
@@ -553,10 +684,13 @@
 </template>
 
 <script>
-
+    //bus eventos
     import { eventBus } from '../../estudiobaile';
+    //modal exclusão
     import modal from '../modals/modal_delete';
+    //barra superior - salvar
     import editbar from '../editbar';
+    //inputs com máscaras
     import { TheMask } from 'vue-the-mask';
 
     export default {
@@ -613,10 +747,13 @@
                 projetos: [],
                 pessoas_juridicas_relacionadas: [],
                 nova_dt_nascimento: '',
+                dt_nascimento_dia: '00',
+                dt_nascimento_mes: '00',
+                dt_nascimento_ano: '0000',
                 //Campos de inclusão
                 root: '',
                 pessoa_juridica_id: '',
-                nova_chancela: '',
+                novo_cargo: '',
                 novo_email: '',
                 novo_telefone: '',
                 novo_endereco: {rua:'',numero:'',complemento:'',bairro:'',cep:'',cidade:'',estado:'',pais:''},
@@ -651,7 +788,7 @@
                     this.pessoa.cnpj = null;
                     this.pessoa.razao_social = null
                 }
-            }
+            },
         },
         computed: {
             emails: function() {
@@ -662,6 +799,12 @@
             }
         },
         methods: {
+            formataDtNascimento: function(valor, tipo){
+                if(tipo === 'dia') this.dt_nascimento_dia = valor;
+                if(tipo === 'mes') this.dt_nascimento_mes = valor;
+                if(tipo === 'ano') this.dt_nascimento_ano = valor;
+                this.pessoa.dt_nascimento = `${this.dt_nascimento_ano}-${this.dt_nascimento_mes}-${this.dt_nascimento_dia}`;
+            },
             console: function(x){ console.log(x) },
             getPessoa: function(id){
                 this.item_carregado = false;
@@ -692,8 +835,13 @@
                         //data de nascimento formatada
                         if(this.pessoa.dt_nascimento !== null && typeof this.pessoa.dt_nascimento !== "undefined") {
                             let dt = this.pessoa.dt_nascimento.split('-');
-                            this.nova_dt_nascimento = `${dt[2]}/${dt[1]}/${dt[0]}`;
+                            this.dt_nascimento_dia = dt[2];
+                            this.dt_nascimento_mes = dt[1];
+                            this.dt_nascimento_ano = dt[0];
                         }
+
+                        //preenche tags
+                        this.preencheTags(id);
                     })
                     .then(() => this.item_carregado = true);
             },
@@ -713,13 +861,6 @@
                 })
                 .then(() => this.item_carregado = true);
             },
-            formataDataNascimento: function(dt_nascimento){
-                if(dt_nascimento.length == 10) {
-                    let dt = dt_nascimento.split('/');
-                    let dia = dt[0]; let mes = dt[1]; let ano = dt[2];
-                    this.pessoa.dt_nascimento = `${ano}-${mes}-${dia}`;
-                }
-            },
             deletePessoa: function(){
                 axios.post('/ajax/pf/delete', {
                     pessoa: this.$route.params.id,
@@ -731,20 +872,20 @@
                         console.log('Erro ao deletar pessoa física');
                 });
             },
-            adicionaChancelaPj: function(){
+            adicionaCargoPj: function(){
                 this.item_carregado = false;
-                axios.post('/ajax/pf/ajaxAddChancelaPj', {
+                axios.post('/ajax/pf/ajaxAddCargoPj', {
                     pessoa_fisica_id: this.$route.params.id,
                     pessoa_juridica_id: this.pessoa_juridica_id,
-                    nova_chancela: this.nova_chancela,
+                    novo_cargo: this.novo_cargo,
 
                 })
                 .then(res => {
                     if(typeof res.data[0] !== "string") {
                         this.pessoas_juridicas_relacionadas = res.data[0];
-                        this.atributos.chancelas = res.data[1];
+                        this.atributos.cargos_pj = res.data[1];
                         this.pessoa_juridica_id = '';
-                        this.nova_chancela = '';
+                        this.novo_cargo = '';
                         this.mostraChancelaPjBox = false;
                     }
                 })
@@ -764,7 +905,7 @@
             },
             mostraChancelaPjBoxMetodo: function(){
                 this.mostraChancelaPjBox = !this.mostraChancelaPjBox;
-                this.jQuery();
+                if(this.mostraChancelaPjBox) this.selectPjJQuery();
             },
             adicionaContato: function(){
                 this.item_carregado = false;
@@ -932,7 +1073,6 @@
                 });
             },
             jQuery: function(){
-
                 //Instancia atual do Vue
                 let Vue = this;
 
@@ -953,23 +1093,23 @@
                     }).on('change', function(){
                         Vue.tags_atuais = $(this).val();
                     });
-
-                    //Preenche tags selecionadas (timeout 1s)
-                    let id_atual = window.location.href.split('/view/')[1];
-                    let tags_selecionadas = [];
-                    $.get('/ajax/pf/getTagsSelecionadas/' + id_atual).done(function(data) {
-                        setTimeout(function(){
-                            tags_selecionadas = data;
-                            let tags_ids = [];
-                            for (let i = 0; i < tags_selecionadas.length; i++) {
-                                tags_ids.push(tags_selecionadas[i]['id']);
-                            }
-                            $('#tags_list').val(tags_ids).trigger('change');
-                        }, 1000);
-                    }).fail(function() {
-                        return false;
+                });
+            },
+            preencheTags: function(id){
+                let tags_selecionadas = [];
+                $.get('/ajax/pf/getTagsSelecionadas/' + id)
+                    .then(function(data) {
+                        tags_selecionadas = data;
+                        $('#tags_list').val(tags_selecionadas);
+                    })
+                    .then(function() {
+                        $('#tags_list').trigger('change');
                     });
-
+            },
+            selectPjJQuery: function(){
+                //Instancia atual do Vue
+                let Vue = this;
+                $(document).ready(function(){
                     //Carrega select2 de pessoas físicas
                     $('.pj_lista').select2({
                         placeholder: "Digite um nome",
@@ -993,8 +1133,8 @@
                     //Cargos
 
                     //Carrega select2 de cargos
-                    $('.chancelas_pj_lista').select2({
-                        placeholder: "Digite uma chancela",
+                    $('.cargos_pj_lista').select2({
+                        placeholder: "Digite um cargo",
                         tags: true,
                         multiple: false,
                         tokenSeparators: [","],
@@ -1006,11 +1146,11 @@
                             };
                         }
                     }).on('change', function(){
-                        Vue.nova_chancela = $(this).val();
+                        Vue.novo_cargo = $(this).val();
                     });
-
                 });
-            },
+
+            }
         }
     }
 </script>

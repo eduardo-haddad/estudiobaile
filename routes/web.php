@@ -128,8 +128,8 @@ Route::group($opcoes_rotas, function(){
         'roles' => $geral
     ]);
     //Cargos
-    Route::post('/ajax/pf/ajaxAddChancelaPj', [
-        'uses' => 'PessoaFisicaController@ajaxAddChancelaPj',
+    Route::post('/ajax/pf/ajaxAddCargoPj', [
+        'uses' => 'PessoaFisicaController@ajaxAddCargoPj',
         'as' => 'ajax.pf.addChancelaPj',
         'roles' => $geral
     ]);
@@ -363,7 +363,7 @@ Route::group($opcoes_rotas, function(){
         'roles' => $geral
     ]);
     //View
-    Route::get('/ajax/tags/{id}', [
+    Route::get('/ajax/tags/view/{id}', [
         'uses' => 'TagController@ajaxView',
         'as' => 'ajax.tags.view',
         'roles' => $geral
@@ -372,6 +372,18 @@ Route::group($opcoes_rotas, function(){
     Route::post('/ajax/tags/save', [
         'uses' => 'TagController@ajaxSave',
         'as' => 'ajax.tags.save',
+        'roles' => $geral
+    ]);
+    //Remove cargo
+    Route::post('/ajax/tags/ajaxRemoveCargo', [
+        'uses' => 'TagController@ajaxRemoveCargo',
+        'as' => 'ajax.tags.removeCargo',
+        'roles' => $geral
+    ]);
+    //Remove chancela
+    Route::post('/ajax/tags/ajaxRemoveChancela', [
+        'uses' => 'TagController@ajaxRemoveChancela',
+        'as' => 'ajax.tags.removeChancela',
         'roles' => $geral
     ]);
     //Remove tag

@@ -51,13 +51,7 @@
             });
 
             //evento - registro salvo em pf-view
-            eventBus.$on('foiSalvoPessoaFisica', pessoa => {
-                // this.$set(this.pessoas, this.pessoas.findIndex(p => p.id == this.$route.params.id), {
-                //     nome_adotado: pessoa.nome_adotado,
-                //     id: pessoa.id
-                // });
-                this.getLista(pessoa.id);
-            });
+            eventBus.$on('foiSalvoPessoaFisica', pessoa => this.getLista(pessoa.id));
 
             //evento - mudança de pessoa física
             eventBus.$on('changePessoaFisica', () => {});

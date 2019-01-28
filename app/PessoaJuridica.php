@@ -65,25 +65,25 @@ class PessoaJuridica extends Model
             SELECT 
               PessoaFisica.id AS pessoa_fisica_id,
               PessoaFisica.nome_adotado AS pessoa_fisica_nome_adotado,
-              Cargo.valor AS cargo,
-              Cargo.id AS cargo_id
+              Tag.text AS tag,
+              Tag.id AS tag_id
             FROM 
               pessoas_fisicas PessoaFisica
               LEFT JOIN pf_pj PessoaFisicaJuridica
               ON PessoaFisicaJuridica.pessoa_fisica_id = PessoaFisica.id 
                 AND PessoaFisicaJuridica.pessoa_juridica_id = $id
-              INNER JOIN cargos Cargo
-              ON Cargo.id = PessoaFisicaJuridica.cargo_id
+              INNER JOIN tags Tag
+              ON Tag.id = PessoaFisicaJuridica.tag_id
             ORDER BY PessoaFisica.nome_adotado
         ");
     }
 
-    public static function removeCargoPf($cargo_id, $pessoa_fisica_id, $pessoa_juridica_id) {
+    public static function removeCargoPf($tag_id, $pessoa_fisica_id, $pessoa_juridica_id) {
 
         try {
             \DB::select("
             DELETE FROM pf_pj
-            WHERE cargo_id = $cargo_id
+            WHERE tag_id = $tag_id
                 AND pessoa_fisica_id = $pessoa_fisica_id
                 AND pessoa_juridica_id = $pessoa_juridica_id
         ");
@@ -99,12 +99,12 @@ class PessoaJuridica extends Model
             SELECT 
                 Projeto.nome AS projeto,
                 Projeto.id AS id,
-                Chancela.valor AS chancela
+                Tag.text AS chancela
             FROM projetos Projeto
                 INNER JOIN pj_projeto PfProjeto
                 ON PfProjeto.projeto_id = Projeto.id AND PfProjeto.pessoa_juridica_id = $id
-                LEFT JOIN chancelas Chancela
-                ON Chancela.id = PfProjeto.chancela_id
+                LEFT JOIN tags Tag
+                ON Tag.id = PfProjeto.tag_id
             ORDER BY Projeto.dt_inicio DESC
         ");
     }

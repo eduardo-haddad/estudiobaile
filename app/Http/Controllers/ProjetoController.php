@@ -7,6 +7,7 @@ use App\PessoaJuridica;
 use Illuminate\Http\Request;
 use App\Projeto;
 use App\Chancela;
+use App\Tag;
 use App\Arquivo;
 
 class ProjetoController extends Controller
@@ -38,9 +39,9 @@ class ProjetoController extends Controller
     public function ajaxView($id)
     {
         $projeto = Projeto::find($id);
-        $pessoas_fisicas = PessoaFisica::all();
-        $pessoas_juridicas = PessoaJuridica::all();
-        $chancelas = Chancela::all();
+        $pessoas_fisicas = PessoaFisica::select('id', 'nome_adotado')->orderBy('nome_adotado')->get();
+        $pessoas_juridicas = PessoaJuridica::select('id', 'nome_fantasia')->orderBy('nome_fantasia')->get();
+        $chancelas = Tag::select('id', 'text')->where('tipo', 'chancela')->orderBy('text')->get();
         $pessoas_fisicas_chancelas_relacionadas = Projeto::getPessoasDeProjetos($id, true);
         $pessoas_juridicas_chancelas_relacionadas = Projeto::getPessoasDeProjetos($id, null, true);
         $arquivos = $projeto->arquivos()->get();
@@ -147,7 +148,7 @@ class ProjetoController extends Controller
         //Pessoas físicas
         $pessoas_fisicas_projeto = Projeto::getPessoasDeProjetos($projeto['id'], true, null);
         foreach($pessoas_fisicas_projeto as $pf){
-            if(!Projeto::removeChancelaDeProjeto($projeto['id'], $pf->chancela_id, $pf->pessoa_id, null)){
+            if(!Projeto::removeChancelaDeProjeto($projeto['id'], $pf->tag_id, $pf->pessoa_id, null)){
                 return "Erro ao remover chancela";
             }
         }
@@ -155,7 +156,7 @@ class ProjetoController extends Controller
         //Pessoas jurídicas
         $pessoas_juridicas_projeto = Projeto::getPessoasDeProjetos($projeto['id'], null, true);
         foreach($pessoas_juridicas_projeto as $pj){
-            if(!Projeto::removeChancelaDeProjeto($projeto['id'], $pj->chancela_id, null, $pj->pessoa_id)){
+            if(!Projeto::removeChancelaDeProjeto($projeto['id'], $pj->tag_id, null, $pj->pessoa_id)){
                 return "Erro ao remover chancela";
             }
         }
@@ -166,14 +167,14 @@ class ProjetoController extends Controller
             return $e->getMessage();
         }
 
-        return Projeto::all();
+        return $this->ajaxIndex();
 
     }
 
 
     public function ajaxGetPfSelecionadas($id) {
 
-        $projeto = (new Projeto)->find($id);
+        $projeto = Projeto::find($id);
         $pessoas_fisicas = $projeto->pessoas_fisicas()->get();
         return $pessoas_fisicas;
 
@@ -181,7 +182,7 @@ class ProjetoController extends Controller
 
     public function ajaxGetChancelasSelecionadas($id) {
 
-        $projeto = (new Projeto)->find($id);
+        $projeto = Projeto::find($id);
         $pessoas_fisicas = $projeto->pessoas_fisicas()->get();
 
         foreach($pessoas_fisicas as &$pessoa_fisica){
@@ -212,9 +213,9 @@ class ProjetoController extends Controller
 
             if(substr($chancela['chancela'], 0, 4) == 'new:'){
                 $nova_chancela = strtolower(substr($chancela['chancela'],4));
-                $chancelaObj = Chancela::where('valor', $nova_chancela)->first();
+                $chancelaObj = Tag::where('text', $nova_chancela)->first();
                 if(empty($chancelaObj)){
-                    $nova_chancela = Chancela::create(['valor' => $nova_chancela]);
+                    $nova_chancela = Tag::create(['text' => $nova_chancela, 'tipo' => 'chancela']);
                     $chancela['chancela'] = $nova_chancela->id;
                 }
             }
@@ -222,26 +223,26 @@ class ProjetoController extends Controller
             $projeto = Projeto::find($projeto_id);
 
             if($isPf) {
-                $projeto->pessoas_fisicas()->attach(PessoaFisica::find($chancela['pessoa_fisica']), ['chancela_id' => $chancela['chancela']]);
+                $projeto->pessoas_fisicas()->attach(PessoaFisica::find($chancela['pessoa_fisica']), ['tag_id' => $chancela['chancela']]);
             } else if($isPj) {
-                $projeto->pessoas_juridicas()->attach(PessoaJuridica::find($chancela['pessoa_juridica']), ['chancela_id' => $chancela['chancela']]);
+                $projeto->pessoas_juridicas()->attach(PessoaJuridica::find($chancela['pessoa_juridica']), ['tag_id' => $chancela['chancela']]);
             }
 
         } else {
             return "Chancela inválida";
         }
 
-        return [ Projeto::getPessoasDeProjetos($projeto_id, $isPf, $isPj), Chancela::all() ];
+        return [ Projeto::getPessoasDeProjetos($projeto_id, $isPf, $isPj), Tag::select('id', 'text')->where('tipo', 'chancela')->orderBy('text')->get() ];
     }
 
     public function ajaxRemoveChancela() {
 
         $projeto_id = request('projeto_id');
-        $chancela_id = request('chancela_id');
+        $tag_id = request('tag_id');
         $pessoa_fisica_id = request('pessoa_fisica_id');
         $pessoa_juridica_id = request('pessoa_juridica_id');
 
-        if(Projeto::removeChancelaDeProjeto($projeto_id, $chancela_id, $pessoa_fisica_id, $pessoa_juridica_id)){
+        if(Projeto::removeChancelaDeProjeto($projeto_id, $tag_id, $pessoa_fisica_id, $pessoa_juridica_id)){
             return Projeto::getPessoasDeProjetos($projeto_id, $pessoa_fisica_id, $pessoa_juridica_id);
         }
 

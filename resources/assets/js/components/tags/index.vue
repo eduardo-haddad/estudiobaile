@@ -29,32 +29,20 @@
     import { eventBus } from '../../estudiobaile';
 
     export default {
+        created() {
+            //carrega lista
+            this.getLista();
+        },
         mounted() {
-            axios.get('/ajax/tags/index').then(res => {
-                this.tags = res.data;
-            });
-
             //highlight menu
             this.highlight_menu();
 
-            //evento - registro salvo em tags-view
-            eventBus.$on('foiSalvoTag', tag => {
-                let id_atual = this.$route.params.id;
-                this.$set(this.tags, this.tags.findIndex(p => p.id == id_atual), {
-                    text: tag.text,
-                    id: tag.id
-                });
-            });
             //evento - tag carregada
-            eventBus.$on('getTag', (id) => {
-                //Scroll
-                if(this.primeiro_load) {
-                    this.scroll(id);
-                    this.primeiro_load = false;
-                }
-            });
-            //evento - mudança de projeto
-            eventBus.$on('changeTag', () => {});
+            eventBus.$on('getTag', id =>  this.getLista(id));
+
+            //evento - registro salvo em tags-view
+            eventBus.$on('foiSalvoTag', tag =>  this.getLista(tag.id));
+
             //evento - tag removida - atualiza lista de tags se não atribuída a ninguém
             eventBus.$on('tagRemovida', (tags) => this.tags = tags);
         },
@@ -66,11 +54,20 @@
         data() {
             return {
                 tags: [],
+                //Condicionais
                 item_selecionado: false,
-                primeiro_load: true
+                primeiro_load: true,
             }
         },
         methods: {
+            getLista: function(id) {
+                axios.get('/ajax/tags/index')
+                    .then(res => this.tags = res.data)
+                    .then(() => this.highlight_menu)
+                    .then(() => {
+                        if(typeof id !== "undefined") this.scrollOnLoad(id);
+                    })
+            },
             itemAtual: (id_tag, id_rota) => {
                 this.item_selecionado = parseInt(id_tag, 10) === parseInt(id_rota, 10);
                 return this.item_selecionado;
@@ -79,6 +76,11 @@
                 let myElement = document.getElementById(id);
                 let topPos = myElement.offsetTop;
                 document.getElementById('lista_tags').scrollTop = topPos - 60;
+            },
+            scrollOnLoad: function(id) {
+                if(this.primeiro_load) this.primeiro_load = false;
+                if(this.create) this.create = false;
+                if(this.primeiro_load || this.create) this.scroll(id);
             },
             highlight_menu: () => {
                 const menu = document.getElementById("menu_principal");

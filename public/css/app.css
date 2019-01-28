@@ -2359,6 +2359,11 @@ hr {
   max-width: 240px;
 }
 
+#app #principal #conteudo_geral #container_conteudo .tabela_arquivos table th.tipo, #app #principal #conteudo_geral #container_conteudo .tabela_arquivos table td.tipo {
+  min-width: 75px;
+  max-width: 75px;
+}
+
 #app #principal #conteudo_geral #container_conteudo .tabela_arquivos table th.descricao_arquivo, #app #principal #conteudo_geral #container_conteudo .tabela_arquivos table td.descricao_arquivo {
   min-width: 240px;
   max-width: 240px;
@@ -2528,13 +2533,6 @@ hr {
 }
 
 #app #principal #conteudo_geral .busca_lista .lupa_texto_container .lupa_texto input::-webkit-input-placeholder {
-  /* Chrome, Firefox, Opera, Safari 10.1+ */
-  color: #bebdbd;
-  opacity: 1;
-  /* Firefox */
-}
-
-#app #principal #conteudo_geral .busca_lista .lupa_texto_container .lupa_texto input:-ms-input-placeholder {
   /* Chrome, Firefox, Opera, Safari 10.1+ */
   color: #bebdbd;
   opacity: 1;

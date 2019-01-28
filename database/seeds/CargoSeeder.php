@@ -19,7 +19,7 @@ class CargoSeeder extends Seeder
         $cargo2->valor = 'estagiário';
         $cargo2->save();
         $cargo3 = new Cargo();
-        $cargo3->valor = 'coordenação';
+        $cargo3->valor = 'sócio proprietário';
         $cargo3->save();
     }
 }

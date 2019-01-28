@@ -13,9 +13,9 @@ class DadoBancarioSeeder extends Seeder
     public function run()
     {
         $dado_bancario1 = new DadoBancario();
-        $dado_bancario1->nome_banco = "Banco do Brasil";
-        $dado_bancario1->agencia = "6941-8";
-        $dado_bancario1->conta = "16.574-3";
+        $dado_bancario1->nome_banco = "Itaú";
+        $dado_bancario1->agencia = "7054";
+        $dado_bancario1->conta = "74654-5";
         $dado_bancario1->tipo_conta_id = 1;
         $dado_bancario1->save();
     }

@@ -36,7 +36,7 @@ class Projeto extends Model
             SELECT Chancela.id
             FROM chancelas Chancela
               INNER JOIN pf_projeto PfProjeto
-                ON PfProjeto.chancela_id = Chancela.id
+                ON PfProjeto.tag_id = Chancela.id
               INNER JOIN projetos Projeto
                 ON Projeto.id = PfProjeto.projeto_id
               WHERE Projeto.id = $projeto_id AND PfProjeto.pessoa_fisica_id = $pessoa_fisica_id
@@ -64,20 +64,20 @@ class Projeto extends Model
                 Pessoa.$pessoa_nome AS nome,
                 Pessoa.id AS pessoa_id,
                 Projeto.nome AS projeto,
-                Chancela.valor AS chancela,
-                Chancela.id AS chancela_id
+                Tag.text AS tag,
+                Tag.id AS tag_id
             FROM $pessoa_tabela Pessoa
                 LEFT JOIN $pessoa_tabela_assoc PessoaProjeto
                 ON Pessoa.id = PessoaProjeto.$pessoa_chave
                 INNER JOIN projetos Projeto
                 ON Projeto.id = PessoaProjeto.projeto_id AND Projeto.id = $projeto_id
-                INNER JOIN chancelas Chancela
-                ON Chancela.id = PessoaProjeto.chancela_id
+                INNER JOIN tags Tag
+                ON Tag.id = PessoaProjeto.tag_id
             ORDER BY Pessoa.$pessoa_nome
         ");
     }
 
-    public static function removeChancelaDeProjeto($projeto_id, $chancela_id, $pessoa_fisica_id = null, $pessoa_juridica_id = null) {
+    public static function removeChancelaDeProjeto($projeto_id, $tag_id, $pessoa_fisica_id = null, $pessoa_juridica_id = null) {
 
         if(!empty($pessoa_fisica_id) && empty($pessoa_juridica_id)){
             $pessoa_tabela = "pf_projeto";
@@ -96,7 +96,7 @@ class Projeto extends Model
             DELETE FROM $pessoa_tabela
             WHERE $pessoa_chave = $pessoa_id
                 AND projeto_id = $projeto_id
-                AND chancela_id = $chancela_id
+                AND tag_id = $tag_id
         ");
         } catch (\Exception $e) {
             return $e->getMessage();

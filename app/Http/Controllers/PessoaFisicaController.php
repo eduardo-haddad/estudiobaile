@@ -15,7 +15,6 @@ use App\Endereco;
 use App\TipoContaBancaria;
 use App\Tag;
 use App\Arquivo;
-use App\Cargo;
 use Session;
 use DB;
 
@@ -70,7 +69,7 @@ class PessoaFisicaController extends Controller
         $dados_bancarios = $pessoa_fisica->dados_bancarios()->get();
 
         //Tags
-        $tags = Tag::all();
+        $tags = Tag::select('id', 'text')->where('tipo', 'tag')->orderBy('text')->get();
 
         //Estado Civil
         $estado_civil = !empty($pessoa_fisica->estado_civil_id) ? EstadoCivil::find($pessoa_fisica->estado_civil_id)->valor : null;
@@ -91,8 +90,8 @@ class PessoaFisicaController extends Controller
             'pessoas_juridicas_relacionadas' => $pessoas_juridicas_relacionadas,
             'projetos' => $projetos,
             'atributos' => [
-                'pessoas_juridicas' => PessoaJuridica::all(),
-                'chancelas_pj' => Cargo::all(),
+                'pessoas_juridicas' => PessoaJuridica::select('id', 'nome_fantasia')->orderBy('nome_fantasia')->get(),
+                'cargos_pj' => Tag::select('id', 'text')->where('tipo', 'cargo')->orderBy('text')->get(),
                 'tipos_contato' => TipoContato::all(),
                 'generos' => Genero::all(),
                 'estados_civis' => EstadoCivil::all(),
@@ -116,6 +115,8 @@ class PessoaFisicaController extends Controller
         foreach(json_decode($pessoa_fisica) as $chave => $valor):
             if($chave == "modificado_por") {
                 $pessoa_fisica->$chave = $r->user()->name;
+            } else if($chave == "estado_civil_id"){
+                if(empty($valor)) $pessoa_fisica->$chave = null;
             } else {
                 $pessoa_fisica->$chave = $request['pessoa'][$chave];
             }
@@ -178,7 +179,7 @@ class PessoaFisicaController extends Controller
                     $tag = strtolower(substr($tag,4));
                     $tagObj = Tag::where('text', $tag)->first();
                     if(empty($tagObj)){
-                        $nova_tag = Tag::create(['text' => $tag]);
+                        $nova_tag = Tag::create(['text' => $tag, 'tipo' => 'tag']);
                         $tags_ids[] = $nova_tag->id;
                     } else {
                         $tags_ids[] = $tagObj->id;
@@ -243,7 +244,7 @@ class PessoaFisicaController extends Controller
         $pj_relacionadas = PessoaFisica::getPessoasJuridicasRelacionadasPorId(request('pessoa'));
         if(!empty($pj_relacionadas)){
             foreach($pj_relacionadas as $pj){
-                PessoaFisica::removeChancelaPj($pj->cargo_id, request('pessoa'), $pj->pessoa_juridica_id);
+                PessoaFisica::removeChancelaPj($pj->tag_id, request('pessoa'), $pj->pessoa_juridica_id);
             }
         }
 
@@ -253,7 +254,7 @@ class PessoaFisicaController extends Controller
             foreach($projetos as $projeto){
                 $pessoas_projeto = Projeto::getPessoasDeProjetos($projeto['id'], true, null);
                 foreach($pessoas_projeto as $pessoa_projeto){
-                    Projeto::removeChancelaDeProjeto($projeto['id'], $pessoa_projeto->chancela_id, request('pessoa'), null);
+                    Projeto::removeChancelaDeProjeto($projeto['id'], $pessoa_projeto->tag_id, request('pessoa'), null);
                 }
             }
         }
@@ -272,7 +273,7 @@ class PessoaFisicaController extends Controller
             return $e->getMessage();
         }
 
-        return PessoaFisica::all();
+        return $this->ajaxIndex();
 
     }
 
@@ -303,7 +304,7 @@ class PessoaFisicaController extends Controller
             return $e->getMessage();
         }
 
-        $pessoa_fisica = (new PessoaFisica)->find(request('pessoa_id'));
+        $pessoa_fisica = PessoaFisica::find(request('pessoa_id'));
         $contatos = $pessoa_fisica->contatos()->get();
 
 //        $contatos = PessoaFisica::getContatosPessoaFisicaPorId(request('pessoa_id'));
@@ -352,7 +353,7 @@ class PessoaFisicaController extends Controller
             return $e->getMessage();
         }
 
-        $pessoa = (new PessoaFisica)->find($pessoa_id);
+        $pessoa = PessoaFisica::find($pessoa_id);
         $pessoa->enderecos()->attach($novo_endereco->id);
 
         $enderecos = $pessoa->enderecos()->get();
@@ -365,8 +366,8 @@ class PessoaFisicaController extends Controller
         $endereco_id = request('endereco_id');
         $pessoa_id = request('pessoa_id');
 
-        $endereco = (new Endereco)->find($endereco_id);
-        $pessoa_fisica = (new PessoaFisica)->find($pessoa_id);
+        $endereco = Endereco::find($endereco_id);
+        $pessoa_fisica = PessoaFisica::find($pessoa_id);
 
         try {
             $pessoa_fisica->enderecos()->detach($endereco_id);
@@ -441,41 +442,45 @@ class PessoaFisicaController extends Controller
 
     public function ajaxGetTags() {
 
-        return Tag::all();
+        return Tag::select('id', 'text')->orderBy('text')->get();
 
     }
 
     public function ajaxGetTagsSelecionadas($id) {
 
-        $pessoa = (new PessoaFisica)->find($id);
-        $tags = $pessoa->tags()->get();
-        return $tags;
+        $pessoa = PessoaFisica::find($id);
+        $tags = $pessoa->tags()->orderBy('text')->get();
+
+        $tags_ids = array();
+        foreach($tags as $tag) array_push($tags_ids, $tag['id']);
+
+        return $tags_ids;
 
     }
 
-    public function ajaxAddChancelaPj() {
+    public function ajaxAddCargoPj() {
 
-        $chancela = request('nova_chancela');
+        $cargo = request('novo_cargo');
         $pessoa_fisica_id = request('pessoa_fisica_id');
         $pessoa_juridica_id = request('pessoa_juridica_id');
 
-        if(!empty($chancela) && !empty($pessoa_juridica_id)) {
+        if(!empty($cargo) && !empty($pessoa_juridica_id)) {
 
-            if(substr($chancela, 0, 4) == 'new:'){
-                $nova_chancela = strtolower(substr($chancela,4));
-                $cargoObj = Cargo::where('valor', $nova_chancela)->first();
-                if(empty($cargoObj)){
-                    $nova_chancela = Cargo::create(['valor' => $nova_chancela]);
-                    $chancela = $nova_chancela->id;
+            if(substr($cargo, 0, 4) == 'new:'){
+                $novo_cargo = strtolower(substr($cargo,4));
+                $tagObj = Tag::where('text', $novo_cargo)->first();
+                if(empty($tagObj)){
+                    $novo_cargo = Tag::create(['text' => $novo_cargo, 'tipo' => 'cargo']);
+                    $cargo = $novo_cargo->id;
                 }
             }
             $pessoa_juridica = PessoaJuridica::find($pessoa_juridica_id);
-            $pessoa_juridica->pessoas_fisicas()->attach(PessoaFisica::find($pessoa_fisica_id), ['cargo_id' => $chancela]);
+            $pessoa_juridica->pessoas_fisicas()->attach(PessoaFisica::find($pessoa_fisica_id), ['tag_id' => $cargo]);
         } else {
-            return "Chancela inválida";
+            return "Cargo inválido";
         }
 
-        return [ PessoaFisica::getPessoasJuridicasRelacionadasPorId($pessoa_fisica_id), Cargo::all() ];
+        return [ PessoaFisica::getPessoasJuridicasRelacionadasPorId($pessoa_fisica_id), Tag::select('id', 'text')->where('tipo', 'cargo')->orderBy('text')->get() ];
 
     }
 

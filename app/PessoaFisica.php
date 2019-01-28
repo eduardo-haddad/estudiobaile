@@ -101,14 +101,14 @@ class PessoaFisica extends Model
                 PessoaJuridica.id AS pessoa_juridica_id,
                 PessoaJuridica.nome_fantasia AS nome_fantasia,
                 PessoaJuridica.razao_social AS razao_social,
-                Cargo.valor AS cargo,
-                Cargo.id AS cargo_id
+                Tag.text AS tag,
+                Tag.id AS tag_id
             FROM pessoas_juridicas PessoaJuridica
                 INNER JOIN pf_pj PessoaFisicaJuridica
                 ON PessoaJuridica.id = PessoaFisicaJuridica.pessoa_juridica_id
                 AND PessoaFisicaJuridica.pessoa_fisica_id = $id
-                INNER JOIN cargos Cargo
-                ON Cargo.id = PessoaFisicaJuridica.cargo_id
+                INNER JOIN tags Tag
+                ON Tag.id = PessoaFisicaJuridica.tag_id
             ORDER BY PessoaJuridica.nome_fantasia
         ");
     }
@@ -133,22 +133,22 @@ class PessoaFisica extends Model
             SELECT 
                 Projeto.nome AS projeto,
                 Projeto.id AS id,
-                Chancela.valor AS chancela
+                Tag.text AS chancela
             FROM projetos Projeto
                 INNER JOIN pf_projeto PfProjeto
                 ON PfProjeto.projeto_id = Projeto.id AND PfProjeto.pessoa_fisica_id = $id
-                LEFT JOIN chancelas Chancela
-                ON Chancela.id = PfProjeto.chancela_id
+                LEFT JOIN tags Tag
+                ON Tag.id = PfProjeto.tag_id
             ORDER BY Projeto.dt_inicio DESC
         ");
     }
 
-    public static function removeChancelaPj($chancela_id, $pessoa_fisica_id, $pessoa_juridica_id) {
+    public static function removeChancelaPj($tag_id, $pessoa_fisica_id, $pessoa_juridica_id) {
 
         try {
             \DB::select("
             DELETE FROM pf_pj
-            WHERE cargo_id = $chancela_id
+            WHERE tag_id = $tag_id
                 AND pessoa_fisica_id = $pessoa_fisica_id
                 AND pessoa_juridica_id = $pessoa_juridica_id
         ");

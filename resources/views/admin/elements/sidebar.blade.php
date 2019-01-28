@@ -13,7 +13,7 @@
         <router-link :to="{ name: 'pj-index'}">Pessoas Jurídicas</router-link>
     </li>
     <li class="opcao" id="tags">
-        <router-link :to="{ name: 'tags-index'}">Tags</router-link>
+        <router-link :to="{ name: 'tags-index'}">Palavras-chave</router-link>
     </li>
     <li class="opcao" id="interna">
         <router-link :to="{ name: 'interna-view'}">Interna</router-link>

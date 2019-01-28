@@ -6,7 +6,7 @@
             <h3 slot="header">Excluir registro?</h3>
         </modal>
 
-        <editbar></editbar>
+        <editbar export="false" delete="true"></editbar>
 
         <div class="titulo">
             <div v-if="destaqueAtivo" class="imagem_destaque">
@@ -152,14 +152,11 @@
 
             <div class="valor">
                 <span class="campo">Website</span>
-                <the-mask
-                        :mask="['http://XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX']"
-                        class="mask-input website"
-                        v-model="pessoa.website"
-                        type="text"
-                        autocomplete="off"
-                        name="website"
-                        placeholder=" " />
+                <input v-model="pessoa.website"
+                       type="text"
+                       autocomplete="off"
+                       name="pessoa.website"
+                       placeholder=" " />
             </div>
 
 
@@ -184,7 +181,7 @@
                                 <td class="num_arquivo">{{ index+1 }}</td>
                                 <td class="nome_arquivo"><router-link :id="pessoa.pessoa_fisica_id" :to="{ name: 'pf-view',
                                 params: { id: pessoa.pessoa_fisica_id }}">{{ pessoa.pessoa_fisica_nome_adotado }}</router-link></td>
-                                <td class="descricao_arquivo">{{ pessoa.cargo }}</td>
+                                <td class="descricao_arquivo">{{ pessoa.tag }}</td>
                                 <td class="remove_arquivo"><a @click.prevent="removeCargoPf(pessoa.pessoa_fisica_id, pessoa.cargo_id)">X</a></td>
                             </tr>
                         </table>
@@ -193,7 +190,7 @@
             </div><br>
 
             <!-- Add novo chancela pessoa física -->
-            <a @click="mostraCargoPfBoxMetodo" class="link_abrir_box">[adicionar pessoa física]</a>
+            <a @click.prevent="mostraCargoPfBoxMetodo" class="link_abrir_box">[adicionar pessoa física]</a>
             <div v-if="mostraCargoPfBox">
                 <!--pessoa_fisica_id-->
                 <!--novo_cargo-->
@@ -207,7 +204,7 @@
                 <span class="campo">Chancela</span>
                 <select @change="" name="chancelas" class="cargos_pf_lista">
                     <option disabled selected value> -- Selecione uma chancela -- </option>
-                    <option v-for="cargo in atributos.cargos_pf" :value="cargo.id">{{ cargo.valor }}</option>
+                    <option v-for="cargo in atributos.cargos_pf" :value="cargo.id">{{ cargo.text }}</option>
                 </select>
                 <a @click.prevent="adicionaCargoPf">[+]</a>
 
@@ -220,7 +217,7 @@
                 <span class="titulo_bloco">E-mails</span>
 
                 <div v-for="(email, index) in emails" class="valor" :key="'email-'+index+email.id">
-                    <span class="campo">E-mail</span>
+                    <span class="campo">E-mail {{ index+1 }}</span>
                     <input type="email" autocomplete="off" placeholder=" " :id="email.id" v-model="email.valor" name="email" />
                     <a @click.prevent="removeContato(email.id)">X</a>
                 </div>
@@ -239,7 +236,7 @@
                 <span class="titulo_bloco">Telefones</span>
                 <br>
                 <div v-for="(telefone, index) in telefones" class="valor" :key="'telefone-'+index+telefone.id">
-                    <span class="campo">Telefone</span>
+                    <span class="campo">Telefone {{ index+1 }}</span>
                     <input type="text" placeholder=" " :id="telefone.id" v-model="telefone.valor" name="telefone" />
                     <a @click.prevent="removeContato(telefone.id)">X</a>
                 </div>
@@ -285,7 +282,7 @@
             <span class="titulo_bloco">Endereços</span>
 
             <div v-for="(endereco, index) in enderecos" :key="'endereco-'+index+endereco.id">
-                <span class="titulo_bloco"># {{index+1}}:</span> <a @click="removeEndereco(endereco.id)">X</a> <br>
+                <span class="titulo_bloco"># {{index+1}}:</span> <a @click.prevent="removeEndereco(endereco.id)">X</a> <br>
                 <div class="valor">
                     <span class="campo">Logradouro</span>
                     <input autocomplete="off" type="text" placeholder=" " name="endereco.rua" v-model="endereco.rua" />
@@ -335,7 +332,7 @@
             </div>
 
             <!--Add novo endereço-->
-            <a @click="mostraEnderecoBox = !mostraEnderecoBox" class="link_abrir_box">[adicionar endereço]</a>
+            <a @click.prevent="mostraEnderecoBox = !mostraEnderecoBox" class="link_abrir_box">[adicionar endereço]</a>
             <div v-if="mostraEnderecoBox">
                 <div class="valor">
                     <span class="campo">Logradouro</span>
@@ -395,7 +392,7 @@
             <span class="titulo_bloco">Dados bancários</span>
 
             <div v-for="(dado_bancario, index) in dados_bancarios">
-                <span class="titulo_bloco"># {{index+1}}:</span> <a @click="removeDadosBancarios(dado_bancario.id)">X</a> <br>
+                <span class="titulo_bloco"># {{index+1}}:</span> <a @click.prevent="removeDadosBancarios(dado_bancario.id)">X</a> <br>
                 <div class="valor">
                     <span class="campo">Banco</span>
                     <input autocomplete="off" type="text" placeholder=" " name="dado_bancario.nome_banco" v-model="dado_bancario.nome_banco" />
@@ -419,7 +416,7 @@
 
             </div>
             <!-- Add novos dados bancários -->
-            <a @click="mostraDadosBancariosBox = !mostraDadosBancariosBox" class="link_abrir_box">[adicionar dados bancários]</a>
+            <a @click.prevent="mostraDadosBancariosBox = !mostraDadosBancariosBox" class="link_abrir_box">[adicionar dados bancários]</a>
             <div v-if="mostraDadosBancariosBox">
                 <span class="campo">--- Novos Dados Bancários</span><br>
                 <div class="valor">
@@ -570,6 +567,9 @@
 
                         //imagem de destaque
                         this.getImagemDestaque();
+
+                        //preenche tags
+                        this.preencheTags(id);
                     })
                     .then(() => this.item_carregado = true);
             },
@@ -631,7 +631,7 @@
             },
             mostraCargoPfBoxMetodo: function(){
                 this.mostraCargoPfBox = !this.mostraCargoPfBox;
-                this.jQuery();
+                if(this.mostraCargoPfBox) this.selectPfJQuery();
             },
             adicionaContato: function(){
                 this.item_carregado = false;
@@ -817,22 +817,23 @@
                         Vue.tags_atuais = $(this).val();
                     });
 
-                    //Preenche tags selecionadas (timeout 1s)
-                    let id_atual = window.location.href.split('/view/')[1];
-                    let tags_selecionadas = [];
-                    $.get('/ajax/pj/getTagsSelecionadas/' + id_atual).done(function(data) {
-                        setTimeout(function(){
-                            tags_selecionadas = data;
-                            let tags_ids = [];
-                            for (let i = 0; i < tags_selecionadas.length; i++) {
-                                tags_ids.push(tags_selecionadas[i]['id']);
-                            }
-                            $('#tags_list').val(tags_ids).trigger('change');
-                        }, 1000);
-                    }).fail(function() {
-                        return false;
+                });
+            },
+            preencheTags: function(id){
+                let tags_selecionadas = [];
+                $.get('/ajax/pj/getTagsSelecionadas/' + id)
+                    .then(function(data) {
+                        tags_selecionadas = data;
+                        $('#tags_list').val(tags_selecionadas);
+                    })
+                    .then(function() {
+                        $('#tags_list').trigger('change');
                     });
-
+            },
+            selectPfJQuery: function(){
+                //Instancia atual do Vue
+                let Vue = this;
+                $(document).ready(function(){
                     //Carrega select2 de pessoas físicas
                     $('.pf_lista').select2({
                         placeholder: "Digite um nome",
@@ -871,8 +872,8 @@
                     }).on('change', function(){
                         Vue.novo_cargo = $(this).val();
                     });
-
                 });
+
             },
         }
     }
