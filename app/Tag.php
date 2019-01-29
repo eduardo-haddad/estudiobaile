@@ -29,28 +29,28 @@ class Tag extends Model
             -- Tags PF/PJ
             SELECT Tags.id FROM tags Tags
             INNER JOIN pessoa_tag PessoaTag
-            ON Tags.id = PessoaTag.tag_id
+            ON Tags.id = PessoaTag.tag_id AND Tags.tipo = 'tag'
             
             UNION DISTINCT
             
             -- Cargos PF/Pj relacionadas
             SELECT Tags.id FROM tags Tags
             INNER JOIN pf_pj PfPj
-            ON Tags.id = PfPj.tag_id
+            ON Tags.id = PfPj.tag_id AND Tags.tipo = 'cargo'
             
             UNION DISTINCT
             
             -- Chancela PF/Projeto
             SELECT Tags.id FROM tags Tags
             INNER JOIN pf_projeto PfProjeto
-            ON Tags.id = PfProjeto.tag_id
+            ON Tags.id = PfProjeto.tag_id AND Tags.tipo = 'chancela'
             
             UNION DISTINCT
             
             -- Chancela PJ/Projeto
             SELECT Tags.id FROM tags Tags
             INNER JOIN pj_projeto PjProjeto
-            ON Tags.id = PjProjeto.tag_id
+            ON Tags.id = PjProjeto.tag_id AND Tags.tipo = 'chancela'
           )
         ");
     }

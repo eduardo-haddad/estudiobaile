@@ -840,6 +840,9 @@
                             this.dt_nascimento_ano = dt[0];
                         }
 
+                        //estado civil
+                        if(this.pessoa.estado_civil_id === null) this.pessoa.estado_civil_id = 6;
+
                         //preenche tags
                         this.preencheTags(id);
                     })

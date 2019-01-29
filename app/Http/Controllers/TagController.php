@@ -82,21 +82,27 @@ class TagController extends Controller
     public function ajaxSave(Request $r) {
 
         $request['tag'] = request('tag');
+        $request['tag_id'] = request('tag_id');
 
-        $tag = Tag::find($request['tag']['id']);
+        $tag = Tag::find($request['tag_id']);
 
-        foreach(json_decode($tag) as $chave => $valor):
-            if($chave == "modificado_por") {
-                $tag->$chave = $r->user()->name;
-            }
-            else {
-                if(!empty($request['tag'][$chave])) {
-                    $tag->$chave = $request['tag'][$chave];
+        if($request['tag']['id'] == $request['tag_id']){
+            foreach(json_decode($tag) as $chave => $valor):
+                if($chave == "modificado_por") {
+                    $tag->$chave = $r->user()->name;
                 }
-            }
-        endforeach;
+                else {
+                    if(!empty($request['tag'][$chave])) {
+                        $tag->$chave = $request['tag'][$chave];
+                    }
+                }
+            endforeach;
 
-        $tag->save();
+            $tag->save();
+
+        } else {
+            return "id do objeto: " . $request['tag']['id'] . " -- não confere com id atual: " . $request['tag_id'];
+        }
 
         return $this->ajaxIndex();
     }

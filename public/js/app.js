@@ -48006,6 +48006,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     _this2.dt_nascimento_ano = dt[0];
                 }
 
+                //estado civil
+                if (_this2.pessoa.estado_civil_id === null) _this2.pessoa.estado_civil_id = 6;
+
                 //preenche tags
                 _this2.preencheTags(id);
             }).then(function () {
@@ -55759,6 +55762,26 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -55808,10 +55831,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return {
             //Models
             projeto: {},
+            descricao: '',
             atributos: [],
             pessoas_fisicas_chancelas_relacionadas: [],
             pessoas_juridicas_chancelas_relacionadas: [],
             arquivos: [],
+            website: '',
             //Campos de inclusão
             root: '',
             pessoas_fisicas_atuais: [],
@@ -56157,7 +56182,34 @@ var render = function() {
       _vm._v(" "),
       _c("br"),
       _vm._v(" "),
+      _c("div", { staticClass: "valor" }, [
+        _c("span", { staticClass: "campo" }, [_vm._v("Descrição")]),
+        _vm._v(" "),
+        _c("textarea", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.projeto.descricao,
+              expression: "projeto.descricao"
+            }
+          ],
+          attrs: { name: "projeto-descricao", rows: "2", placeholder: " " },
+          domProps: { value: _vm.projeto.descricao },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.$set(_vm.projeto, "descricao", $event.target.value)
+            }
+          }
+        })
+      ]),
+      _vm._v(" "),
       _c("br"),
+      _vm._v(" "),
+      _c("hr"),
       _vm._v(" "),
       _c(
         "div",
@@ -56427,6 +56479,7 @@ var render = function() {
                 expression: "projeto.nome"
               }
             ],
+            staticClass: "nome",
             attrs: { autocomplete: "off", type: "text", name: "projeto-nome" },
             domProps: { value: _vm.projeto.nome },
             on: {
@@ -56497,6 +56550,37 @@ var render = function() {
                   return
                 }
                 _vm.$set(_vm.projeto, "dt_fim", $event.target.value)
+              }
+            }
+          })
+        ]),
+        _c("br"),
+        _c("br"),
+        _vm._v(" "),
+        _c("div", { staticClass: "valor" }, [
+          _c("span", { staticClass: "campo" }, [_vm._v("Website")]),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.projeto.website,
+                expression: "projeto.website"
+              }
+            ],
+            attrs: {
+              autocomplete: "off",
+              type: "text",
+              name: "projeto-website"
+            },
+            domProps: { value: _vm.projeto.website },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.projeto, "website", $event.target.value)
               }
             }
           })
@@ -57746,8 +57830,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this6 = this;
 
             this.item_carregado = false;
+            console.log(this.$route.params.id);
             axios.post('/ajax/tags/save', {
-                tag: this.tag
+                tag: this.tag,
+                tag_id: this.$route.params.id
             }).then(function (res) {
                 _this6.tags = res.data;
                 __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$emit('foiSalvoTag', _this6.tag);

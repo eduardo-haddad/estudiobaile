@@ -29,7 +29,18 @@
 
         <br>
         <br>
+
+        <div class="valor">
+            <span class="campo">Descrição</span>
+            <textarea v-model="projeto.descricao"
+                      name="projeto-descricao"
+                      rows="2"
+                      placeholder=" ">
+            </textarea>
+        </div>
+
         <br>
+        <hr>
 
         <!-- Arquivos -->
         <div class="valor" style="margin-top: 3px;">
@@ -98,6 +109,7 @@
                 <input autocomplete="off" type="text"
                        v-model="projeto.nome"
                        name="projeto-nome"
+                       class="nome"
                 />
             </div><br><br>
             <!-- -->
@@ -114,6 +126,14 @@
                 <input autocomplete="off" type="date"
                        v-model="projeto.dt_fim"
                        name="projeto-data-fim"
+                />
+            </div><br><br>
+            <!-- -->
+            <div class="valor">
+                <span class="campo">Website</span>
+                <input autocomplete="off" type="text"
+                       v-model="projeto.website"
+                       name="projeto-website"
                 />
             </div>
 
@@ -278,10 +298,12 @@
             return {
                 //Models
                 projeto: {},
+                descricao: '',
                 atributos: [],
                 pessoas_fisicas_chancelas_relacionadas: [],
                 pessoas_juridicas_chancelas_relacionadas: [],
                 arquivos: [],
+                website: '',
                 //Campos de inclusão
                 root: '',
                 pessoas_fisicas_atuais: [],

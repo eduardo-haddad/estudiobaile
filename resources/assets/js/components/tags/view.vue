@@ -291,8 +291,10 @@
             },
             salvaForm: function(){
                 this.item_carregado = false;
+                console.log(this.$route.params.id);
                 axios.post('/ajax/tags/save', {
                     tag: this.tag,
+                    tag_id: this.$route.params.id
                 }).then(res => {
                     this.tags = res.data;
                     eventBus.$emit('foiSalvoTag', this.tag);

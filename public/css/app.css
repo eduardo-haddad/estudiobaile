@@ -1743,6 +1743,21 @@ input, button, select, textarea {
   line-height: inherit;
 }
 
+textarea {
+  width: calc(100% - 87px);
+  padding: 7px 8px 0 7px;
+  margin-top: -8px;
+  outline: none;
+  border: 1px solid transparent;
+  display: inline-block;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+textarea:placeholder-shown {
+  background-color: #f8f8f8;
+}
+
 ul {
   list-style: none;
   margin-top: 0;
@@ -2249,6 +2264,10 @@ hr {
 #app #principal #conteudo_geral #container_conteudo .dados .mask-input:placeholder-shown,
 #app #principal #conteudo_geral #container_conteudo .dados input[type=password]:placeholder-shown {
   background-color: #f8f8f8;
+}
+
+#app #principal #conteudo_geral #container_conteudo .dados input[type=text].nome {
+  width: 650px;
 }
 
 #app #principal #conteudo_geral #container_conteudo .titulo_bloco {
