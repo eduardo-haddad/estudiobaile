@@ -12,8 +12,8 @@ class Genero extends Model
         'valor'
     ];
 
-    public function pessoas_fisicas()
-    {
-        return $this->hasMany('App\PessoaFisica', 'genero_id');
-    }
+//    public function pessoas_fisicas()
+//    {
+//        return $this->hasMany('App\PessoaFisica', 'genero_id');
+//    }
 }

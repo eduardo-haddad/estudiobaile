@@ -138,6 +138,22 @@ Route::group($opcoes_rotas, function(){
         'as' => 'ajax.pf.removeChancelaPj',
         'roles' => $geral
     ]);
+    //Generos
+    Route::post('/ajax/pf/ajaxAddGenero', [
+        'uses' => 'PessoaFisicaController@ajaxAddGenero',
+        'as' => 'ajax.pf.addGenero',
+        'roles' => $geral
+    ]);
+    Route::post('/ajax/pf/ajaxRemoveGenero', [
+        'uses' => 'PessoaFisicaController@ajaxRemoveGenero',
+        'as' => 'ajax.pf.removeGenero',
+        'roles' => $geral
+    ]);
+    Route::get('/ajax/pf/getGeneroSelecionado/{id}', [
+        'uses' => 'PessoaFisicaController@ajaxGetGeneroSelecionado',
+        'as' => 'ajax.pf.getGeneroSelecionado',
+        'roles' => $geral
+    ]);
     //Arquivos
     Route::post('/ajax/pf/upload', [
         'uses' => 'PessoaFisicaController@ajaxUpload',
@@ -390,6 +406,12 @@ Route::group($opcoes_rotas, function(){
     Route::post('/ajax/tags/ajaxRemoveTag/{id}', [
         'uses' => 'TagController@ajaxRemoveTag',
         'as' => 'ajax.tags.removeTag',
+        'roles' => $geral
+    ]);
+    //Remove tag
+    Route::post('/ajax/tags/ajaxRemoveGenero/{id}', [
+        'uses' => 'TagController@ajaxRemoveGenero',
+        'as' => 'ajax.tags.removeGenero',
         'roles' => $geral
     ]);
 

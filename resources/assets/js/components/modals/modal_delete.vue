@@ -49,6 +49,7 @@
                 if(url.indexOf('/projetos/view/') !== -1) tipo = 'projeto';
                 if(url.indexOf('/pf/view/') !== -1) tipo = 'pf';
                 if(url.indexOf('/pj/view/') !== -1) tipo = 'pj';
+                if(url.indexOf('/tags/view/') !== -1) tipo = 'tag';
 
                 eventBus.$emit('excluir-'+tipo);
                 this.$emit('close');

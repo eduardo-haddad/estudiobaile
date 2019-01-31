@@ -2248,6 +2248,7 @@ hr {
 #app #principal #conteudo_geral #container_conteudo .dados input[type=text],
 #app #principal #conteudo_geral #container_conteudo .dados input[type=email],
 #app #principal #conteudo_geral #container_conteudo .dados input[type=password],
+#app #principal #conteudo_geral #container_conteudo .dados input[type=date],
 #app #principal #conteudo_geral #container_conteudo .dados .mask-input {
   height: 25px;
 }
@@ -2255,12 +2256,14 @@ hr {
 #app #principal #conteudo_geral #container_conteudo .dados input[type=text],
 #app #principal #conteudo_geral #container_conteudo .dados input[type=email],
 #app #principal #conteudo_geral #container_conteudo .dados input[type=password],
+#app #principal #conteudo_geral #container_conteudo .dados input[type=date],
 #app #principal #conteudo_geral #container_conteudo .dados .mask-input {
   padding: 1px 8px 0 7px;
 }
 
 #app #principal #conteudo_geral #container_conteudo .dados input[type=text]:placeholder-shown,
 #app #principal #conteudo_geral #container_conteudo .dados input[type=email]:placeholder-shown,
+#app #principal #conteudo_geral #container_conteudo .dados input[type=date]:placeholder-shown,
 #app #principal #conteudo_geral #container_conteudo .dados .mask-input:placeholder-shown,
 #app #principal #conteudo_geral #container_conteudo .dados input[type=password]:placeholder-shown {
   background-color: #f8f8f8;
@@ -2460,6 +2463,7 @@ hr {
 #app #principal #conteudo_geral #container_conteudo input[type=text],
 #app #principal #conteudo_geral #container_conteudo input[type=email],
 #app #principal #conteudo_geral #container_conteudo input[type=password],
+#app #principal #conteudo_geral #container_conteudo input[type=date],
 #app #principal #conteudo_geral #container_conteudo .mask-input {
   outline: none;
   border: 1px solid transparent;
@@ -2673,7 +2677,6 @@ hr {
  **/
 .select2-container {
   min-width: 400px;
-  margin-top: -8px;
 }
 
 .select2-container--default,

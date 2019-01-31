@@ -50,9 +50,6 @@ class PessoaFisicaController extends Controller
         $pessoa_fisica = PessoaFisica::find($id);
         $pessoas_juridicas_relacionadas = PessoaFisica::getPessoasJuridicasRelacionadasPorId($id);
 
-        //Gênero
-//        $genero = !empty($pessoa_fisica->genero_id) ? Genero::find($pessoa_fisica->genero_id)->valor : null;
-
         //Contatos
         $contatos = $pessoa_fisica->contatos()->get();
 
@@ -80,7 +77,6 @@ class PessoaFisicaController extends Controller
 
         return [
             'pessoa_fisica' => $pessoa_fisica,
-            //'genero' => $genero,
             'estado_civil' => $estado_civil,
             'contatos' => $contatos,
             'enderecos' => $enderecos,
@@ -93,7 +89,7 @@ class PessoaFisicaController extends Controller
                 'pessoas_juridicas' => PessoaJuridica::select('id', 'nome_fantasia')->orderBy('nome_fantasia')->get(),
                 'cargos_pj' => Tag::select('id', 'text')->where('tipo', 'cargo')->orderBy('text')->get(),
                 'tipos_contato' => TipoContato::all(),
-                'generos' => Genero::all(),
+                'generos' => Tag::select('id', 'text')->where('tipo', 'genero')->orderBy('text')->get(),
                 'estados_civis' => EstadoCivil::all(),
                 'tipos_conta_bancaria' => TipoContaBancaria::all()
             ]
@@ -108,6 +104,7 @@ class PessoaFisicaController extends Controller
         $request['arquivos'] = request('arquivos');
         $request['dados_bancarios'] = request('dados_bancarios');
         $request['tags'] = request('tags');
+        $request['genero'] = request('genero');
 
         //Pessoa Física
         $pessoa_fisica = PessoaFisica::find($request['pessoa']['id']);
@@ -115,8 +112,14 @@ class PessoaFisicaController extends Controller
         foreach(json_decode($pessoa_fisica) as $chave => $valor):
             if($chave == "modificado_por") {
                 $pessoa_fisica->$chave = $r->user()->name;
-            } else if($chave == "estado_civil_id"){
-                if(empty($valor)) $pessoa_fisica->$chave = null;
+            } else if($chave == "estado_civil_id" && empty($valor)){
+                $pessoa_fisica->$chave = null;
+            } else if($chave == "genero" && !empty($request['genero'])){
+                if(substr($valor, 0, 4) !== 'new:'){
+                    $pessoa_fisica->$chave = $request['genero'];
+                } else {
+                    $pessoa_fisica->$chave = null;
+                }
             } else {
                 $pessoa_fisica->$chave = $request['pessoa'][$chave];
             }
@@ -125,11 +128,11 @@ class PessoaFisicaController extends Controller
         $pessoa_fisica->save();
 
         //Contatos
-        foreach($request['contatos'] as $i => $contato) {
+        foreach($request['contatos'] as $i => $contato):
             $contato = Contato::find($request['contatos'][$i]['id']);
             $contato->valor = $request['contatos'][$i]['valor'];
             $contato->save();
-        }
+        endforeach;
 
         //Endereços
         foreach($request['enderecos'] as $j => $endereco):
@@ -169,28 +172,7 @@ class PessoaFisicaController extends Controller
         if(empty($request['tags'])) {
             $pessoa_fisica->tags()->detach();
         } else {
-
-            $tags_ids = array();
-
-            foreach ($request['tags'] as $tag)
-            {
-                if (substr($tag, 0, 4) == 'new:')
-                {
-                    $tag = strtolower(substr($tag,4));
-                    $tagObj = Tag::where('text', $tag)->first();
-                    if(empty($tagObj)){
-                        $nova_tag = Tag::create(['text' => $tag, 'tipo' => 'tag']);
-                        $tags_ids[] = $nova_tag->id;
-                    } else {
-                        $tags_ids[] = $tagObj->id;
-                    }
-                    continue;
-                }
-                $tags_ids[] = $tag;
-            }
-
-            $pessoa_fisica->tags()->sync($tags_ids);
-
+            $pessoa_fisica->tags()->sync(Tag::criaTags($request['tags'], 'tag'));
         }
         //Deleta tags não atribuídas a ninguém
         $tags_nao_atribuidas = array_map(function($t){ return $t->id; }, Tag::getTagsNaoAtribuidas());
@@ -458,6 +440,11 @@ class PessoaFisicaController extends Controller
 
     }
 
+    public function ajaxGetGeneroSelecionado($id) {
+        $pessoa = PessoaFisica::find($id);
+        return $pessoa->genero;
+    }
+
     public function ajaxAddCargoPj() {
 
         $cargo = request('novo_cargo');
@@ -495,6 +482,45 @@ class PessoaFisicaController extends Controller
         }
 
         return "Chancela inválida";
+
+    }
+
+    public function ajaxAddGenero() {
+
+        $genero = request('novo_genero');
+        $pessoa_fisica_id = request('pessoa_fisica_id');
+
+        if(!empty($genero)) {
+            if(substr($genero, 0, 4) == 'new:'){
+                $novo_genero = strtolower(substr($genero,4));
+                if(!Tag::where('text', $novo_genero)->exists()){
+                    $novo_genero = Tag::create(['text' => $novo_genero, 'tipo' => 'genero']);
+                    $genero = $novo_genero->id;
+                }
+            }
+            $pessoa_fisica = PessoaFisica::find($pessoa_fisica_id);
+            $pessoa_fisica->genero = $genero;
+            $pessoa_fisica->save();
+        } else {
+            return "Gênero inválido";
+        }
+
+        return $pessoa_fisica->genero;
+
+    }
+
+    public function ajaxRemoveGenero() {
+
+        $genero = request('genero');
+        $pessoa_fisica = PessoaFisica::find(request('pessoa_fisica_id'));
+
+        try {
+            $pessoa_fisica->tags()->detach(Tag::find($genero)->id);
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+
+        return Tag::select('id', 'text')->where('tipo', 'genero')->orderBy('text')->get();
 
     }
 

@@ -178,6 +178,7 @@ module.exports = function normalizeComponent (
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(__webpack_provided_window_dot_jQuery) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return eventBus; });
+/* unused harmony export App */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(19);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_router__ = __webpack_require__(9);
@@ -248,7 +249,7 @@ if (token) {
 var eventBus = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a();
 
 //main instance
-new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
+var App = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
     el: '#app',
     router: __WEBPACK_IMPORTED_MODULE_6__routes__["a" /* default */],
     components: {
@@ -47830,6 +47831,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 //bus eventos
 
@@ -47908,6 +47911,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             novos_dados_bancarios: { nome_banco: '', agencia: '', conta: '', tipo_conta_id: '' },
             tags_atuais: [],
             arquivo_atual: { name: 'Selecione um arquivo' },
+            genero_atual: '',
             descricao_arquivo: '',
             mensagem_upload: '',
             id_destaque: '',
@@ -47952,12 +47956,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
     },
     methods: {
-        formataDtNascimento: function formataDtNascimento(valor, tipo) {
-            if (tipo === 'dia') this.dt_nascimento_dia = valor;
-            if (tipo === 'mes') this.dt_nascimento_mes = valor;
-            if (tipo === 'ano') this.dt_nascimento_ano = valor;
-            this.pessoa.dt_nascimento = this.dt_nascimento_ano + '-' + this.dt_nascimento_mes + '-' + this.dt_nascimento_dia;
-        },
         console: function (_console) {
             function console(_x) {
                 return _console.apply(this, arguments);
@@ -47971,6 +47969,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }(function (x) {
             console.log(x);
         }),
+        formataDtNascimento: function formataDtNascimento(valor, tipo) {
+            if (tipo === 'dia') this.dt_nascimento_dia = valor;
+            if (tipo === 'mes') this.dt_nascimento_mes = valor;
+            if (tipo === 'ano') this.dt_nascimento_ano = valor;
+            this.pessoa.dt_nascimento = this.dt_nascimento_ano + '-' + this.dt_nascimento_mes + '-' + this.dt_nascimento_dia;
+        },
         getPessoa: function getPessoa(id) {
             var _this2 = this;
 
@@ -48005,12 +48009,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     _this2.dt_nascimento_mes = dt[1];
                     _this2.dt_nascimento_ano = dt[0];
                 }
-
-                //estado civil
-                if (_this2.pessoa.estado_civil_id === null) _this2.pessoa.estado_civil_id = 6;
-
                 //preenche tags
                 _this2.preencheTags(id);
+                //preenche genero
+                _this2.preencheGenero(id);
             }).then(function () {
                 return _this2.item_carregado = true;
             });
@@ -48025,7 +48027,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 enderecos: this.enderecos,
                 arquivos: this.arquivos,
                 dados_bancarios: this.dados_bancarios,
-                tags: this.tags_atuais
+                tags: this.tags_atuais,
+                genero: this.genero_atual
             }).then(function (res) {
                 _this3.pessoa = res.data;
                 __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$emit('foiSalvoPessoaFisica', _this3.pessoa);
@@ -48080,12 +48083,29 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 return _this6.item_carregado = true;
             });
         },
+        adicionaGenero: function adicionaGenero() {
+            var _this7 = this;
+
+            this.item_carregado = false;
+            axios.post('/ajax/pf/ajaxAddGenero', {
+                pessoa_fisica_id: this.$route.params.id,
+                novo_genero: this.genero_atual
+            }).then(function (res) {
+                if (typeof res.data[0] !== "string") _this7.pessoa.genero = res.data;
+            }).then(function () {
+                return _this7.item_carregado = true;
+            });
+        },
         mostraChancelaPjBoxMetodo: function mostraChancelaPjBoxMetodo() {
             this.mostraChancelaPjBox = !this.mostraChancelaPjBox;
             if (this.mostraChancelaPjBox) this.selectPjJQuery();
         },
+        mostraGeneroBoxMetodo: function mostraGeneroBoxMetodo() {
+            this.mostraGeneroBox = !this.mostraGeneroBox;
+            if (this.mostraGeneroBox) this.selectGeneroJQuery();
+        },
         adicionaContato: function adicionaContato() {
-            var _this7 = this;
+            var _this8 = this;
 
             this.item_carregado = false;
             axios.post('/ajax/pf/addContato', {
@@ -48095,18 +48115,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }).then(function (res) {
                 console.log(res.data);
                 if (typeof res.data !== "string") {
-                    _this7.contatos = res.data;
+                    _this8.contatos = res.data;
                 }
-                _this7.novo_email = '';
-                _this7.novo_telefone = '';
-                _this7.adicionaEmail = false;
-                _this7.adicionaTel = false;
+                _this8.novo_email = '';
+                _this8.novo_telefone = '';
+                _this8.adicionaEmail = false;
+                _this8.adicionaTel = false;
             }).then(function () {
-                return _this7.item_carregado = true;
+                return _this8.item_carregado = true;
             });
         },
         removeContato: function removeContato(id) {
-            var _this8 = this;
+            var _this9 = this;
 
             this.item_carregado = false;
             axios.post('/ajax/pf/removeContato', {
@@ -48114,14 +48134,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 pessoa_id: this.$route.params.id
             }).then(function (res) {
                 if (typeof res.data !== "string") {
-                    _this8.contatos = res.data;
+                    _this9.contatos = res.data;
                 }
             }).then(function () {
-                return _this8.item_carregado = true;
+                return _this9.item_carregado = true;
             });
         },
         adicionaEndereco: function adicionaEndereco() {
-            var _this9 = this;
+            var _this10 = this;
 
             this.item_carregado = false;
             axios.post('/ajax/pf/addEndereco', {
@@ -48129,16 +48149,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 endereco: this.novo_endereco
             }).then(function (res) {
                 if (typeof res.data !== "string") {
-                    _this9.enderecos = res.data;
-                    _this9.novo_endereco = {};
-                    _this9.mostraEnderecoBox = false;
+                    _this10.enderecos = res.data;
+                    _this10.novo_endereco = {};
+                    _this10.mostraEnderecoBox = false;
                 }
             }).then(function () {
-                return _this9.item_carregado = true;
+                return _this10.item_carregado = true;
             });
         },
         removeEndereco: function removeEndereco(id) {
-            var _this10 = this;
+            var _this11 = this;
 
             this.item_carregado = false;
             axios.post('/ajax/pf/removeEndereco', {
@@ -48146,13 +48166,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 pessoa_id: this.$route.params.id
             }).then(function (res) {
                 console.log(res.data);
-                _this10.enderecos = res.data;
+                _this11.enderecos = res.data;
             }).then(function () {
-                return _this10.item_carregado = true;
+                return _this11.item_carregado = true;
             });
         },
         adicionaDadosBancarios: function adicionaDadosBancarios() {
-            var _this11 = this;
+            var _this12 = this;
 
             this.item_carregado = false;
             axios.post('/ajax/pf/addDadosBancarios', {
@@ -48160,32 +48180,32 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 dados_bancarios: this.novos_dados_bancarios
             }).then(function (res) {
                 if (typeof res.data !== "string") {
-                    _this11.dados_bancarios = res.data;
-                    _this11.novos_dados_bancarios = {};
-                    _this11.mostraDadosBancariosBox = false;
+                    _this12.dados_bancarios = res.data;
+                    _this12.novos_dados_bancarios = {};
+                    _this12.mostraDadosBancariosBox = false;
                 }
             }).then(function () {
-                return _this11.item_carregado = true;
+                return _this12.item_carregado = true;
             });
         },
         removeDadosBancarios: function removeDadosBancarios(id) {
-            var _this12 = this;
+            var _this13 = this;
 
             this.item_carregado = false;
             axios.post('/ajax/pf/removeDadosBancarios', {
                 dados_bancarios_id: id,
                 pessoa_id: this.$route.params.id
             }).then(function (res) {
-                _this12.dados_bancarios = res.data;
+                _this13.dados_bancarios = res.data;
             }).then(function () {
-                return _this12.item_carregado = true;
+                return _this13.item_carregado = true;
             });
         },
         selecionaTags: function selecionaTags(data) {
             //console.log(data);
         },
         upload: function upload() {
-            var _this13 = this;
+            var _this14 = this;
 
             this.item_carregado = false;
             var formData = new FormData();
@@ -48197,33 +48217,33 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 headers: { 'Content-Type': 'multipart/form-data' }
             }).then(function (res) {
                 if (typeof res.data !== "string") {
-                    _this13.mensagem_upload = res.data['mensagem_upload'];
-                    _this13.arquivos = res.data['arquivos'];
-                    _this13.arquivo_atual = {};
-                    _this13.descricao_arquivo = '';
-                    _this13.$refs.arquivo.value = '';
+                    _this14.mensagem_upload = res.data['mensagem_upload'];
+                    _this14.arquivos = res.data['arquivos'];
+                    _this14.arquivo_atual = {};
+                    _this14.descricao_arquivo = '';
+                    _this14.$refs.arquivo.value = '';
                 } else {
                     console.log('Arquivo inválido');
                 }
             }).then(function () {
-                return _this13.item_carregado = true;
+                return _this14.item_carregado = true;
             });
         },
         removeArquivo: function removeArquivo(id) {
-            var _this14 = this;
+            var _this15 = this;
 
             this.item_carregado = false;
             axios.post('/ajax/pf/removeArquivo', {
                 arquivo_id: id,
                 pessoa_id: this.$route.params.id
             }).then(function (res) {
-                _this14.arquivos = res.data['arquivos'];
+                _this15.arquivos = res.data['arquivos'];
                 if (res.data['remove_destaque'] === true) {
-                    _this14.imagem_destaque = _this14.root + '/img/perfil_vazio.png';
-                    _this14.destaqueAtivo = false;
+                    _this15.imagem_destaque = _this15.root + '/img/perfil_vazio.png';
+                    _this15.destaqueAtivo = false;
                 }
             }).then(function () {
-                return _this14.item_carregado = true;
+                return _this15.item_carregado = true;
             });
         },
         setArquivoAtual: function setArquivoAtual() {
@@ -48231,38 +48251,38 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
 
         setImagemDestaque: function setImagemDestaque(arquivo_id) {
-            var _this15 = this;
+            var _this16 = this;
 
             axios.post('/ajax/pf/setImagemDestaque', {
                 arquivo_id: arquivo_id,
                 pessoa_id: this.$route.params.id
             }).then(function (res) {
-                _this15.id_destaque = res.data['imagem_destaque']['id'];
-                _this15.arquivos = res.data['arquivos'];
-                if (_this15.id_destaque === 0) {
-                    _this15.imagem_destaque = _this15.root + '/img/perfil_vazio.png';
-                    _this15.destaqueAtivo = false;
+                _this16.id_destaque = res.data['imagem_destaque']['id'];
+                _this16.arquivos = res.data['arquivos'];
+                if (_this16.id_destaque === 0) {
+                    _this16.imagem_destaque = _this16.root + '/img/perfil_vazio.png';
+                    _this16.destaqueAtivo = false;
                 } else {
-                    _this15.imagem_destaque = _this15.root + '/thumbs/pessoas_fisicas/' + _this15.$route.params.id + '/' + res.data['imagem_destaque']['nome'];
-                    _this15.imagem_destaque_original = _this15.root + '/uploads/pessoas_fisicas/' + _this15.$route.params.id + '/' + res.data['imagem_destaque']['nome'];
-                    _this15.destaqueAtivo = true;
+                    _this16.imagem_destaque = _this16.root + '/thumbs/pessoas_fisicas/' + _this16.$route.params.id + '/' + res.data['imagem_destaque']['nome'];
+                    _this16.imagem_destaque_original = _this16.root + '/uploads/pessoas_fisicas/' + _this16.$route.params.id + '/' + res.data['imagem_destaque']['nome'];
+                    _this16.destaqueAtivo = true;
                 }
             });
         },
         getImagemDestaque: function getImagemDestaque() {
-            var _this16 = this;
+            var _this17 = this;
 
             axios.post('/ajax/pf/getImagemDestaque', {
                 pessoa_id: this.$route.params.id
             }).then(function (res) {
                 if (typeof res.data !== "string") {
-                    _this16.id_destaque = res.data.id;
-                    _this16.imagem_destaque = _this16.root + '/thumbs/pessoas_fisicas/' + _this16.$route.params.id + '/' + res.data.nome;
-                    _this16.imagem_destaque_original = _this16.root + '/uploads/pessoas_fisicas/' + _this16.$route.params.id + '/' + res.data.nome;
-                    _this16.destaqueAtivo = true;
+                    _this17.id_destaque = res.data.id;
+                    _this17.imagem_destaque = _this17.root + '/thumbs/pessoas_fisicas/' + _this17.$route.params.id + '/' + res.data.nome;
+                    _this17.imagem_destaque_original = _this17.root + '/uploads/pessoas_fisicas/' + _this17.$route.params.id + '/' + res.data.nome;
+                    _this17.destaqueAtivo = true;
                 } else {
-                    _this16.imagem_destaque = _this16.root + '/img/perfil_vazio.png';
-                    _this16.destaqueAtivo = false;
+                    _this17.imagem_destaque = _this17.root + '/img/perfil_vazio.png';
+                    _this17.destaqueAtivo = false;
                 }
             });
         },
@@ -48289,15 +48309,40 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 }).on('change', function () {
                     Vue.tags_atuais = $(this).val();
                 });
+
+                //Carrega select2 de generos
+                $('.generos_lista').val('').select2({
+                    placeholder: "Digite um genero",
+                    tags: true,
+                    multiple: false,
+                    tokenSeparators: [","],
+                    dropdownAutoWidth: true,
+                    createTag: function createTag(newTag) {
+                        if ($.trim(newTag.term) === '') {
+                            return null;
+                        }
+                        return {
+                            id: 'new:' + newTag.term,
+                            text: newTag.term + ' (novo)'
+                        };
+                    }
+                }).on('change', function () {
+                    Vue.genero_atual = $(this).val();
+                });
             });
         },
         preencheTags: function preencheTags(id) {
-            var tags_selecionadas = [];
             $.get('/ajax/pf/getTagsSelecionadas/' + id).then(function (data) {
-                tags_selecionadas = data;
-                $('#tags_list').val(tags_selecionadas);
+                $('#tags_list').val(data);
             }).then(function () {
                 $('#tags_list').trigger('change');
+            });
+        },
+        preencheGenero: function preencheGenero(id) {
+            $.get('/ajax/pf/getGeneroSelecionado/' + id).then(function (data) {
+                $('.generos_lista').val(data);
+            }).then(function () {
+                $('.generos_lista').trigger('change');
             });
         },
         selectPjJQuery: function selectPjJQuery() {
@@ -48411,6 +48456,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             if (url.indexOf('/projetos/view/') !== -1) tipo = 'projeto';
             if (url.indexOf('/pf/view/') !== -1) tipo = 'pf';
             if (url.indexOf('/pj/view/') !== -1) tipo = 'pj';
+            if (url.indexOf('/tags/view/') !== -1) tipo = 'tag';
 
             __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$emit('excluir-' + tipo);
             this.$emit('close');
@@ -48528,7 +48574,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['export', 'delete'],
+    props: ['save', 'export', 'delete'],
     data: function data() {
         return {
             //
@@ -48558,18 +48604,20 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "editbar" }, [
     _c("div", { staticClass: "salvar" }, [
-      _c(
-        "a",
-        {
-          on: {
-            click: function($event) {
-              $event.preventDefault()
-              return _vm.salvar($event)
-            }
-          }
-        },
-        [_vm._v("Salvar")]
-      )
+      this.save == "true"
+        ? _c(
+            "a",
+            {
+              on: {
+                click: function($event) {
+                  $event.preventDefault()
+                  return _vm.salvar($event)
+                }
+              }
+            },
+            [_vm._v("Salvar")]
+          )
+        : _vm._e()
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "exportar" }, [
@@ -48657,7 +48705,9 @@ var render = function() {
           )
         : _vm._e(),
       _vm._v(" "),
-      _c("editbar", { attrs: { export: "false", delete: "true" } }),
+      _c("editbar", {
+        attrs: { save: "true", export: "false", delete: "true" }
+      }),
       _vm._v(" "),
       _c("div", { staticClass: "titulo" }, [
         _vm.destaqueAtivo
@@ -49056,31 +49106,31 @@ var render = function() {
           _c("div", { staticClass: "valor" }, [
             _c("span", { staticClass: "campo" }, [_vm._v("Gênero")]),
             _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.pessoa.genero,
-                  expression: "pessoa.genero"
-                }
-              ],
-              attrs: {
-                type: "text",
-                autocomplete: "off",
-                name: "pessoa.genero",
-                placeholder: " "
-              },
-              domProps: { value: _vm.pessoa.genero },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
+            _c(
+              "select",
+              { staticClass: "generos_lista", attrs: { name: "generos" } },
+              _vm._l(_vm.atributos.generos, function(genero, index) {
+                return _c(
+                  "option",
+                  { key: "generos" + index, domProps: { value: genero.id } },
+                  [_vm._v(_vm._s(genero.text))]
+                )
+              }),
+              0
+            ),
+            _vm._v(" "),
+            _c(
+              "a",
+              {
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    return _vm.adicionaGenero($event)
                   }
-                  _vm.$set(_vm.pessoa, "genero", $event.target.value)
                 }
-              }
-            })
+              },
+              [_vm._v("[+]")]
+            )
           ]),
           _c("br"),
           _vm._v(" "),
@@ -50598,11 +50648,6 @@ var render = function() {
           _vm._v(" "),
           _vm.mostraEnderecoBox
             ? _c("div", [
-                _c("span", { staticClass: "campo" }, [
-                  _vm._v("--- Novo Endereço")
-                ]),
-                _c("br"),
-                _vm._v(" "),
                 _c("div", { staticClass: "valor" }, [
                   _c("span", { staticClass: "campo" }, [_vm._v("Logradouro")]),
                   _vm._v(" "),
@@ -51111,11 +51156,6 @@ var render = function() {
           _vm._v(" "),
           _vm.mostraDadosBancariosBox
             ? _c("div", [
-                _c("span", { staticClass: "campo" }, [
-                  _vm._v("--- Novos Dados Bancários")
-                ]),
-                _c("br"),
-                _vm._v(" "),
                 _c("div", { staticClass: "valor" }, [
                   _c("span", { staticClass: "campo" }, [_vm._v("Banco")]),
                   _vm._v(" "),
@@ -52396,7 +52436,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 
 
@@ -52895,7 +52934,9 @@ var render = function() {
           )
         : _vm._e(),
       _vm._v(" "),
-      _c("editbar", { attrs: { export: "false", delete: "true" } }),
+      _c("editbar", {
+        attrs: { save: "true", export: "false", delete: "true" }
+      }),
       _vm._v(" "),
       _c("div", { staticClass: "titulo" }, [
         _vm.destaqueAtivo
@@ -54707,11 +54748,6 @@ var render = function() {
           _vm._v(" "),
           _vm.mostraDadosBancariosBox
             ? _c("div", [
-                _c("span", { staticClass: "campo" }, [
-                  _vm._v("--- Novos Dados Bancários")
-                ]),
-                _c("br"),
-                _vm._v(" "),
                 _c("div", { staticClass: "valor" }, [
                   _c("span", { staticClass: "campo" }, [_vm._v("Banco")]),
                   _vm._v(" "),
@@ -55781,7 +55817,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 
 
@@ -56148,7 +56183,9 @@ var render = function() {
           )
         : _vm._e(),
       _vm._v(" "),
-      _c("editbar", { attrs: { export: "false", delete: "true" } }),
+      _c("editbar", {
+        attrs: { save: "true", export: "false", delete: "true" }
+      }),
       _vm._v(" "),
       _c("div", { staticClass: "titulo" }, [
         _vm.destaqueAtivo
@@ -56572,7 +56609,8 @@ var render = function() {
             attrs: {
               autocomplete: "off",
               type: "text",
-              name: "projeto-website"
+              name: "projeto-website",
+              placeholder: " "
             },
             domProps: { value: _vm.projeto.website },
             on: {
@@ -56685,11 +56723,6 @@ var render = function() {
         _vm._v(" "),
         _vm.mostraChancelaPfBox
           ? _c("div", [
-              _c("span", { staticClass: "campo" }, [
-                _vm._v("--- Nova Chancela PF")
-              ]),
-              _c("br"),
-              _vm._v(" "),
               _c("span", { staticClass: "campo" }, [_vm._v("Nome")]),
               _vm._v(" "),
               _c(
@@ -56865,11 +56898,6 @@ var render = function() {
         _vm._v(" "),
         _vm.mostraChancelaPjBox
           ? _c("div", [
-              _c("span", { staticClass: "campo" }, [
-                _vm._v("--- Nova Chancela PJ")
-              ]),
-              _c("br"),
-              _vm._v(" "),
               _c("span", { staticClass: "campo" }, [_vm._v("Nome")]),
               _vm._v(" "),
               _c(
@@ -57525,6 +57553,36 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__estudiobaile__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__editbar__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__editbar___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__editbar__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modals_modal_delete__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modals_modal_delete___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__modals_modal_delete__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -57699,10 +57757,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 //barra superior - salvar
 
+//modal exclusão
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     components: {
-        editbar: __WEBPACK_IMPORTED_MODULE_1__editbar___default.a
+        editbar: __WEBPACK_IMPORTED_MODULE_1__editbar___default.a,
+        modal: __WEBPACK_IMPORTED_MODULE_2__modals_modal_delete___default.a
     },
     mounted: function mounted() {
         var _this = this;
@@ -57710,6 +57771,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         //evento - salvar formulário
         __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$on('editbar-salvar', function () {
             _this.salvaForm();
+        });
+        //evento - mostrar modal de exclusão
+        __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$on('editbar-excluir', function () {
+            _this.modalDelete = true;
+        });
+        //evento - excluir registro
+        __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$on('excluir-tag', function () {
+            _this.removeGenero(_this.$route.params.id);
         });
     },
     created: function created() {
@@ -57732,10 +57801,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             pessoas_cargos_relacionados: [],
             pessoas_fisicas_chancelas_relacionadas: [],
             pessoas_juridicas_chancelas_relacionadas: [],
+            pessoas_generos_relacionados: [],
             //Campos de inclusão
             root: '',
             //Condicionais
-            item_carregado: false
+            item_carregado: false,
+            modalDelete: false
         };
     },
 
@@ -57764,6 +57835,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 } else if (_this2.tipo === "chancela") {
                     _this2.pessoas_fisicas_chancelas_relacionadas = res.data['pessoas_fisicas_relacionadas'];
                     _this2.pessoas_juridicas_chancelas_relacionadas = res.data['pessoas_juridicas_relacionadas'];
+                } else if (_this2.tipo === "genero") {
+                    _this2.pessoas_generos_relacionados = res.data['pessoas_relacionadas'];
+                    console.log(_this2.pessoas_generos_relacionados);
                 }
             }).then(function () {
                 return _this2.item_carregado = true;
@@ -57826,8 +57900,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 }
             });
         },
-        salvaForm: function salvaForm() {
+        removeGenero: function removeGenero(id) {
             var _this6 = this;
+
+            this.item_carregado = false;
+            axios.post('/ajax/tags/ajaxRemoveGenero/' + id, {
+                tag_id: id
+            }).then(function (res) {
+                if (res.data['empty']) {
+                    _this6.tags = res.data['index'];
+                    __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$emit('tagRemovida', _this6.tags);
+                    _this6.$router.push({ name: "tags-index" });
+                } else {
+                    console.log('Erro ao remover gênero');
+                }
+            });
+        },
+        salvaForm: function salvaForm() {
+            var _this7 = this;
 
             this.item_carregado = false;
             console.log(this.$route.params.id);
@@ -57835,9 +57925,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 tag: this.tag,
                 tag_id: this.$route.params.id
             }).then(function (res) {
-                _this6.tags = res.data;
-                __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$emit('foiSalvoTag', _this6.tag);
-                _this6.item_carregado = true;
+                _this7.tags = res.data;
+                __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$emit('foiSalvoTag', _this7.tag);
+                _this7.item_carregado = true;
             });
         }
     }
@@ -57859,7 +57949,27 @@ var render = function() {
       attrs: { id: "container_conteudo" }
     },
     [
-      _c("editbar", { attrs: { export: "false", delete: "false" } }),
+      _vm.modalDelete
+        ? _c(
+            "modal",
+            {
+              on: {
+                close: function($event) {
+                  _vm.modalDelete = false
+                }
+              }
+            },
+            [
+              _c("h3", { attrs: { slot: "header" }, slot: "header" }, [
+                _vm._v("Excluir registro?")
+              ])
+            ]
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _c("editbar", {
+        attrs: { save: "true", export: "false", delete: "true" }
+      }),
       _vm._v(" "),
       _c("div", { staticClass: "titulo" }, [
         _c(
@@ -58210,7 +58320,7 @@ var render = function() {
           ])
         : _vm._e(),
       _vm._v(" "),
-      _vm.tipo === "chancela"
+      _vm.tipo === "genero"
         ? _c("div", [
             _c(
               "div",
@@ -58227,6 +58337,79 @@ var render = function() {
                     "table",
                     [
                       _vm._m(3),
+                      _vm._v(" "),
+                      _vm._l(_vm.pessoas_generos_relacionados, function(
+                        pessoa,
+                        index
+                      ) {
+                        return pessoa
+                          ? _c(
+                              "tr",
+                              { key: "pessoas_generos_relacionados" + index },
+                              [
+                                _c("td", { staticClass: "num_arquivo" }, [
+                                  _vm._v(_vm._s(index + 1))
+                                ]),
+                                _vm._v(" "),
+                                _c("td", { staticClass: "tipo" }, [
+                                  _vm._v(_vm._s(_vm.tipo))
+                                ]),
+                                _vm._v(" "),
+                                _c(
+                                  "td",
+                                  { staticClass: "nome_arquivo" },
+                                  [
+                                    _c(
+                                      "router-link",
+                                      {
+                                        attrs: {
+                                          title: pessoa.nome_adotado,
+                                          id: pessoa.id,
+                                          to: {
+                                            name: "pf-view",
+                                            params: { id: pessoa.id }
+                                          }
+                                        }
+                                      },
+                                      [
+                                        _vm._v(
+                                          _vm._s(pessoa.nome_adotado.trunc(30))
+                                        )
+                                      ]
+                                    )
+                                  ],
+                                  1
+                                )
+                              ]
+                            )
+                          : _vm._e()
+                      })
+                    ],
+                    2
+                  )
+                ])
+              ]
+            )
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.tipo === "chancela"
+        ? _c("div", [
+            _c(
+              "div",
+              { staticClass: "valor", staticStyle: { "margin-top": "3px" } },
+              [
+                _c("span", { staticClass: "titulo_bloco" }, [
+                  _vm._v("Pessoas físicas relacionadas")
+                ]),
+                _vm._v(" "),
+                _c("br"),
+                _vm._v(" "),
+                _c("div", { staticClass: "tabela_arquivos" }, [
+                  _c(
+                    "table",
+                    [
+                      _vm._m(4),
                       _vm._v(" "),
                       _vm._l(
                         _vm.pessoas_fisicas_chancelas_relacionadas,
@@ -58334,7 +58517,7 @@ var render = function() {
                   _c(
                     "table",
                     [
-                      _vm._m(4),
+                      _vm._m(5),
                       _vm._v(" "),
                       _vm._l(
                         _vm.pessoas_juridicas_chancelas_relacionadas,
@@ -58468,6 +58651,18 @@ var staticRenderFns = [
       _c("th", { staticClass: "nome_arquivo" }, [_vm._v("Pessoa Jurídica")]),
       _vm._v(" "),
       _c("th", { staticClass: "remove_arquivo" }, [_vm._v("Remover")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("th", { staticClass: "num_arquivo" }, [_vm._v("#")]),
+      _vm._v(" "),
+      _c("th", { staticClass: "tipo" }, [_vm._v("Tipo")]),
+      _vm._v(" "),
+      _c("th", { staticClass: "nome_arquivo" }, [_vm._v("Pessoa Física")])
     ])
   },
   function() {

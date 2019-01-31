@@ -6,7 +6,7 @@
             <h3 slot="header">Excluir registro?</h3>
         </modal>
 
-        <editbar export="false" delete="true"></editbar>
+        <editbar save="true" export="false" delete="true"></editbar>
 
         <div class="titulo">
             <div v-if="destaqueAtivo" class="imagem_destaque">
@@ -119,12 +119,16 @@
 
             <div class="valor">
                 <span class="campo">Gênero</span>
-                <input
-                        v-model="pessoa.genero"
-                        type="text"
-                        autocomplete="off"
-                        name="pessoa.genero"
-                        placeholder=" " />
+                <!--<input-->
+                        <!--v-model="pessoa.genero"-->
+                        <!--type="text"-->
+                        <!--autocomplete="off"-->
+                        <!--name="pessoa.genero"-->
+                        <!--placeholder=" " />-->
+                <select name="generos" class="generos_lista">
+                    <option v-for="(genero, index) in atributos.generos" :value="genero.id" :key="'generos'+index">{{ genero.text }}</option>
+                </select>
+                <a @click.prevent="adicionaGenero">[+]</a>
             </div><br>
 
             <div class="valor">
@@ -558,7 +562,6 @@
             <!--Add novo endereço-->
             <a @click.prevent="mostraEnderecoBox = !mostraEnderecoBox" class="link_abrir_box">[adicionar endereço]</a>
             <div v-if="mostraEnderecoBox">
-                <span class="campo">--- Novo Endereço</span><br>
                 <div class="valor">
                     <span class="campo">Logradouro</span>
                     <input @input="novo_endereco.rua = $event.target.value" autocomplete="off" type="text" placeholder=" " name="novo_endereco.rua" v-model="novo_endereco.rua" />
@@ -651,7 +654,6 @@
             <!-- Add novos dados bancários -->
             <a @click.prevent="mostraDadosBancariosBox = !mostraDadosBancariosBox" class="link_abrir_box">[adicionar dados bancários]</a>
             <div v-if="mostraDadosBancariosBox">
-                <span class="campo">--- Novos Dados Bancários</span><br>
                 <div class="valor">
                     <span class="campo">Banco</span>
                     <input @input="novos_dados_bancarios.nome_banco = $event.target.value" autocomplete="off" type="text" placeholder=" " name="novos_dados_bancarios.nome_banco" v-model="novos_dados_bancarios.nome_banco" />
@@ -760,6 +762,7 @@
                 novos_dados_bancarios: {nome_banco:'',agencia:'',conta:'',tipo_conta_id:''},
                 tags_atuais: [],
                 arquivo_atual: {name: 'Selecione um arquivo'},
+                genero_atual: '',
                 descricao_arquivo: '',
                 mensagem_upload: '',
                 id_destaque: '',
@@ -799,13 +802,13 @@
             }
         },
         methods: {
+            console: function(x){ console.log(x) },
             formataDtNascimento: function(valor, tipo){
                 if(tipo === 'dia') this.dt_nascimento_dia = valor;
                 if(tipo === 'mes') this.dt_nascimento_mes = valor;
                 if(tipo === 'ano') this.dt_nascimento_ano = valor;
                 this.pessoa.dt_nascimento = `${this.dt_nascimento_ano}-${this.dt_nascimento_mes}-${this.dt_nascimento_dia}`;
             },
-            console: function(x){ console.log(x) },
             getPessoa: function(id){
                 this.item_carregado = false;
                 this.imagem_destaque = `${this.root}/img/perfil_vazio.png`;
@@ -839,12 +842,10 @@
                             this.dt_nascimento_mes = dt[1];
                             this.dt_nascimento_ano = dt[0];
                         }
-
-                        //estado civil
-                        if(this.pessoa.estado_civil_id === null) this.pessoa.estado_civil_id = 6;
-
                         //preenche tags
                         this.preencheTags(id);
+                        //preenche genero
+                        this.preencheGenero(id);
                     })
                     .then(() => this.item_carregado = true);
             },
@@ -857,6 +858,7 @@
                     arquivos: this.arquivos,
                     dados_bancarios: this.dados_bancarios,
                     tags: this.tags_atuais,
+                    genero: this.genero_atual
                 })
                 .then(res => {
                     this.pessoa = res.data;
@@ -906,9 +908,24 @@
                 })
                 .then(() => this.item_carregado = true);
             },
+            adicionaGenero: function(){
+                this.item_carregado = false;
+                axios.post('/ajax/pf/ajaxAddGenero', {
+                    pessoa_fisica_id: this.$route.params.id,
+                    novo_genero: this.genero_atual,
+                })
+                .then(res => {
+                    if(typeof res.data[0] !== "string") this.pessoa.genero = res.data;
+                })
+                .then(() => this.item_carregado = true);
+            },
             mostraChancelaPjBoxMetodo: function(){
                 this.mostraChancelaPjBox = !this.mostraChancelaPjBox;
                 if(this.mostraChancelaPjBox) this.selectPjJQuery();
+            },
+            mostraGeneroBoxMetodo: function(){
+                this.mostraGeneroBox = !this.mostraGeneroBox;
+                if(this.mostraGeneroBox) this.selectGeneroJQuery();
             },
             adicionaContato: function(){
                 this.item_carregado = false;
@@ -1096,18 +1113,35 @@
                     }).on('change', function(){
                         Vue.tags_atuais = $(this).val();
                     });
+
+                    //Carrega select2 de generos
+                    $('.generos_lista').val('').select2({
+                        placeholder: "Digite um genero",
+                        tags: true,
+                        multiple: false,
+                        tokenSeparators: [","],
+                        dropdownAutoWidth : true,
+                        createTag: function(newTag) {
+                            if ($.trim(newTag.term) === '') { return null; }
+                            return {
+                                id: 'new:' + newTag.term,
+                                text: newTag.term + ' (novo)'
+                            };
+                        },
+                    }).on('change', function(){
+                        Vue.genero_atual = $(this).val();
+                    });
                 });
             },
             preencheTags: function(id){
-                let tags_selecionadas = [];
                 $.get('/ajax/pf/getTagsSelecionadas/' + id)
-                    .then(function(data) {
-                        tags_selecionadas = data;
-                        $('#tags_list').val(tags_selecionadas);
-                    })
-                    .then(function() {
-                        $('#tags_list').trigger('change');
-                    });
+                    .then(function(data) { $('#tags_list').val(data) })
+                    .then(function() { $('#tags_list').trigger('change') });
+            },
+            preencheGenero: function(id){
+                $.get('/ajax/pf/getGeneroSelecionado/' + id)
+                    .then(function(data) { $('.generos_lista').val(data) })
+                    .then(function() { $('.generos_lista').trigger('change') });
             },
             selectPjJQuery: function(){
                 //Instancia atual do Vue
@@ -1153,7 +1187,7 @@
                     });
                 });
 
-            }
+            },
         }
     }
 </script>

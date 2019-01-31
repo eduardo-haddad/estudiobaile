@@ -6,7 +6,7 @@
             <h3 slot="header">Excluir registro?</h3>
         </modal>
 
-        <editbar export="false" delete="true"></editbar>
+        <editbar save="true" export="false" delete="true"></editbar>
 
         <div class="titulo">
             <div v-if="destaqueAtivo" class="imagem_destaque">
@@ -418,7 +418,6 @@
             <!-- Add novos dados bancários -->
             <a @click.prevent="mostraDadosBancariosBox = !mostraDadosBancariosBox" class="link_abrir_box">[adicionar dados bancários]</a>
             <div v-if="mostraDadosBancariosBox">
-                <span class="campo">--- Novos Dados Bancários</span><br>
                 <div class="valor">
                     <span class="campo">Banco</span>
                     <input @input="novos_dados_bancarios.nome_banco = $event.target.value" autocomplete="off" type="text" placeholder=" " name="novos_dados_bancarios.nome_banco" v-model="novos_dados_bancarios.nome_banco" />

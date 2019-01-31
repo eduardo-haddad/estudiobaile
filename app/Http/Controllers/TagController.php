@@ -45,6 +45,19 @@ class TagController extends Controller
                 'pessoas_relacionadas' => $pessoas_relacionadas,
             ];
 
+        } else if(!empty($tag) && $tag->tipo == "genero") {
+            $pf_generos_relacionados = Tag::getIdsPessoasRelacionadasGenero($id);
+            if(!empty($pf_generos_relacionados)){
+                foreach($pf_generos_relacionados as $pf_genero) {
+                    $pessoas_relacionadas[] = PessoaFisica::find($pf_genero->id);
+                }
+            }
+
+            return [
+                'tag' => $tag,
+                'pessoas_relacionadas' => $pessoas_relacionadas,
+            ];
+
         } else if(!empty($tag) && $tag->tipo == "chancela") {
             $pf_relacionadas_ids = Tag::getIdsPfRelacionadasChancela($id);
             $pj_relacionadas_ids = Tag::getIdsPjRelacionadasChancela($id);
@@ -162,6 +175,26 @@ class TagController extends Controller
             ];
         }
         return false;
+    }
+
+    public function ajaxRemoveGenero($tag_id){
+
+        $pessoas_relacionadas = Tag::getIdsPessoasRelacionadasGenero($tag_id);
+
+        if(!empty($pessoas_relacionadas)){
+            foreach($pessoas_relacionadas as $pessoa_relacionada):
+                $pessoa = PessoaFisica::find($pessoa_relacionada->id);
+                $pessoa->genero = null;
+                $pessoa->save();
+            endforeach;
+        }
+
+        Tag::where('id', $tag_id)->delete();
+
+        return [
+            'empty' => empty(Tag::getIdsPessoasRelacionadasGenero($tag_id)),
+            'index' => $this->ajaxIndex()
+        ];
     }
 
 }

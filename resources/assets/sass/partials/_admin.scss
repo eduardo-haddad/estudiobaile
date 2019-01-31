@@ -541,6 +541,7 @@ hr {
                   input[type=text],
                   input[type=email],
                   input[type=password],
+                  input[type=date],
                   .mask-input {
                     height: 25px;
                   }
@@ -548,6 +549,7 @@ hr {
                   input[type=text],
                   input[type=email],
                   input[type=password],
+                  input[type=date],
                   .mask-input {
                     padding: 1px 8px 0 7px;
                   }
@@ -555,6 +557,7 @@ hr {
                   // campos vazios que tenham placeholder
                   input[type=text]:placeholder-shown,
                   input[type=email]:placeholder-shown,
+                  input[type=date]:placeholder-shown,
                   .mask-input:placeholder-shown,
                   input[type=password]:placeholder-shown {
                     //border-bottom: 1px solid $cinza_placeholder;
@@ -766,6 +769,7 @@ hr {
                 input[type=text],
                 input[type=email],
                 input[type=password],
+                input[type=date],
                 .mask-input {
                     outline: none;
                     border: 1px solid transparent;
@@ -984,7 +988,7 @@ hr {
 // Select2
 .select2-container {
     min-width: 400px;
-    margin-top: -8px;
+    //margin-top: -8px;
 }
 .select2-container--default,
 .select2-selection,

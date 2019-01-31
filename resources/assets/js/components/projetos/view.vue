@@ -6,7 +6,7 @@
             <h3 slot="header">Excluir registro?</h3>
         </modal>
 
-        <editbar export="false" delete="true"></editbar>
+        <editbar save="true" export="false" delete="true"></editbar>
 
         <div class="titulo">
             <div v-if="destaqueAtivo" class="imagem_destaque">
@@ -134,6 +134,7 @@
                 <input autocomplete="off" type="text"
                        v-model="projeto.website"
                        name="projeto-website"
+                       placeholder=" "
                 />
             </div>
 
@@ -174,7 +175,6 @@
             <!-- Add novo chancela pessoa física -->
             <a @click="mostraChancelaBoxMetodo(true)" class="link_abrir_box">[nova chancela pessoa física]</a>
             <div v-if="mostraChancelaPfBox">
-                <span class="campo">--- Nova Chancela PF</span><br>
                 <span class="campo">Nome</span>
                 <select @change="" name="pessoas_fisicas" class="pf_lista">
                     <option disabled selected value> -- Selecione um nome -- </option>
@@ -228,7 +228,6 @@
             <!-- Add novo chancela pessoa jurídica -->
             <a @click="mostraChancelaBoxMetodo(false)" class="link_abrir_box">[nova chancela pessoa jurídica]</a>
             <div v-if="mostraChancelaPjBox">
-                <span class="campo">--- Nova Chancela PJ</span><br>
                 <span class="campo">Nome</span>
                 <select name="pessoas_juridicas" class="pj_lista">
                     <option disabled selected value> -- Selecione um nome -- </option>

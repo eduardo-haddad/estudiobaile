@@ -52,6 +52,7 @@ class Tag extends Model
             INNER JOIN pj_projeto PjProjeto
             ON Tags.id = PjProjeto.tag_id AND Tags.tipo = 'chancela'
           )
+          AND tipo != 'genero'
         ");
     }
 
@@ -109,38 +110,75 @@ class Tag extends Model
 
     }
 
+    public static function getIdsPessoasRelacionadasGenero($tag_id){
+        return \DB::Select("
+            SELECT 
+              PessoaFisica.id
+            FROM tags Tag
+            INNER JOIN pessoas_fisicas PessoaFisica 
+              ON Tag.id = PessoaFisica.genero AND Tag.id = $tag_id
+            WHERE Tag.tipo = 'genero'
+            ORDER BY PessoaFisica.nome_adotado
+        ");
+
+    }
+
     public static function getIdsPfRelacionadasChancela($tag_id){
         return \DB::Select("
             SELECT 
-              PessoaFisica.pessoa_fisica_id AS id,
-              Pf.nome_adotado AS nome_adotado,
+              PfProjeto.pessoa_fisica_id AS id,
+              PessoaFisica.nome_adotado AS nome_adotado,
               Projeto.nome AS projeto_nome,
               Projeto.id AS projeto_id
             FROM projetos Projeto
-            LEFT JOIN pf_projeto PessoaFisica ON PessoaFisica.projeto_id = Projeto.id
-            INNER JOIN tags Tag ON Tag.id = PessoaFisica.tag_id
-            INNER JOIN pessoas_fisicas Pf ON PessoaFisica.pessoa_fisica_id = Pf.id
+            LEFT JOIN pf_projeto PfProjeto ON PfProjeto.projeto_id = Projeto.id
+            INNER JOIN tags Tag ON Tag.id = PfProjeto.tag_id
+            INNER JOIN pessoas_fisicas PessoaFisica ON PfProjeto.pessoa_fisica_id = PessoaFisica.id
             WHERE Tag.id = $tag_id
-            ORDER BY Pf.nome_adotado
+            ORDER BY PessoaFisica.nome_adotado
         ");
     }
     public static function getIdsPjRelacionadasChancela($tag_id){
         return \DB::Select("
             SELECT 
-              PessoaJuridica.pessoa_juridica_id AS id,
-              Pj.nome_fantasia AS nome_fantasia,
+              PjProjeto.pessoa_juridica_id AS id,
+              PessoaJuridica.nome_fantasia AS nome_fantasia,
               Projeto.nome AS projeto_nome,
               Projeto.id AS projeto_id
             FROM projetos Projeto
-            LEFT JOIN pj_projeto PessoaJuridica ON PessoaJuridica.projeto_id = Projeto.id
-            INNER JOIN tags Tag ON Tag.id = PessoaJuridica.tag_id
-            INNER JOIN pessoas_juridicas Pj ON PessoaJuridica.pessoa_juridica_id = Pj.id
+            LEFT JOIN pj_projeto PjProjeto ON PjProjeto.projeto_id = Projeto.id
+            INNER JOIN tags Tag ON Tag.id = PjProjeto.tag_id
+            INNER JOIN pessoas_juridicas PessoaJuridica ON PjProjeto.pessoa_juridica_id = PessoaJuridica.id
             WHERE Tag.id = $tag_id
-            ORDER BY Pj.nome_fantasia
+            ORDER BY PessoaJuridica.nome_fantasia
         ");
     }
 
+    public static function criaTags($tags, $tipo){
 
+        $tags_ids = array();
+
+        if(!is_array($tags)) $tags = array($tags);
+
+        foreach ($tags as $tag):
+            if (substr($tag, 0, 4) == 'new:')
+            {
+                $tag = strtolower(substr($tag,4));
+                $tagObj = Tag::where('text', $tag)->first();
+                if(empty($tagObj)){
+                    $nova_tag = Tag::create(['text' => $tag, 'tipo' => $tipo]);
+                    $tags_ids[] = $nova_tag->id;
+                } else {
+                    $tags_ids[] = $tagObj->id;
+                }
+                continue;
+            }
+            $tags_ids[] = $tag;
+        endforeach;
+
+        return $tags_ids;
+
+    }
 
 
 

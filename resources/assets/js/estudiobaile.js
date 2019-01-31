@@ -54,7 +54,7 @@ import modal from './components/modals/modal_novo_registro';
 export const eventBus = new Vue();
 
 //main instance
-new Vue({
+export const App = new Vue({
     el: '#app',
     router: router,
     components: {

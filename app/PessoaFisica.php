@@ -22,7 +22,7 @@ class PessoaFisica extends Model
         'projeto_id',
         'categoria_id',
         'endereco_id',
-        'genero_id'
+        'genero'
     ];
 
     //Relacionamentos
@@ -67,10 +67,10 @@ class PessoaFisica extends Model
         return $this->belongsToMany('App\Tag', 'pessoa_tag', 'pessoa_fisica_id', 'tag_id');
     }
 
-    public function genero()
-    {
-        return $this->belongsTo('App\Genero', 'genero_id');
-    }
+//    public function genero()
+//    {
+//        return $this->belongsTo('App\Genero', 'genero_id');
+//    }
 
     public function estado_civil()
     {

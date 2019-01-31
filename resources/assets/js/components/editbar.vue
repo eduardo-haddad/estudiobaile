@@ -1,7 +1,7 @@
 <template>
     <div class="editbar">
         <div class="salvar">
-            <a @click.prevent="salvar">Salvar</a>
+            <a v-if="this.save == 'true'" @click.prevent="salvar">Salvar</a>
         </div>
         <div class="exportar">
                 <a v-if="this.export == 'true'" @click.prevent="exportar">
@@ -19,7 +19,7 @@
 <script>
     import { eventBus } from '../estudiobaile';
     export default {
-        props: ['export', 'delete'],
+        props: ['save', 'export', 'delete'],
         data() {
             return {
                 //
