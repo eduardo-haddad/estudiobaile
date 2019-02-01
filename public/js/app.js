@@ -10976,6 +10976,53 @@ module.exports = g;
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
+var __vue_script__ = __webpack_require__(59)
+/* template */
+var __vue_template__ = __webpack_require__(60)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/modals/modal_delete.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-2af47f3f", Component.options)
+  } else {
+    hotAPI.reload("data-v-2af47f3f", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
 var __vue_script__ = __webpack_require__(61)
 /* template */
 var __vue_template__ = __webpack_require__(62)
@@ -11017,7 +11064,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11119,53 +11166,6 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 module.exports = defaults;
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
-
-/***/ }),
-/* 7 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__(0)
-/* script */
-var __vue_script__ = __webpack_require__(59)
-/* template */
-var __vue_template__ = __webpack_require__(60)
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/assets/js/components/modals/modal_delete.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-2af47f3f", Component.options)
-  } else {
-    hotAPI.reload("data-v-2af47f3f", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
 
 /***/ }),
 /* 8 */
@@ -37139,7 +37139,7 @@ module.exports = __webpack_require__(23);
 var utils = __webpack_require__(2);
 var bind = __webpack_require__(10);
 var Axios = __webpack_require__(25);
-var defaults = __webpack_require__(6);
+var defaults = __webpack_require__(7);
 
 /**
  * Create an instance of Axios
@@ -37222,7 +37222,7 @@ function isSlowBuffer (obj) {
 "use strict";
 
 
-var defaults = __webpack_require__(6);
+var defaults = __webpack_require__(7);
 var utils = __webpack_require__(2);
 var InterceptorManager = __webpack_require__(34);
 var dispatchRequest = __webpack_require__(35);
@@ -37761,7 +37761,7 @@ module.exports = InterceptorManager;
 var utils = __webpack_require__(2);
 var transformData = __webpack_require__(36);
 var isCancel = __webpack_require__(13);
-var defaults = __webpack_require__(6);
+var defaults = __webpack_require__(7);
 var isAbsoluteURL = __webpack_require__(37);
 var combineURLs = __webpack_require__(38);
 
@@ -47140,13 +47140,12 @@ module.exports = Component.exports
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__estudiobaile__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__modals_modal_delete__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__modals_modal_delete__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__modals_modal_delete___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__modals_modal_delete__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__editbar__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__editbar__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__editbar___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__editbar__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vue_the_mask__ = __webpack_require__(16);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vue_the_mask___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_vue_the_mask__);
-//
 //
 //
 //
@@ -48083,19 +48082,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 return _this6.item_carregado = true;
             });
         },
-        adicionaGenero: function adicionaGenero() {
-            var _this7 = this;
-
-            this.item_carregado = false;
-            axios.post('/ajax/pf/ajaxAddGenero', {
-                pessoa_fisica_id: this.$route.params.id,
-                novo_genero: this.genero_atual
-            }).then(function (res) {
-                if (typeof res.data[0] !== "string") _this7.pessoa.genero = res.data;
-            }).then(function () {
-                return _this7.item_carregado = true;
-            });
-        },
         mostraChancelaPjBoxMetodo: function mostraChancelaPjBoxMetodo() {
             this.mostraChancelaPjBox = !this.mostraChancelaPjBox;
             if (this.mostraChancelaPjBox) this.selectPjJQuery();
@@ -48105,7 +48091,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             if (this.mostraGeneroBox) this.selectGeneroJQuery();
         },
         adicionaContato: function adicionaContato() {
-            var _this8 = this;
+            var _this7 = this;
 
             this.item_carregado = false;
             axios.post('/ajax/pf/addContato', {
@@ -48115,18 +48101,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }).then(function (res) {
                 console.log(res.data);
                 if (typeof res.data !== "string") {
-                    _this8.contatos = res.data;
+                    _this7.contatos = res.data;
                 }
-                _this8.novo_email = '';
-                _this8.novo_telefone = '';
-                _this8.adicionaEmail = false;
-                _this8.adicionaTel = false;
+                _this7.novo_email = '';
+                _this7.novo_telefone = '';
+                _this7.adicionaEmail = false;
+                _this7.adicionaTel = false;
             }).then(function () {
-                return _this8.item_carregado = true;
+                return _this7.item_carregado = true;
             });
         },
         removeContato: function removeContato(id) {
-            var _this9 = this;
+            var _this8 = this;
 
             this.item_carregado = false;
             axios.post('/ajax/pf/removeContato', {
@@ -48134,14 +48120,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 pessoa_id: this.$route.params.id
             }).then(function (res) {
                 if (typeof res.data !== "string") {
-                    _this9.contatos = res.data;
+                    _this8.contatos = res.data;
                 }
             }).then(function () {
-                return _this9.item_carregado = true;
+                return _this8.item_carregado = true;
             });
         },
         adicionaEndereco: function adicionaEndereco() {
-            var _this10 = this;
+            var _this9 = this;
 
             this.item_carregado = false;
             axios.post('/ajax/pf/addEndereco', {
@@ -48149,16 +48135,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 endereco: this.novo_endereco
             }).then(function (res) {
                 if (typeof res.data !== "string") {
-                    _this10.enderecos = res.data;
-                    _this10.novo_endereco = {};
-                    _this10.mostraEnderecoBox = false;
+                    _this9.enderecos = res.data;
+                    _this9.novo_endereco = {};
+                    _this9.mostraEnderecoBox = false;
                 }
             }).then(function () {
-                return _this10.item_carregado = true;
+                return _this9.item_carregado = true;
             });
         },
         removeEndereco: function removeEndereco(id) {
-            var _this11 = this;
+            var _this10 = this;
 
             this.item_carregado = false;
             axios.post('/ajax/pf/removeEndereco', {
@@ -48166,13 +48152,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 pessoa_id: this.$route.params.id
             }).then(function (res) {
                 console.log(res.data);
-                _this11.enderecos = res.data;
+                _this10.enderecos = res.data;
             }).then(function () {
-                return _this11.item_carregado = true;
+                return _this10.item_carregado = true;
             });
         },
         adicionaDadosBancarios: function adicionaDadosBancarios() {
-            var _this12 = this;
+            var _this11 = this;
 
             this.item_carregado = false;
             axios.post('/ajax/pf/addDadosBancarios', {
@@ -48180,32 +48166,32 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 dados_bancarios: this.novos_dados_bancarios
             }).then(function (res) {
                 if (typeof res.data !== "string") {
-                    _this12.dados_bancarios = res.data;
-                    _this12.novos_dados_bancarios = {};
-                    _this12.mostraDadosBancariosBox = false;
+                    _this11.dados_bancarios = res.data;
+                    _this11.novos_dados_bancarios = {};
+                    _this11.mostraDadosBancariosBox = false;
                 }
             }).then(function () {
-                return _this12.item_carregado = true;
+                return _this11.item_carregado = true;
             });
         },
         removeDadosBancarios: function removeDadosBancarios(id) {
-            var _this13 = this;
+            var _this12 = this;
 
             this.item_carregado = false;
             axios.post('/ajax/pf/removeDadosBancarios', {
                 dados_bancarios_id: id,
                 pessoa_id: this.$route.params.id
             }).then(function (res) {
-                _this13.dados_bancarios = res.data;
+                _this12.dados_bancarios = res.data;
             }).then(function () {
-                return _this13.item_carregado = true;
+                return _this12.item_carregado = true;
             });
         },
         selecionaTags: function selecionaTags(data) {
             //console.log(data);
         },
         upload: function upload() {
-            var _this14 = this;
+            var _this13 = this;
 
             this.item_carregado = false;
             var formData = new FormData();
@@ -48217,33 +48203,33 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 headers: { 'Content-Type': 'multipart/form-data' }
             }).then(function (res) {
                 if (typeof res.data !== "string") {
-                    _this14.mensagem_upload = res.data['mensagem_upload'];
-                    _this14.arquivos = res.data['arquivos'];
-                    _this14.arquivo_atual = {};
-                    _this14.descricao_arquivo = '';
-                    _this14.$refs.arquivo.value = '';
+                    _this13.mensagem_upload = res.data['mensagem_upload'];
+                    _this13.arquivos = res.data['arquivos'];
+                    _this13.arquivo_atual = {};
+                    _this13.descricao_arquivo = '';
+                    _this13.$refs.arquivo.value = '';
                 } else {
                     console.log('Arquivo inválido');
                 }
             }).then(function () {
-                return _this14.item_carregado = true;
+                return _this13.item_carregado = true;
             });
         },
         removeArquivo: function removeArquivo(id) {
-            var _this15 = this;
+            var _this14 = this;
 
             this.item_carregado = false;
             axios.post('/ajax/pf/removeArquivo', {
                 arquivo_id: id,
                 pessoa_id: this.$route.params.id
             }).then(function (res) {
-                _this15.arquivos = res.data['arquivos'];
+                _this14.arquivos = res.data['arquivos'];
                 if (res.data['remove_destaque'] === true) {
-                    _this15.imagem_destaque = _this15.root + '/img/perfil_vazio.png';
-                    _this15.destaqueAtivo = false;
+                    _this14.imagem_destaque = _this14.root + '/img/perfil_vazio.png';
+                    _this14.destaqueAtivo = false;
                 }
             }).then(function () {
-                return _this15.item_carregado = true;
+                return _this14.item_carregado = true;
             });
         },
         setArquivoAtual: function setArquivoAtual() {
@@ -48251,38 +48237,38 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
 
         setImagemDestaque: function setImagemDestaque(arquivo_id) {
-            var _this16 = this;
+            var _this15 = this;
 
             axios.post('/ajax/pf/setImagemDestaque', {
                 arquivo_id: arquivo_id,
                 pessoa_id: this.$route.params.id
             }).then(function (res) {
-                _this16.id_destaque = res.data['imagem_destaque']['id'];
-                _this16.arquivos = res.data['arquivos'];
-                if (_this16.id_destaque === 0) {
-                    _this16.imagem_destaque = _this16.root + '/img/perfil_vazio.png';
-                    _this16.destaqueAtivo = false;
+                _this15.id_destaque = res.data['imagem_destaque']['id'];
+                _this15.arquivos = res.data['arquivos'];
+                if (_this15.id_destaque === 0) {
+                    _this15.imagem_destaque = _this15.root + '/img/perfil_vazio.png';
+                    _this15.destaqueAtivo = false;
                 } else {
-                    _this16.imagem_destaque = _this16.root + '/thumbs/pessoas_fisicas/' + _this16.$route.params.id + '/' + res.data['imagem_destaque']['nome'];
-                    _this16.imagem_destaque_original = _this16.root + '/uploads/pessoas_fisicas/' + _this16.$route.params.id + '/' + res.data['imagem_destaque']['nome'];
-                    _this16.destaqueAtivo = true;
+                    _this15.imagem_destaque = _this15.root + '/thumbs/pessoas_fisicas/' + _this15.$route.params.id + '/' + res.data['imagem_destaque']['nome'];
+                    _this15.imagem_destaque_original = _this15.root + '/uploads/pessoas_fisicas/' + _this15.$route.params.id + '/' + res.data['imagem_destaque']['nome'];
+                    _this15.destaqueAtivo = true;
                 }
             });
         },
         getImagemDestaque: function getImagemDestaque() {
-            var _this17 = this;
+            var _this16 = this;
 
             axios.post('/ajax/pf/getImagemDestaque', {
                 pessoa_id: this.$route.params.id
             }).then(function (res) {
                 if (typeof res.data !== "string") {
-                    _this17.id_destaque = res.data.id;
-                    _this17.imagem_destaque = _this17.root + '/thumbs/pessoas_fisicas/' + _this17.$route.params.id + '/' + res.data.nome;
-                    _this17.imagem_destaque_original = _this17.root + '/uploads/pessoas_fisicas/' + _this17.$route.params.id + '/' + res.data.nome;
-                    _this17.destaqueAtivo = true;
+                    _this16.id_destaque = res.data.id;
+                    _this16.imagem_destaque = _this16.root + '/thumbs/pessoas_fisicas/' + _this16.$route.params.id + '/' + res.data.nome;
+                    _this16.imagem_destaque_original = _this16.root + '/uploads/pessoas_fisicas/' + _this16.$route.params.id + '/' + res.data.nome;
+                    _this16.destaqueAtivo = true;
                 } else {
-                    _this17.imagem_destaque = _this17.root + '/img/perfil_vazio.png';
-                    _this17.destaqueAtivo = false;
+                    _this16.imagem_destaque = _this16.root + '/img/perfil_vazio.png';
+                    _this16.destaqueAtivo = false;
                 }
             });
         },
@@ -48312,7 +48298,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
                 //Carrega select2 de generos
                 $('.generos_lista').val('').select2({
-                    placeholder: "Digite um genero",
+                    placeholder: "Selecione",
                     tags: true,
                     multiple: false,
                     tokenSeparators: [","],
@@ -49103,7 +49089,7 @@ var render = function() {
           ]),
           _c("br"),
           _vm._v(" "),
-          _c("div", { staticClass: "valor" }, [
+          _c("div", { staticClass: "valor genero" }, [
             _c("span", { staticClass: "campo" }, [_vm._v("Gênero")]),
             _vm._v(" "),
             _c(
@@ -49117,19 +49103,6 @@ var render = function() {
                 )
               }),
               0
-            ),
-            _vm._v(" "),
-            _c(
-              "a",
-              {
-                on: {
-                  click: function($event) {
-                    $event.preventDefault()
-                    return _vm.adicionaGenero($event)
-                  }
-                }
-              },
-              [_vm._v("[+]")]
             )
           ]),
           _c("br"),
@@ -51979,9 +51952,9 @@ module.exports = Component.exports
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__estudiobaile__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__modals_modal_delete__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__modals_modal_delete__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__modals_modal_delete___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__modals_modal_delete__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__editbar__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__editbar__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__editbar___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__editbar__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vue_the_mask__ = __webpack_require__(16);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vue_the_mask___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_vue_the_mask__);
@@ -55561,9 +55534,9 @@ module.exports = Component.exports
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__estudiobaile__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__modals_modal_delete__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__modals_modal_delete__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__modals_modal_delete___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__modals_modal_delete__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__editbar__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__editbar__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__editbar___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__editbar__);
 //
 //
@@ -57551,9 +57524,9 @@ module.exports = Component.exports
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__estudiobaile__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__editbar__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__editbar__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__editbar___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__editbar__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modals_modal_delete__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modals_modal_delete__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modals_modal_delete___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__modals_modal_delete__);
 //
 //

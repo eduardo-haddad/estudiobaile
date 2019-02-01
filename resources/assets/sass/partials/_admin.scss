@@ -990,6 +990,10 @@ hr {
     min-width: 400px;
     //margin-top: -8px;
 }
+.genero .select2-container {
+    min-width: unset;
+    width: 200px !important;
+}
 .select2-container--default,
 .select2-selection,
 .select2-selection--multiple {

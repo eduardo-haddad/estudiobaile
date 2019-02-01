@@ -115,10 +115,11 @@ class PessoaFisicaController extends Controller
             } else if($chave == "estado_civil_id" && empty($valor)){
                 $pessoa_fisica->$chave = null;
             } else if($chave == "genero" && !empty($request['genero'])){
-                if(substr($valor, 0, 4) !== 'new:'){
-                    $pessoa_fisica->$chave = $request['genero'];
+                if(substr($request['genero'], 0, 4) == 'new:'){
+                    $tag_criada = Tag::criaTags($request['genero'], 'genero');
+                    $pessoa_fisica->$chave = is_array($tag_criada) ? $tag_criada[0] : $tag_criada;
                 } else {
-                    $pessoa_fisica->$chave = null;
+                    $pessoa_fisica->$chave = $request['genero'];
                 }
             } else {
                 $pessoa_fisica->$chave = $request['pessoa'][$chave];
@@ -485,44 +486,6 @@ class PessoaFisicaController extends Controller
 
     }
 
-    public function ajaxAddGenero() {
-
-        $genero = request('novo_genero');
-        $pessoa_fisica_id = request('pessoa_fisica_id');
-
-        if(!empty($genero)) {
-            if(substr($genero, 0, 4) == 'new:'){
-                $novo_genero = strtolower(substr($genero,4));
-                if(!Tag::where('text', $novo_genero)->exists()){
-                    $novo_genero = Tag::create(['text' => $novo_genero, 'tipo' => 'genero']);
-                    $genero = $novo_genero->id;
-                }
-            }
-            $pessoa_fisica = PessoaFisica::find($pessoa_fisica_id);
-            $pessoa_fisica->genero = $genero;
-            $pessoa_fisica->save();
-        } else {
-            return "Gênero inválido";
-        }
-
-        return $pessoa_fisica->genero;
-
-    }
-
-    public function ajaxRemoveGenero() {
-
-        $genero = request('genero');
-        $pessoa_fisica = PessoaFisica::find(request('pessoa_fisica_id'));
-
-        try {
-            $pessoa_fisica->tags()->detach(Tag::find($genero)->id);
-        } catch (\Exception $e) {
-            return $e->getMessage();
-        }
-
-        return Tag::select('id', 'text')->where('tipo', 'genero')->orderBy('text')->get();
-
-    }
 
     public function ajaxUpload() {
 

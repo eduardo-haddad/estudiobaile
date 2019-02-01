@@ -117,7 +117,7 @@
                 />
             </div><br>
 
-            <div class="valor">
+            <div class="valor genero">
                 <span class="campo">Gênero</span>
                 <!--<input-->
                         <!--v-model="pessoa.genero"-->
@@ -128,7 +128,6 @@
                 <select name="generos" class="generos_lista">
                     <option v-for="(genero, index) in atributos.generos" :value="genero.id" :key="'generos'+index">{{ genero.text }}</option>
                 </select>
-                <a @click.prevent="adicionaGenero">[+]</a>
             </div><br>
 
             <div class="valor">
@@ -908,17 +907,6 @@
                 })
                 .then(() => this.item_carregado = true);
             },
-            adicionaGenero: function(){
-                this.item_carregado = false;
-                axios.post('/ajax/pf/ajaxAddGenero', {
-                    pessoa_fisica_id: this.$route.params.id,
-                    novo_genero: this.genero_atual,
-                })
-                .then(res => {
-                    if(typeof res.data[0] !== "string") this.pessoa.genero = res.data;
-                })
-                .then(() => this.item_carregado = true);
-            },
             mostraChancelaPjBoxMetodo: function(){
                 this.mostraChancelaPjBox = !this.mostraChancelaPjBox;
                 if(this.mostraChancelaPjBox) this.selectPjJQuery();
@@ -1116,7 +1104,7 @@
 
                     //Carrega select2 de generos
                     $('.generos_lista').val('').select2({
-                        placeholder: "Digite um genero",
+                        placeholder: "Selecione",
                         tags: true,
                         multiple: false,
                         tokenSeparators: [","],

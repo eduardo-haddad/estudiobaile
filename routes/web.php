@@ -139,16 +139,6 @@ Route::group($opcoes_rotas, function(){
         'roles' => $geral
     ]);
     //Generos
-    Route::post('/ajax/pf/ajaxAddGenero', [
-        'uses' => 'PessoaFisicaController@ajaxAddGenero',
-        'as' => 'ajax.pf.addGenero',
-        'roles' => $geral
-    ]);
-    Route::post('/ajax/pf/ajaxRemoveGenero', [
-        'uses' => 'PessoaFisicaController@ajaxRemoveGenero',
-        'as' => 'ajax.pf.removeGenero',
-        'roles' => $geral
-    ]);
     Route::get('/ajax/pf/getGeneroSelecionado/{id}', [
         'uses' => 'PessoaFisicaController@ajaxGetGeneroSelecionado',
         'as' => 'ajax.pf.getGeneroSelecionado',
