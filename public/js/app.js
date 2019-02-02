@@ -47832,6 +47832,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 //bus eventos
 
@@ -47908,6 +47926,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             novo_telefone: '',
             novo_endereco: { rua: '', numero: '', complemento: '', bairro: '', cep: '', cidade: '', estado: '', pais: '' },
             novos_dados_bancarios: { nome_banco: '', agencia: '', conta: '', tipo_conta_id: '' },
+            nova_chancela: { chancela: '', projeto: '' },
             tags_atuais: [],
             arquivo_atual: { name: 'Selecione um arquivo' },
             genero_atual: '',
@@ -47918,6 +47937,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             imagem_destaque_original: '',
             //Condicionais
             mostraChancelaPjBox: false,
+            mostraProjetoBox: false,
             adicionaEmail: false,
             adicionaTel: false,
             mostraEnderecoBox: false,
@@ -48090,8 +48110,51 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.mostraGeneroBox = !this.mostraGeneroBox;
             if (this.mostraGeneroBox) this.selectGeneroJQuery();
         },
-        adicionaContato: function adicionaContato() {
+        mostraProjetoBoxMetodo: function mostraProjetoBoxMetodo() {
+            this.mostraProjetoBox = !this.mostraProjetoBox;
+            if (this.mostraProjetoBox) this.selectProjetoJQuery();
+        },
+        adicionaProjeto: function adicionaProjeto() {
             var _this7 = this;
+
+            this.item_carregado = false;
+            axios.post('/ajax/projetos/ajaxAddChancela', {
+                nova_chancela: this.nova_chancela,
+                projeto_id: this.nova_chancela.projeto,
+                pessoa_fisica_id: this.$route.params.id
+            }).then(function (res) {
+                if (typeof res.data['dadosProjeto'] !== "string") {
+                    var chancelas = res.data['chancelas'];
+                    axios.get('/ajax/pf/getProjetosChancelasPorId/' + _this7.$route.params.id).then(function (res) {
+                        return _this7.projetos = res.data;
+                    }).then(function () {
+                        _this7.nova_chancela = {};
+                        _this7.mostraProjetoBox = false;
+                        _this7.atributos.chancelas = chancelas;
+                    });
+                }
+            }).then(function () {
+                return _this7.item_carregado = true;
+            });
+        },
+        removeProjeto: function removeProjeto(projeto_id, tag_id) {
+            var _this8 = this;
+
+            this.item_carregado = false;
+            axios.post('/ajax/projetos/ajaxRemoveChancela', {
+                projeto_view: false,
+                pessoa_fisica_id: this.$route.params.id,
+                pessoa_juridica_id: false,
+                projeto_id: projeto_id,
+                tag_id: tag_id
+            }).then(function (res) {
+                _this8.projetos = res.data;
+            }).then(function () {
+                return _this8.item_carregado = true;
+            });
+        },
+        adicionaContato: function adicionaContato() {
+            var _this9 = this;
 
             this.item_carregado = false;
             axios.post('/ajax/pf/addContato', {
@@ -48101,18 +48164,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }).then(function (res) {
                 console.log(res.data);
                 if (typeof res.data !== "string") {
-                    _this7.contatos = res.data;
+                    _this9.contatos = res.data;
                 }
-                _this7.novo_email = '';
-                _this7.novo_telefone = '';
-                _this7.adicionaEmail = false;
-                _this7.adicionaTel = false;
+                _this9.novo_email = '';
+                _this9.novo_telefone = '';
+                _this9.adicionaEmail = false;
+                _this9.adicionaTel = false;
             }).then(function () {
-                return _this7.item_carregado = true;
+                return _this9.item_carregado = true;
             });
         },
         removeContato: function removeContato(id) {
-            var _this8 = this;
+            var _this10 = this;
 
             this.item_carregado = false;
             axios.post('/ajax/pf/removeContato', {
@@ -48120,14 +48183,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 pessoa_id: this.$route.params.id
             }).then(function (res) {
                 if (typeof res.data !== "string") {
-                    _this8.contatos = res.data;
+                    _this10.contatos = res.data;
                 }
             }).then(function () {
-                return _this8.item_carregado = true;
+                return _this10.item_carregado = true;
             });
         },
         adicionaEndereco: function adicionaEndereco() {
-            var _this9 = this;
+            var _this11 = this;
 
             this.item_carregado = false;
             axios.post('/ajax/pf/addEndereco', {
@@ -48135,16 +48198,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 endereco: this.novo_endereco
             }).then(function (res) {
                 if (typeof res.data !== "string") {
-                    _this9.enderecos = res.data;
-                    _this9.novo_endereco = {};
-                    _this9.mostraEnderecoBox = false;
+                    _this11.enderecos = res.data;
+                    _this11.novo_endereco = {};
+                    _this11.mostraEnderecoBox = false;
                 }
             }).then(function () {
-                return _this9.item_carregado = true;
+                return _this11.item_carregado = true;
             });
         },
         removeEndereco: function removeEndereco(id) {
-            var _this10 = this;
+            var _this12 = this;
 
             this.item_carregado = false;
             axios.post('/ajax/pf/removeEndereco', {
@@ -48152,13 +48215,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 pessoa_id: this.$route.params.id
             }).then(function (res) {
                 console.log(res.data);
-                _this10.enderecos = res.data;
+                _this12.enderecos = res.data;
             }).then(function () {
-                return _this10.item_carregado = true;
+                return _this12.item_carregado = true;
             });
         },
         adicionaDadosBancarios: function adicionaDadosBancarios() {
-            var _this11 = this;
+            var _this13 = this;
 
             this.item_carregado = false;
             axios.post('/ajax/pf/addDadosBancarios', {
@@ -48166,32 +48229,32 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 dados_bancarios: this.novos_dados_bancarios
             }).then(function (res) {
                 if (typeof res.data !== "string") {
-                    _this11.dados_bancarios = res.data;
-                    _this11.novos_dados_bancarios = {};
-                    _this11.mostraDadosBancariosBox = false;
+                    _this13.dados_bancarios = res.data;
+                    _this13.novos_dados_bancarios = {};
+                    _this13.mostraDadosBancariosBox = false;
                 }
             }).then(function () {
-                return _this11.item_carregado = true;
+                return _this13.item_carregado = true;
             });
         },
         removeDadosBancarios: function removeDadosBancarios(id) {
-            var _this12 = this;
+            var _this14 = this;
 
             this.item_carregado = false;
             axios.post('/ajax/pf/removeDadosBancarios', {
                 dados_bancarios_id: id,
                 pessoa_id: this.$route.params.id
             }).then(function (res) {
-                _this12.dados_bancarios = res.data;
+                _this14.dados_bancarios = res.data;
             }).then(function () {
-                return _this12.item_carregado = true;
+                return _this14.item_carregado = true;
             });
         },
         selecionaTags: function selecionaTags(data) {
             //console.log(data);
         },
         upload: function upload() {
-            var _this13 = this;
+            var _this15 = this;
 
             this.item_carregado = false;
             var formData = new FormData();
@@ -48203,33 +48266,33 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 headers: { 'Content-Type': 'multipart/form-data' }
             }).then(function (res) {
                 if (typeof res.data !== "string") {
-                    _this13.mensagem_upload = res.data['mensagem_upload'];
-                    _this13.arquivos = res.data['arquivos'];
-                    _this13.arquivo_atual = {};
-                    _this13.descricao_arquivo = '';
-                    _this13.$refs.arquivo.value = '';
+                    _this15.mensagem_upload = res.data['mensagem_upload'];
+                    _this15.arquivos = res.data['arquivos'];
+                    _this15.arquivo_atual = {};
+                    _this15.descricao_arquivo = '';
+                    _this15.$refs.arquivo.value = '';
                 } else {
                     console.log('Arquivo inválido');
                 }
             }).then(function () {
-                return _this13.item_carregado = true;
+                return _this15.item_carregado = true;
             });
         },
         removeArquivo: function removeArquivo(id) {
-            var _this14 = this;
+            var _this16 = this;
 
             this.item_carregado = false;
             axios.post('/ajax/pf/removeArquivo', {
                 arquivo_id: id,
                 pessoa_id: this.$route.params.id
             }).then(function (res) {
-                _this14.arquivos = res.data['arquivos'];
+                _this16.arquivos = res.data['arquivos'];
                 if (res.data['remove_destaque'] === true) {
-                    _this14.imagem_destaque = _this14.root + '/img/perfil_vazio.png';
-                    _this14.destaqueAtivo = false;
+                    _this16.imagem_destaque = _this16.root + '/img/perfil_vazio.png';
+                    _this16.destaqueAtivo = false;
                 }
             }).then(function () {
-                return _this14.item_carregado = true;
+                return _this16.item_carregado = true;
             });
         },
         setArquivoAtual: function setArquivoAtual() {
@@ -48237,38 +48300,38 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
 
         setImagemDestaque: function setImagemDestaque(arquivo_id) {
-            var _this15 = this;
+            var _this17 = this;
 
             axios.post('/ajax/pf/setImagemDestaque', {
                 arquivo_id: arquivo_id,
                 pessoa_id: this.$route.params.id
             }).then(function (res) {
-                _this15.id_destaque = res.data['imagem_destaque']['id'];
-                _this15.arquivos = res.data['arquivos'];
-                if (_this15.id_destaque === 0) {
-                    _this15.imagem_destaque = _this15.root + '/img/perfil_vazio.png';
-                    _this15.destaqueAtivo = false;
+                _this17.id_destaque = res.data['imagem_destaque']['id'];
+                _this17.arquivos = res.data['arquivos'];
+                if (_this17.id_destaque === 0) {
+                    _this17.imagem_destaque = _this17.root + '/img/perfil_vazio.png';
+                    _this17.destaqueAtivo = false;
                 } else {
-                    _this15.imagem_destaque = _this15.root + '/thumbs/pessoas_fisicas/' + _this15.$route.params.id + '/' + res.data['imagem_destaque']['nome'];
-                    _this15.imagem_destaque_original = _this15.root + '/uploads/pessoas_fisicas/' + _this15.$route.params.id + '/' + res.data['imagem_destaque']['nome'];
-                    _this15.destaqueAtivo = true;
+                    _this17.imagem_destaque = _this17.root + '/thumbs/pessoas_fisicas/' + _this17.$route.params.id + '/' + res.data['imagem_destaque']['nome'];
+                    _this17.imagem_destaque_original = _this17.root + '/uploads/pessoas_fisicas/' + _this17.$route.params.id + '/' + res.data['imagem_destaque']['nome'];
+                    _this17.destaqueAtivo = true;
                 }
             });
         },
         getImagemDestaque: function getImagemDestaque() {
-            var _this16 = this;
+            var _this18 = this;
 
             axios.post('/ajax/pf/getImagemDestaque', {
                 pessoa_id: this.$route.params.id
             }).then(function (res) {
                 if (typeof res.data !== "string") {
-                    _this16.id_destaque = res.data.id;
-                    _this16.imagem_destaque = _this16.root + '/thumbs/pessoas_fisicas/' + _this16.$route.params.id + '/' + res.data.nome;
-                    _this16.imagem_destaque_original = _this16.root + '/uploads/pessoas_fisicas/' + _this16.$route.params.id + '/' + res.data.nome;
-                    _this16.destaqueAtivo = true;
+                    _this18.id_destaque = res.data.id;
+                    _this18.imagem_destaque = _this18.root + '/thumbs/pessoas_fisicas/' + _this18.$route.params.id + '/' + res.data.nome;
+                    _this18.imagem_destaque_original = _this18.root + '/uploads/pessoas_fisicas/' + _this18.$route.params.id + '/' + res.data.nome;
+                    _this18.destaqueAtivo = true;
                 } else {
-                    _this16.imagem_destaque = _this16.root + '/img/perfil_vazio.png';
-                    _this16.destaqueAtivo = false;
+                    _this18.imagem_destaque = _this18.root + '/img/perfil_vazio.png';
+                    _this18.destaqueAtivo = false;
                 }
             });
         },
@@ -48314,6 +48377,39 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     }
                 }).on('change', function () {
                     Vue.genero_atual = $(this).val();
+                });
+            });
+        },
+        selectProjetoJQuery: function selectProjetoJQuery() {
+            //Instancia atual do Vue
+            var Vue = this;
+            $(document).ready(function () {
+                //Carrega select2 de projeto
+                $('.projetos_lista').select2({
+                    placeholder: "Selecione",
+                    tags: false,
+                    multiple: false
+                }).on('change', function () {
+                    Vue.nova_chancela.projeto = $(this).val();
+                    console.log('Vue.nova_chancela.projeto: ' + Vue.nova_chancela.projeto);
+                });
+
+                $('.chancelas_lista').select2({
+                    placeholder: "Selecione",
+                    tags: true,
+                    multiple: false,
+                    createTag: function createTag(newTag) {
+                        if ($.trim(newTag.term) === '') {
+                            return null;
+                        }
+                        return {
+                            id: 'new:' + newTag.term,
+                            text: newTag.term + ' (novo)'
+                        };
+                    }
+                }).on('change', function () {
+                    Vue.nova_chancela.chancela = $(this).val();
+                    console.log('Vue.nova_chancela.chancela: ' + Vue.nova_chancela.chancela);
                 });
             });
         },
@@ -49941,11 +50037,9 @@ var render = function() {
                     on: { change: function($event) {} }
                   },
                   [
-                    _c(
-                      "option",
-                      { attrs: { disabled: "", selected: "", value: "" } },
-                      [_vm._v(" -- Selecione um nome -- ")]
-                    ),
+                    _c("option", {
+                      attrs: { value: "", disabled: "", selected: "" }
+                    }),
                     _vm._v(" "),
                     _vm._l(_vm.atributos.pessoas_juridicas, function(pessoa) {
                       return _c("option", { domProps: { value: pessoa.id } }, [
@@ -49971,11 +50065,9 @@ var render = function() {
                     on: { change: function($event) {} }
                   },
                   [
-                    _c(
-                      "option",
-                      { attrs: { disabled: "", selected: "", value: "" } },
-                      [_vm._v(" -- Selecione um cargo -- ")]
-                    ),
+                    _c("option", {
+                      attrs: { value: "", disabled: "", selected: "" }
+                    }),
                     _vm._v(" "),
                     _vm._l(_vm.atributos.cargos_pj, function(cargo) {
                       return _c("option", { domProps: { value: cargo.id } }, [
@@ -50317,7 +50409,10 @@ var render = function() {
                             on: {
                               click: function($event) {
                                 $event.preventDefault()
-                                _vm.console.log("remover")
+                                _vm.removeProjeto(
+                                  projeto.id,
+                                  projeto["chancela_id"]
+                                )
                               }
                             }
                           },
@@ -50331,6 +50426,87 @@ var render = function() {
               )
             ])
           ]),
+          _vm._v(" "),
+          _c("br"),
+          _vm._v(" "),
+          _c(
+            "a",
+            {
+              staticClass: "link_abrir_box",
+              on: { click: _vm.mostraProjetoBoxMetodo }
+            },
+            [_vm._v("[nova chancela pessoa física]")]
+          ),
+          _vm._v(" "),
+          _vm.mostraProjetoBox
+            ? _c("div", [
+                _c("span", { staticClass: "campo" }, [_vm._v("Projeto")]),
+                _vm._v(" "),
+                _c(
+                  "select",
+                  {
+                    staticClass: "projetos_lista",
+                    attrs: { name: "projetos" },
+                    on: { change: function($event) {} }
+                  },
+                  [
+                    _c("option", {
+                      attrs: { value: "", disabled: "", selected: "" }
+                    }),
+                    _vm._v(" "),
+                    _vm._l(_vm.atributos.projetos, function(projeto) {
+                      return _c("option", { domProps: { value: projeto.id } }, [
+                        _vm._v(
+                          "\n                    " +
+                            _vm._s(projeto.nome) +
+                            "\n                "
+                        )
+                      ])
+                    })
+                  ],
+                  2
+                ),
+                _c("br"),
+                _vm._v(" "),
+                _c("span", { staticClass: "campo" }, [_vm._v("Chancela")]),
+                _vm._v(" "),
+                _c(
+                  "select",
+                  {
+                    staticClass: "chancelas_lista",
+                    attrs: { name: "chancelas" },
+                    on: { change: function($event) {} }
+                  },
+                  [
+                    _c("option", {
+                      attrs: { value: "", disabled: "", selected: "" }
+                    }),
+                    _vm._v(" "),
+                    _vm._l(_vm.atributos.chancelas, function(chancela) {
+                      return _c(
+                        "option",
+                        { domProps: { value: chancela.id } },
+                        [_vm._v(_vm._s(chancela.text))]
+                      )
+                    })
+                  ],
+                  2
+                ),
+                _vm._v(" "),
+                _c(
+                  "a",
+                  {
+                    on: {
+                      click: function($event) {
+                        $event.preventDefault()
+                        return _vm.adicionaProjeto($event)
+                      }
+                    }
+                  },
+                  [_vm._v("[+]")]
+                )
+              ])
+            : _vm._e(),
           _vm._v(" "),
           _c("hr"),
           _vm._v(" "),
@@ -52409,6 +52585,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -52476,6 +52671,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             novo_telefone: '',
             novo_endereco: { rua: '', numero: '', complemento: '', bairro: '', cep: '', cidade: '', estado: '', pais: '' },
             novos_dados_bancarios: { nome_banco: '', agencia: '', conta: '', tipo_conta_id: '' },
+            nova_chancela: { chancela: '', projeto: '' },
             arquivo_atual: { name: 'Selecione um arquivo' },
             descricao_arquivo: '',
             mensagem_upload: '',
@@ -52484,6 +52680,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             imagem_destaque_original: '',
             //Condicionais
             mostraCargoPfBox: false,
+            mostraProjetoBox: false,
             adicionaEmail: false,
             adicionaTel: false,
             mostraEnderecoBox: false,
@@ -52569,8 +52766,33 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 } else console.log('Erro ao deletar pessoa jurídica');
             });
         },
-        adicionaCargoPf: function adicionaCargoPf() {
+        adicionaChancela: function adicionaChancela() {
             var _this5 = this;
+
+            this.item_carregado = false;
+            var nova_chancela = isPf ? this.nova_chancela_pf : this.nova_chancela_pj;
+            axios.post('/ajax/projetos/ajaxAddChancela', {
+                projeto_id: this.$route.params.id,
+                nova_chancela: nova_chancela
+            }).then(function (res) {
+                if (typeof res.data[0] !== "string") {
+                    if (isPf) {
+                        _this5.pessoas_fisicas_chancelas_relacionadas = res.data[0];
+                        _this5.nova_chancela_pf = {};
+                        _this5.mostraChancelaPfBox = false;
+                    } else {
+                        _this5.pessoas_juridicas_chancelas_relacionadas = res.data[0];
+                        _this5.nova_chancela_pj = {};
+                        _this5.mostraChancelaPjBox = false;
+                    }
+                    _this5.atributos.chancelas = res.data[1];
+                }
+            }).then(function () {
+                return _this5.item_carregado = true;
+            });
+        },
+        adicionaCargoPf: function adicionaCargoPf() {
+            var _this6 = this;
 
             this.item_carregado = false;
             axios.post('/ajax/pj/ajaxAddCargoPf', {
@@ -52580,18 +52802,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             }).then(function (res) {
                 if (typeof res.data[0] !== "string") {
-                    _this5.pessoas_fisicas_cargos_relacionados = res.data[0];
-                    _this5.atributos.cargos = res.data[1];
-                    _this5.pessoa_fisica_id = '';
-                    _this5.novo_cargo = '';
-                    _this5.mostraCargoPfBox = false;
+                    _this6.pessoas_fisicas_cargos_relacionados = res.data[0];
+                    _this6.atributos.cargos = res.data[1];
+                    _this6.pessoa_fisica_id = '';
+                    _this6.novo_cargo = '';
+                    _this6.mostraCargoPfBox = false;
                 }
             }).then(function () {
-                return _this5.item_carregado = true;
+                return _this6.item_carregado = true;
             });
         },
         removeCargoPf: function removeCargoPf(pessoa_fisica_id, cargo_id) {
-            var _this6 = this;
+            var _this7 = this;
 
             this.item_carregado = false;
             axios.post('/ajax/pj/ajaxRemoveCargoPf', {
@@ -52599,17 +52821,60 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 pessoa_fisica_id: pessoa_fisica_id,
                 pessoa_juridica_id: this.$route.params.id
             }).then(function (res) {
-                _this6.pessoas_fisicas_cargos_relacionados = res.data;
+                _this7.pessoas_fisicas_cargos_relacionados = res.data;
             }).then(function () {
-                return _this6.item_carregado = true;
+                return _this7.item_carregado = true;
             });
         },
         mostraCargoPfBoxMetodo: function mostraCargoPfBoxMetodo() {
             this.mostraCargoPfBox = !this.mostraCargoPfBox;
             if (this.mostraCargoPfBox) this.selectPfJQuery();
         },
+        mostraProjetoBoxMetodo: function mostraProjetoBoxMetodo() {
+            this.mostraProjetoBox = !this.mostraProjetoBox;
+            if (this.mostraProjetoBox) this.selectProjetoJQuery();
+        },
+        adicionaProjeto: function adicionaProjeto() {
+            var _this8 = this;
+
+            this.item_carregado = false;
+            axios.post('/ajax/projetos/ajaxAddChancela', {
+                nova_chancela: this.nova_chancela,
+                projeto_id: this.nova_chancela.projeto,
+                pessoa_juridica_id: this.$route.params.id
+            }).then(function (res) {
+                if (typeof res.data['dadosProjeto'] !== "string") {
+                    var chancelas = res.data['chancelas'];
+                    axios.get('/ajax/pj/getProjetosChancelasPorId/' + _this8.$route.params.id).then(function (res) {
+                        return _this8.projetos = res.data;
+                    }).then(function () {
+                        _this8.nova_chancela = {};
+                        _this8.mostraProjetoBox = false;
+                        _this8.atributos.chancelas = chancelas;
+                    });
+                }
+            }).then(function () {
+                return _this8.item_carregado = true;
+            });
+        },
+        removeProjeto: function removeProjeto(projeto_id, tag_id) {
+            var _this9 = this;
+
+            this.item_carregado = false;
+            axios.post('/ajax/projetos/ajaxRemoveChancela', {
+                projeto_view: false,
+                pessoa_fisica_id: false,
+                pessoa_juridica_id: this.$route.params.id,
+                projeto_id: projeto_id,
+                tag_id: tag_id
+            }).then(function (res) {
+                _this9.projetos = res.data;
+            }).then(function () {
+                return _this9.item_carregado = true;
+            });
+        },
         adicionaContato: function adicionaContato() {
-            var _this7 = this;
+            var _this10 = this;
 
             this.item_carregado = false;
             axios.post('/ajax/pj/addContato', {
@@ -52619,18 +52884,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }).then(function (res) {
                 console.log(res.data);
                 if (typeof res.data !== "string") {
-                    _this7.contatos = res.data;
+                    _this10.contatos = res.data;
                 }
-                _this7.novo_email = '';
-                _this7.novo_telefone = '';
-                _this7.adicionaEmail = false;
-                _this7.adicionaTel = false;
+                _this10.novo_email = '';
+                _this10.novo_telefone = '';
+                _this10.adicionaEmail = false;
+                _this10.adicionaTel = false;
             }).then(function () {
-                return _this7.item_carregado = true;
+                return _this10.item_carregado = true;
             });
         },
         removeContato: function removeContato(id) {
-            var _this8 = this;
+            var _this11 = this;
 
             this.item_carregado = false;
             axios.post('/ajax/pj/removeContato', {
@@ -52638,14 +52903,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 pessoa_id: this.$route.params.id
             }).then(function (res) {
                 if (typeof res.data !== "string") {
-                    _this8.contatos = res.data;
+                    _this11.contatos = res.data;
                 }
             }).then(function () {
-                return _this8.item_carregado = true;
+                return _this11.item_carregado = true;
             });
         },
         adicionaEndereco: function adicionaEndereco() {
-            var _this9 = this;
+            var _this12 = this;
 
             this.item_carregado = false;
             axios.post('/ajax/pj/addEndereco', {
@@ -52653,16 +52918,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 endereco: this.novo_endereco
             }).then(function (res) {
                 if (typeof res.data !== "string") {
-                    _this9.enderecos = res.data;
-                    _this9.novo_endereco = {};
-                    _this9.mostraEnderecoBox = false;
+                    _this12.enderecos = res.data;
+                    _this12.novo_endereco = {};
+                    _this12.mostraEnderecoBox = false;
                 }
             }).then(function () {
-                return _this9.item_carregado = true;
+                return _this12.item_carregado = true;
             });
         },
         removeEndereco: function removeEndereco(id) {
-            var _this10 = this;
+            var _this13 = this;
 
             this.item_carregado = false;
             axios.post('/ajax/pj/removeEndereco', {
@@ -52670,13 +52935,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 pessoa_id: this.$route.params.id
             }).then(function (res) {
                 console.log(res.data);
-                _this10.enderecos = res.data;
+                _this13.enderecos = res.data;
             }).then(function () {
-                return _this10.item_carregado = true;
+                return _this13.item_carregado = true;
             });
         },
         adicionaDadosBancarios: function adicionaDadosBancarios() {
-            var _this11 = this;
+            var _this14 = this;
 
             this.item_carregado = false;
             axios.post('/ajax/pj/addDadosBancarios', {
@@ -52684,29 +52949,29 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 dados_bancarios: this.novos_dados_bancarios
             }).then(function (res) {
                 if (typeof res.data !== "string") {
-                    _this11.dados_bancarios = res.data;
-                    _this11.novos_dados_bancarios = {};
-                    _this11.mostraDadosBancariosBox = false;
+                    _this14.dados_bancarios = res.data;
+                    _this14.novos_dados_bancarios = {};
+                    _this14.mostraDadosBancariosBox = false;
                 }
             }).then(function () {
-                return _this11.item_carregado = true;
+                return _this14.item_carregado = true;
             });
         },
         removeDadosBancarios: function removeDadosBancarios(id) {
-            var _this12 = this;
+            var _this15 = this;
 
             this.item_carregado = false;
             axios.post('/ajax/pj/removeDadosBancarios', {
                 dados_bancarios_id: id,
                 pessoa_id: this.$route.params.id
             }).then(function (res) {
-                _this12.dados_bancarios = res.data;
+                _this15.dados_bancarios = res.data;
             }).then(function () {
-                return _this12.item_carregado = true;
+                return _this15.item_carregado = true;
             });
         },
         upload: function upload() {
-            var _this13 = this;
+            var _this16 = this;
 
             this.item_carregado = false;
             var formData = new FormData();
@@ -52718,33 +52983,33 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 headers: { 'Content-Type': 'multipart/form-data' }
             }).then(function (res) {
                 if (typeof res.data !== "string") {
-                    _this13.mensagem_upload = res.data['mensagem_upload'];
-                    _this13.arquivos = res.data['arquivos'];
-                    _this13.arquivo_atual = {};
-                    _this13.descricao_arquivo = '';
-                    _this13.$refs.arquivo.value = '';
+                    _this16.mensagem_upload = res.data['mensagem_upload'];
+                    _this16.arquivos = res.data['arquivos'];
+                    _this16.arquivo_atual = {};
+                    _this16.descricao_arquivo = '';
+                    _this16.$refs.arquivo.value = '';
                 } else {
                     console.log('Arquivo inválido');
                 }
             }).then(function () {
-                return _this13.item_carregado = true;
+                return _this16.item_carregado = true;
             });
         },
         removeArquivo: function removeArquivo(id) {
-            var _this14 = this;
+            var _this17 = this;
 
             this.item_carregado = false;
             axios.post('/ajax/pj/removeArquivo', {
                 arquivo_id: id,
                 pessoa_id: this.$route.params.id
             }).then(function (res) {
-                _this14.arquivos = res.data['arquivos'];
+                _this17.arquivos = res.data['arquivos'];
                 if (res.data['remove_destaque'] === true) {
-                    _this14.imagem_destaque = _this14.root + '/img/perfil_vazio.png';
-                    _this14.destaqueAtivo = false;
+                    _this17.imagem_destaque = _this17.root + '/img/perfil_vazio.png';
+                    _this17.destaqueAtivo = false;
                 }
             }).then(function () {
-                return _this14.item_carregado = true;
+                return _this17.item_carregado = true;
             });
         },
         setArquivoAtual: function setArquivoAtual() {
@@ -52752,38 +53017,38 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
 
         setImagemDestaque: function setImagemDestaque(arquivo_id) {
-            var _this15 = this;
+            var _this18 = this;
 
             axios.post('/ajax/pj/setImagemDestaque', {
                 arquivo_id: arquivo_id,
                 pessoa_id: this.$route.params.id
             }).then(function (res) {
-                _this15.id_destaque = res.data['imagem_destaque']['id'];
-                _this15.arquivos = res.data['arquivos'];
-                if (_this15.id_destaque === 0) {
-                    _this15.imagem_destaque = _this15.root + '/img/perfil_vazio.png';
-                    _this15.destaqueAtivo = false;
+                _this18.id_destaque = res.data['imagem_destaque']['id'];
+                _this18.arquivos = res.data['arquivos'];
+                if (_this18.id_destaque === 0) {
+                    _this18.imagem_destaque = _this18.root + '/img/perfil_vazio.png';
+                    _this18.destaqueAtivo = false;
                 } else {
-                    _this15.imagem_destaque = _this15.root + '/thumbs/pessoas_juridicas/' + _this15.$route.params.id + '/' + res.data['imagem_destaque']['nome'];
-                    _this15.imagem_destaque_original = _this15.root + '/uploads/pessoas_juridicas/' + _this15.$route.params.id + '/' + res.data['imagem_destaque']['nome'];
-                    _this15.destaqueAtivo = true;
+                    _this18.imagem_destaque = _this18.root + '/thumbs/pessoas_juridicas/' + _this18.$route.params.id + '/' + res.data['imagem_destaque']['nome'];
+                    _this18.imagem_destaque_original = _this18.root + '/uploads/pessoas_juridicas/' + _this18.$route.params.id + '/' + res.data['imagem_destaque']['nome'];
+                    _this18.destaqueAtivo = true;
                 }
             });
         },
         getImagemDestaque: function getImagemDestaque() {
-            var _this16 = this;
+            var _this19 = this;
 
             axios.post('/ajax/pj/getImagemDestaque', {
                 pessoa_id: this.$route.params.id
             }).then(function (res) {
                 if (typeof res.data !== "string") {
-                    _this16.id_destaque = res.data.id;
-                    _this16.imagem_destaque = _this16.root + '/thumbs/pessoas_juridicas/' + _this16.$route.params.id + '/' + res.data.nome;
-                    _this16.imagem_destaque_original = _this16.root + '/uploads/pessoas_juridicas/' + _this16.$route.params.id + '/' + res.data.nome;
-                    _this16.destaqueAtivo = true;
+                    _this19.id_destaque = res.data.id;
+                    _this19.imagem_destaque = _this19.root + '/thumbs/pessoas_juridicas/' + _this19.$route.params.id + '/' + res.data.nome;
+                    _this19.imagem_destaque_original = _this19.root + '/uploads/pessoas_juridicas/' + _this19.$route.params.id + '/' + res.data.nome;
+                    _this19.destaqueAtivo = true;
                 } else {
-                    _this16.imagem_destaque = _this16.root + '/img/perfil_vazio.png';
-                    _this16.destaqueAtivo = false;
+                    _this19.imagem_destaque = _this19.root + '/img/perfil_vazio.png';
+                    _this19.destaqueAtivo = false;
                 }
             });
         },
@@ -52809,6 +53074,65 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     }
                 }).on('change', function () {
                     Vue.tags_atuais = $(this).val();
+                });
+
+                //Carrega select2 de chancelas
+                $('.projetos_lista, .chancelas_lista').select2({
+                    placeholder: "Selecione",
+                    tags: true,
+                    multiple: false,
+                    tokenSeparators: [","],
+                    createTag: function createTag(newTag) {
+                        if ($.trim(newTag.term) === '') {
+                            return null;
+                        }
+                        return {
+                            id: 'new:' + newTag.term,
+                            text: newTag.term + ' (novo)'
+                        };
+                    }
+                });
+
+                //Atualiza valores onChange
+                $('.projetos_lista').on('change', function () {
+                    Vue.nova_chancela.pessoa_fisica = $(this).val();
+                });
+
+                $('.chancelas_lista').on('change', function () {
+                    Vue.nova_chancela.chancela = $(this).val();
+                });
+            });
+        },
+        selectProjetoJQuery: function selectProjetoJQuery() {
+            //Instancia atual do Vue
+            var Vue = this;
+            $(document).ready(function () {
+                //Carrega select2 de projeto
+                $('.projetos_lista').select2({
+                    placeholder: "Selecione",
+                    tags: false,
+                    multiple: false
+                }).on('change', function () {
+                    Vue.nova_chancela.projeto = $(this).val();
+                    console.log('Vue.nova_chancela.projeto: ' + Vue.nova_chancela.projeto);
+                });
+
+                $('.chancelas_lista').select2({
+                    placeholder: "Selecione",
+                    tags: true,
+                    multiple: false,
+                    createTag: function createTag(newTag) {
+                        if ($.trim(newTag.term) === '') {
+                            return null;
+                        }
+                        return {
+                            id: 'new:' + newTag.term,
+                            text: newTag.term + ' (novo)'
+                        };
+                    }
+                }).on('change', function () {
+                    Vue.nova_chancela.chancela = $(this).val();
+                    console.log('Vue.nova_chancela.chancela: ' + Vue.nova_chancela.chancela);
                 });
             });
         },
@@ -53906,7 +54230,10 @@ var render = function() {
                             on: {
                               click: function($event) {
                                 $event.preventDefault()
-                                _vm.console.log("remover")
+                                _vm.removeProjeto(
+                                  projeto.id,
+                                  projeto["chancela_id"]
+                                )
                               }
                             }
                           },
@@ -53920,6 +54247,84 @@ var render = function() {
               )
             ])
           ]),
+          _vm._v(" "),
+          _c(
+            "a",
+            {
+              staticClass: "link_abrir_box",
+              on: { click: _vm.mostraProjetoBoxMetodo }
+            },
+            [_vm._v("[nova chancela pessoa jurídica]")]
+          ),
+          _vm._v(" "),
+          _vm.mostraProjetoBox
+            ? _c("div", [
+                _c("span", { staticClass: "campo" }, [_vm._v("Projeto")]),
+                _vm._v(" "),
+                _c(
+                  "select",
+                  {
+                    staticClass: "projetos_lista",
+                    attrs: { name: "projetos" },
+                    on: { change: function($event) {} }
+                  },
+                  [
+                    _c("option", {
+                      attrs: { value: "", disabled: "", selected: "" }
+                    }),
+                    _vm._v(" "),
+                    _vm._l(_vm.atributos.projetos, function(projeto) {
+                      return _c("option", { domProps: { value: projeto.id } }, [
+                        _vm._v(
+                          "\n                    " +
+                            _vm._s(projeto.nome) +
+                            "\n                "
+                        )
+                      ])
+                    })
+                  ],
+                  2
+                ),
+                _c("br"),
+                _vm._v(" "),
+                _c("span", { staticClass: "campo" }, [_vm._v("Chancela")]),
+                _vm._v(" "),
+                _c(
+                  "select",
+                  {
+                    staticClass: "chancelas_lista",
+                    attrs: { name: "chancelas" }
+                  },
+                  [
+                    _c("option", {
+                      attrs: { value: "", disabled: "", selected: "" }
+                    }),
+                    _vm._v(" "),
+                    _vm._l(_vm.atributos.chancelas, function(chancela) {
+                      return _c(
+                        "option",
+                        { domProps: { value: chancela.id } },
+                        [_vm._v(_vm._s(chancela.text))]
+                      )
+                    })
+                  ],
+                  2
+                ),
+                _vm._v(" "),
+                _c(
+                  "a",
+                  {
+                    on: {
+                      click: function($event) {
+                        $event.preventDefault()
+                        return _vm.adicionaProjeto($event)
+                      }
+                    }
+                  },
+                  [_vm._v("[+]")]
+                )
+              ])
+            : _vm._e(),
           _vm._v(" "),
           _c("hr"),
           _vm._v(" "),
@@ -55934,17 +56339,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 projeto_id: this.$route.params.id,
                 nova_chancela: nova_chancela
             }).then(function (res) {
-                if (typeof res.data[0] !== "string") {
+                if (typeof res.data['dadosProjeto'] !== "string") {
                     if (isPf) {
-                        _this5.pessoas_fisicas_chancelas_relacionadas = res.data[0];
+                        _this5.pessoas_fisicas_chancelas_relacionadas = res.data['dadosProjeto'];
                         _this5.nova_chancela_pf = {};
                         _this5.mostraChancelaPfBox = false;
                     } else {
-                        _this5.pessoas_juridicas_chancelas_relacionadas = res.data[0];
+                        _this5.pessoas_juridicas_chancelas_relacionadas = res.data['dadosProjeto'];
                         _this5.nova_chancela_pj = {};
                         _this5.mostraChancelaPjBox = false;
                     }
-                    _this5.atributos.chancelas = res.data[1];
+                    _this5.atributos.chancelas = res.data['chancelas'];
                 }
             }).then(function () {
                 return _this5.item_carregado = true;
@@ -55960,6 +56365,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             pessoa_juridica_id = isPf === true ? false : pessoa_id;
 
             axios.post('/ajax/projetos/ajaxRemoveChancela', {
+                projeto_view: true,
                 pessoa_fisica_id: pessoa_fisica_id,
                 pessoa_juridica_id: pessoa_juridica_id,
                 tag_id: tag_id,
@@ -56706,11 +57112,9 @@ var render = function() {
                   on: { change: function($event) {} }
                 },
                 [
-                  _c(
-                    "option",
-                    { attrs: { disabled: "", selected: "", value: "" } },
-                    [_vm._v(" -- Selecione um nome -- ")]
-                  ),
+                  _c("option", {
+                    attrs: { value: "", disabled: "", selected: "" }
+                  }),
                   _vm._v(" "),
                   _vm._l(_vm.atributos.pessoas_fisicas, function(pessoa) {
                     return _c("option", { domProps: { value: pessoa.id } }, [
@@ -56736,11 +57140,9 @@ var render = function() {
                   on: { change: function($event) {} }
                 },
                 [
-                  _c(
-                    "option",
-                    { attrs: { disabled: "", selected: "", value: "" } },
-                    [_vm._v(" -- Selecione uma chancela -- ")]
-                  ),
+                  _c("option", {
+                    attrs: { value: "", disabled: "", selected: "" }
+                  }),
                   _vm._v(" "),
                   _vm._l(_vm.atributos.chancelas, function(chancela) {
                     return _c("option", { domProps: { value: chancela.id } }, [
@@ -56880,11 +57282,9 @@ var render = function() {
                   attrs: { name: "pessoas_juridicas" }
                 },
                 [
-                  _c(
-                    "option",
-                    { attrs: { disabled: "", selected: "", value: "" } },
-                    [_vm._v(" -- Selecione um nome -- ")]
-                  ),
+                  _c("option", {
+                    attrs: { value: "", disabled: "", selected: "" }
+                  }),
                   _vm._v(" "),
                   _vm._l(_vm.atributos.pessoas_juridicas, function(pessoa) {
                     return _c("option", { domProps: { value: pessoa.id } }, [
@@ -56909,11 +57309,9 @@ var render = function() {
                   attrs: { name: "chancelas" }
                 },
                 [
-                  _c(
-                    "option",
-                    { attrs: { disabled: "", selected: "", value: "" } },
-                    [_vm._v(" -- Selecione uma chancela -- ")]
-                  ),
+                  _c("option", {
+                    attrs: { value: "", disabled: "", selected: "" }
+                  }),
                   _vm._v(" "),
                   _vm._l(_vm.atributos.chancelas, function(chancela) {
                     return _c("option", { domProps: { value: chancela.id } }, [

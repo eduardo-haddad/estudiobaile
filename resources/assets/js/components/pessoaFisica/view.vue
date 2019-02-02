@@ -411,14 +411,14 @@
                 <!--novo_cargo-->
                 <span class="campo">Nome</span>
                 <select @change="" name="pessoas_juridicas" class="pj_lista">
-                    <option disabled selected value> -- Selecione um nome -- </option>
+                    <option value="" disabled selected></option>
                     <option v-for="pessoa in atributos.pessoas_juridicas" :value="pessoa.id">
                         {{ pessoa.nome_fantasia }}
                     </option>
                 </select><br>
                 <span class="campo">Cargo</span>
                 <select @change="" name="cargos" class="cargos_pj_lista">
-                    <option disabled selected value> -- Selecione um cargo -- </option>
+                    <option value="" disabled selected></option>
                     <option v-for="cargo in atributos.cargos_pj" :value="cargo.id">{{ cargo.text }}</option>
                 </select>
                 <a @click.prevent="adicionaCargoPj">[+]</a>
@@ -489,10 +489,28 @@
                             <td class="destaque_arquivo"></td>
                             <td class="tipo_arquivo"></td>
                             <td class="data_arquivo"></td>
-                            <td class="remove_arquivo"><a @click.prevent="console.log('remover')">X</a></td>
+                            <td class="remove_arquivo"><a @click.prevent="removeProjeto(projeto.id, projeto['chancela_id'])">X</a></td>
                         </tr>
                     </table>
                 </div>
+            </div>
+            <br>
+            <!-- Add nova participação em projeto -->
+            <a @click="mostraProjetoBoxMetodo" class="link_abrir_box">[nova chancela pessoa física]</a>
+            <div v-if="mostraProjetoBox">
+                <span class="campo">Projeto</span>
+                <select @change="" name="projetos" class="projetos_lista">
+                    <option value="" disabled selected></option>
+                    <option v-for="projeto in atributos.projetos" :value="projeto.id">
+                        {{ projeto.nome }}
+                    </option>
+                </select><br>
+                <span class="campo">Chancela</span>
+                <select @change="" name="chancelas" class="chancelas_lista">
+                    <option value="" disabled selected></option>
+                    <option v-for="chancela in atributos.chancelas" :value="chancela.id">{{ chancela.text }}</option>
+                </select>
+                <a @click.prevent="adicionaProjeto">[+]</a>
             </div>
 
             <hr>
@@ -759,6 +777,7 @@
                 novo_telefone: '',
                 novo_endereco: {rua:'',numero:'',complemento:'',bairro:'',cep:'',cidade:'',estado:'',pais:''},
                 novos_dados_bancarios: {nome_banco:'',agencia:'',conta:'',tipo_conta_id:''},
+                nova_chancela: {chancela: '', projeto: ''},
                 tags_atuais: [],
                 arquivo_atual: {name: 'Selecione um arquivo'},
                 genero_atual: '',
@@ -769,6 +788,7 @@
                 imagem_destaque_original: '',
                 //Condicionais
                 mostraChancelaPjBox: false,
+                mostraProjetoBox: false,
                 adicionaEmail: false,
                 adicionaTel: false,
                 mostraEnderecoBox: false,
@@ -914,6 +934,45 @@
             mostraGeneroBoxMetodo: function(){
                 this.mostraGeneroBox = !this.mostraGeneroBox;
                 if(this.mostraGeneroBox) this.selectGeneroJQuery();
+            },
+            mostraProjetoBoxMetodo: function(){
+                this.mostraProjetoBox = !this.mostraProjetoBox;
+                if(this.mostraProjetoBox) this.selectProjetoJQuery();
+            },
+            adicionaProjeto: function(){
+                this.item_carregado = false;
+                axios.post('/ajax/projetos/ajaxAddChancela', {
+                    nova_chancela: this.nova_chancela,
+                    projeto_id: this.nova_chancela.projeto,
+                    pessoa_fisica_id: this.$route.params.id
+                })
+                    .then(res => {
+                        if(typeof res.data['dadosProjeto'] !== "string") {
+                            let chancelas = res.data['chancelas'];
+                            axios.get('/ajax/pf/getProjetosChancelasPorId/' + this.$route.params.id)
+                                .then(res => this.projetos = res.data)
+                                .then(() => {
+                                    this.nova_chancela = {};
+                                    this.mostraProjetoBox = false;
+                                    this.atributos.chancelas = chancelas;
+                                });
+                        }
+                    })
+                    .then(() => this.item_carregado = true);
+            },
+            removeProjeto: function(projeto_id, tag_id){
+                this.item_carregado = false;
+                axios.post('/ajax/projetos/ajaxRemoveChancela', {
+                    projeto_view: false,
+                    pessoa_fisica_id: this.$route.params.id,
+                    pessoa_juridica_id: false,
+                    projeto_id: projeto_id,
+                    tag_id: tag_id,
+                })
+                    .then(res => {
+                        this.projetos = res.data;
+                    })
+                    .then(() => this.item_carregado = true);
             },
             adicionaContato: function(){
                 this.item_carregado = false;
@@ -1119,6 +1178,39 @@
                     }).on('change', function(){
                         Vue.genero_atual = $(this).val();
                     });
+
+                });
+            },
+            selectProjetoJQuery: function(){
+                //Instancia atual do Vue
+                let Vue = this;
+                $(document).ready(function(){
+                    //Carrega select2 de projeto
+                    $('.projetos_lista').select2({
+                        placeholder: "Selecione",
+                        tags: false,
+                        multiple: false,
+                    }).on('change', function(){
+                        Vue.nova_chancela.projeto = $(this).val();
+                        console.log(`Vue.nova_chancela.projeto: ${Vue.nova_chancela.projeto}`);
+                    });
+
+                    $('.chancelas_lista').select2({
+                        placeholder: "Selecione",
+                        tags: true,
+                        multiple: false,
+                        createTag: function(newTag) {
+                            if ($.trim(newTag.term) === '') { return null; }
+                            return {
+                                id: 'new:' + newTag.term,
+                                text: newTag.term + ' (novo)'
+                            };
+                        }
+                    }).on('change', function(){
+                        Vue.nova_chancela.chancela = $(this).val();
+                        console.log(`Vue.nova_chancela.chancela: ${Vue.nova_chancela.chancela}`);
+                    });
+
                 });
             },
             preencheTags: function(id){

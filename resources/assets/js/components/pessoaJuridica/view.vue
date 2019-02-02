@@ -270,10 +270,29 @@
                                     :to="{ name: 'projetos-view',
                                         params: { id: projeto.id }}">{{ projeto['projeto'] }}</router-link></td>
                             <td class="descricao_arquivo">{{ projeto['chancela'] }}</td>
-                            <td class="remove_arquivo"><a @click.prevent="console.log('remover')">X</a></td>
+                            <td class="remove_arquivo"><a @click.prevent="removeProjeto(projeto.id, projeto['chancela_id'])">X</a></td>
                         </tr>
                     </table>
                 </div>
+            </div>
+
+            <!-- Add nova participação em projeto -->
+            <a @click="mostraProjetoBoxMetodo" class="link_abrir_box">[nova chancela pessoa jurídica]</a>
+            <div v-if="mostraProjetoBox">
+                <span class="campo">Projeto</span>
+                <select @change="" name="projetos" class="projetos_lista">
+                    <option value="" disabled selected></option>
+                    <option v-for="projeto in atributos.projetos" :value="projeto.id">
+                        {{ projeto.nome }}
+                    </option>
+                </select><br>
+                <span class="campo">Chancela</span>
+                <select name="chancelas" class="chancelas_lista">
+                    <option value="" disabled selected></option>
+                    <option v-for="chancela in atributos.chancelas" :value="chancela.id">{{ chancela.text }}</option>
+                </select>
+                <a @click.prevent="adicionaProjeto">[+]</a>
+
             </div>
 
             <hr>
@@ -514,6 +533,7 @@
                 novo_telefone: '',
                 novo_endereco: {rua:'',numero:'',complemento:'',bairro:'',cep:'',cidade:'',estado:'',pais:''},
                 novos_dados_bancarios: {nome_banco:'',agencia:'',conta:'',tipo_conta_id:''},
+                nova_chancela: {chancela: '', projeto: ''},
                 arquivo_atual: {name: 'Selecione um arquivo'},
                 descricao_arquivo: '',
                 mensagem_upload: '',
@@ -522,6 +542,7 @@
                 imagem_destaque_original: '',
                 //Condicionais
                 mostraCargoPfBox: false,
+                mostraProjetoBox: false,
                 adicionaEmail: false,
                 adicionaTel: false,
                 mostraEnderecoBox: false,
@@ -597,6 +618,30 @@
                         console.log('Erro ao deletar pessoa jurídica');
                 });
             },
+            adicionaChancela: function(){
+                this.item_carregado = false;
+                const nova_chancela = isPf ? this.nova_chancela_pf : this.nova_chancela_pj;
+                axios.post('/ajax/projetos/ajaxAddChancela', {
+                    projeto_id: this.$route.params.id,
+                    nova_chancela: nova_chancela
+                })
+                    .then(res => {
+                        if(typeof res.data[0] !== "string") {
+                            if(isPf) {
+                                this.pessoas_fisicas_chancelas_relacionadas = res.data[0];
+                                this.nova_chancela_pf = {};
+                                this.mostraChancelaPfBox = false;
+                            }
+                            else {
+                                this.pessoas_juridicas_chancelas_relacionadas = res.data[0];
+                                this.nova_chancela_pj = {};
+                                this.mostraChancelaPjBox = false;
+                            }
+                            this.atributos.chancelas = res.data[1];
+                        }
+                    })
+                    .then(() => this.item_carregado = true);
+            },
             adicionaCargoPf: function(){
                 this.item_carregado = false;
                 axios.post('/ajax/pj/ajaxAddCargoPf', {
@@ -631,6 +676,45 @@
             mostraCargoPfBoxMetodo: function(){
                 this.mostraCargoPfBox = !this.mostraCargoPfBox;
                 if(this.mostraCargoPfBox) this.selectPfJQuery();
+            },
+            mostraProjetoBoxMetodo: function(){
+                this.mostraProjetoBox = !this.mostraProjetoBox;
+                if(this.mostraProjetoBox) this.selectProjetoJQuery();
+            },
+            adicionaProjeto: function(){
+                this.item_carregado = false;
+                axios.post('/ajax/projetos/ajaxAddChancela', {
+                    nova_chancela: this.nova_chancela,
+                    projeto_id: this.nova_chancela.projeto,
+                    pessoa_juridica_id: this.$route.params.id
+                })
+                    .then(res => {
+                        if(typeof res.data['dadosProjeto'] !== "string") {
+                            let chancelas = res.data['chancelas'];
+                            axios.get('/ajax/pj/getProjetosChancelasPorId/' + this.$route.params.id)
+                                .then(res => this.projetos = res.data)
+                                .then(() => {
+                                    this.nova_chancela = {};
+                                    this.mostraProjetoBox = false;
+                                    this.atributos.chancelas = chancelas;
+                                });
+                        }
+                    })
+                    .then(() => this.item_carregado = true);
+            },
+            removeProjeto: function(projeto_id, tag_id){
+                this.item_carregado = false;
+                axios.post('/ajax/projetos/ajaxRemoveChancela', {
+                    projeto_view: false,
+                    pessoa_fisica_id: false,
+                    pessoa_juridica_id: this.$route.params.id,
+                    projeto_id: projeto_id,
+                    tag_id: tag_id,
+                })
+                    .then(res => {
+                        this.projetos = res.data;
+                    })
+                    .then(() => this.item_carregado = true);
             },
             adicionaContato: function(){
                 this.item_carregado = false;
@@ -814,6 +898,62 @@
                         }
                     }).on('change', function(){
                         Vue.tags_atuais = $(this).val();
+                    });
+
+                    //Carrega select2 de chancelas
+                    $('.projetos_lista, .chancelas_lista').select2({
+                        placeholder: "Selecione",
+                        tags: true,
+                        multiple: false,
+                        tokenSeparators: [","],
+                        createTag: function(newTag) {
+                            if ($.trim(newTag.term) === '') { return null; }
+                            return {
+                                id: 'new:' + newTag.term,
+                                text: newTag.term + ' (novo)'
+                            };
+                        }
+                    });
+
+                    //Atualiza valores onChange
+                    $('.projetos_lista').on('change', function(){
+                        Vue.nova_chancela.pessoa_fisica = $(this).val();
+                    });
+
+                    $('.chancelas_lista').on('change', function(){
+                        Vue.nova_chancela.chancela = $(this).val();
+                    });
+
+                });
+            },
+            selectProjetoJQuery: function(){
+                //Instancia atual do Vue
+                let Vue = this;
+                $(document).ready(function(){
+                    //Carrega select2 de projeto
+                    $('.projetos_lista').select2({
+                        placeholder: "Selecione",
+                        tags: false,
+                        multiple: false,
+                     }).on('change', function(){
+                        Vue.nova_chancela.projeto = $(this).val();
+                        console.log(`Vue.nova_chancela.projeto: ${Vue.nova_chancela.projeto}`);
+                    });
+
+                    $('.chancelas_lista').select2({
+                        placeholder: "Selecione",
+                        tags: true,
+                        multiple: false,
+                        createTag: function(newTag) {
+                            if ($.trim(newTag.term) === '') { return null; }
+                            return {
+                                id: 'new:' + newTag.term,
+                                text: newTag.term + ' (novo)'
+                            };
+                        }
+                    }).on('change', function(){
+                        Vue.nova_chancela.chancela = $(this).val();
+                        console.log(`Vue.nova_chancela.chancela: ${Vue.nova_chancela.chancela}`);
                     });
 
                 });

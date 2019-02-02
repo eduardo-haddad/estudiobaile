@@ -166,6 +166,13 @@ Route::group($opcoes_rotas, function(){
         'as' => 'ajax.pf.setImagemDestaque',
         'roles' => $geral
     ]);
+    //Projetos
+    Route::get('/ajax/pf/getProjetosChancelasPorId/{id}', [
+        'uses' => 'PessoaFisicaController@ajaxGetProjetosChancelasPorId',
+        'as' => 'ajax.pf.getProjetosChancelasPorId',
+        'roles' => $geral
+    ]);
+
 
 
     // ** PESSOA JURÍDICA **
@@ -270,6 +277,12 @@ Route::group($opcoes_rotas, function(){
     Route::post('/ajax/pj/setImagemDestaque', [
         'uses' => 'PessoaJuridicaController@ajaxSetImagemDestaque',
         'as' => 'ajax.pj.setImagemDestaque',
+        'roles' => $geral
+    ]);
+    //Projetos
+    Route::get('/ajax/pj/getProjetosChancelasPorId/{id}', [
+        'uses' => 'PessoaJuridicaController@ajaxGetProjetosChancelasPorId',
+        'as' => 'ajax.pj.getProjetosChancelasPorId',
         'roles' => $geral
     ]);
 

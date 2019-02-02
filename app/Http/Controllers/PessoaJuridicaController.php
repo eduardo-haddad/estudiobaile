@@ -74,7 +74,9 @@ class PessoaJuridicaController extends Controller
             'atributos' => [
                 'cargos_pf' => Tag::select('id', 'text')->where('tipo', 'cargo')->orderBy('text')->get(),
                 'pessoas_fisicas' => PessoaFisica::select('id', 'nome_adotado')->orderBy('nome_adotado')->get(),
-                'tipos_conta_bancaria' => TipoContaBancaria::all()
+                'tipos_conta_bancaria' => TipoContaBancaria::all(),
+                'chancelas' => Tag::select('id', 'text')->where('tipo', 'chancela')->orderBy('text')->get(),
+                'projetos' => Projeto::select('id', 'nome')->orderBy('nome')->get()
             ]
         ];
     }
@@ -152,10 +154,7 @@ class PessoaJuridicaController extends Controller
 
         }
         //Deleta tags não atribuídas a ninguém
-        $tags_nao_atribuidas = array_map(function($t){ return $t->id; }, Tag::getTagsNaoAtribuidas());
-        if(!empty($tags_nao_atribuidas)){
-            \DB::table('tags')->whereIn('id', $tags_nao_atribuidas)->delete();
-        }
+        Tag::removeTagsNaoAtribuidas();
 
         return $pessoa_juridica;
     }
@@ -190,10 +189,7 @@ class PessoaJuridicaController extends Controller
         if(!$tags->isEmpty()){
             $pessoa->tags()->detach();
             //Deleta tags não atribuídas a ninguém
-            $tags_nao_atribuidas = array_map(function($t){ return $t->id; }, Tag::getTagsNaoAtribuidas());
-            if(!empty($tags_nao_atribuidas)){
-                \DB::table('tags')->whereIn('id', $tags_nao_atribuidas)->delete();
-            }
+            Tag::removeTagsNaoAtribuidas();
         }
 
         //Contatos
@@ -629,12 +625,15 @@ class PessoaJuridicaController extends Controller
         return "Arquivo inválido";
     }
 
-
     public function ajaxGetImagemDestaque() {
 
         $destaque = PessoaJuridica::find(request('pessoa_id'))->arquivos()->where('destaque', 1)->first();
         return !empty($destaque) ? $destaque : "Destaque indisponível";
 
+    }
+
+    public function ajaxGetProjetosChancelasPorId($pessoa_juridica_id){
+        return PessoaJuridica::getProjetosChancelasPorId($pessoa_juridica_id);
     }
 
 }

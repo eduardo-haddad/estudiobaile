@@ -177,14 +177,14 @@
             <div v-if="mostraChancelaPfBox">
                 <span class="campo">Nome</span>
                 <select @change="" name="pessoas_fisicas" class="pf_lista">
-                    <option disabled selected value> -- Selecione um nome -- </option>
+                    <option value="" disabled selected></option>
                     <option v-for="pessoa in atributos.pessoas_fisicas" :value="pessoa.id">
                         {{ pessoa.nome_adotado }}
                     </option>
                 </select><br>
                 <span class="campo">Chancela</span>
                 <select @change="" name="chancelas" class="chancelas_pf_lista">
-                    <option disabled selected value> -- Selecione uma chancela -- </option>
+                    <option value="" disabled selected></option>
                     <option v-for="chancela in atributos.chancelas" :value="chancela.id">{{ chancela.text }}</option>
                 </select>
                 <a @click.prevent="adicionaChancela(true)">[+]</a>
@@ -230,14 +230,14 @@
             <div v-if="mostraChancelaPjBox">
                 <span class="campo">Nome</span>
                 <select name="pessoas_juridicas" class="pj_lista">
-                    <option disabled selected value> -- Selecione um nome -- </option>
+                    <option value="" disabled selected></option>
                     <option v-for="pessoa in atributos.pessoas_juridicas" :value="pessoa.id">
                         {{ pessoa.nome_fantasia }}
                     </option>
                 </select><br>
                 <span class="campo">Chancela</span>
                 <select name="chancelas" class="chancelas_pj_lista">
-                    <option disabled selected value> -- Selecione uma chancela -- </option>
+                    <option value="" disabled selected></option>
                     <option v-for="chancela in atributos.chancelas" :value="chancela.id">{{ chancela.text }}</option>
                 </select>
                 <a @click.prevent="adicionaChancela(false)">[+]</a>
@@ -385,18 +385,18 @@
                     nova_chancela: nova_chancela
                 })
                 .then(res => {
-                    if(typeof res.data[0] !== "string") {
+                    if(typeof res.data['dadosProjeto'] !== "string") {
                         if(isPf) {
-                            this.pessoas_fisicas_chancelas_relacionadas = res.data[0];
+                            this.pessoas_fisicas_chancelas_relacionadas = res.data['dadosProjeto'];
                             this.nova_chancela_pf = {};
                             this.mostraChancelaPfBox = false;
                         }
                         else {
-                            this.pessoas_juridicas_chancelas_relacionadas = res.data[0];
+                            this.pessoas_juridicas_chancelas_relacionadas = res.data['dadosProjeto'];
                             this.nova_chancela_pj = {};
                             this.mostraChancelaPjBox = false;
                         }
-                        this.atributos.chancelas = res.data[1];
+                        this.atributos.chancelas = res.data['chancelas'];
                     }
                 })
                 .then(() => this.item_carregado = true);
@@ -408,6 +408,7 @@
                 pessoa_juridica_id = isPf === true ? false : pessoa_id;
 
                 axios.post('/ajax/projetos/ajaxRemoveChancela', {
+                    projeto_view: true,
                     pessoa_fisica_id: pessoa_fisica_id,
                     pessoa_juridica_id: pessoa_juridica_id,
                     tag_id: tag_id,

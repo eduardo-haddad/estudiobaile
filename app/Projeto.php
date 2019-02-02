@@ -64,6 +64,7 @@ class Projeto extends Model
                 Pessoa.$pessoa_nome AS nome,
                 Pessoa.id AS pessoa_id,
                 Projeto.nome AS projeto,
+                Projeto.id AS projeto_id,
                 Tag.text AS tag,
                 Tag.id AS tag_id
             FROM $pessoa_tabela Pessoa

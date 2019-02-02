@@ -200,6 +200,13 @@ class ProjetoController extends Controller
         $chancela = request('nova_chancela');
         $projeto_id = request('projeto_id');
 
+        //Forçando id's nas views de pf e pj
+        if(empty($chancela['pessoa_fisica']) && !empty(request('pessoa_fisica_id'))) {
+            $chancela['pessoa_fisica'] = request('pessoa_fisica_id');
+        } else if(empty($chancela['pessoa_juridica']) && !empty(request('pessoa_juridica_id'))) {
+            $chancela['pessoa_juridica'] = request('pessoa_juridica_id');
+        }
+
         //Condições
         $isPf = array_key_exists('pessoa_fisica', $chancela)
             && !empty($chancela['pessoa_fisica'])
@@ -207,7 +214,7 @@ class ProjetoController extends Controller
 
         $isPj = array_key_exists('pessoa_juridica', $chancela)
             && !empty($chancela['pessoa_juridica'])
-            && !array_key_exists('pessoa_fisica', $chancela);;
+            && !array_key_exists('pessoa_fisica', $chancela);
 
         if(!empty($projeto_id) && ( $isPf || $isPj ) && !empty($chancela['chancela'])) {
 
@@ -232,18 +239,32 @@ class ProjetoController extends Controller
             return "Chancela inválida";
         }
 
-        return [ Projeto::getPessoasDeProjetos($projeto_id, $isPf, $isPj), Tag::select('id', 'text')->where('tipo', 'chancela')->orderBy('text')->get() ];
+        return [
+            'dadosProjeto' => Projeto::getPessoasDeProjetos($projeto_id, $isPf, $isPj),
+            'chancelas' => Tag::select('id', 'text')->where('tipo', 'chancela')->orderBy('text')->get()
+        ];
     }
 
     public function ajaxRemoveChancela() {
 
+        $projeto_view = request('projeto_view');
         $projeto_id = request('projeto_id');
         $tag_id = request('tag_id');
         $pessoa_fisica_id = request('pessoa_fisica_id');
         $pessoa_juridica_id = request('pessoa_juridica_id');
 
         if(Projeto::removeChancelaDeProjeto($projeto_id, $tag_id, $pessoa_fisica_id, $pessoa_juridica_id)){
-            return Projeto::getPessoasDeProjetos($projeto_id, $pessoa_fisica_id, $pessoa_juridica_id);
+
+            //Remove tags não atribuídas
+            Tag::removeTagsNaoAtribuidas();
+
+            if($projeto_view) {
+                return Projeto::getPessoasDeProjetos($projeto_id, $pessoa_fisica_id, $pessoa_juridica_id);
+            } else {
+                return !empty($pessoa_fisica_id) ?
+                    PessoaFisica::getProjetosChancelasPorId($pessoa_fisica_id) :
+                    PessoaJuridica::getProjetosChancelasPorId($pessoa_juridica_id);
+            }
         }
 
         return "Chancela inválida";

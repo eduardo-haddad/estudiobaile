@@ -72,8 +72,7 @@ class PessoaFisicaController extends Controller
         $estado_civil = !empty($pessoa_fisica->estado_civil_id) ? EstadoCivil::find($pessoa_fisica->estado_civil_id)->valor : null;
 
         //Projetos
-        $projetos = PessoaFisica::getProjetosChancelasPorId($id);
-
+        $projetos = $this->ajaxGetProjetosChancelasPorId($id);
 
         return [
             'pessoa_fisica' => $pessoa_fisica,
@@ -91,7 +90,9 @@ class PessoaFisicaController extends Controller
                 'tipos_contato' => TipoContato::all(),
                 'generos' => Tag::select('id', 'text')->where('tipo', 'genero')->orderBy('text')->get(),
                 'estados_civis' => EstadoCivil::all(),
-                'tipos_conta_bancaria' => TipoContaBancaria::all()
+                'tipos_conta_bancaria' => TipoContaBancaria::all(),
+                'chancelas' => Tag::select('id', 'text')->where('tipo', 'chancela')->orderBy('text')->get(),
+                'projetos' => Projeto::select('id', 'nome')->orderBy('nome')->get()
             ]
         ];
     }
@@ -176,10 +177,7 @@ class PessoaFisicaController extends Controller
             $pessoa_fisica->tags()->sync(Tag::criaTags($request['tags'], 'tag'));
         }
         //Deleta tags não atribuídas a ninguém
-        $tags_nao_atribuidas = array_map(function($t){ return $t->id; }, Tag::getTagsNaoAtribuidas());
-        if(!empty($tags_nao_atribuidas)){
-            \DB::table('tags')->whereIn('id', $tags_nao_atribuidas)->delete();
-        }
+        Tag::removeTagsNaoAtribuidas();
 
         return $pessoa_fisica;
     }
@@ -213,10 +211,7 @@ class PessoaFisicaController extends Controller
         if(!$tags->isEmpty()){
             $pessoa->tags()->detach();
             //Deleta tags não atribuídas a ninguém
-            $tags_nao_atribuidas = array_map(function($t){ return $t->id; }, Tag::getTagsNaoAtribuidas());
-            if(!empty($tags_nao_atribuidas)){
-                \DB::table('tags')->whereIn('id', $tags_nao_atribuidas)->delete();
-            }
+            Tag::removeTagsNaoAtribuidas();
         }
 
         //Contatos
@@ -669,6 +664,10 @@ class PessoaFisicaController extends Controller
         $destaque = PessoaFisica::find(request('pessoa_id'))->arquivos()->where('destaque', 1)->first();
         return !empty($destaque) ? $destaque : "Destaque indisponível";
 
+    }
+
+    public function ajaxGetProjetosChancelasPorId($pessoa_fisica_id){
+        return PessoaFisica::getProjetosChancelasPorId($pessoa_fisica_id);
     }
     
 
