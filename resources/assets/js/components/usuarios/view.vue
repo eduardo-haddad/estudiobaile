@@ -125,7 +125,10 @@
         <button @click.prevent="salvaForm">Salvar</button>
 
         <br><br>
-        <a v-if="!usuario_atual_logado && usuario.id !== 1" class="link_abrir_box delete" @click.prevent="removeUsuario(usuario.id)">[remover usuário]</a>
+        <a
+            v-if="!usuario_atual_logado && usuario.id !== 1"
+            class="link_abrir_box delete"
+            @click.prevent="removeUsuario(usuario.id)">[remover usuário]</a>
 
     </div>
 
@@ -208,14 +211,21 @@
             salvaForm: function(){
                 axios.post('/ajax/usuarios/save', {
                     usuario: this.usuario,
+                    usuario_logado: this.usuario_logado,
                     arquivos: this.arquivos,
                     funcao: this.funcao.id,
                     nova_senha: this.nova_senha
                 }).then(res => {
-                    this.usuario = res.data;
-                    eventBus.$emit('foiSalvoUsuario', this.usuario);
-                    //atualiza nome do usuário logado no cabeçalho
-                    this.atualizaNomeUsuario(this.usuario, this.usuario_logado);
+                    if(typeof res.data !== "string"){
+                        this.usuario = res.data;
+                        eventBus.$emit('foiSalvoUsuario', this.usuario);
+                        //atualiza nome do usuário logado no cabeçalho
+                        this.atualizaNomeUsuario(this.usuario, this.usuario_logado);
+                    } else {
+                        alert(res.data);
+                        this.$router.push({ name: 'usuarios-index'});
+                    }
+
                 });
             },
             upload: function() {

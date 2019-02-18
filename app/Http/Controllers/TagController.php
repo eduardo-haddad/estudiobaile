@@ -6,7 +6,6 @@ use App\PessoaFisica;
 use App\PessoaJuridica;
 use App\Projeto;
 use Illuminate\Http\Request;
-use DB;
 use App\Tag;
 
 class TagController extends Controller
@@ -14,7 +13,7 @@ class TagController extends Controller
 
     public function ajaxIndex()
     {
-        return Tag::select('id', 'text')->orderBy('text')->get();
+        return Tag::select('id', 'text')->where('tipo', '<>', 'genero')->orderBy('text')->get();
     }
 
 

@@ -64,8 +64,8 @@ class ProjetoController extends Controller
     public function ajaxSave(Request $r) {
 
         $request['projeto'] = request('projeto');
-        $request['pessoas_fisicas'] = request('pessoas_fisicas');
-        $request['chancelas_pf'] = request('chancelas_pf');
+        //$request['pessoas_fisicas'] = request('pessoas_fisicas');
+        //$request['chancelas_pf'] = request('chancelas_pf');
         $request['arquivos'] = request('arquivos');
 
         //Projeto
@@ -85,12 +85,12 @@ class ProjetoController extends Controller
         $projeto->save();
 
         //Pessoas físicas
-        if(empty($request['pessoas_fisicas'])) {
-            $projeto->pessoas_fisicas()->detach();
-        } else {
-            //$projeto->pessoas_fisicas()->sync($request['pessoas_fisicas']);
-            $projeto->pessoas_fisicas()->attach(PessoaFisica::find($request['pessoas_fisicas']));
-        }
+        //if(empty($request['pessoas_fisicas'])) {
+        //    $projeto->pessoas_fisicas()->detach();
+        //} else {
+        //    //$projeto->pessoas_fisicas()->sync($request['pessoas_fisicas']);
+        //    $projeto->pessoas_fisicas()->attach(PessoaFisica::find($request['pessoas_fisicas']));
+        //}
 
         //Chancelas Pessoa Física
 //        $pessoa_fisica = PessoaFisica::find($request['pessoas_fisicas']);

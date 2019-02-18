@@ -61,46 +61,58 @@ class UserController extends Controller
     public function ajaxSave(Request $r) {
 
         $request['usuario'] = request('usuario');
+        $request['usuario_logado'] = request('usuario_logado');
         $request['arquivos'] = request('arquivos');
         $request['funcao'] = request('funcao');
         $request['nova_senha'] = request('nova_senha');
 
         $usuario = User::find($request['usuario']['id']);
+        $usuario_logado = User::find($request['usuario_logado']);
+        $permissao_usuario = $this->permissaoUsuario($usuario_logado, $usuario);
 
-//        if($request['nova_senha'] == )
-
-        if(!empty($request['usuario']['password'])) {
+        if(!empty($request['usuario']['password'])){
+            if(!$permissao_usuario) return "Você não tem permissão para realizar esta operação";
             $usuario->password = bcrypt($request['usuario']['password']);
         }
 
-        //Usuario
-        foreach(json_decode($usuario) as $chave => $valor):
-            if($chave == "modificado_por") {
-                $usuario->$chave = $r->user()->name;
-            } else {
-                $dado = $request['usuario'][$chave];
-                if(!empty($dado)) {
-                   $usuario->$chave = $dado;
-                }
-            }
-        endforeach;
-
-        $usuario->roles()->sync([$request['funcao']]);
-
-        //Arquivos
-        foreach($request['arquivos'] as $l => $arquivo):
-            $arquivo_atual = Arquivo::find($arquivo['id']);
-            foreach(json_decode($arquivo_atual) as $chave_arquivos => $valor_arquivos):
-                if(!empty($request['arquivos'][$l][$chave_arquivos]) && $chave_arquivos == "descricao") {
-                    $arquivo_atual->$chave_arquivos = $request['arquivos'][$l][$chave_arquivos];
+        if($permissao_usuario){
+            //Usuario
+            foreach(json_decode($usuario) as $chave => $valor):
+                if($chave == "modificado_por") {
+                    $usuario->$chave = $r->user()->name;
+                } else {
+                    $dado = $request['usuario'][$chave];
+                    if(!empty($dado)) {
+                        $usuario->$chave = $dado;
+                    }
                 }
             endforeach;
-            $arquivo_atual->save();
-        endforeach;
 
-        $usuario->save();
+            if($usuario_logado->roles()->get()[0]['id'] < $request['funcao']){
+                return "Você não tem permissão para realizar esta operação";
+            }
 
-        return $usuario;
+            //força primeiro usuário (Thereza) função de superadmin
+            if($usuario->id == '1') $request['funcao'] = 4;
+
+            $usuario->roles()->sync([$request['funcao']]);
+
+            //Arquivos
+            foreach($request['arquivos'] as $l => $arquivo):
+                $arquivo_atual = Arquivo::find($arquivo['id']);
+                foreach(json_decode($arquivo_atual) as $chave_arquivos => $valor_arquivos):
+                    if(!empty($request['arquivos'][$l][$chave_arquivos]) && $chave_arquivos == "descricao") {
+                        $arquivo_atual->$chave_arquivos = $request['arquivos'][$l][$chave_arquivos];
+                    }
+                endforeach;
+                $arquivo_atual->save();
+            endforeach;
+
+            $usuario->save();
+
+            return $usuario;
+        }
+        return "Você não tem permissão para realizar esta operação";
     }
 
     public function ajaxRemoveUsuario($id) {
@@ -108,13 +120,8 @@ class UserController extends Controller
         $usuario = User::find($id);
         $usuario_logado = User::find(request('usuario_logado'));
 
-        $funcao_usuario = $usuario->roles()->get()[0]['name'];
-        $funcao_usuario_logado = $usuario_logado->roles()->get()[0]['name'];
-
-        if(in_array($funcao_usuario_logado, ['equipe', 'usuario'])) {
-            if(in_array($funcao_usuario, ['administrador', 'superadmin'])) {
-                return "Você não tem permissão para realizar esta operação";
-            }
+        if(!$this->permissaoUsuario($usuario_logado, $usuario)){
+            return "Você não tem permissão para realizar esta operação";
         }
 
         try {
@@ -123,7 +130,7 @@ class UserController extends Controller
             return $e->getMessage();
         }
 
-        return User::all();
+        return $this->ajaxIndex();
 
     }
 
@@ -319,5 +326,22 @@ class UserController extends Controller
 
     public function getFuncoes() {
         return Role::where('name', '!=', 'superadmin')->orderby('id')->get();
+    }
+
+    //Retorna true se Role do usuário editado for igual ou inferior ao usuário logado
+    public function permissaoUsuario($usuario_logado, $usuario){
+
+        $id_logado = $usuario_logado->roles()->get()[0]['id'];
+        $id_usuario = $usuario->roles()->get()[0]['id'];
+
+        if($id_usuario > $id_logado) return false;
+        return true;
+
+//        if(in_array($funcao_usuario_logado, ['equipe', 'usuario'])) {
+//            if(in_array($funcao_usuario, ['administrador', 'superadmin'])) {
+//                return false;
+//            }
+//        }
+//        return true;
     }
 }

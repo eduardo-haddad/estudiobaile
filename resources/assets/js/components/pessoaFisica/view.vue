@@ -296,18 +296,18 @@
             </div><br>
 
             <div class="valor">
-                <span class="campo">Nacionalidade</span>
+                <span class="campo">Origem</span>
                 <input autocomplete="off" type="text" placeholder=" "
-                       v-model="pessoa.nacionalidade"
-                       name="nacionalidade"
+                       v-model="pessoa.naturalidade"
+                       name="naturalidade"
                 />
             </div><br>
 
             <div class="valor">
-                <span class="campo">Naturalidade</span>
+                <span class="campo">Vive em</span>
                 <input autocomplete="off" type="text" placeholder=" "
-                       v-model="pessoa.naturalidade"
-                       name="naturalidade"
+                       v-model="pessoa.nacionalidade"
+                       name="nacionalidade"
                 />
             </div><br>
 
@@ -421,7 +421,9 @@
                     <option value="" disabled selected></option>
                     <option v-for="cargo in atributos.cargos_pj" :value="cargo.id">{{ cargo.text }}</option>
                 </select>
-                <a @click.prevent="adicionaCargoPj">[+]</a>
+                <a @click.prevent="adicionaCargoPj">
+                    <btn_add></btn_add>
+                </a>
 
             </div>
 
@@ -709,6 +711,8 @@
     import modal from '../modals/modal_delete';
     //barra superior - salvar
     import editbar from '../editbar';
+    //botão adicionar
+    import btn_add from '../buttons/add';
     //inputs com máscaras
     import { TheMask } from 'vue-the-mask';
 
@@ -716,7 +720,8 @@
         components: {
             modal,
             editbar,
-            TheMask
+            TheMask,
+            btn_add
         },
         created() {
             this.getPessoa(this.$route.params.id);

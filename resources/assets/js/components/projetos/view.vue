@@ -356,8 +356,8 @@
                 this.item_carregado = false;
                 axios.post('/ajax/projetos/save', {
                     projeto: this.projeto,
-                    pessoas_fisicas: this.pessoas_fisicas_atuais,
-                    chancelas_pf: this.chancelas_pf_atuais,
+                    //pessoas_fisicas: this.pessoas_fisicas_atuais,
+                    //chancelas_pf: this.chancelas_pf_atuais,
                     arquivos: this.arquivos,
                 })
                 .then(res => {
