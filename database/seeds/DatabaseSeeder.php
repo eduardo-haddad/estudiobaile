@@ -45,6 +45,8 @@ class DatabaseSeeder extends Seeder
         $this->call(ProjetoSeeder::class);
         // Interna
         $this->call(InternaSeeder::class);
+        // Países
+        $this->call(PaisSeeder::class);
         
     }
 }

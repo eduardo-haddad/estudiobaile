@@ -22,7 +22,11 @@ class PessoaFisica extends Model
         'projeto_id',
         'categoria_id',
         'endereco_id',
-        'genero'
+        'origem_cidade',
+        'origem_pais_id',
+        'vive_em_cidade',
+        'vive_em_pais_id',
+        'genero',
     ];
 
     //Relacionamentos

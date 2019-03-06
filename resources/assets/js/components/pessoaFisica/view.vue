@@ -296,19 +296,36 @@
             </div><br>
 
             <div class="valor">
-                <span class="campo">Origem</span>
-                <input autocomplete="off" type="text" placeholder=" "
-                       v-model="pessoa.naturalidade"
-                       name="naturalidade"
-                />
+                <div class="paises">
+                    <span class="campo">Origem</span>
+                    <select name="origem_paises" class="origem_paises_lista" style="width: 200px !important">
+                        <option value="" disabled selected></option>
+                        <option v-for="(pais_origem, index) in atributos.paises" :value="pais_origem.id"
+                                :key="'origem-'+index">
+                            {{ pais_origem.nome_pt }}
+                        </option>
+                    </select>
+                    <input autocomplete="off" type="text" placeholder="Cidade"
+                           v-model="pessoa.origem_cidade"
+                           name="origem_cidade"
+                    />
+                </div>
             </div><br>
 
             <div class="valor">
-                <span class="campo">Vive em</span>
-                <input autocomplete="off" type="text" placeholder=" "
-                       v-model="pessoa.nacionalidade"
-                       name="nacionalidade"
-                />
+                <div class="paises">
+                    <span class="campo">Vive em</span>
+                    <select name="vive_em_paises" class="vive_em_paises_lista" style="width: 200px !important">
+                        <option value="" disabled selected></option>
+                        <option v-for="(pais_vive_em, index) in atributos.paises" :value="pais_vive_em.id" :key="'vive_em-'+index">
+                            {{ pais_vive_em.nome_pt }}
+                        </option>
+                    </select>
+                    <input autocomplete="off" type="text" placeholder="Cidade"
+                           v-model="pessoa.vive_em_cidade"
+                           name="vive_em_cidade"
+                    />
+                </div>
             </div><br>
 
             <!-- DOCUMENTOS -->
@@ -786,6 +803,8 @@
                 tags_atuais: [],
                 arquivo_atual: {name: 'Selecione um arquivo'},
                 genero_atual: '',
+                origem_pais_atual: '',
+                vive_em_pais_atual: '',
                 descricao_arquivo: '',
                 mensagem_upload: '',
                 id_destaque: '',
@@ -810,6 +829,10 @@
                 eventBus.$emit('changePessoaFisica');
                 this.jQuery();
             },
+            //Países
+            'origem_pais_atual' (pais_id) { this.pessoa.origem_pais_id = pais_id },
+            'vive_em_pais_atual' (pais_id) { this.pessoa.vive_em_pais_id = pais_id },
+            //MEI
             'mostraMei' (check) {
                 if(!check) {
                     this.pessoa.cnpj = null;
@@ -842,11 +865,12 @@
                         let dados = res.data;
                         this.pessoa = dados.pessoa_fisica;
                         this.pessoa.estado_civil = dados.estado_civil;
+                        this.pessoa.tags_relacionadas = dados.tags;
                         this.contatos = dados.contatos;
                         this.enderecos = dados.enderecos;
                         this.arquivos = dados.arquivos;
                         this.dados_bancarios = dados.dados_bancarios;
-                        this.tags = dados.tags;
+                        this.tags = dados.atributos.tags;
                         this.projetos = dados.projetos;
                         this.pessoas_juridicas_relacionadas = dados.pessoas_juridicas_relacionadas;
                         this.atributos = dados.atributos;
@@ -866,10 +890,11 @@
                             this.dt_nascimento_mes = dt[1];
                             this.dt_nascimento_ano = dt[0];
                         }
-                        //preenche tags
-                        this.preencheTags(id);
-                        //preenche genero
-                        this.preencheGenero(id);
+
+                    })
+                    .then(() => {
+                        //preenche select2
+                        this.preencheSelect(this.pessoa);
                     })
                     .then(() => this.item_carregado = true);
             },
@@ -1033,7 +1058,6 @@
                     pessoa_id: this.$route.params.id,
                 })
                 .then(res => {
-                    console.log(res.data);
                     this.enderecos = res.data;
                 })
                 .then(() => this.item_carregado = true);
@@ -1184,6 +1208,28 @@
                         Vue.genero_atual = $(this).val();
                     });
 
+                    //Carrega select2 de origem-paises
+                    $('.origem_paises_lista').val('').select2({
+                        placeholder: "País",
+                        tags: false,
+                        multiple: false,
+                        minimumInputLength: 2,
+                        language: { inputTooShort: function () { return 'Digite 2 ou mais caracteres'; } },
+                    }).on('change', function(){
+                        Vue.origem_pais_atual = $(this).val();
+                    });
+
+                    //Carrega select2 de vive_em-paises
+                    $('.vive_em_paises_lista').val('').select2({
+                        placeholder: "País",
+                        tags: false,
+                        multiple: false,
+                        minimumInputLength: 2,
+                        language: { inputTooShort: function () { return 'Digite 2 ou mais caracteres'; } },
+                    }).on('change', function(){
+                        Vue.vive_em_pais_atual = $(this).val();
+                    });
+
                 });
             },
             selectProjetoJQuery: function(){
@@ -1197,7 +1243,6 @@
                         multiple: false,
                     }).on('change', function(){
                         Vue.nova_chancela.projeto = $(this).val();
-                        console.log(`Vue.nova_chancela.projeto: ${Vue.nova_chancela.projeto}`);
                     });
 
                     $('.chancelas_lista').select2({
@@ -1213,20 +1258,15 @@
                         }
                     }).on('change', function(){
                         Vue.nova_chancela.chancela = $(this).val();
-                        console.log(`Vue.nova_chancela.chancela: ${Vue.nova_chancela.chancela}`);
                     });
 
                 });
             },
-            preencheTags: function(id){
-                $.get('/ajax/pf/getTagsSelecionadas/' + id)
-                    .then(function(data) { $('#tags_list').val(data) })
-                    .then(function() { $('#tags_list').trigger('change') });
-            },
-            preencheGenero: function(id){
-                $.get('/ajax/pf/getGeneroSelecionado/' + id)
-                    .then(function(data) { $('.generos_lista').val(data) })
-                    .then(function() { $('.generos_lista').trigger('change') });
+            preencheSelect: function(data){
+                $('#tags_list').val(data.tags_relacionadas).trigger('change');
+                $('.generos_lista').val(data.genero).trigger('change');
+                $('.origem_paises_lista').val(data.origem_pais_id).trigger('change');
+                $('.vive_em_paises_lista').val(data.vive_em_pais_id).trigger('change');
             },
             selectPjJQuery: function(){
                 //Instancia atual do Vue

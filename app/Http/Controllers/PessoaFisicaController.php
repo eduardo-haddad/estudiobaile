@@ -15,6 +15,7 @@ use App\Endereco;
 use App\TipoContaBancaria;
 use App\Tag;
 use App\Arquivo;
+use App\Pais;
 use Session;
 use DB;
 
@@ -66,7 +67,9 @@ class PessoaFisicaController extends Controller
         $dados_bancarios = $pessoa_fisica->dados_bancarios()->get();
 
         //Tags
-        $tags = Tag::select('id', 'text')->where('tipo', 'tag')->orderBy('text')->get();
+        $tags = $pessoa_fisica->tags()->orderBy('text')->get();
+        $tags_ids = array();
+        foreach($tags as $tag) array_push($tags_ids, $tag['id']);
 
         //Estado Civil
         $estado_civil = !empty($pessoa_fisica->estado_civil_id) ? EstadoCivil::find($pessoa_fisica->estado_civil_id)->valor : null;
@@ -81,10 +84,11 @@ class PessoaFisicaController extends Controller
             'enderecos' => $enderecos,
             'arquivos' => $arquivos,
             'dados_bancarios' => $dados_bancarios,
-            'tags' => $tags,
+            'tags' => $tags_ids,
             'pessoas_juridicas_relacionadas' => $pessoas_juridicas_relacionadas,
             'projetos' => $projetos,
             'atributos' => [
+                'tags' => Tag::select('id', 'text')->where('tipo', 'tag')->orderBy('text')->get(),
                 'pessoas_juridicas' => PessoaJuridica::select('id', 'nome_fantasia')->orderBy('nome_fantasia')->get(),
                 'cargos_pj' => Tag::select('id', 'text')->where('tipo', 'cargo')->orderBy('text')->get(),
                 'tipos_contato' => TipoContato::all(),
@@ -92,7 +96,8 @@ class PessoaFisicaController extends Controller
                 'estados_civis' => EstadoCivil::all(),
                 'tipos_conta_bancaria' => TipoContaBancaria::all(),
                 'chancelas' => Tag::select('id', 'text')->where('tipo', 'chancela')->orderBy('text')->get(),
-                'projetos' => Projeto::select('id', 'nome')->orderBy('nome')->get()
+                'projetos' => Projeto::select('id', 'nome')->orderBy('nome')->get(),
+                'paises' => Pais::select('id', 'nome_pt')->orderBy('nome_pt')->get()
             ]
         ];
     }
@@ -424,22 +429,17 @@ class PessoaFisicaController extends Controller
 
     }
 
-    public function ajaxGetTagsSelecionadas($id) {
-
-        $pessoa = PessoaFisica::find($id);
-        $tags = $pessoa->tags()->orderBy('text')->get();
-
-        $tags_ids = array();
-        foreach($tags as $tag) array_push($tags_ids, $tag['id']);
-
-        return $tags_ids;
-
-    }
-
-    public function ajaxGetGeneroSelecionado($id) {
-        $pessoa = PessoaFisica::find($id);
-        return $pessoa->genero;
-    }
+//    public function ajaxGetTagsSelecionadas($id) {
+//
+//        $pessoa = PessoaFisica::find($id);
+//        $tags = $pessoa->tags()->orderBy('text')->get();
+//
+//        $tags_ids = array();
+//        foreach($tags as $tag) array_push($tags_ids, $tag['id']);
+//
+//        return $tags_ids;
+//
+//    }
 
     public function ajaxAddCargoPj() {
 

@@ -13,4 +13,4 @@ mix.js('resources/assets/js/app.js', 'public/js')
         devtool: 'source-map'
     });
 
-   mix.disableNotifications();
+   //mix.disableNotifications();

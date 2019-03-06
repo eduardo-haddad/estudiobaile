@@ -994,6 +994,11 @@ hr {
     min-width: unset;
     width: 200px !important;
 }
+
+.paises .select2-container {
+    min-width: unset;
+    width: 200px !important;
+}
 .select2-container--default,
 .select2-selection,
 .select2-selection--multiple {
@@ -1006,6 +1011,7 @@ hr {
 #projetos_pf .select2-container {
     margin-top: 2px !important;
 }
+
 
 //Quill
 #editor {

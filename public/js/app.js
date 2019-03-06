@@ -47854,6 +47854,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 //bus eventos
 
@@ -47937,6 +47954,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             tags_atuais: [],
             arquivo_atual: { name: 'Selecione um arquivo' },
             genero_atual: '',
+            origem_pais_atual: '',
+            vive_em_pais_atual: '',
             descricao_arquivo: '',
             mensagem_upload: '',
             id_destaque: '',
@@ -47962,6 +47981,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$emit('changePessoaFisica');
             this.jQuery();
         },
+
+        //Países
+        'origem_pais_atual': function origem_pais_atual(pais_id) {
+            this.pessoa.origem_pais_id = pais_id;
+        },
+        'vive_em_pais_atual': function vive_em_pais_atual(pais_id) {
+            this.pessoa.vive_em_pais_id = pais_id;
+        },
+
+        //MEI
         'mostraMei': function mostraMei(check) {
             if (!check) {
                 this.pessoa.cnpj = null;
@@ -48011,11 +48040,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 var dados = res.data;
                 _this2.pessoa = dados.pessoa_fisica;
                 _this2.pessoa.estado_civil = dados.estado_civil;
+                _this2.pessoa.tags_relacionadas = dados.tags;
                 _this2.contatos = dados.contatos;
                 _this2.enderecos = dados.enderecos;
                 _this2.arquivos = dados.arquivos;
                 _this2.dados_bancarios = dados.dados_bancarios;
-                _this2.tags = dados.tags;
+                _this2.tags = dados.atributos.tags;
                 _this2.projetos = dados.projetos;
                 _this2.pessoas_juridicas_relacionadas = dados.pessoas_juridicas_relacionadas;
                 _this2.atributos = dados.atributos;
@@ -48035,10 +48065,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     _this2.dt_nascimento_mes = dt[1];
                     _this2.dt_nascimento_ano = dt[0];
                 }
-                //preenche tags
-                _this2.preencheTags(id);
-                //preenche genero
-                _this2.preencheGenero(id);
+            }).then(function () {
+                //preenche select2
+                _this2.preencheSelect(_this2.pessoa);
             }).then(function () {
                 return _this2.item_carregado = true;
             });
@@ -48221,7 +48250,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 endereco_id: id,
                 pessoa_id: this.$route.params.id
             }).then(function (res) {
-                console.log(res.data);
                 _this12.enderecos = res.data;
             }).then(function () {
                 return _this12.item_carregado = true;
@@ -48385,6 +48413,32 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 }).on('change', function () {
                     Vue.genero_atual = $(this).val();
                 });
+
+                //Carrega select2 de origem-paises
+                $('.origem_paises_lista').val('').select2({
+                    placeholder: "País",
+                    tags: false,
+                    multiple: false,
+                    minimumInputLength: 2,
+                    language: { inputTooShort: function inputTooShort() {
+                            return 'Digite 2 ou mais caracteres';
+                        } }
+                }).on('change', function () {
+                    Vue.origem_pais_atual = $(this).val();
+                });
+
+                //Carrega select2 de vive_em-paises
+                $('.vive_em_paises_lista').val('').select2({
+                    placeholder: "País",
+                    tags: false,
+                    multiple: false,
+                    minimumInputLength: 2,
+                    language: { inputTooShort: function inputTooShort() {
+                            return 'Digite 2 ou mais caracteres';
+                        } }
+                }).on('change', function () {
+                    Vue.vive_em_pais_atual = $(this).val();
+                });
             });
         },
         selectProjetoJQuery: function selectProjetoJQuery() {
@@ -48398,7 +48452,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     multiple: false
                 }).on('change', function () {
                     Vue.nova_chancela.projeto = $(this).val();
-                    console.log('Vue.nova_chancela.projeto: ' + Vue.nova_chancela.projeto);
                 });
 
                 $('.chancelas_lista').select2({
@@ -48416,23 +48469,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     }
                 }).on('change', function () {
                     Vue.nova_chancela.chancela = $(this).val();
-                    console.log('Vue.nova_chancela.chancela: ' + Vue.nova_chancela.chancela);
                 });
             });
         },
-        preencheTags: function preencheTags(id) {
-            $.get('/ajax/pf/getTagsSelecionadas/' + id).then(function (data) {
-                $('#tags_list').val(data);
-            }).then(function () {
-                $('#tags_list').trigger('change');
-            });
-        },
-        preencheGenero: function preencheGenero(id) {
-            $.get('/ajax/pf/getGeneroSelecionado/' + id).then(function (data) {
-                $('.generos_lista').val(data);
-            }).then(function () {
-                $('.generos_lista').trigger('change');
-            });
+        preencheSelect: function preencheSelect(data) {
+            $('#tags_list').val(data.tags_relacionadas).trigger('change');
+            $('.generos_lista').val(data.genero).trigger('change');
+            $('.origem_paises_lista').val(data.origem_pais_id).trigger('change');
+            $('.vive_em_paises_lista').val(data.vive_em_pais_id).trigger('change');
         },
         selectPjJQuery: function selectPjJQuery() {
             //Instancia atual do Vue
@@ -49770,64 +49814,132 @@ var render = function() {
           _c("br"),
           _vm._v(" "),
           _c("div", { staticClass: "valor" }, [
-            _c("span", { staticClass: "campo" }, [_vm._v("Origem")]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
+            _c("div", { staticClass: "paises" }, [
+              _c("span", { staticClass: "campo" }, [_vm._v("Origem")]),
+              _vm._v(" "),
+              _c(
+                "select",
                 {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.pessoa.naturalidade,
-                  expression: "pessoa.naturalidade"
-                }
-              ],
-              attrs: {
-                autocomplete: "off",
-                type: "text",
-                placeholder: " ",
-                name: "naturalidade"
-              },
-              domProps: { value: _vm.pessoa.naturalidade },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
+                  staticClass: "origem_paises_lista",
+                  staticStyle: { width: "200px !important" },
+                  attrs: { name: "origem_paises" }
+                },
+                [
+                  _c("option", {
+                    attrs: { value: "", disabled: "", selected: "" }
+                  }),
+                  _vm._v(" "),
+                  _vm._l(_vm.atributos.paises, function(pais_origem, index) {
+                    return _c(
+                      "option",
+                      {
+                        key: "origem-" + index,
+                        domProps: { value: pais_origem.id }
+                      },
+                      [
+                        _vm._v(
+                          "\n                        " +
+                            _vm._s(pais_origem.nome_pt) +
+                            "\n                    "
+                        )
+                      ]
+                    )
+                  })
+                ],
+                2
+              ),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.pessoa.origem_cidade,
+                    expression: "pessoa.origem_cidade"
                   }
-                  _vm.$set(_vm.pessoa, "naturalidade", $event.target.value)
+                ],
+                attrs: {
+                  autocomplete: "off",
+                  type: "text",
+                  placeholder: "Cidade",
+                  name: "origem_cidade"
+                },
+                domProps: { value: _vm.pessoa.origem_cidade },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.pessoa, "origem_cidade", $event.target.value)
+                  }
                 }
-              }
-            })
+              })
+            ])
           ]),
           _c("br"),
           _vm._v(" "),
           _c("div", { staticClass: "valor" }, [
-            _c("span", { staticClass: "campo" }, [_vm._v("Vive em")]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
+            _c("div", { staticClass: "paises" }, [
+              _c("span", { staticClass: "campo" }, [_vm._v("Vive em")]),
+              _vm._v(" "),
+              _c(
+                "select",
                 {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.pessoa.nacionalidade,
-                  expression: "pessoa.nacionalidade"
-                }
-              ],
-              attrs: {
-                autocomplete: "off",
-                type: "text",
-                placeholder: " ",
-                name: "nacionalidade"
-              },
-              domProps: { value: _vm.pessoa.nacionalidade },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
+                  staticClass: "vive_em_paises_lista",
+                  staticStyle: { width: "200px !important" },
+                  attrs: { name: "vive_em_paises" }
+                },
+                [
+                  _c("option", {
+                    attrs: { value: "", disabled: "", selected: "" }
+                  }),
+                  _vm._v(" "),
+                  _vm._l(_vm.atributos.paises, function(pais_vive_em, index) {
+                    return _c(
+                      "option",
+                      {
+                        key: "vive_em-" + index,
+                        domProps: { value: pais_vive_em.id }
+                      },
+                      [
+                        _vm._v(
+                          "\n                        " +
+                            _vm._s(pais_vive_em.nome_pt) +
+                            "\n                    "
+                        )
+                      ]
+                    )
+                  })
+                ],
+                2
+              ),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.pessoa.vive_em_cidade,
+                    expression: "pessoa.vive_em_cidade"
                   }
-                  _vm.$set(_vm.pessoa, "nacionalidade", $event.target.value)
+                ],
+                attrs: {
+                  autocomplete: "off",
+                  type: "text",
+                  placeholder: "Cidade",
+                  name: "vive_em_cidade"
+                },
+                domProps: { value: _vm.pessoa.vive_em_cidade },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.pessoa, "vive_em_cidade", $event.target.value)
+                  }
                 }
-              }
-            })
+              })
+            ])
           ]),
           _c("br"),
           _vm._v(" "),
