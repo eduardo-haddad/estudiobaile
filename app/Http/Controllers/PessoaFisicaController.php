@@ -138,6 +138,7 @@ class PessoaFisicaController extends Controller
         foreach($request['contatos'] as $i => $contato):
             $contato = Contato::find($request['contatos'][$i]['id']);
             $contato->valor = $request['contatos'][$i]['valor'];
+            $contato->mailing = $request['contatos'][$i]['mailing'];
             $contato->save();
         endforeach;
 
@@ -669,7 +670,7 @@ class PessoaFisicaController extends Controller
     public function ajaxGetProjetosChancelasPorId($pessoa_fisica_id){
         return PessoaFisica::getProjetosChancelasPorId($pessoa_fisica_id);
     }
-    
+
 
 
 }

@@ -84,6 +84,8 @@ class PessoaJuridicaController extends Controller
     public function ajaxSave(Request $r) {
 
         $request['pessoa'] = request('pessoa');
+        $request['contatos'] = request('contatos');
+        $request['enderecos'] = request('enderecos');
         $request['tags'] = request('tags');
         $request['arquivos'] = request('arquivos');
         $request['dados_bancarios'] = request('dados_bancarios');
@@ -103,6 +105,25 @@ class PessoaJuridicaController extends Controller
         endforeach;
 
         $pessoa_juridica->save();
+
+        //Contatos
+        foreach($request['contatos'] as $i => $contato):
+            $contato = Contato::find($request['contatos'][$i]['id']);
+            $contato->valor = $request['contatos'][$i]['valor'];
+            $contato->mailing = $request['contatos'][$i]['mailing'];
+            $contato->save();
+        endforeach;
+
+        //Endereços
+        foreach($request['enderecos'] as $j => $endereco):
+            $endereco_atual = Endereco::find($endereco['id']);
+            foreach(json_decode($endereco_atual) as $key => $value):
+                if(!empty($request['enderecos'][$j][$key])) {
+                    $endereco_atual->$key = $request['enderecos'][$j][$key];
+                }
+            endforeach;
+            $endereco_atual->save();
+        endforeach;
 
         //Arquivos
         foreach($request['arquivos'] as $l => $arquivo):

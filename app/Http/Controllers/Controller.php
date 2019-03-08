@@ -7,20 +7,26 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use App\Arquivo;
+use App\PessoaFisica;
+use App\PessoaJuridica;
 
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    public function getFile($tipo, $id, $arquivo_id){
+    public function getFile($tipo, $id=null, $arquivo_id=null){
 
-        $arquivo = Arquivo::find($arquivo_id)->nome;
+        $arquivo = null;
+        if(!empty($arquivo_id)){
+            $arquivo = Arquivo::find($arquivo_id)->nome;
+        }
 
         switch ($tipo) {
             case 'pf': $diretorio = "pessoas_fisicas/$id/"; break;
             case 'pj': $diretorio = "pessoas_juridicas/$id/"; break;
             case 'projeto': $diretorio = "projetos/$id/"; break;
             case 'usuario': $diretorio = "usuarios/$id/"; break;
+            //case 'export-pf': $diretorio = "arquivos/"; break;
         }
 
         if(empty($diretorio)) return "Arquivo inválido";
@@ -102,6 +108,67 @@ class Controller extends BaseController
             }
         }
         return true;
+    }
+
+    public function exportPlanilha(){
+
+        $input = public_path() . '/modelo_export.xlsx';
+        $output = public_path() . '/export_pf.xlsx';
+
+        $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($input);
+
+        $dados_pf = array();
+        $pessoas_fisicas = PessoaFisica::select('id', 'nome_adotado')->orderBy('nome_adotado')->get();
+        $pessoas_juridicas = PessoaJuridica::select('id', 'nome_fantasia')->orderBy('nome_fantasia')->get();
+
+        //Pessoas Físicas
+        foreach($pessoas_fisicas as $pessoa_fisica):
+            $pf = PessoaFisica::find($pessoa_fisica->id);
+            $contatos = $pf->contatos()->where([
+                //somente emails
+                ['tipo_contato_id', '=', 1],
+                //somente contatos marcados como mailing
+                ['mailing', '=', 1]
+            ])->get();
+
+            foreach($contatos as $contato):
+                array_push($dados_pf,
+                    //monta array
+                    ['Pessoa Física', $pf->nome_adotado, $contato['valor']]
+                );
+            endforeach;
+        endforeach;
+
+        //Pesoas Jurídicas
+        foreach($pessoas_juridicas as $pessoa_juridica):
+            $pj = PessoaJuridica::find($pessoa_juridica->id);
+            $contatos = $pj->contatos()->where([
+                //somente emails
+                ['tipo_contato_id', '=', 1],
+                //somente contatos marcados como mailing
+                ['mailing', '=', 1]
+            ])->get();
+
+            foreach($contatos as $contato):
+                array_push($dados_pf,
+                    //monta array
+                    ['Pessoa Jurídica', $pj->nome_fantasia, $contato['valor']]
+                );
+            endforeach;
+        endforeach;
+
+        //insere dados na planilha
+        $spreadsheet->getActiveSheet()
+            ->fromArray(
+                $dados_pf,          // The data to set
+                NULL,       // Array values with this value will not be set
+                'A2'         // Top left coordinate of the worksheet range where we want to set these values (default is A1)
+            );
+
+        $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
+        $writer->save($output);
+
+        return response()->download($output, 'export_' . date('YmdHis') . '.xlsx');
     }
 
 }

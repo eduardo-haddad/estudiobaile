@@ -172,7 +172,11 @@ Route::group($opcoes_rotas, function(){
         'as' => 'ajax.pf.getProjetosChancelasPorId',
         'roles' => $geral
     ]);
-
+    Route::get('/export', [
+        'uses' => 'Controller@exportPlanilha',
+        'as' => 'exportPlanilha',
+        'roles' => $geral
+    ]);
 
 
     // ** PESSOA JURÍDICA **

@@ -6,7 +6,7 @@
             <h3 slot="header">Excluir registro?</h3>
         </modal>
 
-        <editbar save="true" export="false" delete="true"></editbar>
+        <editbar save="true" export="true" delete="true" link="/export"></editbar>
 
         <div class="titulo">
             <div v-if="destaqueAtivo" class="imagem_destaque">
@@ -450,12 +450,35 @@
 
             <!-- Emails -->
             <span class="titulo_bloco">E-mails</span>
+
+            <div class="tabela_arquivos">
+                <table>
+                    <tr>
+                        <th class="num_arquivo">#</th>
+                        <th class="nome_arquivo">Nome</th>
+                        <th class="descricao_arquivo">Mailing</th>
+                        <th class="destaque_arquivo"></th>
+                        <th class="tipo_arquivo"></th>
+                        <th class="data_arquivo"></th>
+                        <th class="remove_arquivo">Remover</th>
+                    </tr>
+                    <tr v-for="(email, index) in emails" :key="'email-'+index + email.id">
+                        <td class="num_arquivo">{{ index+1 }}</td>
+                        <td class="nome_arquivo">
+                            <input autocomplete="off" type="text" placeholder=" " name="nome" v-model="email.valor" />
+                        </td>
+                        <td class="descricao_arquivo">
+                            <input type="checkbox" v-model="email.mailing" :id="'mailing-'+email.id" name="mailing" />
+                        </td>
+                        <td class="destaque_arquivo"></td>
+                        <td class="tipo_arquivo"></td>
+                        <td class="data_arquivo"></td>
+                        <td class="remove_arquivo"><a @click.prevent="removeContato(email.id)">X</a></td>
+                    </tr>
+                </table>
+            </div>
+
             <div>
-                <div v-for="(email, index) in emails" class="valor" :key="'email-'+index + email.id">
-                    <span class="campo">E-mail {{ index+1 }}</span>
-                    <input autocomplete="off" type="text" placeholder=" " :id="email.id" v-model="email.valor" name="email" />
-                    <a @click.prevent="removeContato(email.id)">X</a>
-                </div>
                 <br>
                 <a @click.prevent="adicionaEmail = !adicionaEmail" class="link_abrir_box">[adicionar email]</a>
                 <div v-if="adicionaEmail" class="adiciona_contato">
@@ -743,12 +766,12 @@
         created() {
             this.getPessoa(this.$route.params.id);
             this.jQuery();
+            //basepath
+            this.root = ROOT;
             //reticências em strings maiores que "n"
             String.prototype.trunc = function(n){
                 return this.substr(0, n-1) + (this.length > n ? '...' : '');
             };
-            //basepath
-            this.root = ROOT;
             //lightbox
             lightbox.option({
                 'disableScrolling': true,
@@ -769,7 +792,7 @@
             });
             //evento - exportar
             eventBus.$on('editbar-exportar', () => {
-                //
+                this.exportar();
             });
 
         },
@@ -849,6 +872,9 @@
             }
         },
         methods: {
+            // exportar: function(){
+            //     axios.post('/ajax/pf/export');
+            // },
             console: function(x){ console.log(x) },
             formataDtNascimento: function(valor, tipo){
                 if(tipo === 'dia') this.dt_nascimento_dia = valor;

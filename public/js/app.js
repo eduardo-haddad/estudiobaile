@@ -47871,6 +47871,29 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 //bus eventos
 
@@ -47893,12 +47916,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     created: function created() {
         this.getPessoa(this.$route.params.id);
         this.jQuery();
+        //basepath
+        this.root = ROOT;
         //reticências em strings maiores que "n"
         String.prototype.trunc = function (n) {
             return this.substr(0, n - 1) + (this.length > n ? '...' : '');
         };
-        //basepath
-        this.root = ROOT;
         //lightbox
         lightbox.option({
             'disableScrolling': true
@@ -47921,7 +47944,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         });
         //evento - exportar
         __WEBPACK_IMPORTED_MODULE_0__estudiobaile__["a" /* eventBus */].$on('editbar-exportar', function () {
-            //
+            _this.exportar();
         });
     },
     data: function data() {
@@ -48011,6 +48034,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
     },
     methods: {
+        // exportar: function(){
+        //     axios.post('/ajax/pf/export');
+        // },
         console: function (_console) {
             function console(_x) {
                 return _console.apply(this, arguments);
@@ -48707,7 +48733,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['save', 'export', 'delete'],
+    props: ['save', 'export', 'delete', 'link'],
     data: function data() {
         return {
             //
@@ -48755,26 +48781,15 @@ var render = function() {
     _vm._v(" "),
     _c("div", { staticClass: "exportar" }, [
       this.export == "true"
-        ? _c(
-            "a",
-            {
-              on: {
-                click: function($event) {
-                  $event.preventDefault()
-                  return _vm.exportar($event)
-                }
+        ? _c("a", { attrs: { href: _vm.link, download: "" } }, [
+            _c("img", {
+              attrs: {
+                src:
+                  "data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTguMS4xLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4PSIwcHgiIHk9IjBweCIgdmlld0JveD0iMCAwIDQ2MS44MzMgNDYxLjgzMyIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgNDYxLjgzMyA0NjEuODMzOyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIgd2lkdGg9IjY0cHgiIGhlaWdodD0iNjRweCI+CjxnPgoJPGc+CgkJPHBhdGggZD0iTTQ0Miw0NDQuODMzVjE0NC4yMTdjMC00LjgxNy0xLjk4My05LjM1LTUuMzgzLTEyLjQ2N0wyOTkuNzY3LDQuNTMzQzI5Ni42NSwxLjcsMjkyLjQsMCwyODguMTUsMEg3Ni41ICAgIGMtOS4zNSwwLTE3LDcuNjUtMTcsMTd2MTg5LjgzM2MwLDkuMzUsNy42NSwxNywxNywxN3MxNy03LjY1LDE3LTE3VjM0aDE3Mi44MzN2MTMwLjMzM2MwLDkuMzUsNy42NSwxNywxNywxN2gxMjEuODMzICAgIGMwLjg1LDAsMS45ODMsMCwyLjgzMy0wLjI4M3YyNDYuNzgzSDkzLjV2LTY4YzAtOS4zNS03LjY1LTE3LTE3LTE3cy0xNyw3LjY1LTE3LDE3djg1YzAsOS4zNSw3LjY1LDE3LDE3LDE3SDQyNSAgICBDNDM0LjM1LDQ2MS44MzMsNDQyLDQ1NC4xODMsNDQyLDQ0NC44MzN6IE0zMDAuMzMzLDUxLjU2N2wxMDIuODUsOTUuNzY3aC0xMDIuODVWNTEuNTY3eiIgZmlsbD0iIzU4NTk1YiIvPgoJCTxwYXRoIGQ9Ik0xOS44MzMsMjgwLjVjMCw5LjM1LDcuNjUsMTcsMTcsMTdoMTc3LjA4M2wtNTQuNjgzLDQ4LjczM2MtNy4wODMsNi4yMzMtNy42NSwxNy0xLjQxNywyNC4wODMgICAgYzMuNCwzLjY4Myw3LjkzMyw1LjY2NywxMi43NSw1LjY2N2MzLjk2NywwLDcuOTMzLTEuNDE3LDExLjMzMy00LjI1bDg4LjQtNzguNzY3YzMuNjgzLTMuMTE3LDUuNjY3LTcuOTMzLDUuNjY3LTEyLjc1ICAgIHMtMS45ODMtOS4zNS01LjY2Ny0xMi43NUwxODEuOSwxODguN2MtNy4wODMtNi4yMzMtMTcuODUtNS42NjctMjQuMDgzLDEuNDE3Yy02LjIzMyw3LjA4My01LjY2NywxNy44NSwxLjQxNywyNC4wODNsNTUuNTMzLDQ5LjMgICAgSDM2LjgzM0MyNy40ODMsMjYzLjUsMTkuODMzLDI3MS4xNSwxOS44MzMsMjgwLjV6IiBmaWxsPSIjNTg1OTViIi8+Cgk8L2c+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPC9zdmc+Cg=="
               }
-            },
-            [
-              _c("img", {
-                attrs: {
-                  src:
-                    "data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTguMS4xLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4PSIwcHgiIHk9IjBweCIgdmlld0JveD0iMCAwIDQ2MS44MzMgNDYxLjgzMyIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgNDYxLjgzMyA0NjEuODMzOyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIgd2lkdGg9IjY0cHgiIGhlaWdodD0iNjRweCI+CjxnPgoJPGc+CgkJPHBhdGggZD0iTTQ0Miw0NDQuODMzVjE0NC4yMTdjMC00LjgxNy0xLjk4My05LjM1LTUuMzgzLTEyLjQ2N0wyOTkuNzY3LDQuNTMzQzI5Ni42NSwxLjcsMjkyLjQsMCwyODguMTUsMEg3Ni41ICAgIGMtOS4zNSwwLTE3LDcuNjUtMTcsMTd2MTg5LjgzM2MwLDkuMzUsNy42NSwxNywxNywxN3MxNy03LjY1LDE3LTE3VjM0aDE3Mi44MzN2MTMwLjMzM2MwLDkuMzUsNy42NSwxNywxNywxN2gxMjEuODMzICAgIGMwLjg1LDAsMS45ODMsMCwyLjgzMy0wLjI4M3YyNDYuNzgzSDkzLjV2LTY4YzAtOS4zNS03LjY1LTE3LTE3LTE3cy0xNyw3LjY1LTE3LDE3djg1YzAsOS4zNSw3LjY1LDE3LDE3LDE3SDQyNSAgICBDNDM0LjM1LDQ2MS44MzMsNDQyLDQ1NC4xODMsNDQyLDQ0NC44MzN6IE0zMDAuMzMzLDUxLjU2N2wxMDIuODUsOTUuNzY3aC0xMDIuODVWNTEuNTY3eiIgZmlsbD0iIzU4NTk1YiIvPgoJCTxwYXRoIGQ9Ik0xOS44MzMsMjgwLjVjMCw5LjM1LDcuNjUsMTcsMTcsMTdoMTc3LjA4M2wtNTQuNjgzLDQ4LjczM2MtNy4wODMsNi4yMzMtNy42NSwxNy0xLjQxNywyNC4wODMgICAgYzMuNCwzLjY4Myw3LjkzMyw1LjY2NywxMi43NSw1LjY2N2MzLjk2NywwLDcuOTMzLTEuNDE3LDExLjMzMy00LjI1bDg4LjQtNzguNzY3YzMuNjgzLTMuMTE3LDUuNjY3LTcuOTMzLDUuNjY3LTEyLjc1ICAgIHMtMS45ODMtOS4zNS01LjY2Ny0xMi43NUwxODEuOSwxODguN2MtNy4wODMtNi4yMzMtMTcuODUtNS42NjctMjQuMDgzLDEuNDE3Yy02LjIzMyw3LjA4My01LjY2NywxNy44NSwxLjQxNywyNC4wODNsNTUuNTMzLDQ5LjMgICAgSDM2LjgzM0MyNy40ODMsMjYzLjUsMTkuODMzLDI3MS4xNSwxOS44MzMsMjgwLjV6IiBmaWxsPSIjNTg1OTViIi8+Cgk8L2c+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPC9zdmc+Cg=="
-                }
-              }),
-              _vm._v("\n                Exportar\n            ")
-            ]
-          )
+            }),
+            _vm._v("\n                Exportar\n            ")
+          ])
         : _vm._e(),
       _vm._v(" "),
       this.delete == "true"
@@ -48942,7 +48957,7 @@ var render = function() {
         : _vm._e(),
       _vm._v(" "),
       _c("editbar", {
-        attrs: { save: "true", export: "false", delete: "true" }
+        attrs: { save: "true", export: "true", delete: "true", link: "/export" }
       }),
       _vm._v(" "),
       _c("div", { staticClass: "titulo" }, [
@@ -50322,128 +50337,186 @@ var render = function() {
           _vm._v(" "),
           _c("span", { staticClass: "titulo_bloco" }, [_vm._v("E-mails")]),
           _vm._v(" "),
-          _c(
-            "div",
-            [
-              _vm._l(_vm.emails, function(email, index) {
-                return _c(
-                  "div",
-                  { key: "email-" + index + email.id, staticClass: "valor" },
-                  [
-                    _c("span", { staticClass: "campo" }, [
-                      _vm._v("E-mail " + _vm._s(index + 1))
+          _c("div", { staticClass: "tabela_arquivos" }, [
+            _c(
+              "table",
+              [
+                _vm._m(2),
+                _vm._v(" "),
+                _vm._l(_vm.emails, function(email, index) {
+                  return _c("tr", { key: "email-" + index + email.id }, [
+                    _c("td", { staticClass: "num_arquivo" }, [
+                      _vm._v(_vm._s(index + 1))
                     ]),
                     _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: email.valor,
-                          expression: "email.valor"
-                        }
-                      ],
-                      attrs: {
-                        autocomplete: "off",
-                        type: "text",
-                        placeholder: " ",
-                        id: email.id,
-                        name: "email"
-                      },
-                      domProps: { value: email.valor },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
+                    _c("td", { staticClass: "nome_arquivo" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: email.valor,
+                            expression: "email.valor"
                           }
-                          _vm.$set(email, "valor", $event.target.value)
-                        }
-                      }
-                    }),
-                    _vm._v(" "),
-                    _c(
-                      "a",
-                      {
+                        ],
+                        attrs: {
+                          autocomplete: "off",
+                          type: "text",
+                          placeholder: " ",
+                          name: "nome"
+                        },
+                        domProps: { value: email.valor },
                         on: {
-                          click: function($event) {
-                            $event.preventDefault()
-                            _vm.removeContato(email.id)
-                          }
-                        }
-                      },
-                      [_vm._v("X")]
-                    )
-                  ]
-                )
-              }),
-              _vm._v(" "),
-              _c("br"),
-              _vm._v(" "),
-              _c(
-                "a",
-                {
-                  staticClass: "link_abrir_box",
-                  on: {
-                    click: function($event) {
-                      $event.preventDefault()
-                      _vm.adicionaEmail = !_vm.adicionaEmail
-                    }
-                  }
-                },
-                [_vm._v("[adicionar email]")]
-              ),
-              _vm._v(" "),
-              _vm.adicionaEmail
-                ? _c("div", { staticClass: "adiciona_contato" }, [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.novo_email,
-                          expression: "novo_email"
-                        }
-                      ],
-                      staticClass: "adiciona_contato",
-                      attrs: {
-                        type: "text",
-                        name: "novo_email",
-                        autocomplete: "off",
-                        placeholder: "adicionar email"
-                      },
-                      domProps: { value: _vm.novo_email },
-                      on: {
-                        input: [
-                          function($event) {
+                          input: function($event) {
                             if ($event.target.composing) {
                               return
                             }
-                            _vm.novo_email = $event.target.value
-                          },
-                          function($event) {
-                            _vm.novo_email = $event.target.value
-                          }
-                        ]
-                      }
-                    }),
-                    _vm._v(" "),
-                    _c(
-                      "a",
-                      {
-                        on: {
-                          click: function($event) {
-                            $event.preventDefault()
-                            _vm.adicionaContato()
+                            _vm.$set(email, "valor", $event.target.value)
                           }
                         }
-                      },
-                      [_vm._v("+")]
-                    )
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "descricao_arquivo" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: email.mailing,
+                            expression: "email.mailing"
+                          }
+                        ],
+                        attrs: {
+                          type: "checkbox",
+                          id: "mailing-" + email.id,
+                          name: "mailing"
+                        },
+                        domProps: {
+                          checked: Array.isArray(email.mailing)
+                            ? _vm._i(email.mailing, null) > -1
+                            : email.mailing
+                        },
+                        on: {
+                          change: function($event) {
+                            var $$a = email.mailing,
+                              $$el = $event.target,
+                              $$c = $$el.checked ? true : false
+                            if (Array.isArray($$a)) {
+                              var $$v = null,
+                                $$i = _vm._i($$a, $$v)
+                              if ($$el.checked) {
+                                $$i < 0 &&
+                                  _vm.$set(email, "mailing", $$a.concat([$$v]))
+                              } else {
+                                $$i > -1 &&
+                                  _vm.$set(
+                                    email,
+                                    "mailing",
+                                    $$a.slice(0, $$i).concat($$a.slice($$i + 1))
+                                  )
+                              }
+                            } else {
+                              _vm.$set(email, "mailing", $$c)
+                            }
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "destaque_arquivo" }),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "tipo_arquivo" }),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "data_arquivo" }),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "remove_arquivo" }, [
+                      _c(
+                        "a",
+                        {
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              _vm.removeContato(email.id)
+                            }
+                          }
+                        },
+                        [_vm._v("X")]
+                      )
+                    ])
                   ])
-                : _vm._e()
-            ],
-            2
-          ),
+                })
+              ],
+              2
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", [
+            _c("br"),
+            _vm._v(" "),
+            _c(
+              "a",
+              {
+                staticClass: "link_abrir_box",
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    _vm.adicionaEmail = !_vm.adicionaEmail
+                  }
+                }
+              },
+              [_vm._v("[adicionar email]")]
+            ),
+            _vm._v(" "),
+            _vm.adicionaEmail
+              ? _c("div", { staticClass: "adiciona_contato" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.novo_email,
+                        expression: "novo_email"
+                      }
+                    ],
+                    staticClass: "adiciona_contato",
+                    attrs: {
+                      type: "text",
+                      name: "novo_email",
+                      autocomplete: "off",
+                      placeholder: "adicionar email"
+                    },
+                    domProps: { value: _vm.novo_email },
+                    on: {
+                      input: [
+                        function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.novo_email = $event.target.value
+                        },
+                        function($event) {
+                          _vm.novo_email = $event.target.value
+                        }
+                      ]
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "a",
+                    {
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          _vm.adicionaContato()
+                        }
+                      }
+                    },
+                    [_vm._v("+")]
+                  )
+                ])
+              : _vm._e()
+          ]),
           _vm._v(" "),
           _c("hr"),
           _vm._v(" "),
@@ -50586,7 +50659,7 @@ var render = function() {
               _c(
                 "table",
                 [
-                  _vm._m(2),
+                  _vm._m(3),
                   _vm._v(" "),
                   _vm._l(_vm.projetos, function(projeto, index) {
                     return _c("tr", { key: "projeto-" + index + projeto.id }, [
@@ -51782,6 +51855,26 @@ var staticRenderFns = [
     return _c("tr", [
       _c("th", { staticClass: "num_arquivo" }, [_vm._v("#")]),
       _vm._v(" "),
+      _c("th", { staticClass: "nome_arquivo" }, [_vm._v("Nome")]),
+      _vm._v(" "),
+      _c("th", { staticClass: "descricao_arquivo" }, [_vm._v("Mailing")]),
+      _vm._v(" "),
+      _c("th", { staticClass: "destaque_arquivo" }),
+      _vm._v(" "),
+      _c("th", { staticClass: "tipo_arquivo" }),
+      _vm._v(" "),
+      _c("th", { staticClass: "data_arquivo" }),
+      _vm._v(" "),
+      _c("th", { staticClass: "remove_arquivo" }, [_vm._v("Remover")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("th", { staticClass: "num_arquivo" }, [_vm._v("#")]),
+      _vm._v(" "),
       _c("th", { staticClass: "nome_arquivo" }, [_vm._v("Projeto")]),
       _vm._v(" "),
       _c("th", { staticClass: "descricao_arquivo" }, [_vm._v("Chancela")]),
@@ -52827,6 +52920,26 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -52967,6 +53080,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.item_carregado = false;
             axios.post('/ajax/pj/save', {
                 pessoa: this.pessoa,
+                contatos: this.contatos,
+                enderecos: this.enderecos,
                 tags: this.tags_atuais,
                 arquivos: this.arquivos,
                 dados_bancarios: this.dados_bancarios
@@ -54145,130 +54260,186 @@ var render = function() {
           _vm._v(" "),
           _c("hr"),
           _vm._v(" "),
-          _c(
-            "div",
-            [
-              _c("span", { staticClass: "titulo_bloco" }, [_vm._v("E-mails")]),
-              _vm._v(" "),
-              _vm._l(_vm.emails, function(email, index) {
-                return _c(
-                  "div",
-                  { key: "email-" + index + email.id, staticClass: "valor" },
-                  [
-                    _c("span", { staticClass: "campo" }, [
-                      _vm._v("E-mail " + _vm._s(index + 1))
+          _c("span", { staticClass: "titulo_bloco" }, [_vm._v("E-mails")]),
+          _vm._v(" "),
+          _c("div", { staticClass: "tabela_arquivos" }, [
+            _c(
+              "table",
+              [
+                _vm._m(2),
+                _vm._v(" "),
+                _vm._l(_vm.emails, function(email, index) {
+                  return _c("tr", { key: "email-" + index + email.id }, [
+                    _c("td", { staticClass: "num_arquivo" }, [
+                      _vm._v(_vm._s(index + 1))
                     ]),
                     _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: email.valor,
-                          expression: "email.valor"
-                        }
-                      ],
-                      attrs: {
-                        type: "email",
-                        autocomplete: "off",
-                        placeholder: " ",
-                        id: email.id,
-                        name: "email"
-                      },
-                      domProps: { value: email.valor },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
+                    _c("td", { staticClass: "nome_arquivo" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: email.valor,
+                            expression: "email.valor"
                           }
-                          _vm.$set(email, "valor", $event.target.value)
-                        }
-                      }
-                    }),
-                    _vm._v(" "),
-                    _c(
-                      "a",
-                      {
+                        ],
+                        attrs: {
+                          autocomplete: "off",
+                          type: "text",
+                          placeholder: " ",
+                          name: "nome"
+                        },
+                        domProps: { value: email.valor },
                         on: {
-                          click: function($event) {
-                            $event.preventDefault()
-                            _vm.removeContato(email.id)
-                          }
-                        }
-                      },
-                      [_vm._v("X")]
-                    )
-                  ]
-                )
-              }),
-              _vm._v(" "),
-              _c("br"),
-              _vm._v(" "),
-              _c(
-                "a",
-                {
-                  staticClass: "link_abrir_box",
-                  on: {
-                    click: function($event) {
-                      $event.preventDefault()
-                      _vm.adicionaEmail = !_vm.adicionaEmail
-                    }
-                  }
-                },
-                [_vm._v("[adicionar email]")]
-              ),
-              _vm._v(" "),
-              _vm.adicionaEmail
-                ? _c("div", { staticClass: "adiciona_contato" }, [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.novo_email,
-                          expression: "novo_email"
-                        }
-                      ],
-                      staticClass: "adiciona_contato",
-                      attrs: {
-                        type: "email",
-                        autocomplete: "off",
-                        name: "novo_email",
-                        placeholder: "adicionar email"
-                      },
-                      domProps: { value: _vm.novo_email },
-                      on: {
-                        input: [
-                          function($event) {
+                          input: function($event) {
                             if ($event.target.composing) {
                               return
                             }
-                            _vm.novo_email = $event.target.value
-                          },
-                          function($event) {
-                            _vm.novo_email = $event.target.value
-                          }
-                        ]
-                      }
-                    }),
-                    _vm._v(" "),
-                    _c(
-                      "a",
-                      {
-                        on: {
-                          click: function($event) {
-                            $event.preventDefault()
-                            _vm.adicionaContato()
+                            _vm.$set(email, "valor", $event.target.value)
                           }
                         }
-                      },
-                      [_vm._v("+")]
-                    )
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "descricao_arquivo" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: email.mailing,
+                            expression: "email.mailing"
+                          }
+                        ],
+                        attrs: {
+                          type: "checkbox",
+                          id: "mailing-" + email.id,
+                          name: "mailing"
+                        },
+                        domProps: {
+                          checked: Array.isArray(email.mailing)
+                            ? _vm._i(email.mailing, null) > -1
+                            : email.mailing
+                        },
+                        on: {
+                          change: function($event) {
+                            var $$a = email.mailing,
+                              $$el = $event.target,
+                              $$c = $$el.checked ? true : false
+                            if (Array.isArray($$a)) {
+                              var $$v = null,
+                                $$i = _vm._i($$a, $$v)
+                              if ($$el.checked) {
+                                $$i < 0 &&
+                                  _vm.$set(email, "mailing", $$a.concat([$$v]))
+                              } else {
+                                $$i > -1 &&
+                                  _vm.$set(
+                                    email,
+                                    "mailing",
+                                    $$a.slice(0, $$i).concat($$a.slice($$i + 1))
+                                  )
+                              }
+                            } else {
+                              _vm.$set(email, "mailing", $$c)
+                            }
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "destaque_arquivo" }),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "tipo_arquivo" }),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "data_arquivo" }),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "remove_arquivo" }, [
+                      _c(
+                        "a",
+                        {
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              _vm.removeContato(email.id)
+                            }
+                          }
+                        },
+                        [_vm._v("X")]
+                      )
+                    ])
                   ])
-                : _vm._e()
-            ],
-            2
-          ),
+                })
+              ],
+              2
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", [
+            _c(
+              "a",
+              {
+                staticClass: "link_abrir_box",
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    _vm.adicionaEmail = !_vm.adicionaEmail
+                  }
+                }
+              },
+              [_vm._v("[adicionar email]")]
+            ),
+            _vm._v(" "),
+            _vm.adicionaEmail
+              ? _c("div", { staticClass: "adiciona_contato" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.novo_email,
+                        expression: "novo_email"
+                      }
+                    ],
+                    staticClass: "adiciona_contato",
+                    attrs: {
+                      type: "email",
+                      autocomplete: "off",
+                      name: "novo_email",
+                      placeholder: "adicionar email"
+                    },
+                    domProps: { value: _vm.novo_email },
+                    on: {
+                      input: [
+                        function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.novo_email = $event.target.value
+                        },
+                        function($event) {
+                          _vm.novo_email = $event.target.value
+                        }
+                      ]
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "a",
+                    {
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          _vm.adicionaContato()
+                        }
+                      }
+                    },
+                    [_vm._v("+")]
+                  )
+                ])
+              : _vm._e()
+          ]),
           _vm._v(" "),
           _c("hr"),
           _vm._v(" "),
@@ -54413,7 +54584,7 @@ var render = function() {
               _c(
                 "table",
                 [
-                  _vm._m(2),
+                  _vm._m(3),
                   _vm._v(" "),
                   _vm._l(_vm.projetos, function(projeto, index) {
                     return _c("tr", { key: "projeto-" + index + projeto.id }, [
@@ -55586,6 +55757,26 @@ var staticRenderFns = [
       _c("th", { staticClass: "nome_arquivo" }, [_vm._v("Nome")]),
       _vm._v(" "),
       _c("th", { staticClass: "descricao_arquivo" }, [_vm._v("Cargo")]),
+      _vm._v(" "),
+      _c("th", { staticClass: "remove_arquivo" }, [_vm._v("Remover")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("th", { staticClass: "num_arquivo" }, [_vm._v("#")]),
+      _vm._v(" "),
+      _c("th", { staticClass: "nome_arquivo" }, [_vm._v("Nome")]),
+      _vm._v(" "),
+      _c("th", { staticClass: "descricao_arquivo" }, [_vm._v("Mailing")]),
+      _vm._v(" "),
+      _c("th", { staticClass: "destaque_arquivo" }),
+      _vm._v(" "),
+      _c("th", { staticClass: "tipo_arquivo" }),
+      _vm._v(" "),
+      _c("th", { staticClass: "data_arquivo" }),
       _vm._v(" "),
       _c("th", { staticClass: "remove_arquivo" }, [_vm._v("Remover")])
     ])
