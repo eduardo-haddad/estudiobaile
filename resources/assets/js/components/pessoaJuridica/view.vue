@@ -88,7 +88,7 @@
                         </td>
                         <td class="tipo_arquivo">{{ arquivo.tipo }}</td>
                         <td class="data_arquivo">{{ arquivo.data }}</td>
-                        <td class="remove_arquivo"><a @click.prevent="removeArquivo(arquivo.id)">X</a></td>
+                        <td class="remove_arquivo"><a @click.prevent="removeArquivo(arquivo.id)"><btn_delete></btn_delete></a></td>
                     </tr>
                 </table>
             </div>
@@ -175,6 +175,9 @@
                                 <th class="num_arquivo">#</th>
                                 <th class="nome_arquivo">Nome</th>
                                 <th class="descricao_arquivo">Cargo</th>
+                                <th class="destaque_arquivo"></th>
+                                <th class="tipo_arquivo"></th>
+                                <th class="data_arquivo"></th>
                                 <th class="remove_arquivo">Remover</th>
                             </tr>
                             <tr v-for="(pessoa, index) in pessoas_fisicas_cargos_relacionados" :key="'pf-'+index+pessoa.id">
@@ -182,7 +185,10 @@
                                 <td class="nome_arquivo"><router-link :id="pessoa.pessoa_fisica_id" :to="{ name: 'pf-view',
                                 params: { id: pessoa.pessoa_fisica_id }}">{{ pessoa.pessoa_fisica_nome_adotado }}</router-link></td>
                                 <td class="descricao_arquivo">{{ pessoa.tag }}</td>
-                                <td class="remove_arquivo"><a @click.prevent="removeCargoPf(pessoa.pessoa_fisica_id, pessoa.cargo_id)">X</a></td>
+                                <td class="destaque_arquivo"></td>
+                                <td class="tipo_arquivo"></td>
+                                <td class="data_arquivo"></td>
+                                <td class="remove_arquivo"><a @click.prevent="removeCargoPf(pessoa.pessoa_fisica_id, pessoa.cargo_id)"><btn_delete></btn_delete></a></td>
                             </tr>
                         </table>
                     </div>
@@ -206,7 +212,7 @@
                     <option disabled selected value> -- Selecione uma chancela -- </option>
                     <option v-for="cargo in atributos.cargos_pf" :value="cargo.id">{{ cargo.text }}</option>
                 </select>
-                <a @click.prevent="adicionaCargoPf">[+]</a>
+                <a @click.prevent="adicionaCargoPf"> <btn_add inline="true"></btn_add></a>
 
             </div>
 
@@ -236,7 +242,7 @@
                         <td class="destaque_arquivo"></td>
                         <td class="tipo_arquivo"></td>
                         <td class="data_arquivo"></td>
-                        <td class="remove_arquivo"><a @click.prevent="removeContato(email.id)">X</a></td>
+                        <td class="remove_arquivo"><a @click.prevent="removeContato(email.id)"><btn_delete></btn_delete></a></td>
                     </tr>
                 </table>
             </div>
@@ -245,7 +251,7 @@
                 <a @click.prevent="adicionaEmail = !adicionaEmail" class="link_abrir_box">[adicionar email]</a>
                 <div v-if="adicionaEmail" class="adiciona_contato">
                     <input @input="novo_email = $event.target.value" type="email" autocomplete="off" class="adiciona_contato" v-model="novo_email" name="novo_email" placeholder="adicionar email" />
-                    <a @click.prevent="adicionaContato()">+</a>
+                    <a @click.prevent="adicionaContato()"><btn_add inline="true"></btn_add></a>
                 </div>
             </div>
 
@@ -258,13 +264,13 @@
                 <div v-for="(telefone, index) in telefones" class="valor" :key="'telefone-'+index+telefone.id">
                     <span class="campo">Telefone {{ index+1 }}</span>
                     <input type="text" placeholder=" " :id="telefone.id" v-model="telefone.valor" name="telefone" />
-                    <a @click.prevent="removeContato(telefone.id)">X</a>
+                    <a @click.prevent="removeContato(telefone.id)"><btn_delete></btn_delete></a>
                 </div>
                 <br>
                 <a @click.prevent="adicionaTel = !adicionaTel" class="link_abrir_box">[adicionar telefone]</a>
                 <div v-if="adicionaTel" class="adiciona_contato">
                     <input @input="novo_telefone = $event.target.value" type="text" class="adiciona_contato" v-model="novo_telefone" name="novo_telefone" placeholder="adicionar telefone" />
-                    <a @click.prevent="adicionaContato()">+</a>
+                    <a @click.prevent="adicionaContato()"><btn_add inline="true"></btn_add></a>
                 </div>
 
             </div>
@@ -290,7 +296,7 @@
                                     :to="{ name: 'projetos-view',
                                         params: { id: projeto.id }}">{{ projeto['projeto'] }}</router-link></td>
                             <td class="descricao_arquivo">{{ projeto['chancela'] }}</td>
-                            <td class="remove_arquivo"><a @click.prevent="removeProjeto(projeto.id, projeto['chancela_id'])">X</a></td>
+                            <td class="remove_arquivo"><a @click.prevent="removeProjeto(projeto.id, projeto['chancela_id'])"><btn_delete></btn_delete></a></td>
                         </tr>
                     </table>
                 </div>
@@ -311,7 +317,7 @@
                     <option value="" disabled selected></option>
                     <option v-for="chancela in atributos.chancelas" :value="chancela.id">{{ chancela.text }}</option>
                 </select>
-                <a @click.prevent="adicionaProjeto">[+]</a>
+                <a @click.prevent="adicionaProjeto"><btn_add inline="true"></btn_add></a>
 
             </div>
 
@@ -321,7 +327,7 @@
             <span class="titulo_bloco">Endereços</span>
 
             <div v-for="(endereco, index) in enderecos" :key="'endereco-'+index+endereco.id">
-                <span class="titulo_bloco"># {{index+1}}:</span> <a @click.prevent="removeEndereco(endereco.id)">X</a> <br>
+                <span class="titulo_bloco"># {{index+1}}:</span> <a @click.prevent="removeEndereco(endereco.id)"><btn_delete inline="true"></btn_delete></a> <br>
                 <div class="valor">
                     <span class="campo">Logradouro</span>
                     <input autocomplete="off" type="text" placeholder=" " name="endereco.rua" v-model="endereco.rua" />
@@ -421,7 +427,7 @@
                     <span class="campo">País</span>
                     <input @input="novo_endereco.pais = $event.target.value" autocomplete="off" type="text" placeholder=" " name="novo_endereco.pais" v-model="novo_endereco.pais" />
                 </div><br>
-                <a @click.prevent="adicionaEndereco">[+]</a>
+                <a @click.prevent="adicionaEndereco"><btn_add></btn_add></a>
 
             </div>
 
@@ -431,7 +437,7 @@
             <span class="titulo_bloco">Dados bancários</span>
 
             <div v-for="(dado_bancario, index) in dados_bancarios">
-                <span class="titulo_bloco"># {{index+1}}:</span> <a @click.prevent="removeDadosBancarios(dado_bancario.id)">X</a> <br>
+                <span class="titulo_bloco"># {{index+1}}:</span> <a @click.prevent="removeDadosBancarios(dado_bancario.id)"><btn_delete inline="true"></btn_delete></a> <br>
                 <div class="valor">
                     <span class="campo">Banco</span>
                     <input autocomplete="off" type="text" placeholder=" " name="dado_bancario.nome_banco" v-model="dado_bancario.nome_banco" />
@@ -478,7 +484,7 @@
                     </select>
                 </div><br>
 
-                <a @click.prevent="adicionaDadosBancarios">[+]</a>
+                <a @click.prevent="adicionaDadosBancarios"><btn_add></btn_add></a>
 
             </div>
 
@@ -490,15 +496,24 @@
 
 <script>
 
+    //bus eventos
     import { eventBus } from '../../estudiobaile';
+    //modal exclusão
     import modal from '../modals/modal_delete';
+    //barra superior - salvar
     import editbar from '../editbar';
+    //botões
+    import btn_add from '../buttons/add';
+    import btn_delete from '../buttons/delete';
+    //inputs com máscaras
     import { TheMask } from 'vue-the-mask';
 
     export default {
         components: {
             modal,
             editbar,
+            btn_add,
+            btn_delete,
             TheMask
         },
         created() {

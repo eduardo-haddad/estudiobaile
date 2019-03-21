@@ -88,7 +88,7 @@
                         </td>
                         <td class="tipo_arquivo">{{ arquivo.tipo }}</td>
                         <td class="data_arquivo">{{ arquivo.data }}</td>
-                        <td class="remove_arquivo"><a @click.prevent="removeArquivo(arquivo.id)">X</a></td>
+                        <td class="remove_arquivo"><a @click.prevent="removeArquivo(arquivo.id)"><btn_delete></btn_delete></a></td>
                     </tr>
                 </table>
             </div>
@@ -359,6 +359,13 @@
                        v-model="pessoa.passaporte"
                        name="passaporte"
                 />
+            </div>
+            <div class="valor">
+                <span class="campo">Website</span>
+                <input autocomplete="off" type="text" placeholder=" "
+                       v-model="pessoa.website"
+                       name="website"
+                />
             </div><br>
 
             <br>
@@ -377,14 +384,6 @@
                     <input autocomplete="off" type="text" placeholder=" "
                            v-model="pessoa.razao_social"
                            name="razao_social"
-                    />
-                </div>
-
-                <div class="valor">
-                    <span class="campo">Website</span>
-                    <input autocomplete="off" type="text" placeholder=" "
-                           v-model="pessoa.website"
-                           name="website"
                     />
                 </div><br>
             </div>
@@ -415,7 +414,7 @@
                                 <td class="destaque_arquivo"></td>
                                 <td class="tipo_arquivo"></td>
                                 <td class="data_arquivo"></td>
-                                <td class="remove_arquivo"><a @click.prevent="removeChancelaPj(pessoa.pessoa_juridica_id, pessoa.tag_id)">X</a></td>
+                                <td class="remove_arquivo"><a @click.prevent="removeChancelaPj(pessoa.pessoa_juridica_id, pessoa.tag_id)"><btn_delete></btn_delete></a></td>
                             </tr>
                         </table>
                     </div>
@@ -439,7 +438,7 @@
                     <option v-for="cargo in atributos.cargos_pj" :value="cargo.id">{{ cargo.text }}</option>
                 </select>
                 <a @click.prevent="adicionaCargoPj">
-                    <btn_add></btn_add>
+                    <btn_add inline="true"></btn_add>
                 </a>
 
             </div>
@@ -473,7 +472,7 @@
                         <td class="destaque_arquivo"></td>
                         <td class="tipo_arquivo"></td>
                         <td class="data_arquivo"></td>
-                        <td class="remove_arquivo"><a @click.prevent="removeContato(email.id)">X</a></td>
+                        <td class="remove_arquivo"><a @click.prevent="removeContato(email.id)"><btn_delete></btn_delete></a></td>
                     </tr>
                 </table>
             </div>
@@ -483,7 +482,7 @@
                 <a @click.prevent="adicionaEmail = !adicionaEmail" class="link_abrir_box">[adicionar email]</a>
                 <div v-if="adicionaEmail" class="adiciona_contato">
                     <input @input="novo_email = $event.target.value" type="text" class="adiciona_contato" v-model="novo_email" name="novo_email" autocomplete="off" placeholder="adicionar email" />
-                    <a @click.prevent="adicionaContato()">+</a>
+                    <a @click.prevent="adicionaContato()"><btn_add inline="true"></btn_add></a>
                 </div>
             </div>
 
@@ -492,17 +491,47 @@
             <!-- Telefones -->
             <span class="titulo_bloco">Telefones</span>
 
+            <div class="tabela_arquivos">
+                <table>
+                    <tr>
+                        <th class="num_arquivo">#</th>
+                        <th class="nome_arquivo">Nome</th>
+                        <th class="descricao_arquivo">Tipo</th>
+                        <th class="destaque_arquivo"></th>
+                        <th class="tipo_arquivo"></th>
+                        <th class="data_arquivo"></th>
+                        <th class="remove_arquivo">Remover</th>
+                    </tr>
+                    <tr v-for="(telefone, index) in telefones" :key="'telefone-'+index + telefone.id">
+                        <td class="num_arquivo">{{ index+1 }}</td>
+                        <td class="nome_arquivo">
+                            <input autocomplete="off" type="text" placeholder=" " name="nome" v-model="telefone.valor" />
+                        </td>
+                        <td class="descricao_arquivo"></td>
+                        <td class="destaque_arquivo"></td>
+                        <td class="tipo_arquivo"></td>
+                        <td class="data_arquivo"></td>
+                        <td class="remove_arquivo"><a @click.prevent="removeContato(telefone.id)"><btn_delete></btn_delete></a></td>
+                    </tr>
+                </table>
+            </div>
+
             <div>
-                <div v-for="(telefone, index) in telefones" class="valor" :key="'telefone-'+index + telefone.id">
-                    <span class="campo">Telefone {{ index+1 }}</span>
-                    <input type="text" placeholder=" " :id="telefone.id" v-model="telefone.valor" name="telefone" autocomplete="off" />
-                    <a @click.prevent="removeContato(telefone.id)">X</a>
-                </div>
-                <br>
+                <!--<div v-for="(telefone, index) in telefones" class="valor" :key="'telefone-'+index + telefone.id">-->
+                    <!--<span class="campo">Telefone {{ index+1 }}</span>-->
+                    <!--<input type="text" placeholder=" " :id="telefone.id" v-model="telefone.valor" name="telefone" autocomplete="off" />-->
+                    <!--<a @click.prevent="removeContato(telefone.id)">X</a>-->
+                <!--</div>-->
+                <!--<br>-->
                 <a @click.prevent="adicionaTel = !adicionaTel" class="link_abrir_box">[adicionar telefone]</a>
                 <div v-if="adicionaTel" class="adiciona_contato">
-                    <input @input="novo_telefone = $event.target.value" type="text" class="adiciona_contato" v-model="novo_telefone" name="novo_telefone" placeholder="adicionar telefone" autocomplete="off" />
-                    <a @click.prevent="adicionaContato()">+</a>
+                    <input @input="novo_telefone = $event.target.value" type="text" class="adiciona_contato" v-model="novo_telefone" name="novo_telefone" placeholder="número" autocomplete="off" />
+                    <select id="tipo_telefone" @change="novo_tipo_telefone = $event.target.value">
+                        <option disabled selected value>Tipo de telefone</option>
+                        <option value="1">Comercial</option>
+                        <option value="2">Residencial</option>
+                    </select>
+                    <a @click.prevent="adicionaContato()"><btn_add inline="true"></btn_add></a>
                 </div>
 
             </div>
@@ -531,7 +560,7 @@
                             <td class="destaque_arquivo"></td>
                             <td class="tipo_arquivo"></td>
                             <td class="data_arquivo"></td>
-                            <td class="remove_arquivo"><a @click.prevent="removeProjeto(projeto.id, projeto['chancela_id'])">X</a></td>
+                            <td class="remove_arquivo"><a @click.prevent="removeProjeto(projeto.id, projeto['chancela_id'])"><btn_delete></btn_delete></a></td>
                         </tr>
                     </table>
                 </div>
@@ -552,7 +581,7 @@
                     <option value="" disabled selected></option>
                     <option v-for="chancela in atributos.chancelas" :value="chancela.id">{{ chancela.text }}</option>
                 </select>
-                <a @click.prevent="adicionaProjeto">[+]</a>
+                <a @click.prevent="adicionaProjeto"><btn_add inline="true"></btn_add></a>
             </div>
 
             <hr>
@@ -562,7 +591,7 @@
 
             <div v-for="(endereco, index) in enderecos" :key="'endereco-'+index + endereco.id" class="form_endereco">
 
-                <span class="titulo_bloco"># {{index+1}}:</span> <a @click.prevent="removeEndereco(endereco.id)">X</a> <br>
+                <span class="titulo_bloco"># {{index+1}}:</span> <a @click.prevent="removeEndereco(endereco.id)"><btn_delete inline="true"></btn_delete></a> <br>
                 <div class="valor">
                     <span class="campo">Logradouro</span>
                     <input autocomplete="off" type="text" placeholder=" " name="endereco.rua" v-model="endereco.rua" />
@@ -677,7 +706,7 @@
                     <span class="campo">País</span>
                     <input @input="novo_endereco.pais = $event.target.value" autocomplete="off" type="text" placeholder=" " name="novo_endereco.pais" v-model="novo_endereco.pais" />
                 </div><br>
-                <a @click.prevent="adicionaEndereco">[+]</a>
+                <a @click.prevent="adicionaEndereco"><btn_add></btn_add></a>
 
             </div>
 
@@ -687,7 +716,7 @@
             <span class="titulo_bloco">Dados bancários</span>
 
             <div v-for="(dado_bancario, index) in dados_bancarios">
-                <span class="titulo_bloco"># {{index+1}}:</span> <a @click.prevent="removeDadosBancarios(dado_bancario.id)">X</a> <br>
+                <span class="titulo_bloco"># {{index+1}}:</span> <a @click.prevent="removeDadosBancarios(dado_bancario.id)"><btn_delete inline="true"></btn_delete></a> <br>
                 <div class="valor">
                     <span class="campo">Banco</span>
                     <input autocomplete="off" type="text" placeholder=" " name="dado_bancario.nome_banco" v-model="dado_bancario.nome_banco" />
@@ -734,7 +763,7 @@
                     </select>
                 </div><br>
 
-                <a @click.prevent="adicionaDadosBancarios">[+]</a>
+                <a @click.prevent="adicionaDadosBancarios"><btn_add></btn_add></a>
 
             </div>
 
@@ -751,8 +780,9 @@
     import modal from '../modals/modal_delete';
     //barra superior - salvar
     import editbar from '../editbar';
-    //botão adicionar
+    //botões
     import btn_add from '../buttons/add';
+    import btn_delete from '../buttons/delete';
     //inputs com máscaras
     import { TheMask } from 'vue-the-mask';
 
@@ -761,7 +791,8 @@
             modal,
             editbar,
             TheMask,
-            btn_add
+            btn_add,
+            btn_delete,
         },
         created() {
             this.getPessoa(this.$route.params.id);
@@ -823,6 +854,7 @@
                 novo_endereco: {rua:'',numero:'',complemento:'',bairro:'',cep:'',cidade:'',estado:'',pais:''},
                 novos_dados_bancarios: {nome_banco:'',agencia:'',conta:'',tipo_conta_id:''},
                 nova_chancela: {chancela: '', projeto: ''},
+                novo_tipo_telefone: '',
                 tags_atuais: [],
                 arquivo_atual: {name: 'Selecione um arquivo'},
                 genero_atual: '',
@@ -855,6 +887,7 @@
             //Países
             'origem_pais_atual' (pais_id) { this.pessoa.origem_pais_id = pais_id },
             'vive_em_pais_atual' (pais_id) { this.pessoa.vive_em_pais_id = pais_id },
+            'novo_tipo_telefone' (valor) { console.log(valor); },
             //MEI
             'mostraMei' (check) {
                 if(!check) {
@@ -1035,7 +1068,8 @@
                 axios.post('/ajax/pf/addContato', {
                     pessoa_id: this.$route.params.id,
                     email: this.novo_email,
-                    telefone: this.novo_telefone
+                    telefone: this.novo_telefone,
+                    tipo_telefone: this.novo_tipo_telefone,
                 })
                 .then(res => {
                     console.log(res.data);

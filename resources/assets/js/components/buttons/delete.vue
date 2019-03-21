@@ -1,8 +1,8 @@
 <template>
-    <div :class="this.inline == 'true' ? 'btn btn_inline' : 'btn'">
+    <div :class="this.inline == 'true' ? 'btn btn_delete btn_inline' : 'btn btn_delete'">
         <div></div>
-        <img :src="img" alt="adicionar" title="adicionar" />
-        <!--<span>[+]</span>-->
+        <img :src="img" alt="remover" title="remover" />
+        <!--<span>X</span>-->
     </div>
 </template>
 
@@ -14,7 +14,7 @@
             //basepath
             this.root = ROOT;
             //imagem
-            this.img = `${this.root}/img/btn_add_form2.png`;
+            this.img = `${this.root}/img/btn_delete_magenta.png`;
         },
         data() {
             return {
