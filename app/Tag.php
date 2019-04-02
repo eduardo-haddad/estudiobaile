@@ -164,7 +164,10 @@ class Tag extends Model
             if (substr($tag, 0, 4) == 'new:')
             {
                 $tag = strtolower(substr($tag,4));
-                $tagObj = Tag::where('text', $tag)->first();
+                $tagObj = Tag::where([
+                    ['text', '=', $tag],
+                    ['tipo', '=', $tipo],
+                ])->first();
                 if(empty($tagObj)){
                     $nova_tag = Tag::create(['text' => $tag, 'tipo' => $tipo]);
                     $tags_ids[] = $nova_tag->id;
