@@ -1,7 +1,8 @@
 <template>
     <div class="editbar">
         <div class="salvar">
-            <a v-if="this.save == 'true'" @click.prevent="salvar">Salvar</a>
+            <a v-if="this.edit === true" @click.prevent="editar">Editar</a>
+            <a v-if="this.edit === false" @click.prevent="salvar">Salvar</a>
         </div>
         <div class="exportar">
                 <a v-if="this.export == 'true'" :href="link" download>
@@ -19,21 +20,30 @@
 <script>
     import { eventBus } from '../estudiobaile';
     export default {
-        props: ['save', 'export', 'delete', 'link'],
+        props: ['save', 'export', 'delete', 'link', 'edit', 'origin'],
         data() {
             return {
-                //
+                origin_data: '',
             }
+        },
+        mounted() {
+            this.setOrigin(this.origin);
         },
         methods: {
             salvar: function() {
-                eventBus.$emit('editbar-salvar');
+                eventBus.$emit('editbar-salvar-'+this.origin_data);
             },
             exportar: function() {
-                eventBus.$emit('editbar-exportar');
+                eventBus.$emit('editbar-exportar-'+this.origin_data);
             },
             excluir: function() {
-                eventBus.$emit('editbar-excluir');
+                eventBus.$emit('editbar-excluir-'+this.origin_data);
+            },
+            editar: function() {
+                eventBus.$emit('editbar-editar-'+this.origin_data);
+            },
+            setOrigin: function(origin) {
+                this.origin_data = origin;
             }
         }
     }

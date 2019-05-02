@@ -12,6 +12,7 @@ use App\DadoBancario;
 use App\TipoContaBancaria;
 use App\Arquivo;
 use App\Projeto;
+use App\Helpers\AppHelper;
 
 class PessoaJuridicaController extends Controller
 {
@@ -55,16 +56,27 @@ class PessoaJuridicaController extends Controller
 
         //Dados Bancários
         $dados_bancarios = $pessoa_juridica->dados_bancarios()->get();
+        foreach($dados_bancarios as &$dado){
+            $dado['tipo_conta'] = TipoContaBancaria::find($dado['tipo_conta_id'])->valor;
+        }
 
         //Tags
-        $tags = Tag::select('id', 'text')->where('tipo', 'tag')->orderBy('text')->get();
+        $tags = $pessoa_juridica->tags()->orderBy('text')->get();
+        $tags_ids = array();
+        $tags_nomes = array();
+        foreach($tags as $tag){
+            array_push($tags_ids, $tag['id']);
+            array_push($tags_nomes, $tag['text']);
+        }
+        $tags_nomes = implode(', ', $tags_nomes);
 
         //Projetos
         $projetos = PessoaJuridica::getProjetosChancelasPorId($id);
 
         return [
             'pessoa_juridica' => $pessoa_juridica,
-            'tags' => $tags,
+            'tags' => $tags_ids,
+            'tags_nomes' => $tags_nomes,
             'pessoas_fisicas_cargos_relacionados' => $pessoas_fisicas_cargos_relacionados,
             'contatos' => $contatos,
             'enderecos' => $enderecos,
@@ -72,6 +84,7 @@ class PessoaJuridicaController extends Controller
             'dados_bancarios' => $dados_bancarios,
             'projetos' => $projetos,
             'atributos' => [
+                'tags' => Tag::select('id', 'text')->where('tipo', 'tag')->orderBy('text')->get(),
                 'cargos_pf' => Tag::select('id', 'text')->where('tipo', 'cargo')->orderBy('text')->get(),
                 'pessoas_fisicas' => PessoaFisica::select('id', 'nome_adotado')->orderBy('nome_adotado')->get(),
                 'tipos_conta_bancaria' => TipoContaBancaria::all(),
@@ -96,11 +109,11 @@ class PessoaJuridicaController extends Controller
         foreach(json_decode($pessoa_juridica) as $chave => $valor):
             if($chave == "modificado_por") {
                 $pessoa_juridica->$chave = $r->user()->name;
+            } else if($chave == "website" && !empty($request['pessoa'][$chave])) {
+                $pessoa_juridica->$chave = AppHelper::addHttp($request['pessoa'][$chave]);
             }
             else {
-                if(!empty($request['pessoa'][$chave])) {
-                    $pessoa_juridica->$chave = $request['pessoa'][$chave];
-                }
+                $pessoa_juridica->$chave = $request['pessoa'][$chave];
             }
         endforeach;
 
@@ -159,7 +172,10 @@ class PessoaJuridicaController extends Controller
                 if (substr($tag, 0, 4) == 'new:')
                 {
                     $tag = strtolower(substr($tag,4));
-                    $tagObj = Tag::where('text', $tag)->first();
+                    $tagObj = Tag::where([
+                        ['text', '=', $tag],
+                        ['tipo', '=', 'tag']
+                    ])->first();
                     if(empty($tagObj)){
                         $nova_tag = Tag::create(['text' => $tag, 'tipo' => 'tag']);
                         $tags_ids[] = $nova_tag->id;
@@ -279,7 +295,10 @@ class PessoaJuridicaController extends Controller
 
             if(substr($cargo, 0, 4) == 'new:'){
                 $novo_cargo = strtolower(substr($cargo,4));
-                $tagObj = Tag::where('text', $novo_cargo)->first();
+                $tagObj = Tag::where([
+                    ['text', '=', $novo_cargo],
+                    ['tipo', '=', 'cargo']
+                ])->first();
                 if(empty($tagObj)){
                     $novo_cargo = Tag::create(['text' => $novo_cargo, 'tipo' => 'cargo']);
                     $cargo = $novo_cargo->id;

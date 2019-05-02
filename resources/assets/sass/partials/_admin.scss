@@ -495,6 +495,17 @@ hr {
 
                 }
 
+                .preview {
+                  .texto {
+                    position: relative;
+                    top: 5px;
+                  }
+                }
+
+                .edicao {
+
+                }
+
                 .titulo {
                     color: $cinza_escuro;
                     font-size: 2.5em;
@@ -543,7 +554,7 @@ hr {
                     text-align: right;
                     position: relative;
                     top: 5px;
-                    width: 100px;
+                    width: 106px;
                   }
 
                   select,
@@ -577,7 +588,24 @@ hr {
                     width: 650px;
                   }
 
-                } //.form
+                  .preview {
+                    &.dados {
+                      margin: 0 0 12px 0;
+                      
+                      div {
+                        margin-bottom: 5px;
+
+                      }
+                    }
+                  }
+
+                  .form_endereco {
+                    .valor {
+                      margin-bottom: 5px;
+                    }
+                  }
+
+                } //.dados
 
                 .titulo_bloco {
                   color: $cinza;

@@ -18,6 +18,8 @@ use App\Arquivo;
 use App\Pais;
 use Session;
 use DB;
+use App\Helpers\AppHelper;
+use \ForceUTF8\Encoding;
 
 class PessoaFisicaController extends Controller
 {
@@ -65,26 +67,51 @@ class PessoaFisicaController extends Controller
 
         //Dados Bancários
         $dados_bancarios = $pessoa_fisica->dados_bancarios()->get();
+        foreach($dados_bancarios as &$dado){
+            $dado['tipo_conta'] = TipoContaBancaria::find($dado['tipo_conta_id'])->valor;
+        }
 
         //Tags
         $tags = $pessoa_fisica->tags()->orderBy('text')->get();
         $tags_ids = array();
-        foreach($tags as $tag) array_push($tags_ids, $tag['id']);
+        $tags_nomes = array();
+        foreach($tags as $tag){
+            array_push($tags_ids, $tag['id']);
+            array_push($tags_nomes, $tag['text']);
+        }
+        $tags_nomes = implode(', ', $tags_nomes);
 
         //Estado Civil
         $estado_civil = !empty($pessoa_fisica->estado_civil_id) ? EstadoCivil::find($pessoa_fisica->estado_civil_id)->valor : null;
 
+        //Gênero
+        $genero = !empty($pessoa_fisica->genero) ? Tag::where([['tipo', 'genero'], ['id', $pessoa_fisica->genero]])->first()->text : null;
+
         //Projetos
         $projetos = $this->ajaxGetProjetosChancelasPorId($id);
 
-        return [
+        //Preview
+        $dt_nascimento['dia'] = date("d", strtotime($pessoa_fisica->dt_nascimento));
+        $dt_nascimento['mes'] = AppHelper::mesPort(date("M", strtotime($pessoa_fisica->dt_nascimento)));
+        $dt_nascimento['ano'] = date("Y", strtotime($pessoa_fisica->dt_nascimento));
+        $dt_nascimento = strtolower(AppHelper::formataDataCurta($dt_nascimento));
+
+        $pais_origem = Pais::select('nome_pt')->where('id', $pessoa_fisica->origem_pais_id)->first();
+        $pais_vive_em = Pais::select('nome_pt')->where('id', $pessoa_fisica->vive_em_pais_id)->first();
+
+        $return = [
             'pessoa_fisica' => $pessoa_fisica,
             'estado_civil' => $estado_civil,
+            'genero' => $genero,
+            'dt_nascimento' => $dt_nascimento,
+            'pais_origem' => $pais_origem['nome_pt'],
+            'pais_vive_em' => $pais_vive_em['nome_pt'],
             'contatos' => $contatos,
             'enderecos' => $enderecos,
             'arquivos' => $arquivos,
             'dados_bancarios' => $dados_bancarios,
             'tags' => $tags_ids,
+            'tags_nomes' => $tags_nomes,
             'pessoas_juridicas_relacionadas' => $pessoas_juridicas_relacionadas,
             'projetos' => $projetos,
             'atributos' => [
@@ -100,6 +127,7 @@ class PessoaFisicaController extends Controller
                 'paises' => Pais::select('id', 'nome_pt')->orderBy('nome_pt')->get()
             ]
         ];
+        return json_encode($return);
     }
 
     public function ajaxSave(Request $r) {
@@ -120,6 +148,8 @@ class PessoaFisicaController extends Controller
                 $pessoa_fisica->$chave = $r->user()->name;
             } else if($chave == "estado_civil_id" && empty($valor)){
                 $pessoa_fisica->$chave = null;
+            } else if($chave == "website" && !empty($request['pessoa'][$chave])) {
+                $pessoa_fisica->$chave = AppHelper::addHttp($request['pessoa'][$chave]);
             } else if($chave == "genero" && !empty($request['genero'])){
                 if(substr($request['genero'], 0, 4) == 'new:'){
                     $tag_criada = Tag::criaTags($request['genero'], 'genero');
@@ -146,9 +176,7 @@ class PessoaFisicaController extends Controller
         foreach($request['enderecos'] as $j => $endereco):
             $endereco_atual = Endereco::find($endereco['id']);
             foreach(json_decode($endereco_atual) as $key => $value):
-                if(!empty($request['enderecos'][$j][$key])) {
-                    $endereco_atual->$key = $request['enderecos'][$j][$key];
-                }
+                $endereco_atual->$key = $request['enderecos'][$j][$key];
             endforeach;
             $endereco_atual->save();
         endforeach;
@@ -157,9 +185,7 @@ class PessoaFisicaController extends Controller
         foreach($request['dados_bancarios'] as $k => $dados_bancarios):
             $dados_atuais = DadoBancario::find($dados_bancarios['id']);
             foreach(json_decode($dados_atuais) as $chave_dados => $valor_dados):
-                if(!empty($request['dados_bancarios'][$k][$chave_dados])) {
-                    $dados_atuais->$chave_dados = $request['dados_bancarios'][$k][$chave_dados];
-                }
+                $dados_atuais->$chave_dados = $request['dados_bancarios'][$k][$chave_dados];
             endforeach;
             $dados_atuais->save();
         endforeach;
@@ -452,7 +478,10 @@ class PessoaFisicaController extends Controller
 
             if(substr($cargo, 0, 4) == 'new:'){
                 $novo_cargo = strtolower(substr($cargo,4));
-                $tagObj = Tag::where('text', $novo_cargo)->first();
+                $tagObj = Tag::where([
+                    ['text', '=', $novo_cargo],
+                    ['tipo', '=', 'cargo']
+                ])->first();
                 if(empty($tagObj)){
                     $novo_cargo = Tag::create(['text' => $novo_cargo, 'tipo' => 'cargo']);
                     $cargo = $novo_cargo->id;

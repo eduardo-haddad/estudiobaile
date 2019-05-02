@@ -6,7 +6,7 @@
             <h3 slot="header">Excluir registro?</h3>
         </modal>
 
-        <editbar save="true" export="false" delete="true"></editbar>
+        <editbar origin="projeto" :edit="mostraPreview" export="false" delete="true"></editbar>
 
         <div class="titulo">
             <div v-if="destaqueAtivo" class="imagem_destaque">
@@ -18,234 +18,387 @@
                 <img :src="imagem_destaque" />
             </div>
             <div class="nome">
-                <span>
-                    <!--<input autocomplete="off" type="text"-->
-                           <!--v-model="projeto.nome"-->
-                           <!--name="nome_adotado" style="border:none" />-->
-                    {{ projeto.nome }}
-                </span>
+                    <span>
+                        <!--<input autocomplete="off" type="text"-->
+                        <!--v-model="projeto.nome"-->
+                        <!--name="nome_adotado" style="border:none" />-->
+                        {{ projeto.nome }}
+                    </span>
             </div>
         </div>
 
         <br>
         <br>
 
-        <div class="valor">
-            <span class="campo">Descrição</span>
-            <textarea v-model="projeto.descricao"
-                      name="projeto-descricao"
-                      rows="2"
-                      placeholder=" ">
-            </textarea>
-        </div>
+        <!-- PREVIEW -->
+        <div v-if="mostraPreview" class="preview">
+            <div class="dados">
+                <span class="titulo_bloco">Dados gerais</span>
 
-        <br>
-        <hr>
+                <div v-if="projeto.nome" class="valor">
+                    <span class="campo">Nome</span>
+                    <span class="texto">{{projeto.nome}}</span>
+                    <br>
+                </div>
+                <!-- -->
+                <div v-if="projeto.descricao" class="valor">
+                    <span class="campo">Descrição</span>
+                    <span class="texto">{{projeto.descricao}}</span>
+                    <br>
+                </div>
+                <!-- -->
+                <div v-if="dt_inicio" class="valor">
+                    <span class="campo">Data de início</span>
+                    <span class="texto">{{dt_inicio}}</span>
+                    <br>
+                </div>
+                <!-- -->
+                <div v-if="dt_fim" class="valor">
+                    <span class="campo">Data de término</span>
+                    <span class="texto">{{dt_fim}}</span>
+                    <br>
+                </div>
+                <!-- -->
+                <div v-if="projeto.website" class="valor">
+                    <span class="campo">Website</span>
+                    <span class="texto"><a :href="projeto.website">{{ projeto.website }}</a></span>
+                </div>
 
-        <!-- Arquivos -->
-        <div class="valor" style="margin-top: 3px;">
-            <span class="titulo_bloco">Arquivos anexos</span>
-            <br>
-            <input type="file" class="inputfile" id="arquivo" ref="arquivo" @change="setArquivoAtual" />
-            <label for="arquivo">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17">
-                    <path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/>
-                </svg>
-                <span v-text="typeof arquivo_atual.name !== 'undefined' ? arquivo_atual.name.trunc(30) : 'Selecione um arquivo'" v-model="arquivo_atual.name"></span>
-            </label>&nbsp;&nbsp;
-            <input type="text" @input="descricao_arquivo = $event.target.value" name="descricao_arquivo" v-model="descricao_arquivo" placeholder="Descrição" autocomplete="off" style="width: 200px; min-width: unset; margin-right: 10px;" />
-            <button @click.prevent="upload">Submit</button>
-            <br><br>
-            <div class="tabela_arquivos">
-                <table>
-                    <tr>
-                        <th class="num_arquivo">#</th>
-                        <th class="nome_arquivo">Nome</th>
-                        <th class="descricao_arquivo">Descrição</th>
-                        <th class="preview_arquivo">Visualizar</th>
-                        <th class="destaque_arquivo">Destaque</th>
-                        <th class="tipo_arquivo">Tipo</th>
-                        <th class="data_arquivo">Data</th>
-                        <th class="remove_arquivo">Remover</th>
-                    </tr>
-                    <tr v-for="(arquivo, index) in arquivos" :key="'arquivo-'+index+arquivo.id">
-                        <td class="num_arquivo">{{ index+1 }}</td>
-                        <td class="nome_arquivo"><a :title="arquivo.nome.substr(15)" :href="`/download/projeto/${projeto.id}/${arquivo.id}`" download>{{ arquivo.nome.substr(15).trunc(30) }}</a></td>
-                        <td class="descricao_arquivo">
-                            <input autocomplete="off" type="text" name="arquivo_descricao" v-model="arquivo.descricao" />
-                        </td>
-                        <td class="preview_arquivo">
-                            <a v-if="arquivo.tipo === 'imagem'"
-                               :href="`/uploads/projetos/${projeto.id}/${arquivo.nome}`"
-                               :data-lightbox="'imagem_preview'+index" :data-title="arquivo.nome.substr(15)">
-                                <img class="btn_preview"
-                                     :src="root + '/img/btn_preview.png'" />
-                            </a>
-                        </td>
-                        <td class="destaque_arquivo">
-                            <a @click.prevent="setImagemDestaque(arquivo.id)">
-                                <img v-if="arquivo.tipo === 'imagem'"
-                                     class="btn_destaque"
-                                     :src="id_destaque === arquivo.id ? root + '/img/btn_destaque_ativo.png' : root + '/img/btn_destaque.png'" />
-                            </a>
-                        </td>
-                        <td class="tipo_arquivo">{{ arquivo.tipo }}</td>
-                        <td class="data_arquivo">{{ arquivo.data }}</td>
-                        <td class="remove_arquivo"><a @click.prevent="removeArquivo(arquivo.id)">X</a></td>
-                    </tr>
-                </table>
-            </div>
-        </div>
+                <br>
+                <br>
 
-        <br><hr>
+                <!-- Pessoas Físicas relacionadas -->
+                <div id="projetos_pf" class="valor" v-if="pessoas_fisicas_chancelas_relacionadas.length !== 0">
+                    <br><br>
+                    <span class="titulo_bloco">Pessoas Físicas relacionadas</span>
+                    <div id="projetos">
+                        <div class="tabela_arquivos">
+                            <table>
+                                <tr>
+                                    <th class="num_arquivo">#</th>
+                                    <th class="nome_arquivo">Nome</th>
+                                    <th class="descricao_arquivo">Chancela</th>
+                                    <th class="destaque_arquivo"></th>
+                                    <th class="tipo_arquivo"></th>
+                                    <th class="data_arquivo"></th>
+                                    <th class="remove_arquivo"></th>
+                                </tr>
+                                <tr v-for="(pessoa, index) in pessoas_fisicas_chancelas_relacionadas" :key="'pf-'+index+pessoa.id">
+                                    <td class="num_arquivo">{{ index+1 }}</td>
+                                    <td class="nome_arquivo"><router-link :id="pessoa.pessoa_id" :to="{ name: 'pf-view',
+                                    params: { id: pessoa.pessoa_id }}">{{ pessoa.nome }}</router-link></td>
+                                    <td class="descricao_arquivo">{{ pessoa.tag }}</td>
+                                    <td class="destaque_arquivo"></td>
+                                    <td class="tipo_arquivo"></td>
+                                    <td class="data_arquivo"></td>
+                                    <td class="remove_arquivo"></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div><br>
 
-        <!--DADOS GERAIS-->
-        <div class="dados">
+                <!-- Pessoa Jurídica / Chancela -->
+                <div class="valor" style="margin-top: 3px;" v-if="pessoas_juridicas_chancelas_relacionadas.length !== 0">
+                    <div v-if="pessoas_fisicas_chancelas_relacionadas.length !== 0"><br><br></div>
+                    <span class="titulo_bloco">Pessoas Jurídicas relacionadas</span>
+                    <div id="projetos_pj">
+                        <div class="tabela_arquivos">
+                            <table>
+                                <tr>
+                                    <th class="num_arquivo">#</th>
+                                    <th class="nome_arquivo">Nome</th>
+                                    <th class="descricao_arquivo">Chancela</th>
+                                    <th class="destaque_arquivo"></th>
+                                    <th class="tipo_arquivo"></th>
+                                    <th class="data_arquivo"></th>
+                                    <th class="remove_arquivo"></th>
+                                </tr>
+                                <tr v-for="(pessoa, index) in pessoas_juridicas_chancelas_relacionadas" :key="'pj-'+index+pessoa.id">
+                                    <td class="num_arquivo">{{ index+1 }}</td>
+                                    <td class="nome_arquivo"><router-link
+                                            :id="pessoa.pessoa_id" :to="{ name: 'pj-view',
+                                            params: { id: pessoa.pessoa_id }}">{{ pessoa.nome }}</router-link></td>
+                                    <td class="descricao_arquivo">{{ pessoa.tag }}</td>
+                                    <td class="destaque_arquivo"></td>
+                                    <td class="tipo_arquivo"></td>
+                                    <td class="data_arquivo"></td>
+                                    <td class="remove_arquivo"></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <br>
+                </div>
 
-            <span class="titulo_bloco">Dados gerais</span>
-
-            <div class="valor">
-                <span class="campo">Nome</span>
-                <input autocomplete="off" type="text"
-                       v-model="projeto.nome"
-                       name="projeto-nome"
-                       class="nome"
-                />
-            </div><br><br>
-            <!-- -->
-            <div class="valor">
-                <span class="campo">Data de início</span>
-                <input autocomplete="off" type="date"
-                       v-model="projeto.dt_inicio"
-                       name="projeto-data-inicio"
-                />
-            </div><br><br>
-            <!-- -->
-            <div class="valor">
-                <span class="campo">Data de término</span>
-                <input autocomplete="off" type="date"
-                       v-model="projeto.dt_fim"
-                       name="projeto-data-fim"
-                />
-            </div><br><br>
-            <!-- -->
-            <div class="valor">
-                <span class="campo">Website</span>
-                <input autocomplete="off" type="text"
-                       v-model="projeto.website"
-                       name="projeto-website"
-                       placeholder=" "
-                />
-            </div>
-
-            <br>
-            <hr>
-
-            <!-- Pessoas Físicas relacionadas -->
-            <span class="titulo_bloco">Pessoas Físicas relacionadas</span>
-
-            <div id="projetos_pf" class="valor">
-                <div id="projetos">
+                <!-- Arquivos -->
+                <div class="valor" style="margin-top: 3px;" v-if="arquivos.length !== 0">
+                    <br><br>
+                    <span class="titulo_bloco">Arquivos anexos</span>
+                    <br>
                     <div class="tabela_arquivos">
                         <table>
                             <tr>
                                 <th class="num_arquivo">#</th>
                                 <th class="nome_arquivo">Nome</th>
-                                <th class="descricao_arquivo">Chancela</th>
-                                <th class="destaque_arquivo"></th>
-                                <th class="tipo_arquivo"></th>
-                                <th class="data_arquivo"></th>
-                                <th class="remove_arquivo">Remover</th>
+                                <th class="descricao_arquivo">Descrição</th>
+                                <th class="preview_arquivo">Visualizar</th>
+                                <th class="destaque_arquivo">Destaque</th>
+                                <th class="tipo_arquivo">Tipo</th>
+                                <th class="data_arquivo">Data</th>
+                                <th class="remove_arquivo"></th>
                             </tr>
-                            <tr v-for="(pessoa, index) in pessoas_fisicas_chancelas_relacionadas" :key="'pf-'+index+pessoa.id">
+                            <tr v-for="(arquivo, index) in arquivos" :key="'arquivo-'+index+arquivo.id">
                                 <td class="num_arquivo">{{ index+1 }}</td>
-                                <td class="nome_arquivo"><router-link :id="pessoa.pessoa_id" :to="{ name: 'pf-view',
-                                params: { id: pessoa.pessoa_id }}">{{ pessoa.nome }}</router-link></td>
-                                <td class="descricao_arquivo">{{ pessoa.tag }}</td>
-                                <td class="destaque_arquivo"></td>
-                                <td class="tipo_arquivo"></td>
-                                <td class="data_arquivo"></td>
-                                <td class="remove_arquivo"><a @click.prevent="removeChancela(pessoa.pessoa_id, pessoa.tag_id, true)">X</a></td>
+                                <td class="nome_arquivo"><a :title="arquivo.nome.substr(15)" :href="`/download/projeto/${projeto.id}/${arquivo.id}`" download>{{ arquivo.nome.substr(15).trunc(30) }}</a></td>
+                                <td class="descricao_arquivo">
+                                    <span>{{ arquivo.descricao }}</span>
+                                </td>
+                                <td class="preview_arquivo">
+                                    <a v-if="arquivo.tipo === 'imagem'"
+                                       :href="`/uploads/projetos/${projeto.id}/${arquivo.nome}`"
+                                       :data-lightbox="'imagem_preview'+index" :data-title="arquivo.nome.substr(15)">
+                                        <img class="btn_preview"
+                                             :src="root + '/img/btn_preview.png'" />
+                                    </a>
+                                </td>
+                                <td class="destaque_arquivo">
+                                    <a @click.prevent="setImagemDestaque(arquivo.id)">
+                                        <img v-if="arquivo.tipo === 'imagem'"
+                                             class="btn_destaque"
+                                             :src="id_destaque === arquivo.id ? root + '/img/btn_destaque_ativo.png' : root + '/img/btn_destaque.png'" />
+                                    </a>
+                                </td>
+                                <td class="tipo_arquivo">{{ arquivo.tipo }}</td>
+                                <td class="data_arquivo">{{ arquivo.data }}</td>
+                                <td class="remove_arquivo"></td>
                             </tr>
                         </table>
                     </div>
                 </div>
-            </div><br>
-
-            <!-- Add novo chancela pessoa física -->
-            <a @click="mostraChancelaBoxMetodo(true)" class="link_abrir_box">[nova chancela pessoa física]</a>
-            <div v-if="mostraChancelaPfBox">
-                <span class="campo">Nome</span>
-                <select @change="" name="pessoas_fisicas" class="pf_lista">
-                    <option value="" disabled selected></option>
-                    <option v-for="pessoa in atributos.pessoas_fisicas" :value="pessoa.id">
-                        {{ pessoa.nome_adotado }}
-                    </option>
-                </select><br>
-                <span class="campo">Chancela</span>
-                <select @change="" name="chancelas" class="chancelas_pf_lista">
-                    <option value="" disabled selected></option>
-                    <option v-for="chancela in atributos.chancelas" :value="chancela.id">{{ chancela.text }}</option>
-                </select>
-                <a @click.prevent="adicionaChancela(true)">[+]</a>
 
             </div>
-
-            <hr>
-
-            <!-- Pessoa Jurídica / Chancela -->
-            <span class="titulo_bloco">Pessoas Jurídicas relacionadas</span>
-
-            <div id="" class="valor" style="margin-top: 3px;">
-                <div id="projetos_pj">
-                    <div class="tabela_arquivos">
-                        <table>
-                            <tr>
-                                <th class="num_arquivo">#</th>
-                                <th class="nome_arquivo">Nome</th>
-                                <th class="descricao_arquivo">Chancela</th>
-                                <th class="destaque_arquivo"></th>
-                                <th class="tipo_arquivo"></th>
-                                <th class="data_arquivo"></th>
-                                <th class="remove_arquivo">Remover</th>
-                            </tr>
-                            <tr v-for="(pessoa, index) in pessoas_juridicas_chancelas_relacionadas" :key="'pj-'+index+pessoa.id">
-                                <td class="num_arquivo">{{ index+1 }}</td>
-                                <td class="nome_arquivo"><router-link
-                                        :id="pessoa.pessoa_id" :to="{ name: 'pj-view',
-                                        params: { id: pessoa.pessoa_id }}">{{ pessoa.nome }}</router-link></td>
-                                <td class="descricao_arquivo">{{ pessoa.tag }}</td>
-                                <td class="destaque_arquivo"></td>
-                                <td class="tipo_arquivo"></td>
-                                <td class="data_arquivo"></td>
-                                <td class="remove_arquivo"><a @click.prevent="removeChancela(pessoa.pessoa_id, pessoa.tag_id, false)">X</a></td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-            </div><br>
-
-            <!-- Add novo chancela pessoa jurídica -->
-            <a @click="mostraChancelaBoxMetodo(false)" class="link_abrir_box">[nova chancela pessoa jurídica]</a>
-            <div v-if="mostraChancelaPjBox">
-                <span class="campo">Nome</span>
-                <select name="pessoas_juridicas" class="pj_lista">
-                    <option value="" disabled selected></option>
-                    <option v-for="pessoa in atributos.pessoas_juridicas" :value="pessoa.id">
-                        {{ pessoa.nome_fantasia }}
-                    </option>
-                </select><br>
-                <span class="campo">Chancela</span>
-                <select name="chancelas" class="chancelas_pj_lista">
-                    <option value="" disabled selected></option>
-                    <option v-for="chancela in atributos.chancelas" :value="chancela.id">{{ chancela.text }}</option>
-                </select>
-                <a @click.prevent="adicionaChancela(false)">[+]</a>
-
-            </div>
-
         </div>
 
+        <!-- EDIÇÃO -->
+        <div v-if="!mostraPreview" class="edicao">
+
+            <div class="valor">
+                <span class="campo">Descrição</span>
+                <textarea v-model="projeto.descricao"
+                          name="projeto-descricao"
+                          rows="2"
+                          placeholder=" ">
+                </textarea>
+            </div>
+
+            <br>
+            <hr>
+
+            <!-- Arquivos -->
+            <div class="valor" style="margin-top: 3px;">
+                <span class="titulo_bloco">Arquivos anexos</span>
+                <br>
+                <input type="file" class="inputfile" id="arquivo" ref="arquivo" @change="setArquivoAtual" />
+                <label for="arquivo">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17">
+                        <path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/>
+                    </svg>
+                    <span v-text="typeof arquivo_atual.name !== 'undefined' ? arquivo_atual.name.trunc(30) : 'Selecione um arquivo'" v-model="arquivo_atual.name"></span>
+                </label>&nbsp;&nbsp;
+                <input type="text" @input="descricao_arquivo = $event.target.value" name="descricao_arquivo" v-model="descricao_arquivo" placeholder="Descrição" autocomplete="off" style="width: 200px; min-width: unset; margin-right: 10px;" />
+                <button @click.prevent="upload">Submit</button>
+                <br><br>
+                <div class="tabela_arquivos">
+                    <table>
+                        <tr>
+                            <th class="num_arquivo">#</th>
+                            <th class="nome_arquivo">Nome</th>
+                            <th class="descricao_arquivo">Descrição</th>
+                            <th class="preview_arquivo">Visualizar</th>
+                            <th class="destaque_arquivo">Destaque</th>
+                            <th class="tipo_arquivo">Tipo</th>
+                            <th class="data_arquivo">Data</th>
+                            <th class="remove_arquivo">Remover</th>
+                        </tr>
+                        <tr v-for="(arquivo, index) in arquivos" :key="'arquivo-'+index+arquivo.id">
+                            <td class="num_arquivo">{{ index+1 }}</td>
+                            <td class="nome_arquivo"><a :title="arquivo.nome.substr(15)" :href="`/download/projeto/${projeto.id}/${arquivo.id}`" download>{{ arquivo.nome.substr(15).trunc(30) }}</a></td>
+                            <td class="descricao_arquivo">
+                                <input autocomplete="off" type="text" name="arquivo_descricao" v-model="arquivo.descricao" />
+                            </td>
+                            <td class="preview_arquivo">
+                                <a v-if="arquivo.tipo === 'imagem'"
+                                   :href="`/uploads/projetos/${projeto.id}/${arquivo.nome}`"
+                                   :data-lightbox="'imagem_preview'+index" :data-title="arquivo.nome.substr(15)">
+                                    <img class="btn_preview"
+                                         :src="root + '/img/btn_preview.png'" />
+                                </a>
+                            </td>
+                            <td class="destaque_arquivo">
+                                <a @click.prevent="setImagemDestaque(arquivo.id)">
+                                    <img v-if="arquivo.tipo === 'imagem'"
+                                         class="btn_destaque"
+                                         :src="id_destaque === arquivo.id ? root + '/img/btn_destaque_ativo.png' : root + '/img/btn_destaque.png'" />
+                                </a>
+                            </td>
+                            <td class="tipo_arquivo">{{ arquivo.tipo }}</td>
+                            <td class="data_arquivo">{{ arquivo.data }}</td>
+                            <td class="remove_arquivo"><a @click.prevent="removeArquivo(arquivo.id)">X</a></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <br><hr>
+
+            <!--DADOS GERAIS-->
+            <div class="dados">
+
+                <span class="titulo_bloco">Dados gerais</span>
+
+                <div class="valor">
+                    <span class="campo">Nome</span>
+                    <input autocomplete="off" type="text"
+                           v-model="projeto.nome"
+                           name="projeto-nome"
+                           class="nome"
+                    />
+                </div><br><br>
+                <!-- -->
+                <div class="valor">
+                    <span class="campo">Data de início</span>
+                    <input autocomplete="off" type="date"
+                           v-model="projeto.dt_inicio"
+                           name="projeto-data-inicio"
+                    />
+                </div><br><br>
+                <!-- -->
+                <div class="valor">
+                    <span class="campo">Data de término</span>
+                    <input autocomplete="off" type="date"
+                           v-model="projeto.dt_fim"
+                           name="projeto-data-fim"
+                    />
+                </div><br><br>
+                <!-- -->
+                <div class="valor">
+                    <span class="campo">Website</span>
+                    <input autocomplete="off" type="text"
+                           v-model="projeto.website"
+                           name="projeto-website"
+                           placeholder=" "
+                    />
+                </div>
+
+                <br>
+                <hr>
+
+                <!-- Pessoas Físicas relacionadas -->
+                <span class="titulo_bloco">Pessoas Físicas relacionadas</span>
+
+                <div id="projetos_pf" class="valor">
+                    <div id="projetos">
+                        <div class="tabela_arquivos">
+                            <table>
+                                <tr>
+                                    <th class="num_arquivo">#</th>
+                                    <th class="nome_arquivo">Nome</th>
+                                    <th class="descricao_arquivo">Chancela</th>
+                                    <th class="destaque_arquivo"></th>
+                                    <th class="tipo_arquivo"></th>
+                                    <th class="data_arquivo"></th>
+                                    <th class="remove_arquivo">Remover</th>
+                                </tr>
+                                <tr v-for="(pessoa, index) in pessoas_fisicas_chancelas_relacionadas" :key="'pf-'+index+pessoa.id">
+                                    <td class="num_arquivo">{{ index+1 }}</td>
+                                    <td class="nome_arquivo"><router-link :id="pessoa.pessoa_id" :to="{ name: 'pf-view',
+                                    params: { id: pessoa.pessoa_id }}">{{ pessoa.nome }}</router-link></td>
+                                    <td class="descricao_arquivo">{{ pessoa.tag }}</td>
+                                    <td class="destaque_arquivo"></td>
+                                    <td class="tipo_arquivo"></td>
+                                    <td class="data_arquivo"></td>
+                                    <td class="remove_arquivo"><a @click.prevent="removeChancela(pessoa.pessoa_id, pessoa.tag_id, true)">X</a></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div><br>
+
+                <!-- Add novo chancela pessoa física -->
+                <a @click="mostraChancelaBoxMetodo(true)" class="link_abrir_box">[nova chancela pessoa física]</a>
+                <div v-if="mostraChancelaPfBox">
+                    <span class="campo">Nome</span>
+                    <select @change="" name="pessoas_fisicas" class="pf_lista">
+                        <option value="" disabled selected></option>
+                        <option v-for="pessoa in atributos.pessoas_fisicas" :value="pessoa.id">
+                            {{ pessoa.nome_adotado }}
+                        </option>
+                    </select><br>
+                    <span class="campo">Chancela</span>
+                    <select @change="" name="chancelas" class="chancelas_pf_lista">
+                        <option value="" disabled selected></option>
+                        <option v-for="chancela in atributos.chancelas" :value="chancela.id">{{ chancela.text }}</option>
+                    </select>
+                    <a @click.prevent="adicionaChancela(true)">[+]</a>
+
+                </div>
+
+                <hr>
+
+                <!-- Pessoa Jurídica / Chancela -->
+                <span class="titulo_bloco">Pessoas Jurídicas relacionadas</span>
+
+                <div id="" class="valor" style="margin-top: 3px;">
+                    <div id="projetos_pj">
+                        <div class="tabela_arquivos">
+                            <table>
+                                <tr>
+                                    <th class="num_arquivo">#</th>
+                                    <th class="nome_arquivo">Nome</th>
+                                    <th class="descricao_arquivo">Chancela</th>
+                                    <th class="destaque_arquivo"></th>
+                                    <th class="tipo_arquivo"></th>
+                                    <th class="data_arquivo"></th>
+                                    <th class="remove_arquivo">Remover</th>
+                                </tr>
+                                <tr v-for="(pessoa, index) in pessoas_juridicas_chancelas_relacionadas" :key="'pj-'+index+pessoa.id">
+                                    <td class="num_arquivo">{{ index+1 }}</td>
+                                    <td class="nome_arquivo"><router-link
+                                            :id="pessoa.pessoa_id" :to="{ name: 'pj-view',
+                                            params: { id: pessoa.pessoa_id }}">{{ pessoa.nome }}</router-link></td>
+                                    <td class="descricao_arquivo">{{ pessoa.tag }}</td>
+                                    <td class="destaque_arquivo"></td>
+                                    <td class="tipo_arquivo"></td>
+                                    <td class="data_arquivo"></td>
+                                    <td class="remove_arquivo"><a @click.prevent="removeChancela(pessoa.pessoa_id, pessoa.tag_id, false)">X</a></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div><br>
+
+                <!-- Add novo chancela pessoa jurídica -->
+                <a @click="mostraChancelaBoxMetodo(false)" class="link_abrir_box">[nova chancela pessoa jurídica]</a>
+                <div v-if="mostraChancelaPjBox">
+                    <span class="campo">Nome</span>
+                    <select name="pessoas_juridicas" class="pj_lista">
+                        <option value="" disabled selected></option>
+                        <option v-for="pessoa in atributos.pessoas_juridicas" :value="pessoa.id">
+                            {{ pessoa.nome_fantasia }}
+                        </option>
+                    </select><br>
+                    <span class="campo">Chancela</span>
+                    <select name="chancelas" class="chancelas_pj_lista">
+                        <option value="" disabled selected></option>
+                        <option v-for="chancela in atributos.chancelas" :value="chancela.id">{{ chancela.text }}</option>
+                    </select>
+                    <a @click.prevent="adicionaChancela(false)">[+]</a>
+
+                </div>
+
+            </div>
+        </div>
     </div>
 
 </template>
@@ -263,7 +416,6 @@
         },
         created() {
             this.getProjeto(this.$route.params.id);
-            this.jQuery();
             //reticências em strings maiores que "n"
             String.prototype.trunc = function(n){
                 return this.substr(0, n-1) + (this.length > n ? '...' : '');
@@ -276,12 +428,16 @@
             });
         },
         mounted() {
+            //evento - editar formulário
+            eventBus.$on('editbar-editar-projeto', () => {
+                this.editaForm();
+            });
             //evento - salvar formulário
-            eventBus.$on('editbar-salvar', () => {
+            eventBus.$on('editbar-salvar-projeto', () => {
                 this.salvaForm();
             });
             //evento - mostrar modal de exclusão
-            eventBus.$on('editbar-excluir', () => {
+            eventBus.$on('editbar-excluir-projeto', () => {
                 this.modalDelete = true;
             });
             //evento - excluir registro
@@ -289,7 +445,7 @@
                 this.deleteProjeto();
             });
             //evento - exportar
-            eventBus.$on('editbar-exportar', () => {
+            eventBus.$on('editbar-exportar-projeto', () => {
                 //
             });
         },
@@ -298,6 +454,8 @@
                 //Models
                 projeto: {},
                 descricao: '',
+                dt_inicio: '',
+                dt_fim: '',
                 atributos: [],
                 pessoas_fisicas_chancelas_relacionadas: [],
                 pessoas_juridicas_chancelas_relacionadas: [],
@@ -318,6 +476,7 @@
                 imagem_destaque: '',
                 imagem_destaque_original: '',
                 //Condicionais
+                mostraPreview: true,
                 mostraChancelaPfBox: false,
                 mostraChancelaPjBox: false,
                 destaqueAtivo: false,
@@ -327,6 +486,7 @@
         },
         watch: {
             '$route' (destino) {
+                this.mostraPreview = true;
                 this.getProjeto(destino.params.id);
                 eventBus.$emit('changeProjeto');
                 this.jQuery();
@@ -342,6 +502,8 @@
                         eventBus.$emit('getProjeto', this.$route.params.id);
                         let dados = res.data;
                         this.projeto = dados.projeto;
+                        this.dt_inicio = dados.dt_inicio;
+                        this.dt_fim = dados.dt_fim;
                         this.arquivos = dados.arquivos;
                         this.pessoas_fisicas_chancelas_relacionadas = dados.pessoas_fisicas_chancelas_relacionadas;
                         this.pessoas_juridicas_chancelas_relacionadas = dados.pessoas_juridicas_chancelas_relacionadas;
@@ -350,7 +512,13 @@
                         //imagem de destaque
                         this.getImagemDestaque();
                     })
+                    .then(() => this.jQuery())
                     .then(() => this.item_carregado = true);
+            },
+            editaForm: function(){
+                this.mostraPreview = false;
+                this.getProjeto(this.$route.params.id);
+
             },
             salvaForm: function(){
                 this.item_carregado = false;
@@ -364,7 +532,8 @@
                     this.projeto = res.data;
                     eventBus.$emit('foiSalvoProjeto', this.projeto);
                 })
-                .then(() => this.item_carregado = true);
+                .then(() => this.mostraPreview = true)
+                .then(() => this.getProjeto(this.$route.params.id));
             },
             deleteProjeto: function(){
                 axios.post('/ajax/projetos/delete', {

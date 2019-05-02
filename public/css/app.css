@@ -2204,6 +2204,11 @@ hr {
   height: 12px;
 }
 
+#app #principal #conteudo_geral #container_conteudo .preview .texto {
+  position: relative;
+  top: 5px;
+}
+
 #app #principal #conteudo_geral #container_conteudo .titulo {
   color: #58595b;
   font-size: 2.5em;
@@ -2251,7 +2256,7 @@ hr {
   text-align: right;
   position: relative;
   top: 5px;
-  width: 100px;
+  width: 106px;
 }
 
 #app #principal #conteudo_geral #container_conteudo .dados select,
@@ -2281,6 +2286,18 @@ hr {
 
 #app #principal #conteudo_geral #container_conteudo .dados input[type=text].nome {
   width: 650px;
+}
+
+#app #principal #conteudo_geral #container_conteudo .dados .preview.dados {
+  margin: 0 0 12px 0;
+}
+
+#app #principal #conteudo_geral #container_conteudo .dados .preview.dados div {
+  margin-bottom: 5px;
+}
+
+#app #principal #conteudo_geral #container_conteudo .dados .form_endereco .valor {
+  margin-bottom: 5px;
 }
 
 #app #principal #conteudo_geral #container_conteudo .titulo_bloco {

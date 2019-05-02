@@ -1,4 +1,5 @@
 <?php
+header('Content-Type: text/html; charset=utf-8');
 
 /**
  * Laravel - A PHP Framework For Web Artisans

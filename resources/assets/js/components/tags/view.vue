@@ -6,7 +6,7 @@
             <h3 slot="header">Excluir registro?</h3>
         </modal>
 
-        <editbar save="true" export="false" delete="true"></editbar>
+        <editbar origin="tag" save="true" export="false" delete="true"></editbar>
 
         <div class="titulo">
             <div class="nome" style="padding-left: 0;">
@@ -210,11 +210,11 @@
         },
         mounted(){
             //evento - salvar formulário
-            eventBus.$on('editbar-salvar', () => {
+            eventBus.$on('editbar-salvar-tag', () => {
                 this.salvaForm();
             });
             //evento - mostrar modal de exclusão
-            eventBus.$on('editbar-excluir', () => {
+            eventBus.$on('editbar-excluir-tag', () => {
                 this.modalDelete = true;
             });
             //evento - excluir registro

@@ -9,6 +9,7 @@ use App\Projeto;
 use App\Chancela;
 use App\Tag;
 use App\Arquivo;
+use App\Helpers\AppHelper;
 
 class ProjetoController extends Controller
 {
@@ -39,23 +40,27 @@ class ProjetoController extends Controller
     public function ajaxView($id)
     {
         $projeto = Projeto::find($id);
-        $pessoas_fisicas = PessoaFisica::select('id', 'nome_adotado')->orderBy('nome_adotado')->get();
-        $pessoas_juridicas = PessoaJuridica::select('id', 'nome_fantasia')->orderBy('nome_fantasia')->get();
-        $chancelas = Tag::select('id', 'text')->where('tipo', 'chancela')->orderBy('text')->get();
-        $pessoas_fisicas_chancelas_relacionadas = Projeto::getPessoasDeProjetos($id, true);
-        $pessoas_juridicas_chancelas_relacionadas = Projeto::getPessoasDeProjetos($id, null, true);
-        $arquivos = $projeto->arquivos()->get();
+        $dt_inicio['dia'] = date("d", strtotime($projeto->dt_inicio));
+        $dt_inicio['mes'] = AppHelper::mesPort(date("M", strtotime($projeto->dt_inicio)));
+        $dt_inicio['ano'] = date("Y", strtotime($projeto->dt_inicio));
+        $dt_fim['dia'] = date("d", strtotime($projeto->dt_fim));
+        $dt_fim['mes'] = AppHelper::mesPort(date("M", strtotime($projeto->dt_fim)));
+        $dt_fim['ano'] = date("Y", strtotime($projeto->dt_fim));
 
+        $dt_inicio = strtolower(AppHelper::formataDataCurta($dt_inicio));
+        $dt_fim = strtolower(AppHelper::formataDataCurta($dt_fim));
 
         return [
             'projeto' => $projeto,
-            'pessoas_fisicas_chancelas_relacionadas' => $pessoas_fisicas_chancelas_relacionadas,
-            'pessoas_juridicas_chancelas_relacionadas' => $pessoas_juridicas_chancelas_relacionadas,
-            'arquivos' => $arquivos,
+            'dt_inicio' => $dt_inicio,
+            'dt_fim' => $dt_fim,
+            'pessoas_fisicas_chancelas_relacionadas' => Projeto::getPessoasDeProjetos($id, true),
+            'pessoas_juridicas_chancelas_relacionadas' => Projeto::getPessoasDeProjetos($id, null, true),
+            'arquivos' => Projeto::find($id)->arquivos()->get(),
             'atributos' => [
-                'pessoas_fisicas' => $pessoas_fisicas,
-                'pessoas_juridicas' => $pessoas_juridicas,
-                'chancelas' => $chancelas,
+                'pessoas_fisicas' => PessoaFisica::select('id', 'nome_adotado')->orderBy('nome_adotado')->get(),
+                'pessoas_juridicas' => PessoaJuridica::select('id', 'nome_fantasia')->orderBy('nome_fantasia')->get(),
+                'chancelas' => Tag::select('id', 'text')->where('tipo', 'chancela')->orderBy('text')->get(),
             ]
         ];
     }
@@ -74,11 +79,11 @@ class ProjetoController extends Controller
         foreach(json_decode($projeto) as $chave => $valor):
             if($chave == "modificado_por") {
                 $projeto->$chave = $r->user()->name;
+            } else if($chave == "website" && !empty($request['projeto'][$chave])) {
+                $projeto->$chave = AppHelper::addHttp($request['projeto'][$chave]);
             }
             else {
-                if(!empty($request['projeto'][$chave])) {
-                    $projeto->$chave = $request['projeto'][$chave];
-                }
+                $projeto->$chave = $request['projeto'][$chave];
             }
         endforeach;
 
@@ -220,7 +225,10 @@ class ProjetoController extends Controller
 
             if(substr($chancela['chancela'], 0, 4) == 'new:'){
                 $nova_chancela = strtolower(substr($chancela['chancela'],4));
-                $chancelaObj = Tag::where('text', $nova_chancela)->first();
+                $chancelaObj = Tag::where([
+                    ['text', '=', $nova_chancela],
+                    ['tipo', '=', 'chancela']
+                ])->first();
                 if(empty($chancelaObj)){
                     $nova_chancela = Tag::create(['text' => $nova_chancela, 'tipo' => 'chancela']);
                     $chancela['chancela'] = $nova_chancela->id;

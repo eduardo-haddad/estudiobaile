@@ -6,7 +6,7 @@
             <h3 slot="header">Excluir registro?</h3>
         </modal>
 
-        <editbar save="true" export="false" delete="true"></editbar>
+        <editbar origin="pj" :edit="mostraPreview" export="false" delete="true" link="/export"></editbar>
 
         <div class="titulo">
             <div v-if="destaqueAtivo" class="imagem_destaque">
@@ -26,148 +26,144 @@
                 </span>
             </div>
         </div>
-
         <br>
         <br>
-        <br>
 
-        <!-- Tags -->
-        <span class="campo">Tags</span>
-        <select @change="tags_atuais = $event.target.value" name="tags" id="tags_list" class="js-example-basic-single">
-            <option v-for="tag in tags" :value="tag.id" v-model="tag.id">{{ tag.text }}</option>
-        </select>
+        <!-- PREVIEW -->
+        <div v-if="mostraPreview" class="preview">
+            <!--TAGS-->
+            <div class="dados" v-if="tags_nomes">
+                <span class="titulo_bloco" v-if="tags_nomes">Tags</span>
 
-        <hr>
-
-        <!-- Arquivos -->
-        <div class="valor">
-            <span class="titulo_bloco">Arquivos anexos</span>
-            <br>
-            <input type="file" class="inputfile" id="arquivo" ref="arquivo" @change="setArquivoAtual" />
-            <label for="arquivo">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17">
-                    <path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/>
-                </svg>
-                <span v-text="typeof arquivo_atual.name !== 'undefined' ? arquivo_atual.name.trunc(30) : 'Selecione um arquivo'" v-model="arquivo_atual.name"></span>
-            </label>&nbsp;&nbsp;
-            <input type="text" @input="descricao_arquivo = $event.target.value" name="descricao_arquivo" v-model="descricao_arquivo" placeholder="Descrição" autocomplete="off" style="width: 200px; min-width: unset; margin-right: 10px;" />
-            <button @click.prevent="upload">Submit</button>
-            <br><br>
-            <div class="tabela_arquivos">
-                <table>
-                    <tr>
-                        <th class="num_arquivo">#</th>
-                        <th class="nome_arquivo">Nome</th>
-                        <th class="descricao_arquivo">Descrição</th>
-                        <th class="preview_arquivo">Visualizar</th>
-                        <th class="destaque_arquivo">Destaque</th>
-                        <th class="tipo_arquivo">Tipo</th>
-                        <th class="data_arquivo">Data</th>
-                        <th class="remove_arquivo">Remover</th>
-                    </tr>
-                    <tr v-for="(arquivo, index) in arquivos" :key="'arquivo-'+index+arquivo.id">
-                        <td class="num_arquivo">{{ index+1 }}</td>
-                        <td class="nome_arquivo"><a :title="arquivo.nome.substr(15)" :href="`/download/pj/${pessoa.id}/${arquivo.id}`" download>{{ arquivo.nome.substr(15).trunc(30) }}</a></td>
-                        <td class="descricao_arquivo">
-                            <input autocomplete="off" type="text" placeholder=" " name="arquivo_descricao" v-model="arquivo.descricao" />
-                        </td>
-                        <td class="preview_arquivo">
-                            <a v-if="arquivo.tipo === 'imagem'"
-                               :href="`/uploads/pessoas_juridicas/${pessoa.id}/${arquivo.nome}`"
-                               :data-lightbox="'imagem_preview'+index" :data-title="arquivo.nome.substr(15)">
-                                <img class="btn_preview"
-                                     :src="root + '/img/btn_preview.png'" />
-                            </a>
-                        </td>
-                        <td class="destaque_arquivo">
-                            <a @click.prevent="setImagemDestaque(arquivo.id)">
-                                <img v-if="arquivo.tipo === 'imagem'"
-                                     class="btn_destaque"
-                                     :src="id_destaque === arquivo.id ? root + '/img/btn_destaque_ativo.png' : root + '/img/btn_destaque.png'" />
-                            </a>
-                        </td>
-                        <td class="tipo_arquivo">{{ arquivo.tipo }}</td>
-                        <td class="data_arquivo">{{ arquivo.data }}</td>
-                        <td class="remove_arquivo"><a @click.prevent="removeArquivo(arquivo.id)"><btn_delete></btn_delete></a></td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-
-        <br><hr>
-
-        <!--DADOS GERAIS-->
-
-        <div class="dados">
-
-            <span class="titulo_bloco">Dados gerais</span>
-
-            <div class="valor">
-                <span class="campo">Razão social</span>
-                <input autocomplete="off" type="text"
-                       v-model="pessoa.razao_social"
-                       name="nome"
-                       placeholder=" "
-                />
-            </div><br>
-
-            <div class="valor">
-                <span class="campo">Nome fantasia</span>
-                <input autocomplete="off" type="text"
-                       v-model="pessoa.nome_fantasia"
-                       name="nome"
-                       placeholder=" "
-                />
-            </div><br>
-
-            <div class="valor">
-                <span class="campo">CNPJ</span>
-                <the-mask
-                        :mask="['##.###.###/####-##']"
-                        class="mask-input cnpj"
-                        v-model="pessoa.cnpj"
-                        type="text"
-                        autocomplete="off"
-                        name="cnpj"
-                        placeholder=" " />
-            </div><br>
-
-            <div class="valor">
-                <span class="campo">IE</span>
-                <input autocomplete="off" type="text"
-                       v-model="pessoa.inscricao_estadual"
-                       name="nome"
-                       placeholder=" "
-                />
-            </div><br>
-
-            <div class="valor">
-                <span class="campo">IM</span>
-                <input autocomplete="off" type="text"
-                       v-model="pessoa.inscricao_municipal"
-                       name="nome"
-                       placeholder=" "
-                />
+                <div class="valor">
+                    <span class="campo">Tags</span>
+                    <span class="texto">{{ tags_nomes }}</span>
+                    <br>
+                </div>
+                <br><br>
             </div>
 
-            <div class="valor">
-                <span class="campo">Website</span>
-                <input v-model="pessoa.website"
-                       type="text"
-                       autocomplete="off"
-                       name="pessoa.website"
-                       placeholder=" " />
+            <!--DADOS GERAIS-->
+            <div class="dados">
+                <br>
+                <span class="titulo_bloco">Dados gerais</span>
+
+                <div class="valor" v-if="pessoa.razao_social">
+                    <span class="campo">Razão social</span>
+                    <span class="texto">{{ pessoa.razao_social }}</span>
+                    <br>
+                </div>
+
+                <div class="valor" v-if="pessoa.nome_fantasia">
+                    <span class="campo">Nome fantasia</span>
+                    <span class="texto">{{ pessoa.nome_fantasia }}</span>
+                    <br>
+                </div>
+
+                <div class="valor genero" v-if="pessoa.cnpj">
+                    <span class="campo">CNPJ</span>
+                    <span class="texto">{{ pessoa.cnpj }}</span>
+                    <br>
+                </div>
+
+                <div class="valor" v-if="pessoa.inscricao_estadual">
+                    <span class="campo">IE</span>
+                    <span class="texto">{{ pessoa.inscricao_estadual }}</span>
+                    <br>
+                </div>
+
+                <div class="valor" v-if="pessoa.inscricao_municipal">
+                    <span class="campo">IM</span>
+                    <span class="texto">{{ pessoa.inscricao_municipal }}</span>
+                    <br>
+                </div>
+
+                <div class="valor" v-if="pessoa.website">
+                    <span class="campo">Website</span>
+                    <span class="texto"><a :href="pessoa.website">{{ pessoa.website }}</a></span>
+                    <br>
+                </div>
             </div>
 
+            <!-- CONTATOS -->
+            <div v-if="emails.length !== 0 || telefones.length !== 0" class="dados">
+                <br><br><br>
+                <span class="titulo_bloco">Contatos</span>
 
+                <div class="valor" v-if="emails.length !== 0" v-for="email in emails">
+                    <span class="campo">E-mail</span>
+                    <span class="texto">{{ email.valor }}</span><br>
+                </div><br>
+                <div class="valor" v-if="telefones.length !== 0" v-for="telefone in telefones">
+                    <span class="campo">Telefone</span>
+                    <span class="texto">{{ telefone.valor }}</span><br>
+                </div>
 
-            <br>
-            <hr>
+            </div>
+
+            <!--ENDERECOS-->
+            <div class="dados" v-if="enderecos.length !== 0">
+                <br><br><br>
+                <span class="titulo_bloco">Endereços</span>
+
+                <div v-for="(endereco, index) in enderecos" :key="'endereco-'+index + endereco.id" class="valor">
+                    <div class="preview endereco">
+                        <div v-if="endereco.rua">
+                            <span class="campo">Endereço</span>
+                            <span class="texto">{{ endereco.rua }}</span><span class="texto" v-if="endereco.numero">, {{ endereco.numero }}</span><span class="texto" v-if="endereco.complemento">, {{ endereco.complemento }}</span>
+                        </div>
+                        <div v-if="endereco.bairro">
+                            <span class="campo">&nbsp;</span>
+                            <span class="texto">{{ endereco.bairro }}</span>
+                        </div>
+                        <div v-if="endereco.cidade">
+                            <span class="campo">&nbsp;</span>
+                            <span class="texto">{{ endereco.cidade }}</span><span class="texto" v-if="endereco.estado">, {{ endereco.estado }}</span>
+                        </div>
+                        <div v-if="endereco.cep">
+                            <span class="campo">&nbsp;</span>
+                            <span class="texto">{{ endereco.cep }}</span>
+                        </div>
+                        <div v-if="endereco.pais">
+                            <span class="campo">&nbsp;</span>
+                            <span class="texto">{{ endereco.pais }}</span>
+                        </div>
+                    </div><br>
+                </div>
+            </div>
+
+            <!-- DADOS BANCÁRIOS -->
+            <div class="dados" v-if="dados_bancarios.length !== 0">
+                <br><br><br>
+                <span class="titulo_bloco">Dados bancários</span>
+
+                <div v-for="(dado_bancario, index) in dados_bancarios" :key="'dado_bancario-preview-'+index + dado_bancario.id" class="valor">
+                    <div class="preview dados">
+                        <div v-if="dado_bancario.nome_banco">
+                            <span class="campo">Banco</span>
+                            <span class="texto">{{ dado_bancario.nome_banco }}</span>
+                        </div>
+                        <div v-if="dado_bancario.agencia">
+                            <span class="campo">Agência</span>
+                            <span class="texto">{{ dado_bancario.agencia }}</span>
+                        </div>
+                        <div v-if="dado_bancario.conta">
+                            <span class="campo">Conta</span>
+                            <span class="texto">{{ dado_bancario.conta }}</span>
+                        </div>
+                        <div v-if="dado_bancario.tipo_conta">
+                            <span class="campo">Tipo</span>
+                            <span class="texto">{{ dado_bancario.tipo_conta }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <!-- Pessoas Físicas Relacionadas -->
-            <span class="titulo_bloco">Pessoas Físicas Relacionadas</span>
+            <div id="projetos_pf" class="valor" style="margin-top: 3px;" v-if="pessoas_fisicas_cargos_relacionados.length !== 0">
+                <br><br><br>
+                <span class="titulo_bloco">Pessoas Físicas Relacionadas</span>
 
-            <div id="projetos_pf" class="valor" style="margin-top: 3px;">
                 <div>
                     <div class="tabela_arquivos">
                         <table>
@@ -178,316 +174,671 @@
                                 <th class="destaque_arquivo"></th>
                                 <th class="tipo_arquivo"></th>
                                 <th class="data_arquivo"></th>
-                                <th class="remove_arquivo">Remover</th>
+                                <th class="remove_arquivo"></th>
                             </tr>
-                            <tr v-for="(pessoa, index) in pessoas_fisicas_cargos_relacionados" :key="'pf-'+index+pessoa.id">
+                            <tr v-for="(pessoa, index) in pessoas_fisicas_cargos_relacionados"
+                                :key="'pf-'+index+pessoa.id">
                                 <td class="num_arquivo">{{ index+1 }}</td>
-                                <td class="nome_arquivo"><router-link :id="pessoa.pessoa_fisica_id" :to="{ name: 'pf-view',
-                                params: { id: pessoa.pessoa_fisica_id }}">{{ pessoa.pessoa_fisica_nome_adotado }}</router-link></td>
+                                <td class="nome_arquivo">
+                                    <router-link :id="pessoa.pessoa_fisica_id" :to="{ name: 'pf-view',
+                                params: { id: pessoa.pessoa_fisica_id }}">{{ pessoa.pessoa_fisica_nome_adotado }}
+                                    </router-link>
+                                </td>
                                 <td class="descricao_arquivo">{{ pessoa.tag }}</td>
                                 <td class="destaque_arquivo"></td>
                                 <td class="tipo_arquivo"></td>
                                 <td class="data_arquivo"></td>
-                                <td class="remove_arquivo"><a @click.prevent="removeCargoPf(pessoa.pessoa_fisica_id, pessoa.cargo_id)"><btn_delete></btn_delete></a></td>
+                                <td class="remove_arquivo"></td>
                             </tr>
                         </table>
                     </div>
                 </div>
             </div><br>
 
-            <!-- Add novo chancela pessoa física -->
-            <a @click.prevent="mostraCargoPfBoxMetodo" class="link_abrir_box">[adicionar pessoa física]</a>
-            <div v-if="mostraCargoPfBox">
-                <!--pessoa_fisica_id-->
-                <!--novo_cargo-->
-                <span class="campo">Nome</span>
-                <select @change="" name="pessoas_fisicas" class="pf_lista">
-                    <option disabled selected value> -- Selecione um nome -- </option>
-                    <option v-for="pessoa in atributos.pessoas_fisicas" :value="pessoa.id">
-                        {{ pessoa.nome_adotado }}
-                    </option>
-                </select><br>
-                <span class="campo">Chancela</span>
-                <select @change="" name="chancelas" class="cargos_pf_lista">
-                    <option disabled selected value> -- Selecione uma chancela -- </option>
-                    <option v-for="cargo in atributos.cargos_pf" :value="cargo.id">{{ cargo.text }}</option>
-                </select>
-                <a @click.prevent="adicionaCargoPf"> <btn_add inline="true"></btn_add></a>
-
-            </div>
-
-            <hr>
-
-            <!-- Emails -->
-            <span class="titulo_bloco">E-mails</span>
-            <div class="tabela_arquivos">
-                <table>
-                    <tr>
-                        <th class="num_arquivo">#</th>
-                        <th class="nome_arquivo">Nome</th>
-                        <th class="descricao_arquivo">Mailing</th>
-                        <th class="destaque_arquivo"></th>
-                        <th class="tipo_arquivo"></th>
-                        <th class="data_arquivo"></th>
-                        <th class="remove_arquivo">Remover</th>
-                    </tr>
-                    <tr v-for="(email, index) in emails" :key="'email-'+index + email.id">
-                        <td class="num_arquivo">{{ index+1 }}</td>
-                        <td class="nome_arquivo">
-                            <input autocomplete="off" type="text" placeholder=" " name="nome" v-model="email.valor" />
-                        </td>
-                        <td class="descricao_arquivo">
-                            <input type="checkbox" v-model="email.mailing" :id="'mailing-'+email.id" name="mailing" />
-                        </td>
-                        <td class="destaque_arquivo"></td>
-                        <td class="tipo_arquivo"></td>
-                        <td class="data_arquivo"></td>
-                        <td class="remove_arquivo"><a @click.prevent="removeContato(email.id)"><btn_delete></btn_delete></a></td>
-                    </tr>
-                </table>
-            </div>
-
-            <div>
-                <a @click.prevent="adicionaEmail = !adicionaEmail" class="link_abrir_box">[adicionar email]</a>
-                <div v-if="adicionaEmail" class="adiciona_contato">
-                    <input @input="novo_email = $event.target.value" type="email" autocomplete="off" class="adiciona_contato" v-model="novo_email" name="novo_email" placeholder="adicionar email" />
-                    <a @click.prevent="adicionaContato()"><btn_add inline="true"></btn_add></a>
-                </div>
-            </div>
-
-            <hr>
-
-            <!-- Telefones -->
-            <div>
-                <span class="titulo_bloco">Telefones</span>
-                <br>
-                <div v-for="(telefone, index) in telefones" class="valor" :key="'telefone-'+index+telefone.id">
-                    <span class="campo">Telefone {{ index+1 }}</span>
-                    <input type="text" placeholder=" " :id="telefone.id" v-model="telefone.valor" name="telefone" />
-                    <a @click.prevent="removeContato(telefone.id)"><btn_delete></btn_delete></a>
-                </div>
-                <br>
-                <a @click.prevent="adicionaTel = !adicionaTel" class="link_abrir_box">[adicionar telefone]</a>
-                <div v-if="adicionaTel" class="adiciona_contato">
-                    <input @input="novo_telefone = $event.target.value" type="text" class="adiciona_contato" v-model="novo_telefone" name="novo_telefone" placeholder="adicionar telefone" />
-                    <a @click.prevent="adicionaContato()"><btn_add inline="true"></btn_add></a>
-                </div>
-
-            </div>
-
-            <hr>
-
             <!-- Participação no(s) projeto(s) Estúdio Baile -->
-            <span class="titulo_bloco">Participação no(s) projeto(s) Estúdio Baile</span>
+            <div id="projetos" v-if="projetos.length !== 0">
+                <br><br><br>
+                <span class="titulo_bloco">Participação no(s) projeto(s) Estúdio Baile</span>
 
-            <div>
                 <div class="tabela_arquivos">
                     <table>
                         <tr>
                             <th class="num_arquivo">#</th>
                             <th class="nome_arquivo">Nome</th>
                             <th class="descricao_arquivo">Chancela</th>
-                            <th class="remove_arquivo">Remover</th>
+                            <th class="remove_arquivo"></th>
                         </tr>
                         <tr v-for="(projeto, index) in projetos" :key="'projeto-'+index+projeto.id">
                             <td class="num_arquivo">{{ index+1 }}</td>
-                            <td class="nome_arquivo"><router-link
-                                    :id="projeto.id"
-                                    :to="{ name: 'projetos-view',
-                                        params: { id: projeto.id }}">{{ projeto['projeto'] }}</router-link></td>
+                            <td class="nome_arquivo">
+                                <router-link
+                                        :id="projeto.id"
+                                        :to="{ name: 'projetos-view',
+                                        params: { id: projeto.id }}">{{ projeto['projeto'] }}
+                                </router-link>
+                            </td>
                             <td class="descricao_arquivo">{{ projeto['chancela'] }}</td>
-                            <td class="remove_arquivo"><a @click.prevent="removeProjeto(projeto.id, projeto['chancela_id'])"><btn_delete></btn_delete></a></td>
+                            <td class="remove_arquivo"></td>
                         </tr>
                     </table>
                 </div>
             </div>
 
-            <!-- Add nova participação em projeto -->
-            <a @click="mostraProjetoBoxMetodo" class="link_abrir_box">[nova chancela pessoa jurídica]</a>
-            <div v-if="mostraProjetoBox">
-                <span class="campo">Projeto</span>
-                <select @change="" name="projetos" class="projetos_lista">
-                    <option value="" disabled selected></option>
-                    <option v-for="projeto in atributos.projetos" :value="projeto.id">
-                        {{ projeto.nome }}
-                    </option>
-                </select><br>
-                <span class="campo">Chancela</span>
-                <select name="chancelas" class="chancelas_lista">
-                    <option value="" disabled selected></option>
-                    <option v-for="chancela in atributos.chancelas" :value="chancela.id">{{ chancela.text }}</option>
-                </select>
-                <a @click.prevent="adicionaProjeto"><btn_add inline="true"></btn_add></a>
-
+            <!-- Arquivos -->
+            <div class="valor" style="margin-top: 3px;" v-if="arquivos.length !== 0">
+                <br><br>
+                <span class="titulo_bloco">Arquivos anexos</span>
+                <br>
+                <div class="tabela_arquivos">
+                    <table>
+                        <tr>
+                            <th class="num_arquivo">#</th>
+                            <th class="nome_arquivo">Nome</th>
+                            <th class="descricao_arquivo">Descrição</th>
+                            <th class="preview_arquivo">Visualizar</th>
+                            <th class="destaque_arquivo">Destaque</th>
+                            <th class="tipo_arquivo">Tipo</th>
+                            <th class="data_arquivo">Data</th>
+                            <th class="remove_arquivo"></th>
+                        </tr>
+                        <tr v-for="(arquivo, index) in arquivos" :key="'arquivo-'+index+arquivo.id">
+                            <td class="num_arquivo">{{ index+1 }}</td>
+                            <td class="nome_arquivo"><a :title="arquivo.nome.substr(15)"
+                                                        :href="`/download/pj/${pessoa.id}/${arquivo.id}`" download>{{
+                                arquivo.nome.substr(15).trunc(30) }}</a></td>
+                            <td class="descricao_arquivo">
+                                <input autocomplete="off" type="text" placeholder=" " name="arquivo_descricao"
+                                       v-model="arquivo.descricao"/>
+                            </td>
+                            <td class="preview_arquivo">
+                                <a v-if="arquivo.tipo === 'imagem'"
+                                   :href="`/uploads/pessoas_juridicas/${pessoa.id}/${arquivo.nome}`"
+                                   :data-lightbox="'imagem_preview'+index" :data-title="arquivo.nome.substr(15)">
+                                    <img class="btn_preview"
+                                         :src="root + '/img/btn_preview.png'"/>
+                                </a>
+                            </td>
+                            <td class="destaque_arquivo">
+                                <a @click.prevent="setImagemDestaque(arquivo.id)">
+                                    <img v-if="arquivo.tipo === 'imagem'"
+                                         class="btn_destaque"
+                                         :src="id_destaque === arquivo.id ? root + '/img/btn_destaque_ativo.png' : root + '/img/btn_destaque.png'"/>
+                                </a>
+                            </td>
+                            <td class="tipo_arquivo">{{ arquivo.tipo }}</td>
+                            <td class="data_arquivo">{{ arquivo.data }}</td>
+                            <td class="remove_arquivo"></td>
+                        </tr>
+                    </table>
+                </div>
             </div>
+
+        </div>
+
+        <!-- EDIÇÃO -->
+        <div v-if="!mostraPreview" class="edicao">
+            <!-- Tags -->
+            <span class="campo">Tags</span>
+            <select v-if="!mostraPreview" @change="tags_atuais = $event.target.value" name="tags" id="tags_list" class="js-example-basic-single">
+                <option v-for="tag in tags" :value="tag.id" v-model="tag.id">{{ tag.text }}</option>
+            </select>
 
             <hr>
 
-            <!-- Endereços -->
-            <span class="titulo_bloco">Endereços</span>
-
-            <div v-for="(endereco, index) in enderecos" :key="'endereco-'+index+endereco.id">
-                <span class="titulo_bloco"># {{index+1}}:</span> <a @click.prevent="removeEndereco(endereco.id)"><btn_delete inline="true"></btn_delete></a> <br>
-                <div class="valor">
-                    <span class="campo">Logradouro</span>
-                    <input autocomplete="off" type="text" placeholder=" " name="endereco.rua" v-model="endereco.rua" />
-                </div><br>
-                <div class="valor">
-                    <span class="campo">Número</span>
-                    <the-mask
-                            :mask="['######']"
-                            class="mask-input numero"
-                            v-model="endereco.numero"
-                            type="text"
-                            autocomplete="off"
-                            name="endereco.numero"
-                            placeholder=" " />
-                </div><br>
-                <div class="valor">
-                    <span class="campo">Complemento</span>
-                    <input autocomplete="off" type="text" placeholder=" " name="endereco.complemento" v-model="endereco.complemento" />
-                </div><br>
-                <div class="valor">
-                    <span class="campo">Bairro</span>
-                    <input autocomplete="off" type="text" placeholder=" " name="endereco.bairro" v-model="endereco.bairro" />
-                </div><br>
-                <div class="valor">
-                    <span class="campo">CEP</span>
-                    <the-mask
-                            :mask="['#####-###']"
-                            class="mask-input cep"
-                            v-model="endereco.cep"
-                            type="text"
-                            autocomplete="off"
-                            name="endereco.cep"
-                            placeholder=" " />
-                </div><br>
-                <div class="valor">
-                    <span class="campo">Cidade</span>
-                    <input autocomplete="off" type="text" placeholder=" " name="endereco.cidade" v-model="endereco.cidade" />
-                </div><br>
-                <div class="valor">
-                    <span class="campo">UF</span>
-                    <input autocomplete="off" type="text" placeholder=" " name="endereco.estado" v-model="endereco.estado" />
-                </div><br>
-                <div class="valor">
-                    <span class="campo">País</span>
-                    <input autocomplete="off" type="text" placeholder=" " name="endereco.pais" v-model="endereco.pais" />
-                </div><br>
+            <!-- Arquivos -->
+            <div class="valor">
+                <span class="titulo_bloco">Arquivos anexos</span>
+                <br>
+                <input type="file" class="inputfile" id="arquivo" ref="arquivo" @change="setArquivoAtual"/>
+                <label for="arquivo">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17">
+                        <path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/>
+                    </svg>
+                    <span v-text="typeof arquivo_atual.name !== 'undefined' ? arquivo_atual.name.trunc(30) : 'Selecione um arquivo'"
+                          v-model="arquivo_atual.name"></span>
+                </label>&nbsp;&nbsp;
+                <input type="text" @input="descricao_arquivo = $event.target.value" name="descricao_arquivo"
+                       v-model="descricao_arquivo" placeholder="Descrição" autocomplete="off"
+                       style="width: 200px; min-width: unset; margin-right: 10px;"/>
+                <button @click.prevent="upload">Submit</button>
+                <br><br>
+                <div class="tabela_arquivos">
+                    <table>
+                        <tr>
+                            <th class="num_arquivo">#</th>
+                            <th class="nome_arquivo">Nome</th>
+                            <th class="descricao_arquivo">Descrição</th>
+                            <th class="preview_arquivo">Visualizar</th>
+                            <th class="destaque_arquivo">Destaque</th>
+                            <th class="tipo_arquivo">Tipo</th>
+                            <th class="data_arquivo">Data</th>
+                            <th class="remove_arquivo">Remover</th>
+                        </tr>
+                        <tr v-for="(arquivo, index) in arquivos" :key="'arquivo-'+index+arquivo.id">
+                            <td class="num_arquivo">{{ index+1 }}</td>
+                            <td class="nome_arquivo"><a :title="arquivo.nome.substr(15)"
+                                                        :href="`/download/pj/${pessoa.id}/${arquivo.id}`" download>{{
+                                arquivo.nome.substr(15).trunc(30) }}</a></td>
+                            <td class="descricao_arquivo">
+                                <input autocomplete="off" type="text" placeholder=" " name="arquivo_descricao"
+                                       v-model="arquivo.descricao"/>
+                            </td>
+                            <td class="preview_arquivo">
+                                <a v-if="arquivo.tipo === 'imagem'"
+                                   :href="`/uploads/pessoas_juridicas/${pessoa.id}/${arquivo.nome}`"
+                                   :data-lightbox="'imagem_preview'+index" :data-title="arquivo.nome.substr(15)">
+                                    <img class="btn_preview"
+                                         :src="root + '/img/btn_preview.png'"/>
+                                </a>
+                            </td>
+                            <td class="destaque_arquivo">
+                                <a @click.prevent="setImagemDestaque(arquivo.id)">
+                                    <img v-if="arquivo.tipo === 'imagem'"
+                                         class="btn_destaque"
+                                         :src="id_destaque === arquivo.id ? root + '/img/btn_destaque_ativo.png' : root + '/img/btn_destaque.png'"/>
+                                </a>
+                            </td>
+                            <td class="tipo_arquivo">{{ arquivo.tipo }}</td>
+                            <td class="data_arquivo">{{ arquivo.data }}</td>
+                            <td class="remove_arquivo"><a @click.prevent="removeArquivo(arquivo.id)">
+                                <btn_delete></btn_delete>
+                            </a></td>
+                        </tr>
+                    </table>
+                </div>
             </div>
 
-            <!--Add novo endereço-->
-            <a @click.prevent="mostraEnderecoBox = !mostraEnderecoBox" class="link_abrir_box">[adicionar endereço]</a>
-            <div v-if="mostraEnderecoBox">
-                <div class="valor">
-                    <span class="campo">Logradouro</span>
-                    <input @input="novo_endereco.rua = $event.target.value" autocomplete="off" type="text" placeholder=" " name="novo_endereco.rua" v-model="novo_endereco.rua" />
-                </div><br>
-                <div class="valor">
-                    <span class="campo">Número</span>
-                    <the-mask
-                            :mask="['######']"
-                            @input="novo_endereco.numero = $event.target.value"
-                            class="mask-input numero"
-                            v-model="novo_endereco.numero"
-                            type="text"
-                            autocomplete="off"
-                            name="novo_endereco.numero"
-                            placeholder=" " />
-                </div><br>
-                <div class="valor">
-                    <span class="campo">Complemento</span>
-                    <input @input="novo_endereco.complemento = $event.target.value" autocomplete="off" type="text" placeholder=" " name="novo_endereco.complemento" v-model="novo_endereco.complemento" />
-                </div><br>
-                <div class="valor">
-                    <span class="campo">Bairro</span>
-                    <input @input="novo_endereco.bairro = $event.target.value" autocomplete="off" type="text" placeholder=" " name="novo_endereco.bairro" v-model="novo_endereco.bairro" />
-                </div><br>
-                <div class="valor">
-                    <span class="campo">CEP</span>
-                    <the-mask
-                            :mask="['#####-###']"
-                            @input="novo_endereco.cep = $event.target.value"
-                            class="mask-input cep"
-                            v-model="novo_endereco.cep"
-                            type="text"
-                            autocomplete="off"
-                            name="novo_endereco.cep"
-                            placeholder=" " />
-                </div><br>
-                <div class="valor">
-                    <span class="campo">Cidade</span>
-                    <input @input="novo_endereco.cidade = $event.target.value" autocomplete="off" type="text" placeholder=" " name="novo_endereco.cidade" v-model="novo_endereco.cidade" />
-                </div><br>
-                <div class="valor">
-                    <span class="campo">UF</span>
-                    <input @input="novo_endereco.estado = $event.target.value" autocomplete="off" type="text" placeholder=" " name="novo_endereco.estado" v-model="novo_endereco.estado" />
-                </div><br>
-                <div class="valor">
-                    <span class="campo">País</span>
-                    <input @input="novo_endereco.pais = $event.target.value" autocomplete="off" type="text" placeholder=" " name="novo_endereco.pais" v-model="novo_endereco.pais" />
-                </div><br>
-                <a @click.prevent="adicionaEndereco"><btn_add></btn_add></a>
-
-            </div>
-
+            <br>
             <hr>
 
-            <!-- Dados Bancários -->
-            <span class="titulo_bloco">Dados bancários</span>
+            <!--DADOS GERAIS-->
 
-            <div v-for="(dado_bancario, index) in dados_bancarios">
-                <span class="titulo_bloco"># {{index+1}}:</span> <a @click.prevent="removeDadosBancarios(dado_bancario.id)"><btn_delete inline="true"></btn_delete></a> <br>
+            <div class="dados">
+
+                <span class="titulo_bloco">Dados gerais</span>
+
                 <div class="valor">
-                    <span class="campo">Banco</span>
-                    <input autocomplete="off" type="text" placeholder=" " name="dado_bancario.nome_banco" v-model="dado_bancario.nome_banco" />
-                </div><br>
+                    <span class="campo">Razão social</span>
+                    <input autocomplete="off" type="text"
+                           v-model="pessoa.razao_social"
+                           name="nome"
+                           placeholder=" "
+                    />
+                </div>
+                <br>
+
                 <div class="valor">
-                    <span class="campo">Agência</span>
-                    <input autocomplete="off" type="text" placeholder=" " name="dado_bancario.agencia" v-model="dado_bancario.agencia" />
-                </div><br>
+                    <span class="campo">Nome fantasia</span>
+                    <input autocomplete="off" type="text"
+                           v-model="pessoa.nome_fantasia"
+                           name="nome"
+                           placeholder=" "
+                    />
+                </div>
+                <br>
+
                 <div class="valor">
-                    <span class="campo">Conta</span>
-                    <input autocomplete="off" type="text" placeholder=" " name="dado_bancario.conta" v-model="dado_bancario.conta" />
-                </div><br>
+                    <span class="campo">CNPJ</span>
+                    <the-mask
+                            :mask="['##.###.###/####-##']"
+                            :masked="true"
+                            class="mask-input cnpj"
+                            v-model="pessoa.cnpj"
+                            type="text"
+                            autocomplete="off"
+                            name="cnpj"
+                            placeholder=" "/>
+                </div>
+                <br>
+
                 <div class="valor">
-                    <span class="campo">Tipo</span>
-                    <select name="dado_bancario.tipo_conta_id" v-model="dado_bancario.tipo_conta_id">
-                        <option v-for="tipo_conta in atributos.tipos_conta_bancaria" :value="tipo_conta.id">
-                            {{ tipo_conta.valor }}
+                    <span class="campo">IE</span>
+                    <input autocomplete="off" type="text"
+                           v-model="pessoa.inscricao_estadual"
+                           name="nome"
+                           placeholder=" "
+                    />
+                </div>
+                <br>
+
+                <div class="valor">
+                    <span class="campo">IM</span>
+                    <input autocomplete="off" type="text"
+                           v-model="pessoa.inscricao_municipal"
+                           name="nome"
+                           placeholder=" "
+                    />
+                </div>
+
+                <div class="valor">
+                    <span class="campo">Website</span>
+                    <input v-model="pessoa.website"
+                           type="text"
+                           autocomplete="off"
+                           name="pessoa.website"
+                           placeholder=" "/>
+                </div>
+
+
+                <br>
+                <hr>
+
+                <!-- Pessoas Físicas Relacionadas -->
+                <span class="titulo_bloco">Pessoas Físicas Relacionadas</span>
+
+                <div id="projetos_pf" class="valor" style="margin-top: 3px;">
+                    <div>
+                        <div class="tabela_arquivos">
+                            <table>
+                                <tr>
+                                    <th class="num_arquivo">#</th>
+                                    <th class="nome_arquivo">Nome</th>
+                                    <th class="descricao_arquivo">Cargo</th>
+                                    <th class="destaque_arquivo"></th>
+                                    <th class="tipo_arquivo"></th>
+                                    <th class="data_arquivo"></th>
+                                    <th class="remove_arquivo">Remover</th>
+                                </tr>
+                                <tr v-for="(pessoa, index) in pessoas_fisicas_cargos_relacionados"
+                                    :key="'pf-'+index+pessoa.id">
+                                    <td class="num_arquivo">{{ index+1 }}</td>
+                                    <td class="nome_arquivo">
+                                        <router-link :id="pessoa.pessoa_fisica_id" :to="{ name: 'pf-view',
+                                params: { id: pessoa.pessoa_fisica_id }}">{{ pessoa.pessoa_fisica_nome_adotado }}
+                                        </router-link>
+                                    </td>
+                                    <td class="descricao_arquivo">{{ pessoa.tag }}</td>
+                                    <td class="destaque_arquivo"></td>
+                                    <td class="tipo_arquivo"></td>
+                                    <td class="data_arquivo"></td>
+                                    <td class="remove_arquivo"><a
+                                            @click.prevent="removeCargoPf(pessoa.pessoa_fisica_id, pessoa.cargo_id)">
+                                        <btn_delete></btn_delete>
+                                    </a></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <br>
+
+                <!-- Add novo chancela pessoa física -->
+                <a @click.prevent="mostraCargoPfBoxMetodo" class="link_abrir_box">[adicionar pessoa física]</a>
+                <div v-if="mostraCargoPfBox">
+                    <!--pessoa_fisica_id-->
+                    <!--novo_cargo-->
+                    <span class="campo">Nome</span>
+                    <select @change="" name="pessoas_fisicas" class="pf_lista">
+                        <option disabled selected value> -- Selecione um nome --</option>
+                        <option v-for="pessoa in atributos.pessoas_fisicas" :value="pessoa.id">
+                            {{ pessoa.nome_adotado }}
+                        </option>
+                    </select><br>
+                    <span class="campo">Chancela</span>
+                    <select @change="" name="chancelas" class="cargos_pf_lista">
+                        <option disabled selected value> -- Selecione uma chancela --</option>
+                        <option v-for="cargo in atributos.cargos_pf" :value="cargo.id">{{ cargo.text }}</option>
+                    </select>
+                    <a @click.prevent="adicionaCargoPf">
+                        <btn_add inline="true"></btn_add>
+                    </a>
+
+                </div>
+
+                <hr>
+
+                <!-- Emails -->
+                <span class="titulo_bloco">E-mails</span>
+                <div class="tabela_arquivos">
+                    <table>
+                        <tr>
+                            <th class="num_arquivo">#</th>
+                            <th class="nome_arquivo">Nome</th>
+                            <th class="descricao_arquivo">Mailing</th>
+                            <th class="destaque_arquivo"></th>
+                            <th class="tipo_arquivo"></th>
+                            <th class="data_arquivo"></th>
+                            <th class="remove_arquivo">Remover</th>
+                        </tr>
+                        <tr v-for="(email, index) in emails" :key="'email-'+index + email.id">
+                            <td class="num_arquivo">{{ index+1 }}</td>
+                            <td class="nome_arquivo">
+                                <input autocomplete="off" type="text" placeholder=" " name="nome"
+                                       v-model="email.valor"/>
+                            </td>
+                            <td class="descricao_arquivo">
+                                <input type="checkbox" v-model="email.mailing" :id="'mailing-'+email.id"
+                                       name="mailing"/>
+                            </td>
+                            <td class="destaque_arquivo"></td>
+                            <td class="tipo_arquivo"></td>
+                            <td class="data_arquivo"></td>
+                            <td class="remove_arquivo"><a @click.prevent="removeContato(email.id)">
+                                <btn_delete></btn_delete>
+                            </a></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div>
+                    <a @click.prevent="adicionaEmail = !adicionaEmail" class="link_abrir_box">[adicionar email]</a>
+                    <div v-if="adicionaEmail" class="adiciona_contato">
+                        <input @input="novo_email = $event.target.value" type="email" autocomplete="off"
+                               class="adiciona_contato" v-model="novo_email" name="novo_email"
+                               placeholder="adicionar email"/>
+                        <a @click.prevent="adicionaContato()">
+                            <btn_add inline="true"></btn_add>
+                        </a>
+                    </div>
+                </div>
+
+                <hr>
+
+                <!-- Telefones -->
+                <div>
+                    <span class="titulo_bloco">Telefones</span>
+                    <br>
+                    <div v-for="(telefone, index) in telefones" class="valor" :key="'telefone-'+index+telefone.id">
+                        <span class="campo">Telefone {{ index+1 }}</span>
+                        <input type="text" placeholder=" " :id="telefone.id" v-model="telefone.valor" name="telefone"/>
+                        <a @click.prevent="removeContato(telefone.id)">
+                            <btn_delete></btn_delete>
+                        </a>
+                    </div>
+                    <br>
+                    <a @click.prevent="adicionaTel = !adicionaTel" class="link_abrir_box">[adicionar telefone]</a>
+                    <div v-if="adicionaTel" class="adiciona_contato">
+                        <input @input="novo_telefone = $event.target.value" type="text" class="adiciona_contato"
+                               v-model="novo_telefone" name="novo_telefone" placeholder="adicionar telefone"/>
+                        <a @click.prevent="adicionaContato()">
+                            <btn_add inline="true"></btn_add>
+                        </a>
+                    </div>
+
+                </div>
+
+                <hr>
+
+                <!-- Participação no(s) projeto(s) Estúdio Baile -->
+                <span class="titulo_bloco">Participação no(s) projeto(s) Estúdio Baile</span>
+
+                <div>
+                    <div class="tabela_arquivos">
+                        <table>
+                            <tr>
+                                <th class="num_arquivo">#</th>
+                                <th class="nome_arquivo">Nome</th>
+                                <th class="descricao_arquivo">Chancela</th>
+                                <th class="remove_arquivo">Remover</th>
+                            </tr>
+                            <tr v-for="(projeto, index) in projetos" :key="'projeto-'+index+projeto.id">
+                                <td class="num_arquivo">{{ index+1 }}</td>
+                                <td class="nome_arquivo">
+                                    <router-link
+                                            :id="projeto.id"
+                                            :to="{ name: 'projetos-view',
+                                        params: { id: projeto.id }}">{{ projeto['projeto'] }}
+                                    </router-link>
+                                </td>
+                                <td class="descricao_arquivo">{{ projeto['chancela'] }}</td>
+                                <td class="remove_arquivo"><a
+                                        @click.prevent="removeProjeto(projeto.id, projeto['chancela_id'])">
+                                    <btn_delete></btn_delete>
+                                </a></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Add nova participação em projeto -->
+                <a @click="mostraProjetoBoxMetodo" class="link_abrir_box">[nova chancela pessoa jurídica]</a>
+                <div v-if="mostraProjetoBox">
+                    <span class="campo">Projeto</span>
+                    <select @change="" name="projetos" class="projetos_lista">
+                        <option value="" disabled selected></option>
+                        <option v-for="projeto in atributos.projetos" :value="projeto.id">
+                            {{ projeto.nome }}
+                        </option>
+                    </select><br>
+                    <span class="campo">Chancela</span>
+                    <select name="chancelas" class="chancelas_lista">
+                        <option value="" disabled selected></option>
+                        <option v-for="chancela in atributos.chancelas" :value="chancela.id">{{ chancela.text }}
                         </option>
                     </select>
-                </div><br><br>
+                    <a @click.prevent="adicionaProjeto">
+                        <btn_add inline="true"></btn_add>
+                    </a>
+
+                </div>
+
+                <hr>
+
+                <!-- Endereços -->
+                <span class="titulo_bloco">Endereços</span>
+
+                <div v-for="(endereco, index) in enderecos" :key="'endereco-'+index+endereco.id">
+                    <span class="titulo_bloco"># {{index+1}}:</span> <a @click.prevent="removeEndereco(endereco.id)">
+                    <btn_delete inline="true"></btn_delete>
+                </a> <br>
+                    <div class="valor">
+                        <span class="campo">Logradouro</span>
+                        <input autocomplete="off" type="text" placeholder=" " name="endereco.rua"
+                               v-model="endereco.rua"/>
+                    </div>
+                    <br>
+                    <div class="valor">
+                        <span class="campo">Número</span>
+                        <the-mask
+                                :mask="['######']"
+                                class="mask-input numero"
+                                v-model="endereco.numero"
+                                type="text"
+                                autocomplete="off"
+                                name="endereco.numero"
+                                placeholder=" "/>
+                    </div>
+                    <br>
+                    <div class="valor">
+                        <span class="campo">Complemento</span>
+                        <input autocomplete="off" type="text" placeholder=" " name="endereco.complemento"
+                               v-model="endereco.complemento"/>
+                    </div>
+                    <br>
+                    <div class="valor">
+                        <span class="campo">Bairro</span>
+                        <input autocomplete="off" type="text" placeholder=" " name="endereco.bairro"
+                               v-model="endereco.bairro"/>
+                    </div>
+                    <br>
+                    <div class="valor">
+                        <span class="campo">CEP</span>
+                        <the-mask
+                                :mask="['#####-###']"
+                                :masked="true"
+                                class="mask-input cep"
+                                v-model="endereco.cep"
+                                type="text"
+                                autocomplete="off"
+                                name="endereco.cep"
+                                placeholder=" "/>
+                    </div>
+                    <br>
+                    <div class="valor">
+                        <span class="campo">Cidade</span>
+                        <input autocomplete="off" type="text" placeholder=" " name="endereco.cidade"
+                               v-model="endereco.cidade"/>
+                    </div>
+                    <br>
+                    <div class="valor">
+                        <span class="campo">UF</span>
+                        <input autocomplete="off" type="text" placeholder=" " name="endereco.estado"
+                               v-model="endereco.estado"/>
+                    </div>
+                    <br>
+                    <div class="valor">
+                        <span class="campo">País</span>
+                        <input autocomplete="off" type="text" placeholder=" " name="endereco.pais"
+                               v-model="endereco.pais"/>
+                    </div>
+                    <br>
+                </div>
+
+                <!--Add novo endereço-->
+                <a @click.prevent="mostraEnderecoBox = !mostraEnderecoBox" class="link_abrir_box">[adicionar
+                    endereço]</a>
+                <div v-if="mostraEnderecoBox">
+                    <div class="valor">
+                        <span class="campo">Logradouro</span>
+                        <input @input="novo_endereco.rua = $event.target.value" autocomplete="off" type="text"
+                               placeholder=" " name="novo_endereco.rua" v-model="novo_endereco.rua"/>
+                    </div>
+                    <br>
+                    <div class="valor">
+                        <span class="campo">Número</span>
+                        <the-mask
+                                :mask="['######']"
+                                @input="novo_endereco.numero = $event.target.value"
+                                class="mask-input numero"
+                                v-model="novo_endereco.numero"
+                                type="text"
+                                autocomplete="off"
+                                name="novo_endereco.numero"
+                                placeholder=" "/>
+                    </div>
+                    <br>
+                    <div class="valor">
+                        <span class="campo">Complemento</span>
+                        <input @input="novo_endereco.complemento = $event.target.value" autocomplete="off" type="text"
+                               placeholder=" " name="novo_endereco.complemento" v-model="novo_endereco.complemento"/>
+                    </div>
+                    <br>
+                    <div class="valor">
+                        <span class="campo">Bairro</span>
+                        <input @input="novo_endereco.bairro = $event.target.value" autocomplete="off" type="text"
+                               placeholder=" " name="novo_endereco.bairro" v-model="novo_endereco.bairro"/>
+                    </div>
+                    <br>
+                    <div class="valor">
+                        <span class="campo">CEP</span>
+                        <the-mask
+                                :mask="['#####-###']"
+                                :masked="true"
+                                @input="novo_endereco.cep = $event.target.value"
+                                class="mask-input cep"
+                                v-model="novo_endereco.cep"
+                                type="text"
+                                autocomplete="off"
+                                name="novo_endereco.cep"
+                                placeholder=" "/>
+                    </div>
+                    <br>
+                    <div class="valor">
+                        <span class="campo">Cidade</span>
+                        <input @input="novo_endereco.cidade = $event.target.value" autocomplete="off" type="text"
+                               placeholder=" " name="novo_endereco.cidade" v-model="novo_endereco.cidade"/>
+                    </div>
+                    <br>
+                    <div class="valor">
+                        <span class="campo">UF</span>
+                        <input @input="novo_endereco.estado = $event.target.value" autocomplete="off" type="text"
+                               placeholder=" " name="novo_endereco.estado" v-model="novo_endereco.estado"/>
+                    </div>
+                    <br>
+                    <div class="valor">
+                        <span class="campo">País</span>
+                        <input @input="novo_endereco.pais = $event.target.value" autocomplete="off" type="text"
+                               placeholder=" " name="novo_endereco.pais" v-model="novo_endereco.pais"/>
+                    </div>
+                    <br>
+                    <a @click.prevent="adicionaEndereco">
+                        <btn_add></btn_add>
+                    </a>
+
+                </div>
+
+                <hr>
+
+                <!-- Dados Bancários -->
+                <span class="titulo_bloco">Dados bancários</span>
+
+                <div v-for="(dado_bancario, index) in dados_bancarios">
+                    <span class="titulo_bloco"># {{index+1}}:</span> <a
+                        @click.prevent="removeDadosBancarios(dado_bancario.id)">
+                    <btn_delete inline="true"></btn_delete>
+                </a> <br>
+                    <div class="valor">
+                        <span class="campo">Banco</span>
+                        <input autocomplete="off" type="text" placeholder=" " name="dado_bancario.nome_banco"
+                               v-model="dado_bancario.nome_banco"/>
+                    </div>
+                    <br>
+                    <div class="valor">
+                        <span class="campo">Agência</span>
+                        <input autocomplete="off" type="text" placeholder=" " name="dado_bancario.agencia"
+                               v-model="dado_bancario.agencia"/>
+                    </div>
+                    <br>
+                    <div class="valor">
+                        <span class="campo">Conta</span>
+                        <input autocomplete="off" type="text" placeholder=" " name="dado_bancario.conta"
+                               v-model="dado_bancario.conta"/>
+                    </div>
+                    <br>
+                    <div class="valor">
+                        <span class="campo">Tipo</span>
+                        <select name="dado_bancario.tipo_conta_id" v-model="dado_bancario.tipo_conta_id">
+                            <option v-for="tipo_conta in atributos.tipos_conta_bancaria" :value="tipo_conta.id">
+                                {{ tipo_conta.valor }}
+                            </option>
+                        </select>
+                    </div>
+                    <br><br>
+
+                </div>
+                <!-- Add novos dados bancários -->
+                <a @click.prevent="mostraDadosBancariosBox = !mostraDadosBancariosBox" class="link_abrir_box">[adicionar
+                    dados bancários]</a>
+                <div v-if="mostraDadosBancariosBox">
+                    <div class="valor">
+                        <span class="campo">Banco</span>
+                        <input @input="novos_dados_bancarios.nome_banco = $event.target.value" autocomplete="off"
+                               type="text" placeholder=" " name="novos_dados_bancarios.nome_banco"
+                               v-model="novos_dados_bancarios.nome_banco"/>
+                    </div>
+                    <br>
+                    <div class="valor">
+                        <span class="campo">Agência</span>
+                        <input @input="novos_dados_bancarios.agencia = $event.target.value" autocomplete="off"
+                               type="text" placeholder=" " name="novos_dados_bancarios.agencia"
+                               v-model="novos_dados_bancarios.agencia"/>
+                    </div>
+                    <br>
+                    <div class="valor">
+                        <span class="campo">Conta</span>
+                        <input @input="novos_dados_bancarios.conta = $event.target.value" autocomplete="off" type="text"
+                               placeholder=" " name="novos_dados_bancarios.conta"
+                               v-model="novos_dados_bancarios.conta"/>
+                    </div>
+                    <br>
+                    <div class="valor">
+                        <span class="campo">Tipo</span>
+                        <select @change="novos_dados_bancarios.tipo_conta_id = $event.target.value"
+                                name="dado_bancario.tipo_conta_id" v-model="novos_dados_bancarios.tipo_conta_id">
+                            <option v-for="tipo_conta in atributos.tipos_conta_bancaria" :value="tipo_conta.id">
+                                {{ tipo_conta.valor }}
+                            </option>
+                        </select>
+                    </div>
+                    <br>
+
+                    <a @click.prevent="adicionaDadosBancarios">
+                        <btn_add></btn_add>
+                    </a>
+
+                </div>
 
             </div>
-            <!-- Add novos dados bancários -->
-            <a @click.prevent="mostraDadosBancariosBox = !mostraDadosBancariosBox" class="link_abrir_box">[adicionar dados bancários]</a>
-            <div v-if="mostraDadosBancariosBox">
-                <div class="valor">
-                    <span class="campo">Banco</span>
-                    <input @input="novos_dados_bancarios.nome_banco = $event.target.value" autocomplete="off" type="text" placeholder=" " name="novos_dados_bancarios.nome_banco" v-model="novos_dados_bancarios.nome_banco" />
-                </div><br>
-                <div class="valor">
-                    <span class="campo">Agência</span>
-                    <input @input="novos_dados_bancarios.agencia = $event.target.value" autocomplete="off" type="text" placeholder=" " name="novos_dados_bancarios.agencia" v-model="novos_dados_bancarios.agencia" />
-                </div><br>
-                <div class="valor">
-                    <span class="campo">Conta</span>
-                    <input @input="novos_dados_bancarios.conta = $event.target.value" autocomplete="off" type="text" placeholder=" " name="novos_dados_bancarios.conta" v-model="novos_dados_bancarios.conta" />
-                </div><br>
-                <div class="valor">
-                    <span class="campo">Tipo</span>
-                    <select @change="novos_dados_bancarios.tipo_conta_id = $event.target.value" name="dado_bancario.tipo_conta_id" v-model="novos_dados_bancarios.tipo_conta_id">
-                        <option v-for="tipo_conta in atributos.tipos_conta_bancaria" :value="tipo_conta.id">
-                            {{ tipo_conta.valor }}
-                        </option>
-                    </select>
-                </div><br>
-
-                <a @click.prevent="adicionaDadosBancarios"><btn_add></btn_add></a>
-
-            </div>
-
         </div>
 
     </div>
@@ -531,12 +882,16 @@
             });
         },
         mounted() {
+            //evento - editar formulário
+            eventBus.$on('editbar-editar-pj', () => {
+                this.editaForm();
+            });
             //evento - salvar formulário
-            eventBus.$on('editbar-salvar', () => {
+            eventBus.$on('editbar-salvar-pj', () => {
                 this.salvaForm();
             });
             //evento - mostrar modal de exclusão
-            eventBus.$on('editbar-excluir', () => {
+            eventBus.$on('editbar-excluir-pj', () => {
                 this.modalDelete = true;
             });
             //evento - excluir registro
@@ -544,7 +899,7 @@
                 this.deletePessoa();
             });
             //evento - exportar
-            eventBus.$on('editbar-exportar', () => {
+            eventBus.$on('editbar-exportar-pj', () => {
                 //
             });
         },
@@ -553,6 +908,7 @@
                 //Models
                 pessoa: {},
                 tags: [],
+                tags_nomes: '',
                 dados_bancarios: [],
                 contatos: [],
                 enderecos: [],
@@ -576,6 +932,7 @@
                 imagem_destaque: '',
                 imagem_destaque_original: '',
                 //Condicionais
+                mostraPreview: true,
                 mostraCargoPfBox: false,
                 mostraProjetoBox: false,
                 adicionaEmail: false,
@@ -589,6 +946,7 @@
         },
         watch: {
             '$route' (destino) {
+                this.mostraPreview = true;
                 this.getPessoa(destino.params.id);
                 eventBus.$emit('changePessoaJuridica');
                 this.jQuery();
@@ -611,7 +969,10 @@
                         eventBus.$emit('getPessoaJuridica', this.$route.params.id);
                         let dados = res.data;
                         this.pessoa = dados.pessoa_juridica;
-                        this.tags = dados.tags;
+                        this.tags = dados.atributos.tags;
+                        this.pessoa.tags_relacionadas = dados.tags;
+                        this.tags = dados.atributos.tags;
+                        this.tags_nomes = dados.tags_nomes;
                         this.contatos = dados.contatos;
                         this.enderecos = dados.enderecos;
                         this.arquivos = dados.arquivos;
@@ -622,11 +983,13 @@
 
                         //imagem de destaque
                         this.getImagemDestaque();
-
-                        //preenche tags
-                        this.preencheTags(id);
                     })
+                    .then(() => this.jQuery())
                     .then(() => this.item_carregado = true);
+            },
+            editaForm: function(){
+                this.mostraPreview = false;
+                this.getPessoa(this.$route.params.id);
             },
             salvaForm: function(){
                 this.item_carregado = false;
@@ -642,7 +1005,9 @@
                     this.pessoa = res.data;
                     eventBus.$emit('foiSalvoPessoaJuridica', this.pessoa);
                 })
-                .then(() => this.item_carregado = true);
+                .then(() => this.mostraPreview = true)
+                .then(() => this.destroySelect2())
+                .then(() => this.getPessoa(this.$route.params.id));
             },
             deletePessoa: function(){
                 axios.post('/ajax/pj/delete', {
@@ -915,6 +1280,11 @@
                     }
                 });
             },
+            destroySelect2: function(){
+                $(document).ready(function(){
+                    $('.select2').remove();
+                });
+            },
             jQuery: function(){
                 //Instancia atual do Vue
                 let Vue = this;
@@ -960,6 +1330,9 @@
                     $('.chancelas_lista').on('change', function(){
                         Vue.nova_chancela.chancela = $(this).val();
                     });
+
+                    //Preenche select2
+                    $('#tags_list').val(Vue.pessoa.tags_relacionadas).trigger('change');
 
                 });
             },
