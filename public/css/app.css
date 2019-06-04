@@ -2204,9 +2204,21 @@ hr {
   height: 12px;
 }
 
-#app #principal #conteudo_geral #container_conteudo .preview .texto {
+#app #principal #conteudo_geral #container_conteudo .container_preview .preview.dados {
+  margin: 0 0 12px 0;
+}
+
+#app #principal #conteudo_geral #container_conteudo .container_preview .preview.dados div {
+  margin-bottom: 5px;
+}
+
+#app #principal #conteudo_geral #container_conteudo .container_preview .texto {
   position: relative;
   top: 5px;
+}
+
+#app #principal #conteudo_geral #container_conteudo .container_preview .valor.descricao {
+  line-height: 22px;
 }
 
 #app #principal #conteudo_geral #container_conteudo .titulo {
@@ -2286,14 +2298,6 @@ hr {
 
 #app #principal #conteudo_geral #container_conteudo .dados input[type=text].nome {
   width: 650px;
-}
-
-#app #principal #conteudo_geral #container_conteudo .dados .preview.dados {
-  margin: 0 0 12px 0;
-}
-
-#app #principal #conteudo_geral #container_conteudo .dados .preview.dados div {
-  margin-bottom: 5px;
 }
 
 #app #principal #conteudo_geral #container_conteudo .dados .form_endereco .valor {

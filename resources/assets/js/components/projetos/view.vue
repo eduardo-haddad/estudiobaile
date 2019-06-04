@@ -31,7 +31,7 @@
         <br>
 
         <!-- PREVIEW -->
-        <div v-if="mostraPreview" class="preview">
+        <div v-if="mostraPreview" class="container_preview">
             <div class="dados">
                 <span class="titulo_bloco">Dados gerais</span>
 
@@ -40,13 +40,7 @@
                     <span class="texto">{{projeto.nome}}</span>
                     <br>
                 </div>
-                <!-- -->
-                <div v-if="projeto.descricao" class="valor">
-                    <span class="campo">Descrição</span>
-                    <span class="texto">{{projeto.descricao}}</span>
-                    <br>
-                </div>
-                <!-- -->
+                                <!-- -->
                 <div v-if="dt_inicio" class="valor">
                     <span class="campo">Data de início</span>
                     <span class="texto">{{dt_inicio}}</span>
@@ -62,6 +56,12 @@
                 <div v-if="projeto.website" class="valor">
                     <span class="campo">Website</span>
                     <span class="texto"><a :href="projeto.website">{{ projeto.website }}</a></span>
+                </div>
+                <!-- -->
+                <div v-if="projeto.descricao" class="valor descricao">
+                    <span class="campo">Descrição</span>
+                    <span class="texto">{{projeto.descricao}}</span>
+                    <br>
                 </div>
 
                 <br>

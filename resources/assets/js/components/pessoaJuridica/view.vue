@@ -30,7 +30,7 @@
         <br>
 
         <!-- PREVIEW -->
-        <div v-if="mostraPreview" class="preview">
+        <div v-if="mostraPreview" class="container_preview">
             <!--TAGS-->
             <div class="dados" v-if="tags_nomes">
                 <span class="titulo_bloco" v-if="tags_nomes">Tags</span>
@@ -107,7 +107,7 @@
                 <span class="titulo_bloco">Endereços</span>
 
                 <div v-for="(endereco, index) in enderecos" :key="'endereco-'+index + endereco.id" class="valor">
-                    <div class="preview endereco">
+                    <div class="preview dados">
                         <div v-if="endereco.rua">
                             <span class="campo">Endereço</span>
                             <span class="texto">{{ endereco.rua }}</span><span class="texto" v-if="endereco.numero">, {{ endereco.numero }}</span><span class="texto" v-if="endereco.complemento">, {{ endereco.complemento }}</span>

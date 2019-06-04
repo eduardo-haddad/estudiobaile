@@ -40,15 +40,24 @@ class ProjetoController extends Controller
     public function ajaxView($id)
     {
         $projeto = Projeto::find($id);
-        $dt_inicio['dia'] = date("d", strtotime($projeto->dt_inicio));
-        $dt_inicio['mes'] = AppHelper::mesPort(date("M", strtotime($projeto->dt_inicio)));
-        $dt_inicio['ano'] = date("Y", strtotime($projeto->dt_inicio));
-        $dt_fim['dia'] = date("d", strtotime($projeto->dt_fim));
-        $dt_fim['mes'] = AppHelper::mesPort(date("M", strtotime($projeto->dt_fim)));
-        $dt_fim['ano'] = date("Y", strtotime($projeto->dt_fim));
 
-        $dt_inicio = strtolower(AppHelper::formataDataCurta($dt_inicio));
-        $dt_fim = strtolower(AppHelper::formataDataCurta($dt_fim));
+        if(!empty($projeto->dt_inicio)) {
+            $dt_inicio['dia'] = date("d", strtotime($projeto->dt_inicio));
+            $dt_inicio['mes'] = AppHelper::mesPort(date("M", strtotime($projeto->dt_inicio)));
+            $dt_inicio['ano'] = date("Y", strtotime($projeto->dt_inicio));
+            $dt_inicio = strtolower(AppHelper::formataDataCurta($dt_inicio));
+        } else {
+            $dt_inicio = $projeto->dt_inicio;
+        }
+
+        if(!empty($projeto->dt_fim)) {
+            $dt_fim['dia'] = date("d", strtotime($projeto->dt_fim));
+            $dt_fim['mes'] = AppHelper::mesPort(date("M", strtotime($projeto->dt_fim)));
+            $dt_fim['ano'] = date("Y", strtotime($projeto->dt_fim));
+            $dt_fim = strtolower(AppHelper::formataDataCurta($dt_fim));
+        } else {
+            $dt_fim = $projeto->dt_fim;
+        }
 
         return [
             'projeto' => $projeto,

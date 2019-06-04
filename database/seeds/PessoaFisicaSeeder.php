@@ -46,7 +46,7 @@ class PessoaFisicaSeeder extends Seeder
         $pf2->cpf = '';
         $pf2->rg = '';
         $pf2->passaporte = '';
-        $pf2->dt_nascimento = '';
+        $pf2->dt_nascimento = null;
         $pf2->nacionalidade = '';
         $pf2->naturalidade = '';
         $pf2->website = '';

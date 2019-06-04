@@ -48309,6 +48309,46 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 //bus eventos
 
@@ -48398,7 +48438,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             novo_email: '',
             novo_telefone: '',
             novo_endereco: { rua: '', numero: '', complemento: '', bairro: '', cep: '', cidade: '', estado: '', pais: '' },
-            novos_dados_bancarios: { nome_banco: '', agencia: '', conta: '', tipo_conta_id: '' },
+            novos_dados_bancarios: { nome_banco: '', agencia: '', conta: '', swift_bic: '', aba: '', iban: '', endereco: '', tipo_conta_id: '' },
             nova_chancela: { chancela: '', projeto: '' },
             novo_tipo_telefone: '',
             tags_atuais: [],
@@ -49517,7 +49557,7 @@ var render = function() {
       _c("br"),
       _vm._v(" "),
       _vm.mostraPreview
-        ? _c("div", { staticClass: "preview" }, [
+        ? _c("div", { staticClass: "container_preview" }, [
             _vm.tags_nomes
               ? _c("div", { staticClass: "dados" }, [
                   _vm.tags_nomes
@@ -49676,7 +49716,9 @@ var render = function() {
                   _vm._v(" "),
                   _vm.pessoa.rg
                     ? _c("div", { staticClass: "valor" }, [
-                        _c("span", { staticClass: "campo" }, [_vm._v("RG")]),
+                        _c("span", { staticClass: "campo" }, [
+                          _vm._v("RG/RNE")
+                        ]),
                         _vm._v(" "),
                         _c("span", { staticClass: "texto" }, [
                           _vm._v(_vm._s(_vm.pessoa.rg))
@@ -49958,6 +50000,54 @@ var render = function() {
                                   _vm._v(" "),
                                   _c("span", { staticClass: "texto" }, [
                                     _vm._v(_vm._s(dado_bancario.conta))
+                                  ])
+                                ])
+                              : _vm._e(),
+                            _vm._v(" "),
+                            dado_bancario.swift_bic
+                              ? _c("div", [
+                                  _c("span", { staticClass: "campo" }, [
+                                    _vm._v("SWIFT/BIC")
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("span", { staticClass: "texto" }, [
+                                    _vm._v(_vm._s(dado_bancario.swift_bic))
+                                  ])
+                                ])
+                              : _vm._e(),
+                            _vm._v(" "),
+                            dado_bancario.aba
+                              ? _c("div", [
+                                  _c("span", { staticClass: "campo" }, [
+                                    _vm._v("ABA")
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("span", { staticClass: "texto" }, [
+                                    _vm._v(_vm._s(dado_bancario.aba))
+                                  ])
+                                ])
+                              : _vm._e(),
+                            _vm._v(" "),
+                            dado_bancario.iban
+                              ? _c("div", [
+                                  _c("span", { staticClass: "campo" }, [
+                                    _vm._v("IBAN")
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("span", { staticClass: "texto" }, [
+                                    _vm._v(_vm._s(dado_bancario.iban))
+                                  ])
+                                ])
+                              : _vm._e(),
+                            _vm._v(" "),
+                            dado_bancario.endereco
+                              ? _c("div", [
+                                  _c("span", { staticClass: "campo" }, [
+                                    _vm._v("Endereço")
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("span", { staticClass: "texto" }, [
+                                    _vm._v(_vm._s(dado_bancario.endereco))
                                   ])
                                 ])
                               : _vm._e(),
@@ -51600,33 +51690,35 @@ var render = function() {
                 ]),
                 _c("br"),
                 _vm._v(" "),
-                _c(
-                  "div",
-                  { staticClass: "valor" },
-                  [
-                    _c("span", { staticClass: "campo" }, [_vm._v("RG")]),
-                    _vm._v(" "),
-                    _c("the-mask", {
-                      staticClass: "mask-input cpf",
-                      attrs: {
-                        mask: ["XX.XXX.XXX-X"],
-                        masked: true,
-                        type: "text",
-                        autocomplete: "off",
-                        name: "rg",
-                        placeholder: " "
-                      },
-                      model: {
+                _c("div", { staticClass: "valor" }, [
+                  _c("span", { staticClass: "campo" }, [_vm._v("RG/RNE")]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
                         value: _vm.pessoa.rg,
-                        callback: function($$v) {
-                          _vm.$set(_vm.pessoa, "rg", $$v)
-                        },
                         expression: "pessoa.rg"
                       }
-                    })
-                  ],
-                  1
-                ),
+                    ],
+                    attrs: {
+                      type: "text",
+                      autocomplete: "off",
+                      name: "rg",
+                      placeholder: " "
+                    },
+                    domProps: { value: _vm.pessoa.rg },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.pessoa, "rg", $event.target.value)
+                      }
+                    }
+                  })
+                ]),
                 _c("br"),
                 _vm._v(" "),
                 _c(
@@ -53326,6 +53418,142 @@ var render = function() {
                     _c("br"),
                     _vm._v(" "),
                     _c("div", { staticClass: "valor" }, [
+                      _c("span", { staticClass: "campo" }, [
+                        _vm._v("SWIFT/BIC")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: dado_bancario.swift_bic,
+                            expression: "dado_bancario.swift_bic"
+                          }
+                        ],
+                        attrs: {
+                          autocomplete: "off",
+                          type: "text",
+                          placeholder: " ",
+                          name: "dado_bancario.swift_bic"
+                        },
+                        domProps: { value: dado_bancario.swift_bic },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              dado_bancario,
+                              "swift_bic",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ]),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "valor" }, [
+                      _c("span", { staticClass: "campo" }, [_vm._v("ABA")]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: dado_bancario.aba,
+                            expression: "dado_bancario.aba"
+                          }
+                        ],
+                        attrs: {
+                          autocomplete: "off",
+                          type: "text",
+                          placeholder: " ",
+                          name: "dado_bancario.aba"
+                        },
+                        domProps: { value: dado_bancario.aba },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(dado_bancario, "aba", $event.target.value)
+                          }
+                        }
+                      })
+                    ]),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "valor" }, [
+                      _c("span", { staticClass: "campo" }, [_vm._v("IBAN")]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: dado_bancario.iban,
+                            expression: "dado_bancario.iban"
+                          }
+                        ],
+                        attrs: {
+                          autocomplete: "off",
+                          type: "text",
+                          placeholder: " ",
+                          name: "dado_bancario.iban"
+                        },
+                        domProps: { value: dado_bancario.iban },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(dado_bancario, "iban", $event.target.value)
+                          }
+                        }
+                      })
+                    ]),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "valor" }, [
+                      _c("span", { staticClass: "campo" }, [
+                        _vm._v("Endereço")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: dado_bancario.endereco,
+                            expression: "dado_bancario.endereco"
+                          }
+                        ],
+                        attrs: {
+                          autocomplete: "off",
+                          type: "text",
+                          placeholder: " ",
+                          name: "dado_bancario.endereco"
+                        },
+                        domProps: { value: dado_bancario.endereco },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              dado_bancario,
+                              "endereco",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ]),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "valor" }, [
                       _c("span", { staticClass: "campo" }, [_vm._v("Tipo")]),
                       _vm._v(" "),
                       _c(
@@ -53520,6 +53748,178 @@ var render = function() {
                               },
                               function($event) {
                                 _vm.novos_dados_bancarios.conta =
+                                  $event.target.value
+                              }
+                            ]
+                          }
+                        })
+                      ]),
+                      _c("br"),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "valor" }, [
+                        _c("span", { staticClass: "campo" }, [
+                          _vm._v("SWIFT/BIC")
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.novos_dados_bancarios.swift_bic,
+                              expression: "novos_dados_bancarios.swift_bic"
+                            }
+                          ],
+                          attrs: {
+                            autocomplete: "off",
+                            type: "text",
+                            placeholder: " ",
+                            name: "novos_dados_bancarios.swift_bic"
+                          },
+                          domProps: {
+                            value: _vm.novos_dados_bancarios.swift_bic
+                          },
+                          on: {
+                            input: [
+                              function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.novos_dados_bancarios,
+                                  "swift_bic",
+                                  $event.target.value
+                                )
+                              },
+                              function($event) {
+                                _vm.novos_dados_bancarios.swift_bic =
+                                  $event.target.value
+                              }
+                            ]
+                          }
+                        })
+                      ]),
+                      _c("br"),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "valor" }, [
+                        _c("span", { staticClass: "campo" }, [_vm._v("ABA")]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.novos_dados_bancarios.aba,
+                              expression: "novos_dados_bancarios.aba"
+                            }
+                          ],
+                          attrs: {
+                            autocomplete: "off",
+                            type: "text",
+                            placeholder: " ",
+                            name: "novos_dados_bancarios.aba"
+                          },
+                          domProps: { value: _vm.novos_dados_bancarios.aba },
+                          on: {
+                            input: [
+                              function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.novos_dados_bancarios,
+                                  "aba",
+                                  $event.target.value
+                                )
+                              },
+                              function($event) {
+                                _vm.novos_dados_bancarios.aba =
+                                  $event.target.value
+                              }
+                            ]
+                          }
+                        })
+                      ]),
+                      _c("br"),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "valor" }, [
+                        _c("span", { staticClass: "campo" }, [_vm._v("IBAN")]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.novos_dados_bancarios.iban,
+                              expression: "novos_dados_bancarios.iban"
+                            }
+                          ],
+                          attrs: {
+                            autocomplete: "off",
+                            type: "text",
+                            placeholder: " ",
+                            name: "novos_dados_bancarios.iban"
+                          },
+                          domProps: { value: _vm.novos_dados_bancarios.iban },
+                          on: {
+                            input: [
+                              function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.novos_dados_bancarios,
+                                  "iban",
+                                  $event.target.value
+                                )
+                              },
+                              function($event) {
+                                _vm.novos_dados_bancarios.iban =
+                                  $event.target.value
+                              }
+                            ]
+                          }
+                        })
+                      ]),
+                      _c("br"),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "valor" }, [
+                        _c("span", { staticClass: "campo" }, [
+                          _vm._v("Endereço")
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.novos_dados_bancarios.endereco,
+                              expression: "novos_dados_bancarios.endereco"
+                            }
+                          ],
+                          attrs: {
+                            autocomplete: "off",
+                            type: "text",
+                            placeholder: " ",
+                            name: "novos_dados_bancarios.endereco"
+                          },
+                          domProps: {
+                            value: _vm.novos_dados_bancarios.endereco
+                          },
+                          on: {
+                            input: [
+                              function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.novos_dados_bancarios,
+                                  "endereco",
+                                  $event.target.value
+                                )
+                              },
+                              function($event) {
+                                _vm.novos_dados_bancarios.endereco =
                                   $event.target.value
                               }
                             ]
@@ -55901,7 +56301,7 @@ var render = function() {
       _c("br"),
       _vm._v(" "),
       _vm.mostraPreview
-        ? _c("div", { staticClass: "preview" }, [
+        ? _c("div", { staticClass: "container_preview" }, [
             _vm.tags_nomes
               ? _c("div", { staticClass: "dados" }, [
                   _vm.tags_nomes
@@ -56080,7 +56480,7 @@ var render = function() {
                           staticClass: "valor"
                         },
                         [
-                          _c("div", { staticClass: "preview endereco" }, [
+                          _c("div", { staticClass: "preview dados" }, [
                             endereco.rua
                               ? _c("div", [
                                   _c("span", { staticClass: "campo" }, [
@@ -60413,7 +60813,7 @@ var render = function() {
       _c("br"),
       _vm._v(" "),
       _vm.mostraPreview
-        ? _c("div", { staticClass: "preview" }, [
+        ? _c("div", { staticClass: "container_preview" }, [
             _c("div", { staticClass: "dados" }, [
               _c("span", { staticClass: "titulo_bloco" }, [
                 _vm._v("Dados gerais")
@@ -60425,18 +60825,6 @@ var render = function() {
                     _vm._v(" "),
                     _c("span", { staticClass: "texto" }, [
                       _vm._v(_vm._s(_vm.projeto.nome))
-                    ]),
-                    _vm._v(" "),
-                    _c("br")
-                  ])
-                : _vm._e(),
-              _vm._v(" "),
-              _vm.projeto.descricao
-                ? _c("div", { staticClass: "valor" }, [
-                    _c("span", { staticClass: "campo" }, [_vm._v("Descrição")]),
-                    _vm._v(" "),
-                    _c("span", { staticClass: "texto" }, [
-                      _vm._v(_vm._s(_vm.projeto.descricao))
                     ]),
                     _vm._v(" "),
                     _c("br")
@@ -60480,6 +60868,18 @@ var render = function() {
                         _vm._v(_vm._s(_vm.projeto.website))
                       ])
                     ])
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.projeto.descricao
+                ? _c("div", { staticClass: "valor descricao" }, [
+                    _c("span", { staticClass: "campo" }, [_vm._v("Descrição")]),
+                    _vm._v(" "),
+                    _c("span", { staticClass: "texto" }, [
+                      _vm._v(_vm._s(_vm.projeto.descricao))
+                    ]),
+                    _vm._v(" "),
+                    _c("br")
                   ])
                 : _vm._e(),
               _vm._v(" "),

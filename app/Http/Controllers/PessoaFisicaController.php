@@ -91,10 +91,14 @@ class PessoaFisicaController extends Controller
         $projetos = $this->ajaxGetProjetosChancelasPorId($id);
 
         //Preview
-        $dt_nascimento['dia'] = date("d", strtotime($pessoa_fisica->dt_nascimento));
-        $dt_nascimento['mes'] = AppHelper::mesPort(date("M", strtotime($pessoa_fisica->dt_nascimento)));
-        $dt_nascimento['ano'] = date("Y", strtotime($pessoa_fisica->dt_nascimento));
-        $dt_nascimento = strtolower(AppHelper::formataDataCurta($dt_nascimento));
+        if(!empty($pessoa_fisica->dt_nascimento)) {
+            $dt_nascimento['dia'] = date("d", strtotime($pessoa_fisica->dt_nascimento));
+            $dt_nascimento['mes'] = AppHelper::mesPort(date("M", strtotime($pessoa_fisica->dt_nascimento)));
+            $dt_nascimento['ano'] = date("Y", strtotime($pessoa_fisica->dt_nascimento));
+            $dt_nascimento = strtolower(AppHelper::formataDataCurta($dt_nascimento));
+        } else {
+            $dt_nascimento = $pessoa_fisica->dt_nascimento;
+        }
 
         $pais_origem = Pais::select('nome_pt')->where('id', $pessoa_fisica->origem_pais_id)->first();
         $pais_vive_em = Pais::select('nome_pt')->where('id', $pessoa_fisica->vive_em_pais_id)->first();
@@ -410,6 +414,10 @@ class PessoaFisicaController extends Controller
         $novos_dados_bancarios->nome_banco = !empty($dados_bancarios['nome_banco']) ? $dados_bancarios['nome_banco'] : '';
         $novos_dados_bancarios->agencia = !empty($dados_bancarios['agencia']) ? $dados_bancarios['agencia'] : '';
         $novos_dados_bancarios->conta = !empty($dados_bancarios['conta']) ? $dados_bancarios['conta'] : '';
+        $novos_dados_bancarios->swift_bic = !empty($dados_bancarios['swift_bic']) ? $dados_bancarios['swift_bic'] : '';
+        $novos_dados_bancarios->aba = !empty($dados_bancarios['aba']) ? $dados_bancarios['aba'] : '';
+        $novos_dados_bancarios->iban = !empty($dados_bancarios['iban']) ? $dados_bancarios['iban'] : '';
+        $novos_dados_bancarios->endereco = !empty($dados_bancarios['endereco']) ? $dados_bancarios['endereco'] : '';
         $novos_dados_bancarios->tipo_conta_id = !empty($dados_bancarios['tipo_conta_id']) ? $dados_bancarios['tipo_conta_id'] : '';
 
         try {

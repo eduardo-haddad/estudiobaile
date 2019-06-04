@@ -495,11 +495,28 @@ hr {
 
                 }
 
-                .preview {
+                .container_preview {
+
+                  .preview {
+                    &.dados {
+                      margin: 0 0 12px 0;
+
+                      div {
+                        margin-bottom: 5px;
+
+                      }
+                    }
+                  }
+                  
                   .texto {
                     position: relative;
                     top: 5px;
                   }
+                  
+                  .valor.descricao {
+                    line-height: 22px;
+                  }
+                  
                 }
 
                 .edicao {
@@ -586,17 +603,6 @@ hr {
 
                   input[type=text].nome {
                     width: 650px;
-                  }
-
-                  .preview {
-                    &.dados {
-                      margin: 0 0 12px 0;
-                      
-                      div {
-                        margin-bottom: 5px;
-
-                      }
-                    }
                   }
 
                   .form_endereco {

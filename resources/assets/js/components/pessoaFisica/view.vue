@@ -30,7 +30,7 @@
         <br>
 
         <!-- PREVIEW -->
-        <div v-if="mostraPreview" class="preview">
+        <div v-if="mostraPreview" class="container_preview">
             <!--TAGS-->
             <div class="dados" v-if="tags_nomes">
                 <span class="titulo_bloco" v-if="tags_nomes">Tags</span>
@@ -97,7 +97,7 @@
                 <span class="titulo_bloco">Documentos</span>
 
                 <div class="valor" v-if="pessoa.rg">
-                    <span class="campo">RG</span>
+                    <span class="campo">RG/RNE</span>
                     <span class="texto">{{ pessoa.rg }}</span>
                 </div><br>
 
@@ -191,6 +191,22 @@
                         <div v-if="dado_bancario.conta">
                             <span class="campo">Conta</span>
                             <span class="texto">{{ dado_bancario.conta }}</span>
+                        </div>
+                        <div v-if="dado_bancario.swift_bic">
+                            <span class="campo">SWIFT/BIC</span>
+                            <span class="texto">{{ dado_bancario.swift_bic }}</span>
+                        </div>
+                        <div v-if="dado_bancario.aba">
+                            <span class="campo">ABA</span>
+                            <span class="texto">{{ dado_bancario.aba }}</span>
+                        </div>
+                        <div v-if="dado_bancario.iban">
+                            <span class="campo">IBAN</span>
+                            <span class="texto">{{ dado_bancario.iban }}</span>
+                        </div>
+                        <div v-if="dado_bancario.endereco">
+                            <span class="campo">Endereço</span>
+                            <span class="texto">{{ dado_bancario.endereco }}</span>
                         </div>
                         <div v-if="dado_bancario.tipo_conta">
                             <span class="campo">Tipo</span>
@@ -611,16 +627,8 @@
 
                 <!-- DOCUMENTOS -->
                 <div class="valor">
-                    <span class="campo">RG</span>
-                    <the-mask
-                            :mask="['XX.XXX.XXX-X']"
-                            :masked="true"
-                            class="mask-input cpf"
-                            v-model="pessoa.rg"
-                            type="text"
-                            autocomplete="off"
-                            name="rg"
-                            placeholder=" " />
+                    <span class="campo">RG/RNE</span>
+                    <input type="text" v-model="pessoa.rg" autocomplete="off" name="rg" placeholder=" " />
                 </div><br>
 
                 <div class="valor">
@@ -1020,6 +1028,22 @@
                         <input autocomplete="off" type="text" placeholder=" " name="dado_bancario.conta" v-model="dado_bancario.conta" />
                     </div><br>
                     <div class="valor">
+                        <span class="campo">SWIFT/BIC</span>
+                        <input autocomplete="off" type="text" placeholder=" " name="dado_bancario.swift_bic" v-model="dado_bancario.swift_bic" />
+                    </div><br>
+                    <div class="valor">
+                        <span class="campo">ABA</span>
+                        <input autocomplete="off" type="text" placeholder=" " name="dado_bancario.aba" v-model="dado_bancario.aba" />
+                    </div><br>
+                    <div class="valor">
+                        <span class="campo">IBAN</span>
+                        <input autocomplete="off" type="text" placeholder=" " name="dado_bancario.iban" v-model="dado_bancario.iban" />
+                    </div><br>
+                    <div class="valor">
+                        <span class="campo">Endereço</span>
+                        <input autocomplete="off" type="text" placeholder=" " name="dado_bancario.endereco" v-model="dado_bancario.endereco" />
+                    </div><br>
+                    <div class="valor">
                         <span class="campo">Tipo</span>
                         <select name="dado_bancario.tipo_conta_id" v-model="dado_bancario.tipo_conta_id">
                             <option v-for="tipo_conta in atributos.tipos_conta_bancaria" :value="tipo_conta.id">
@@ -1043,6 +1067,22 @@
                     <div class="valor">
                         <span class="campo">Conta</span>
                         <input @input="novos_dados_bancarios.conta = $event.target.value" autocomplete="off" type="text" placeholder=" " name="novos_dados_bancarios.conta" v-model="novos_dados_bancarios.conta" />
+                    </div><br>
+                    <div class="valor">
+                        <span class="campo">SWIFT/BIC</span>
+                        <input @input="novos_dados_bancarios.swift_bic = $event.target.value" autocomplete="off" type="text" placeholder=" " name="novos_dados_bancarios.swift_bic" v-model="novos_dados_bancarios.swift_bic" />
+                    </div><br>
+                    <div class="valor">
+                        <span class="campo">ABA</span>
+                        <input @input="novos_dados_bancarios.aba = $event.target.value" autocomplete="off" type="text" placeholder=" " name="novos_dados_bancarios.aba" v-model="novos_dados_bancarios.aba" />
+                    </div><br>
+                    <div class="valor">
+                        <span class="campo">IBAN</span>
+                        <input @input="novos_dados_bancarios.iban = $event.target.value" autocomplete="off" type="text" placeholder=" " name="novos_dados_bancarios.iban" v-model="novos_dados_bancarios.iban" />
+                    </div><br>
+                    <div class="valor">
+                        <span class="campo">Endereço</span>
+                        <input @input="novos_dados_bancarios.endereco = $event.target.value" autocomplete="off" type="text" placeholder=" " name="novos_dados_bancarios.endereco" v-model="novos_dados_bancarios.endereco" />
                     </div><br>
                     <div class="valor">
                         <span class="campo">Tipo</span>
@@ -1151,7 +1191,7 @@
                 novo_email: '',
                 novo_telefone: '',
                 novo_endereco: {rua:'',numero:'',complemento:'',bairro:'',cep:'',cidade:'',estado:'',pais:''},
-                novos_dados_bancarios: {nome_banco:'',agencia:'',conta:'',tipo_conta_id:''},
+                novos_dados_bancarios: {nome_banco:'',agencia:'',conta:'',swift_bic:'',aba:'',iban:'',endereco:'',tipo_conta_id:''},
                 nova_chancela: {chancela: '', projeto: ''},
                 novo_tipo_telefone: '',
                 tags_atuais: [],
