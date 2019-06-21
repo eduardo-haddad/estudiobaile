@@ -1,0 +1,37 @@
+###############################################################################
+#                          Generated on phpdocker.io                          #
+###############################################################################
+version: "3.1"
+services:
+
+    mysql:
+      image: mysql:5.7
+      container_name: estudiobaile-mysql
+      working_dir: /application
+      volumes:
+        - .:/application
+      environment:
+        - MYSQL_ROOT_PASSWORD=jgkp99eb
+        - MYSQL_DATABASE=estudiobaile
+        - MYSQL_USER=estudiobaile
+        - MYSQL_PASSWORD=jgkp99eb
+      ports:
+        - "8002:3306"
+
+    webserver:
+      image: nginx:alpine
+      container_name: estudiobaile-webserver
+      working_dir: /application
+      volumes:
+          - .:/application
+          - ./phpdocker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+      ports:
+       - "8000:80"
+
+    php:
+      build: phpdocker/php
+      container_name: estudiobaile-php
+      working_dir: /application
+      volumes:
+        - .:/application
+
