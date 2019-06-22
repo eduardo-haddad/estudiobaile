@@ -5,13 +5,13 @@
             <img src="{{ asset('img/logo.png') }}" />
         </router-link>
     </div>
-            
-    <div class="usuario">    
+
+    <div class="usuario">
 
         @guest
             <div class="login"><a href="{{ route('login') }}">{{ __('Login') }}</a></div>
         @else
-        
+
             <div id="nome_usuario">
                 {{ Auth::user()->name }}
             </div>
@@ -24,7 +24,7 @@
                     @csrf
                 </form>
             </div>
-        
+
         @endguest
 
     </div>

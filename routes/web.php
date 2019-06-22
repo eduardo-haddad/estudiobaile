@@ -5,6 +5,15 @@ Route::get('/', function () {
     return view('home');
 })->name('home')->middleware('notLoggedIn');
 
+//Site
+Route::group(['prefix' => 'site'], function() {
+    //Home
+    Route::view('/', 'site.home');
+});
+
+
+
+
 // Rotas de autenticação (override em Auth::routes())
 
 //Auth::routes();

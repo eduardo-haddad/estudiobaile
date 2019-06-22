@@ -1448,12 +1448,8 @@
 .ql-container.ql-snow {
   border: 1px solid #ccc;
 }
-html.lb-disable-scrolling {
+body.lb-disable-scrolling {
   overflow: hidden;
-  /* Position fixed required for iOS. Just putting overflow: hidden; on the body is not enough. */
-  position: fixed;
-  height: 100vh;
-  width: 100vw;
 }
 
 .lightboxOverlay {
@@ -2575,6 +2571,13 @@ hr {
 }
 
 #app #principal #conteudo_geral .busca_lista .lupa_texto_container .lupa_texto input::-webkit-input-placeholder {
+  /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: #bebdbd;
+  opacity: 1;
+  /* Firefox */
+}
+
+#app #principal #conteudo_geral .busca_lista .lupa_texto_container .lupa_texto input::-moz-placeholder {
   /* Chrome, Firefox, Opera, Safari 10.1+ */
   color: #bebdbd;
   opacity: 1;

@@ -5,6 +5,10 @@ mix.js('resources/assets/js/app.js', 'public/js')
         .options({
             processCssUrls: false
         })
+    .sass('resources/assets/sass/site/app.scss', 'public/css/site')
+        .options({
+            processCssUrls: false
+        })
    .autoload({
         jquery: ['$', 'window.jQuery', 'jQuery']
     })

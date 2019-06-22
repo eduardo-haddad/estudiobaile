@@ -4,7 +4,7 @@
 
     <div id="home">
         olá
-        
+
     </div>
 
 @endsection

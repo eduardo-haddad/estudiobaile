@@ -12,7 +12,7 @@
 
         <!-- CSRF Token -->
         <meta name="csrf-token" content="{{ csrf_token() }}">
-    
+
         <title>BD - Estúdio Baile</title>
 
         <!-- Variáveis globais -->
@@ -21,7 +21,7 @@
             const ISADMIN = "@php echo $logado ? Auth::user()->hasRole('administrador') : '' @endphp";
             const USERID = "@php echo $logado ? Auth::user()->id : '' @endphp";
         </script>
-    
+
         <!-- Scripts -->
         @if(Auth::check())
             <script src="{{ asset('js/app.js') }}" defer></script>

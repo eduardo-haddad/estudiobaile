@@ -1,0 +1,53 @@
+@mixin red_border() {
+  border-top: $red solid 3px;
+  display: block;
+  padding-top: 10px;
+}
+
+#carrousel {
+  margin-bottom: 30px;
+}
+
+.car-w {
+  background: url("/images/proja.png") no-repeat center center/100%;
+
+  height: 387px;
+}
+
+.corpo {
+  max-width: 75%; //esse é o maxwidth to col-9
+  display: flex;
+  * {
+    font-size: 1em;
+  }
+}
+
+.ficha, .texto {
+  padding-left: 0;
+  margin-right: 118px;
+}
+
+.ficha {
+  float: left;
+  width: 42%;
+  display: block;
+  flex: 1 2 20%;
+  div {
+    @include red_border();
+  }
+  h1 {
+    font-family: $bold;
+    font-size: 2em;
+  }
+  .med {
+    font-family: $medium;
+    line-height: 0.9em;
+  }
+}
+
+.texto {
+  flex: 1 2 40%;
+  float: right;
+  // width: 58%;
+  @include red_border();
+}

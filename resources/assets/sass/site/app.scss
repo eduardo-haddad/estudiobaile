@@ -1,0 +1,183 @@
+// Variables
+@import 'partials/variables';
+
+// Fonts
+@import 'partials/fonts';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+// @import '~jquery-ui/themes/base/all.css';
+// @import '~/tipr/tipr/tipr.css';
+
+@import 'partials/projetoa';
+
+body {
+  font-family: $regular;
+  font-size: 14pt;
+  background-color: white;
+  line-height: 20pt;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+#geral {
+  // max-height: 100% vh;
+  // height: 100%;
+  // text-align: center;
+  padding: 0 0 10px;
+}
+
+#header, #main {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: white;
+  border-bottom: $pink solid 1px;
+  padding-top: 30px;
+}
+
+#header div:first-child {
+  padding-left: 0;
+}
+
+.logo {
+  width: 135px;
+  padding: 0 0 18px;
+  
+  img {
+    width: 100%;
+  }
+}
+
+.nav {
+  border-top: $pink solid 2px;
+  margin-left: 15px;
+  a, 
+  a:visited {
+    color: $pink;
+  }
+}
+
+#redes {
+  height: 20px;
+  display: flex;
+  color: $pink;
+
+  img {
+    height: 100%;
+    margin-right: 15px;
+  }
+
+  p {
+    margin: 0;
+    font-size: 0.7em;
+  }
+}
+
+#banner, #main {
+  margin-bottom: 50px;
+}
+//TODO banner #banner não tá centralizado
+.ban-w {
+  background: url('/images/banner1.png') no-repeat center center;
+  // width: 100%;
+  height: 264px;
+  // padding-bottom: 264px;
+}
+
+#main, #main a, .corpo {
+  color: $red;
+}
+
+.row {
+  justify-content: center;
+    margin-left: auto;
+  margin-right: auto;
+}
+
+.tooltip {
+  background-color: $orange;
+  color: $pink;
+  font-size: 0.9em;
+  border-top: $pink solid 3px;
+}
+
+.esc, .bep {
+  font-size: 1.2em;
+  line-height: 1.1em;
+}
+
+.esc {
+  text-align: left;
+  font-family: $bold;
+  flex-basis: $bepwid;
+  max-width: $bepwid;
+  
+  p {
+    position: absolute;
+    bottom: 0;
+    max-width: 77%;
+    margin-bottom: 0;
+  }
+  a {
+    text-decoration: underline;
+  }
+}
+
+.bep {
+  border-left: $pink solid 1px;
+  padding-left: 10px;
+  flex-basis: $bepwid;
+  max-width: $bepwid;
+}
+
+.mic-b {
+  font-family: 'Walsheim Pro Medium';
+  height: 150px;
+  display: flex;
+  overflow: hidden;
+  position: relative;
+  // border: 1px solid green;
+  
+
+  ul {
+    align-self: flex-end;
+    list-style-type: none;
+    padding: 0;
+    margin-bottom: 0;
+    vertical-align: bottom;
+
+    li {
+      // display: inline-block; //TODO deixar essa porra alinhada no bottom
+      a:hover {
+        color: $orange !important;
+      }
+    }
+  }
+
+  .lista {
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px; /* exact value is given through JavaScript */
+    overflow: auto;
+    // border: 1px solid blue;
+  }
+}
+
+.num {
+  vertical-align: text-top;
+  font-size: 8.9em;
+  font-weight: bold;
+  line-height: 0.8;
+  margin-bottom: 47px;
+}
