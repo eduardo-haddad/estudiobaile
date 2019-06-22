@@ -48,7 +48,7 @@
     </div>
     <div class="mic-b">
       <ul class="lista">
-        <li><a href='{!! url('/projetoa'); !!}'>Projeto AAAA</a></li>
+        <li><a href='{!! route('projetoa'); !!}'>Projeto AAAA</a></li>
         <li><a href="">nome do projeto</a></li>
         <li><a href="">nome do projeto</a></li>
         <li><a href="">nome do projeto</a></li>

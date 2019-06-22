@@ -23,8 +23,8 @@ a:hover {
 }
 
 #geral {
-  // max-height: 100% vh;
-  // height: 100%;
+   min-height: 100vh;
+   height: 100%;
   // text-align: center;
   padding: 0 0 10px;
 }
@@ -165,12 +165,11 @@ a:hover {
 
   .lista {
     position: absolute;
-    top: 0px;
     bottom: 0px;
     left: 0px;
-    right: 0px; /* exact value is given through JavaScript */
     overflow: auto;
-    // border: 1px solid blue;
+    height: 132px;
+    width: 100%;
   }
 }
 

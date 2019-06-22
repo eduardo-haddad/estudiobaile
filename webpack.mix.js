@@ -5,7 +5,7 @@ mix.js('resources/assets/js/app.js', 'public/js')
         .options({
             processCssUrls: false
         })
-    .sass('resources/assets/sass/site/app.scss', 'public/css/site')
+   .sass('resources/assets/sass/site/app.scss', 'public/css/site')
         .options({
             processCssUrls: false
         })
@@ -15,6 +15,9 @@ mix.js('resources/assets/js/app.js', 'public/js')
    .sourceMaps()
    .webpackConfig({
         devtool: 'source-map'
-    });
+    })
+    // .browserSync({
+    //     proxy: "localhost:8000"
+    // });
 
-   //mix.disableNotifications();
+   mix.disableNotifications();

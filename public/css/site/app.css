@@ -10644,6 +10644,8 @@ a:hover {
 }
 
 #geral {
+  min-height: 100vh;
+  height: 100%;
   padding: 0 0 10px;
 }
 
@@ -10789,12 +10791,11 @@ a:hover {
 
 .mic-b .lista {
   position: absolute;
-  top: 0px;
   bottom: 0px;
   left: 0px;
-  right: 0px;
-  /* exact value is given through JavaScript */
   overflow: auto;
+  height: 132px;
+  width: 100%;
 }
 
 .num {

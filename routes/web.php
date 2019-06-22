@@ -9,6 +9,8 @@ Route::get('/', function () {
 Route::group(['prefix' => 'site'], function() {
     //Home
     Route::view('/', 'site.home');
+    //Projeto
+    Route::view('/projetoa', 'site.projetoa')->name('projetoa');
 });
 
 
