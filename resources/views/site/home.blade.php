@@ -17,11 +17,11 @@
         1
     </div>
     <div class="mic-b">
-      <ul class="lista">
-        <li><a href="">assunto</a></li>
-        <li><a href="">lugar</a></li>
-        <li><a href="">parceria</a></li>
-        <li><a href="">pessoa</a></li>
+      <ul class="lista" id="lista1">
+        <li class="assunto"><a href="">assunto</a></li>
+        <li class="lugar"><a href="">lugar</a></li>
+        <li class="parceria"><a href="">parceria</a></li>
+        <li class="pessoa"><a href="">pessoa</a></li>
       </ul>
     </div>
   </div>
@@ -30,15 +30,8 @@
         2
     </div>
     <div class="mic-b">
-      <ul class="lista">
-        <li><a href="">fulano de tal</a></li>
-        <li><a href="">fulano de tal</a></li>
-        <li><a href="">fulano de tal</a></li>
-        <li><a href="">fulano de tal</a></li>
-        <li><a href="">beltrano de tal</a></li>
-        <li><a href="">beltrano de tal</a></li>
-        <li><a href="">ciclano de tal</a></li>
-        <li><a href="">ciclano de tal</a></li>
+      <ul class="lista" id="lista2">
+        {{-- Nomes PF --}}
       </ul>
     </div>
   </div>
@@ -47,21 +40,39 @@
         3
     </div>
     <div class="mic-b">
-      <ul class="lista">
-        <li><a href='{!! route('projetoa'); !!}'>Projeto AAAA</a></li>
-        <li><a href="">nome do projeto</a></li>
-        <li><a href="">nome do projeto</a></li>
-        <li><a href="">nome do projeto</a></li>
-        <li><a href="">nome do projeto</a></li>
-        <li><a href="">nome do projeto</a></li>
-        <li><a href="">nome do projeto</a></li>
-        <li><a href="">nome do projeto</a></li>
-        <li><a href="">nome do projeto</a></li>
-        <li><a href="">nome do projeto</a></li>
-        <li><a href="">nome do projeto</a></li>
+      <ul class="lista" id="lista3">
+
       </ul>
     </div>
   </div>
 </div>
+
+@push('scripts')
+<script>
+  $(document).ready(function(){
+     $('#lista1 li a').on('click', function(e){
+
+       e.preventDefault();
+
+       // Se o pai do elemento clicado (li) tiver classe "pessoa"
+       if($(this).parent().hasClass('pessoa')){
+
+         // Requisição ajax para recuperar a lista de PF's no banco
+         axios.post('/site/home/index/pf')
+            .then((response)=>{
+              // Iterar em cada item
+              $(response.data).each(function(){
+                let item = $(this)[0];
+                let nome = item['nome'];
+                let id = item['id'];
+                $('#lista2').append(`<li><a data-id="${id}">${nome}</a></li>`);
+              });
+            }
+         );
+       }
+     });
+  });
+</script>
+@endpush
 
 @stop

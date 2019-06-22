@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="{{ asset('css/site/app.css') }}" />
     <script src="{{ asset('js/app.js') }}"></script>
+    @stack('scripts')
   </head>
 
   <body>
