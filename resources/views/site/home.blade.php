@@ -18,10 +18,10 @@
     </div>
     <div class="mic-b">
       <ul class="lista" id="lista1">
-        <li class="assunto"><a href="">assunto</a></li>
-        <li class="lugar"><a href="">lugar</a></li>
-        <li class="parceria"><a href="">parceria</a></li>
-        <li class="pessoa"><a href="">pessoa</a></li>
+        <li><a>assunto</a></li>
+        <li><a>lugar</a></li>
+        <li><a>parceria</a></li>
+        <li><a>pessoa</a></li>
       </ul>
     </div>
   </div>
@@ -31,7 +31,7 @@
     </div>
     <div class="mic-b">
       <ul class="lista" id="lista2">
-        {{-- Nomes PF --}}
+        {{-- Assunto / Lugar / Parceria / Pessoa --}}
       </ul>
     </div>
   </div>
@@ -41,7 +41,7 @@
     </div>
     <div class="mic-b">
       <ul class="lista" id="lista3">
-
+        {{-- Projetos --}}
       </ul>
     </div>
   </div>
@@ -49,28 +49,64 @@
 
 @push('scripts')
 <script>
-  $(document).ready(function(){
-     $('#lista1 li a').on('click', function(e){
+  $(function(){
 
-       e.preventDefault();
+    $('#lista1 li a').on('click', function(e){
+      // Desabilita comportamento padrão do link
+      e.preventDefault();
 
-       // Se o pai do elemento clicado (li) tiver classe "pessoa"
-       if($(this).parent().hasClass('pessoa')){
+      // Limpa dados a cada clique para não acumular
+      $('#lista2').empty();
+      $('#lista3').empty();
 
-         // Requisição ajax para recuperar a lista de PF's no banco
-         axios.post('/site/home/index/pf')
-            .then((response)=>{
-              // Iterar em cada item
-              $(response.data).each(function(){
-                let item = $(this)[0];
-                let nome = item['nome'];
-                let id = item['id'];
-                $('#lista2').append(`<li><a data-id="${id}">${nome}</a></li>`);
-              });
+      // Assunto, lugar, parceria, pessoa
+      let tipoLista = $(this).html();
+
+      // Requisição ajax
+      axios.post(`/site/${tipoLista}/index`)
+        .then((response)=>{
+          // Foreach em cada item
+          $(response.data).each(function(){
+            let item = $(this)[0];
+            let lista2 = $('#lista2');
+            // Adiciona uma linha para cada resultado vindo do BD
+            switch(tipoLista) {
+              case 'assunto':
+                lista2.append(`<li><a class="lista2" data-tipo="pessoa" data-id="${item['id']}">${item['nome_adotado']}</a></li>`); break;
+              case 'lugar':
+                lista2.append(`<li><a class="lista2" data-tipo="pessoa" data-id="${item['id']}">${item['nome_adotado']}</a></li>`); break;
+              case 'parceria':
+                lista2.append(`<li><a class="lista2" data-tipo="pessoa" data-id="${item['id']}">${item['nome_adotado']}</a></li>`); break;
+              case 'pessoa':
+                lista2.append(`<li><a class="lista2" data-tipo="pessoa" data-id="${item['id']}">${item['nome_adotado']}</a></li>`); break;
             }
-         );
-       }
-     });
+          });
+        });
+
+    });
+
+    $('#lista2').on('click', '.lista2', function(){
+      let id = $(this).data('id');
+      let tipoLista = $(this).data('tipo');
+
+      // Limpa dados a cada clique para não acumular
+      $('#lista3').empty();
+
+      // Requisição ajax
+      axios.post(`/site/${tipoLista}/projetos/index`, {id: id})
+        .then((response)=>{
+          // Foreach em cada item
+          $(response.data).each(function(){
+            let item = $(this)[0];
+            // Adiciona uma linha para cada resultado vindo do BD
+            switch(tipoLista) {
+              case 'pessoa':
+                $('#lista3').append(`<li><a class="lista3" data-tipo="projeto" data-id="${item['id']}">${item['nome']}</a></li>`); break;
+            }
+          });
+        });
+    });
+
   });
 </script>
 @endpush

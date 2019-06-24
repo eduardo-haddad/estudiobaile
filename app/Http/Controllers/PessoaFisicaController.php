@@ -708,12 +708,4 @@ class PessoaFisicaController extends Controller
         return PessoaFisica::getProjetosChancelasPorId($pessoa_fisica_id);
     }
 
-    public function siteGetPessoasFisicas(){
-
-        return PessoaFisica::all();
-
-    }
-
-
-
 }

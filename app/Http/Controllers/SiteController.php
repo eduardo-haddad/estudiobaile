@@ -2,15 +2,33 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\PessoaFisica;
 
 class SiteController extends Controller
 {
-    public function view(){
+    /*
+     * Home
+     */
 
-        $dados = PessoaFisica::all();
+    // Pessoa
+    public function homeGetListaPessoa(){
+        return response()->json(PessoaFisica::orderBy('nome_adotado')->get(), 200);
+    }
+    public function homeGetListaPessoaProjetos(Request $request){
+        $pessoa = PessoaFisica::find($request->id);
+        return response()->json($pessoa->projetos()->get(), 200);
+    }
+    // Assunto
+    // Lugar
+    // Parceria
 
-        return view('site.projetoa',compact('dados'));
+    /*
+     * Projetos
+     */
+    public function projetoView(){
+        $dados = [];
+        return view('site.projetoa', compact('dados'));
     }
 
 }

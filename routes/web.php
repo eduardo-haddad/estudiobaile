@@ -7,15 +7,29 @@ Route::get('/', function () {
 
 //Site
 Route::group(['prefix' => 'site'], function() {
-    //Home
+
+    /*
+     * Home
+     */
+
+    // View
     Route::view('/', 'site.home');
+    // Ajax - lista Assunto
+    Route::post('/assunto/index', ['uses' => 'SiteController@homeGetListaPf']);
+    // Ajax - lista Lugar
+    Route::post('/lugar/index', ['uses' => 'SiteController@homeGetListaPf']);
+    // Ajax - lista Parceria
+    Route::post('/parceria/index', ['uses' => 'SiteController@homeGetListaPf']);
+    // Ajax - lista Pessoa
+    Route::post('/pessoa/index', ['uses' => 'SiteController@homeGetListaPessoa']);
+    Route::post('/pessoa/projetos/index', ['uses' => 'SiteController@homeGetListaPessoaProjetos']);
 
-    //Home
+    /*
+     * Projetos
+     */
+    Route::get('/projetoa', ['uses' => 'SiteController@projetoView']);
 
-    // Lista PF
-    Route::post('/home/index/pf', [
-        'uses' => 'PessoaFisicaController@siteGetPessoasFisicas'
-    ]);
+
 });
 
 
