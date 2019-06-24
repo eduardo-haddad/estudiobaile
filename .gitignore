@@ -1,4 +1,9 @@
 /node_modules
+webpack.mix.js
+app.css
+app.css.map
+app.js
+app.js.map
 /public/hot
 /public/storage
 /storage/*.key
