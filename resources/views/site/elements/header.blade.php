@@ -1,4 +1,4 @@
-<div class="row" id="header">
+<div class="row no-gutters" id="header">
   <div class="col-2">
     <div class="logo">
       <a href='{!! url('/site'); !!}'><img src="/images/logo.png"></a>

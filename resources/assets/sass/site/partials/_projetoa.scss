@@ -11,20 +11,17 @@
 .car-w {
   background: url("/images/proja.png") no-repeat center center/100%;
   height: 344px;
-  max-width: 66.66666667% + (3 * $gutter);
-  flex: 0 0 66.66666667% + (3 * $gutter);
+  max-width: 66.66666667% + (5 * $gutter); //compensação dos gutters
+  flex: 0 0 66.66666667% + (5 * $gutter);
 }
 
-.corpo {
-  display: flex;
-  * {
+#corpo {
     font-size: 1em;
-  }
 }
 
-.ficha, .texto {
-  padding-left: 0;
-}
+// .ficha, .texto {
+//   padding-left: 0;
+// }
 
 .ficha {
   float: left;
@@ -43,5 +40,9 @@
 }
 
 .texto {
-  @include red_border();
+  @include red_border(); 
+}
+
+.margem-extra {
+  margin-right: 3 * $gutter + vw !important;
 }
