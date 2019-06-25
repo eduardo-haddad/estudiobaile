@@ -23,16 +23,26 @@ a:hover {
 }
 
 #geral {
-   min-height: 100vh;
-   height: 100%;
-  // text-align: center;
-  padding: 0 0 10px;
+  min-height: 100vh;
+  height: 100%;
+  padding: 0 0 10px; 
+  * { //reset do padding do bs
+    padding-left: 0;
+    padding-right: 0;
+  }
 }
 
 #header, #main {
   width: 100%;
   margin-left: auto;
   margin-right: auto;
+}
+
+.row {
+  justify-content: center;
+  > * {
+    margin-right: $gutter + vw;
+  }
 }
 
 #header {
@@ -44,13 +54,9 @@ a:hover {
   padding-top: 30px;
 }
 
-#header div:first-child {
-  padding-left: 0;
-}
-
 .logo {
   width: 135px;
-  padding: 0 0 18px;
+  padding: 0 $gutter + vw 18px;
   
   img {
     width: 100%;
@@ -59,7 +65,6 @@ a:hover {
 
 .nav {
   border-top: $pink solid 2px;
-  margin-left: 15px;
   a, 
   a:visited {
     color: $pink;
@@ -73,7 +78,7 @@ a:hover {
 
   img {
     height: 100%;
-    margin-right: 15px;
+    margin-right: $gutter + vw;
   }
 
   p {
@@ -97,10 +102,8 @@ a:hover {
   color: $red;
 }
 
-.row {
-  justify-content: center;
-    margin-left: auto;
-  margin-right: auto;
+.head-w div {
+  display: block;
 }
 
 .tooltip {
@@ -156,7 +159,6 @@ a:hover {
     vertical-align: bottom;
 
     li {
-      // display: inline-block; //TODO deixar essa porra alinhada no bottom
       a:hover {
         color: $orange !important;
       }

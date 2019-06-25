@@ -10,12 +10,12 @@
 
 .car-w {
   background: url("/images/proja.png") no-repeat center center/100%;
-
-  height: 387px;
+  height: 344px;
+  max-width: 66.66666667% + (3 * $gutter);
+  flex: 0 0 66.66666667% + (3 * $gutter);
 }
 
 .corpo {
-  max-width: 75%; //esse é o maxwidth to col-9
   display: flex;
   * {
     font-size: 1em;
@@ -24,14 +24,11 @@
 
 .ficha, .texto {
   padding-left: 0;
-  margin-right: 118px;
 }
 
 .ficha {
   float: left;
-  width: 42%;
   display: block;
-  flex: 1 2 20%;
   div {
     @include red_border();
   }
@@ -46,8 +43,5 @@
 }
 
 .texto {
-  flex: 1 2 40%;
-  float: right;
-  // width: 58%;
   @include red_border();
 }

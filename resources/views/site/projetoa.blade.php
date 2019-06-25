@@ -1,23 +1,24 @@
 @extends('site.layouts.base')
 @section('conteudo')
 
-<div class="projeto" id="proja">
-  <div class="row" id="carrousel">
-    <div class="col-9 car-w">
-      {{-- <img src="images/proja.png" alt=""> --}}
+
+<div class="row" id="carrousel">
+  <div class="col-8 car-w">
+    {{-- <img src="images/proja.png" alt=""> --}}
+  </div>
+</div>
+<div class="row corpo">
+  <div class="ficha col-2">
+    <div class="titulo">
+      <h1>
+        Projeto A
+      </h1>
+      <span class="med">Residências artísticas<br>
+      em contexto educativos</span>
     </div>
   </div>
-  <div class="row corpo">
-    <div class="ficha col-4">
-      <div class="titulo">
-        <h1>
-          Projeto A
-        </h1>
-        <span class="med">Residências artísticas<br>
-        em contexto educativos</span>
-      </div>
-    </div>
-    <div class="texto">
+  <div class="col-1"></div>
+  <div class="texto col-4">
     <p>
       Atualmente no Brasil, temos a elaboração e a implementação de uma Base Nacional Comum Curricular para a educação artística nos níveis de Educação Infantil, Ensino Fundamental e Ensino Médio. A Base estabelece nove objetivos de aprendizagem para a Educação Infantil, ligados a traços, sons, cores e formas, e delineia para o Ensino Fundamental 61 objetivos, relacionados a artes visuais, teatro, música, dança e artes integradas.
     </p>
@@ -48,8 +49,9 @@
     <p>
       a dança, o teatro, as artes grá cas e tantas outras possibilidades. A partir da conversa com a escola encontraremos o artista que melhor possa colaborar com discussões pertinentes à comunidade envolvida.
     </p>
-    </div>
   </div>
+  <div class="col-1"></div>
 </div>
+
 
 @stop
