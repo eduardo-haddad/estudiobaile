@@ -16,8 +16,33 @@
       <span class="med">Residências artísticas<br>
       em contexto educativos</span>
     </div>
-    <div class="">
-      
+    <div class="info">
+      <p>
+        data
+      </p>
+      <span class="bold">dezembro 2019</span>
+      <p>onde</p>
+      <span class="bold">galeria veremelho, são paulo</span>
+      <p>assuntos</p>
+      <span class="bold">educação<br>
+        astronomia<br>
+        dança<br>
+      </span>
+    </div>
+    <div class="info">
+      <p>curadoria</p>
+      <span class="bold">nome sobrenome</span>
+      <p>montagem</p>
+      <span class="bold">nome sobrenome</span>
+      <p>função</p>
+      <span class="bold">nome sobrenome</span>
+      <p>função</p>
+      <span class="bold">nome sobrenome</span>
+      <p>função</p>
+      <span class="bold">nome sobrenome</span>
+    </div>
+    <div class="info">
+      parceiros
     </div>
   </div>
   <div class="col-1"></div>
@@ -53,6 +78,9 @@
       a dança, o teatro, as artes grá cas e tantas outras possibilidades. A partir da conversa com a escola encontraremos o artista que melhor possa colaborar com discussões pertinentes à comunidade envolvida.
     </p>
   </div>
+  {{-- <div class="galeria">
+    <h2 class="bold">galeria</h2>
+  </div> --}}
   <div class="col-1 margem-extra"></div>
 </div>
 

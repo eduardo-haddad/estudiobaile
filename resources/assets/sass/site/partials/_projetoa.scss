@@ -1,7 +1,7 @@
 @mixin red_border() {
   border-top: $red solid 3px;
   display: block;
-  padding-top: 10px;
+  padding: 10px 0 10px;
 }
 
 #carrousel {
@@ -31,16 +31,38 @@
   }
   h1 {
     font-family: $bold;
-    font-size: 2em;
+    font-size: 2.2em;
   }
-  .med {
-    font-family: $medium;
-    line-height: 0.9em;
+}
+
+.titulo {
+  line-height: 1.2em;
+}
+
+.info {
+  line-height: 1.5em;
+  p {
+    margin-bottom: 0px;
   }
+  span {
+    margin-bottom: 3px;
+  }
+}
+
+.med {
+  font-family: $medium;
+}
+
+.bold {
+  font-family: $bold;
 }
 
 .texto {
   @include red_border(); 
+}
+
+.galeria {
+  display: block;
 }
 
 .margem-extra {
