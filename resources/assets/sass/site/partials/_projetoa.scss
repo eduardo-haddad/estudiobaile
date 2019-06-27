@@ -58,11 +58,12 @@
 }
 
 .texto {
-  @include red_border(); 
+  @include red_border();
+  padding-bottom: 45px;
 }
 
 .galeria {
-  display: block;
+  @include red_border();
 }
 
 .margem-extra {
