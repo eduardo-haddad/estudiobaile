@@ -10,12 +10,12 @@
   <div class="ficha col-2">
     <div class="titulo">
       <h1>
-        Projeto A
+        Projeto B
       </h1>
       <span class="med">Residências artísticas<br>
       em contexto educativos</span>
     </div>
-    {{-- TODO alinhar corretamente a ficha A --}}
+    {{-- TODO alinhar corretamente a ficha B --}}
     <div class="info">
       <p>
           data 

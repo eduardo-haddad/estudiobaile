@@ -26,9 +26,14 @@ class SiteController extends Controller
     /*
      * Projetos
      */
-    public function projetoView(){
+    public function projetoViewA(){
         $dados = [];
         return view('site.projetoa', compact('dados'));
+    }
+
+    public function projetoViewB(){
+        $dados = [];
+        return view('site.projetob', compact('dados'));
     }
 
 }

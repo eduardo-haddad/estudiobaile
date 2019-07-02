@@ -27,7 +27,9 @@ Route::group(['prefix' => 'site'], function() {
     /*
      * Projetos
      */
-    Route::get('/projetoa', ['uses' => 'SiteController@projetoView']);
+    Route::get('/projetoa', ['uses' => 'SiteController@projetoViewA']);
+
+    Route::get('/projetob', ['uses' => 'SiteController@projetoViewB']);
 
 
 });
@@ -656,4 +658,3 @@ Route::group($opcoes_rotas, function(){
     ]);
 
 });
-
