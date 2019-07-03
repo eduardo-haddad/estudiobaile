@@ -15,31 +15,46 @@
       <span class="med">Residências artísticas<br>
       em contexto educativos</span>
     </div>
-    {{-- TODO alinhar corretamente a ficha A --}}
     <div class="info">
-      <p>
-          data 
-      </p>
-      <span class="bold">dezembro 2019</span>
-      <p>onde</p>
-      <span class="bold">galeria veremelho, são paulo</span>
-      <p>assuntos</p>
-      <span class="bold">educação<br>
-        astronomia<br>
-        dança<br>
-      </span>
+      <div class="campo">
+        <p>
+            data 
+        </p>
+        <span class="bold">dezembro 2019</span>
+      </div>
+      <div class="campo">
+        <p>onde</p>
+        <span class="bold">galeria veremelho, são paulo</span>
+      </div>
+      <div class="campo">
+        <p>assuntos</p>
+        <span class="bold">educação<br>
+          astronomia<br>
+          dança<br>
+        </span>
+      </div>
     </div>
     <div class="info">
-      <p>curadoria</p>
-      <span class="bold">nome sobrenome</span>
-      <p>montagem</p>
-      <span class="bold">nome sobrenome</span>
-      <p>função</p>
-      <span class="bold">nome sobrenome</span>
-      <p>função</p>
-      <span class="bold">nome sobrenome</span>
-      <p>função</p>
-      <span class="bold">nome sobrenome</span>
+      <div class="campo">
+        <p>curadoria</p>
+        <span class="bold">nome sobrenome</span>
+      </div>
+      <div class="campo">
+        <p>montagem</p>
+        <span class="bold">nome sobrenome</span>
+      </div>
+      <div class="campo">
+        <p>função</p>
+        <span class="bold">nome sobrenome</span>
+      </div>
+      <div class="campo">
+        <p>função</p>
+        <span class="bold">nome sobrenome</span>
+      </div>
+      <div class="campo">
+        <p>função</p>
+        <span class="bold">nome sobrenome</span>
+      </div>
     </div>
     <div class="info">
       parceiros

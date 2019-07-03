@@ -26,7 +26,7 @@
 .ficha {
   float: left;
   display: block;
-  div {
+  > div {
     @include red_border();
   }
   h1 {
@@ -40,13 +40,17 @@
 }
 
 .info {
-  line-height: 1.5em;
+  line-height: 1em;
   p {
     margin-bottom: 0px;
   }
   span {
     margin-bottom: 3px;
   }
+}
+
+.campo {
+  margin-bottom: 12px;
 }
 
 .med {
