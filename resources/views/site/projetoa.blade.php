@@ -58,7 +58,14 @@
     </div>
     <div class="info">
       parceiros
-      {{-- TODO adicionar imagens --}}
+      <div class="parceiros">
+        <img src="{{ asset('/images/parceiros.png') }}" alt="">
+        <img src="{{ asset('/images/parceiros.png') }}" alt="">
+      </div>
+      <div class="parceiros">
+        <img src="{{ asset('/images/parceiros.png') }}" alt="">
+        <img src="{{ asset('/images/parceiros.png') }}" alt="">
+      </div>
     </div>
   </div>
   <div class="col-1"></div>

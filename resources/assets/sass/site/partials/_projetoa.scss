@@ -85,6 +85,21 @@
   margin-bottom: 12px;
 }
 
+.parceiros {
+  margin-top: 14px;
+  img {
+    width: 46px;
+    height: 46px;
+    // margin: 0 36px 0 0px;
+    &:first-child {
+      margin-right: 32px;
+    }
+    // &:last-child {
+    //   margin-right: 0;
+    // }
+  }
+}
+
 .med {
   font-family: $medium;
 }
