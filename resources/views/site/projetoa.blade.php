@@ -97,8 +97,25 @@
     </div>
     <div class="galeria">
       <h2 class="bold">galeria</h2>
+      <div class="thumb landscape">
+        <img src={{ asset('/images/galeria1/RM2.png') }}>
+      </div>
+      <div class="thumb portrait">
+        <img src={{ asset('/images/galeria1/RM1.png') }}>
+      </div>
+      <div class="thumb portrait">
+        <img src={{ asset('/images/galeria1/RM4.jpg') }}>
+      </div>
+      <div class="thumb landscape">
+        <img src={{ asset('/images/galeria1/RM5.jpg') }}>
+      </div>
+      <div class="thumb portrait">
+        <img src={{ asset('/images/galeria1/RM2.png') }}>
+      </div>
+      <div class="thumb landscape">
+        <img src={{ asset('/images/galeria1/RM1.png') }}>
+      </div>
     </div>
-    <img src="/public/images/galeria1/RM2.png" alt="">
   </div>
   <div class="col-1 margem-extra"></div>
 </div>

@@ -1,7 +1,7 @@
 @mixin red_border() {
-  border-top: $red solid 3px;
+  border-top: $red solid 2px;
   display: block;
-  padding: 10px 0 10px;
+  padding: 14px 0 10px;
 }
 
 #carrousel {
@@ -16,7 +16,7 @@
 }
 
 #corpo {
-    font-size: 1em;
+  font-size: 1em;
 }
 
 // .ficha, .texto {
@@ -32,11 +32,43 @@
   h1 {
     font-family: $bold;
     font-size: 2.2em;
+    line-height: 0.9em;
   }
 }
 
 .titulo {
   line-height: 1.2em;
+}
+
+.texto {
+  @include red_border();
+  padding-bottom: 45px;
+}
+
+.galeria {
+  @include red_border();
+  h2 {
+    margin-bottom: 23px;
+  }
+}
+
+.thumb {
+  height: 180px;
+  margin: 0 1% 8px 0;
+  display: inline-block;
+  img {
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+  }
+}
+
+.landscape {
+  width: 57%;
+}
+
+.portrait {
+  width: 40%;
 }
 
 .info {
@@ -59,15 +91,6 @@
 
 .bold {
   font-family: $bold;
-}
-
-.texto {
-  @include red_border();
-  padding-bottom: 45px;
-}
-
-.galeria {
-  @include red_border();
 }
 
 .margem-extra {
