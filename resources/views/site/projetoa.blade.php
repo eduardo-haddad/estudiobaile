@@ -3,7 +3,7 @@
 
 <div class="row no-gutters no-gutters" id="carrousel">
   <div class="col-8 car-w">
-    {{-- <img src="images/proja.png" alt=""> --}}
+    <img src="{{ asset('/images/proja.png') }}" alt="">
   </div>
 </div>
 <div class="row no-gutters" id="corpo">
