@@ -26,7 +26,6 @@
 
 #corpo {
   font-size: 1em;
-  height: 1000px;
 }
 
 // .ficha, .texto {
@@ -36,8 +35,9 @@
 .ficha {
   float: left;
   display: block;
+  align-self: flex-start;
   position: sticky;
-  top: 10px;
+  top: 30px;
   > div {
     @include red_border();
   }
@@ -62,10 +62,11 @@
   h2 {
     margin-bottom: 23px;
   }
+  margin-bottom: 100px;
 }
 
 .thumb {
-  height: 180px;
+  height: 200px;
   margin: 0 1% 8px 0; //margem lateral em %, em concordancia com  o width dos containers
   display: inline-block;
   @include img_cover();
