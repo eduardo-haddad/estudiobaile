@@ -17,7 +17,6 @@
 }
 
 .car-w {
-  // background: url("/images/proja.png") no-repeat center center/100%;
   height: 344px;
   max-width: 66.66666667% + (5 * $gutter); //compensação dos gutters
   flex: 0 0 66.66666667% + (5 * $gutter);
@@ -26,25 +25,21 @@
 
 #corpo {
   font-size: 1em;
+  h1 {
+    font-family: $bold;
+    font-size: 2.2em;
+    line-height: 0.9em;
+  }
 }
-
-// .ficha, .texto {
-//   padding-left: 0;
-// }
 
 .ficha {
   float: left;
   display: block;
   align-self: flex-start;
   position: sticky;
-  top: 30px;
+  top: 135px;
   > div {
     @include red_border();
-  }
-  h1 {
-    font-family: $bold;
-    font-size: 2.2em;
-    line-height: 0.9em;
   }
 }
 
@@ -99,11 +94,11 @@
   img {
     width: 46px;
     height: 46px;
-    // margin: 0 36px 0 0px;
+    // margin: 0 36px 0 0px; //usar caso mais parceiros na mesma linha
     &:first-child {
       margin-right: 32px;
     }
-    // &:last-child {
+    // &:last-child { // idem
     //   margin-right: 0;
     // }
   }
