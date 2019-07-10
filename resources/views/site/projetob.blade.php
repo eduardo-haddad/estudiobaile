@@ -3,7 +3,7 @@
 
 <div class="row no-gutters no-gutters" id="carrousel">
   <div class="col-8 car-w">
-    {{-- <img src="images/proja.png" alt=""> --}}
+    <img src="/images/projb.png" alt="">
   </div>
 </div>
 <div class="row no-gutters" id="corpo">
@@ -17,15 +17,18 @@
     </div>
     <div class="info">
       <div class="campo">
+        <span class="bold">temporada 1</span>
         <p>
-            data 
+          dezembro 2019
         </p>
-        <span class="bold">dezembro 2019</span>
       </div>
       <div class="campo">
-        <p>onde</p>
-        <span class="bold">galeria veremelho, são paulo</span>
+        <span class="bold">temporada 2</span>
+        <p>janeiro 2020</p>
       </div>
+    </div>
+    <div class="info">
+      {{-- TODO line-height desse campo difere em A e B --}}
       <div class="campo">
         <p>assuntos</p>
         <span class="bold">educação<br>
@@ -33,32 +36,6 @@
           dança<br>
         </span>
       </div>
-    </div>
-    <div class="info">
-      <div class="campo">
-        <p>curadoria</p>
-        <span class="bold">nome sobrenome</span>
-      </div>
-      <div class="campo">
-        <p>montagem</p>
-        <span class="bold">nome sobrenome</span>
-      </div>
-      <div class="campo">
-        <p>função</p>
-        <span class="bold">nome sobrenome</span>
-      </div>
-      <div class="campo">
-        <p>função</p>
-        <span class="bold">nome sobrenome</span>
-      </div>
-      <div class="campo">
-        <p>função</p>
-        <span class="bold">nome sobrenome</span>
-      </div>
-    </div>
-    <div class="info">
-      parceiros
-      {{-- TODO adicionar imagens --}}
     </div>
   </div>
   <div class="col-1"></div>
@@ -78,21 +55,6 @@
       </p>
       <p>
         Com objetivo de estreitar as relações entre artista, escola e comunidade, a equipe do Pousos realizará um aprofundado trabalho preparatório antes do início da residência. Nesse sentido buscamos entender juntos quais seriam os interesses da escola em ter um artista desenvolvendo sua prática in loco e chegarmos a uma dinâmica que seja interessante para a comunidade. O professor de artes da escola poderá ser muito valioso nesse processo, apontando questões de interesse pedagógico que podem ser valorizadas na experiência.
-      </p>
-      <p>
-        A mediação entre artista e escola também terá especial atenção para que as partes estejam em sintonia, com muita consciência do lugar e processos em
-      </p>
-      <p>
-        que estão envolvidos. O ideal é que a comunidade escolar nas limitações e desejos da própria comunidade.
-      </p>
-      <p>
-        Cada edição do projeto Pousos tem duração de alguns meses dentro de um período letivo, como semestre, trimestre ou bimestre. A residência do artista
-      </p>
-      <p>
-        em nada compete com as aulas de artes já existentes ou com a dinâmica estabelecida da escola. A ideia é que o artista não tenha uma rotina rígida de horários e tarefas a cumprir – ele estaria ali vivenciando o dia-a-dia escolar e encontraria sua própria dinâmica dentro desse contexto para o desenvolvimento de uma nova obra. É importante enfatizar que não estamos nos fechando numa única linguagem artística: consideramos as artes visuais, mas também
-      </p>
-      <p>
-        a dança, o teatro, as artes grá cas e tantas outras possibilidades. A partir da conversa com a escola encontraremos o artista que melhor possa colaborar com discussões pertinentes à comunidade envolvida.
       </p>
     </div>
     <div class="galeria">
