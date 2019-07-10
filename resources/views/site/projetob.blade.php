@@ -57,10 +57,20 @@
         Com objetivo de estreitar as relações entre artista, escola e comunidade, a equipe do Pousos realizará um aprofundado trabalho preparatório antes do início da residência. Nesse sentido buscamos entender juntos quais seriam os interesses da escola em ter um artista desenvolvendo sua prática in loco e chegarmos a uma dinâmica que seja interessante para a comunidade. O professor de artes da escola poderá ser muito valioso nesse processo, apontando questões de interesse pedagógico que podem ser valorizadas na experiência.
       </p>
     </div>
-    <div class="galeria">
-      <h2 class="bold">galeria</h2>
+    <div class="texto">
+      <div class="subprojeto">
+        <div class="portrait">
+          <h1 class="bold">Temporada 1</h1>
+          <span class="bold">2019</span>
+          <p>galeria vermelho,</p>
+          <p>são paulo</p>
+        </div>
+      </div>
+      <div class="thumb landscape
+      ">
+        <img src="{{ asset('/images/galeria1/RM10.png') }}" alt="">
+      </div>
     </div>
-    <img src="/public/images/galeria1/RM2.png" alt="">
   </div>
   <div class="col-1 margem-extra"></div>
 </div>
