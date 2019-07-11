@@ -73,7 +73,6 @@
 
 .portrait {
   width: 40%;
-  float: left;
 }
 
 .info {
@@ -104,12 +103,29 @@
     // }
   }
 }
-
-.subprojeto {
-  display: block;
+// TODO barra vermelha na segunda iteração
+.subprojeto { 
+  display: flex;
+  line-height: 1.1em;
+  margin-top: 7px;
+  &:first-child {
+    margin-top: 0px;
+  }
   p {
     margin-bottom: 0;
   }
+  .portrait {
+    width: 49%;
+    float: left;
+  }
+  .landscape {
+    width: 51%;
+    float: right;
+  }
+  .thumb {
+    margin-right: 0;
+  }
+
 }
 
 .med {

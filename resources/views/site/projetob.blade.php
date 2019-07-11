@@ -65,10 +65,20 @@
           <p>galeria vermelho,</p>
           <p>são paulo</p>
         </div>
+        <div class="thumb landscape">
+          <img src="{{ asset('/images/galeria1/RM10.png') }}" alt="">
+        </div>
       </div>
-      <div class="thumb landscape
-      ">
-        <img src="{{ asset('/images/galeria1/RM10.png') }}" alt="">
+      <div class="subprojeto">
+        <div class="portrait">
+          <h1 class="bold">Temporada 2</h1>
+          <span class="bold">2020</span>
+          <p>galeria vermelho,</p>
+          <p>são paulo</p>
+        </div>
+        <div class="thumb landscape">
+          <img src="{{ asset('/images/galeria1/RM6.png') }}" alt="">
+        </div>
       </div>
     </div>
   </div>
