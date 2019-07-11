@@ -1,12 +1,12 @@
 @extends('site.layouts.base')
 @section('conteudo')
 
-<div class="row no-gutters" id="banner">
+<div class="row" id="banner">
   <div class="col ban-w">
     {{-- <img src="images/banner1.png"> --}}
   </div>
 </div>
-<div class="row no-gutters" id="main">
+<div class="row" id="main">
   <div class="col-2 escolha">
     <p>
       escolha por onde começar a busca de <a href="#">projetos</a>

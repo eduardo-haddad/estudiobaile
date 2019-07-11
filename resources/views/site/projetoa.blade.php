@@ -1,12 +1,12 @@
 @extends('site.layouts.base')
 @section('conteudo')
 
-<div class="row no-gutters no-gutters" id="carrousel">
+<div class="row" id="carrousel">
   <div class="col-8 car-w">
     <img src="{{ asset('/images/proja.png') }}" alt="">
   </div>
 </div>
-<div class="row no-gutters" id="corpo">
+<div class="row" id="corpo">
   <div class="ficha col-2">
     <div class="titulo">
       <h1>
