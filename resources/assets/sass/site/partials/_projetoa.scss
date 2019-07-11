@@ -116,16 +116,15 @@
   }
   .portrait {
     width: 49%;
-    float: left;
+    // float: left;
   }
   .landscape {
     width: 51%;
-    float: right;
+    // float: right;
   }
   .thumb {
     margin-right: 0;
   }
-
 }
 
 .med {
@@ -138,4 +137,10 @@
 
 .margem-extra {
   margin-right: 3 * $gutter + vw !important;
+}
+
+@media (max-width: 768px) {
+  .ficha {
+    position: static;
+  }
 }
