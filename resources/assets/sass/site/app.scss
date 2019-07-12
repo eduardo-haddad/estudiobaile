@@ -22,17 +22,6 @@ a:hover {
   text-decoration: none;
 }
 
-// .no-gutters {
-//   margin-right: 0;
-//   margin-left: 0;
-
-//   > .col,
-//   > [class*="col-"] {
-//     padding-right: 0;
-//     padding-left: 0;
-//   }
-// }
-
 #geral {
   min-height: 100vh;
   height: 100%;
@@ -54,23 +43,33 @@ a:hover {
   background-color: white;
   border-bottom: $pink solid 1px;
   padding-top: 30px;
+  
+  > div:first-child {
+  margin-right: -15px;
+  }
+  > div:last-child {
+  margin-left: -15px;
+  }
 }
 
-.logo {
+#logo {
   width: 135px;
   padding: 0 0 18px;
-  
   img {
     width: 100%;
   }
 }
 
-.nav {
-  display: block;
-  border-top: $pink solid 2px;
+.nave {
+  padding-left: 0;
+  border-top: $pink solid 3px;
   a, 
   a:visited {
     color: $pink;
+  }
+
+  & + .nave {
+  margin-left: 15px;
   }
 }
 
@@ -152,8 +151,6 @@ a:hover {
   display: flex;
   overflow: hidden;
   position: relative;
-  // border: 1px solid green;
-  
 
   ul {
     align-self: flex-end;
@@ -187,7 +184,7 @@ a:hover {
 }
 
 @media (max-width: 768px) {
-  .nav {
+  .nave {
     display: none;
   }
   #redes {
