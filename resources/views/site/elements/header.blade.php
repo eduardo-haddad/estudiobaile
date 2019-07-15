@@ -4,14 +4,20 @@
       <a href='{!! url('/site'); !!}'><img src="/images/logo.png"></a>
     </div>
   </div>
-  <div class="col-1 nave">
-    <a href="">sobre</a>
+  <div class="col-1">
+    <div class="nave">
+      <a href="">sobre</a>
+    </div>
   </div>
-  <div class="col-1 nave">
-    <a href="">projetos</a>
+  <div class="col-1">
+    <div class="nave">
+      <a href="">projetos</a>
+    </div>
   </div>
-  <div class="col-1 nave">
-    <a href="">agenda</a>
+  <div class="col-1">
+    <div class="nave">
+      <a href="">agenda</a>
+    </div>
   </div>
   <div class="col-1"></div>
   <div class="col-2">
