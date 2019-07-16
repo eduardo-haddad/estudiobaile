@@ -7,43 +7,49 @@
   </div>
 </div>
 <div class="row" id="main">
-  <div class="col-2 escolha">
-    <p>
-      escolha por onde começar a busca de <a href="#">projetos</a>
-    </p>
-  </div>
-  <div class="col-2 pad-extra">
-    <div class="num">
-        1
-    </div>
-    <div class="mic-b">
-      <ul class="lista" id="lista1">
-        <li><a>assunto</a></li>
-        <li><a>lugar</a></li>
-        <li><a>parceria</a></li>
-        <li><a>pessoa</a></li>
-      </ul>
-    </div>
-  </div>
-  <div class="col-2 pad-extra">
-    <div class="num">
-        2
-    </div>
-    <div class="mic-b">
-      <ul class="lista" id="lista2">
-        {{-- Assunto / Lugar / Parceria / Pessoa --}}
-      </ul>
+  <div class="col-2">
+    <div class="escolha bordarosa">
+      <p>
+        escolha por onde começar a busca de <a href="#">projetos</a>
+      </p>
     </div>
   </div>
   <div class="col-2">
-    <div class="num">
-        3
+    <div class="bordarosa">
+      <div class="num">
+          1
+      </div>
+      <div class="mic-b">
+        <ul class="lista" id="lista1">
+          <li><a>assunto</a></li>
+          <li><a>lugar</a></li>
+          <li><a>parceria</a></li>
+          <li><a>pessoa</a></li>
+        </ul>
+      </div>
     </div>
-    <div class="mic-b">
-      <ul class="lista" id="lista3">
-        {{-- Projetos --}}
-      </ul>
+  </div>
+  <div class="col-2">
+    <div class="bordarosa">
+      <div class="num">
+          2
+      </div>
+      <div class="mic-b">
+        <ul class="lista" id="lista2">
+          {{-- Assunto / Lugar / Parceria / Pessoa --}}
+        </ul>
+      </div>
     </div>
+  </div>
+  <div class="col-2">
+      <div class="num">
+          3
+      </div>
+      <div class="mic-b">
+        <ul class="lista" id="lista3">
+          {{-- Projetos --}}
+        </ul>
+      </div>
   </div>
 </div>
 

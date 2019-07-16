@@ -18,8 +18,6 @@
 
 .car-w {
   height: 344px;
-  // max-width: 66.66666667% + (5 * $gutter); //compensação dos gutters
-  // flex: 0 0 66.66666667% + (5 * $gutter);
   @include img_cover();
 }
 
@@ -137,10 +135,6 @@
 
 // .mini-col {
 //   padding-left: 0;
-// }
-
-// .margem-extra {
-//   margin-right: 3 * $gutter + vw !important;
 // }
 
 @media (max-width: 768px) {

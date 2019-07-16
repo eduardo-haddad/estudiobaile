@@ -31,9 +31,6 @@ a:hover {
 
 .row {
   justify-content: center;
-  // > * {
-  //   margin-right: $gutter + vw;
-  // }
 }
 
 #header {
@@ -43,13 +40,6 @@ a:hover {
   background-color: white;
   border-bottom: $pink solid 1px;
   padding-top: 30px;
-  
-  // > div:first-child {
-  // margin-right: calc(#{$grid-gutter-width} / -2);
-  // }
-  // > div:last-child {
-  // margin-left: calc(#{$grid-gutter-width} / -2);
-  // }
 }
 
 #logo {
@@ -61,17 +51,11 @@ a:hover {
 }
 
 .nave {
-  // padding-left: 0;
   border-top: $pink solid 3px;
-  // margin-left: calc(#{$grid-gutter-width} / 2);
   a, 
   a:visited {
     color: $pink;
   }
-
-  // & + .nave {
-  // margin-left: calc(#{$grid-gutter-width} / 2);
-  // }
 }
 
 #redes {
@@ -113,22 +97,9 @@ a:hover {
 }
 
 #main {
-  > div {
-    border-right: $pink solid 1px;
-  }
-  // > div:first-child {
-  //   margin-right: calc(#{$grid-gutter-width} / 2);
-  // }
-  // >div:nth-child(2) {
-    // flex: 0 0 17.9%;
-    // max-width: 17.9%;
-    // padding-left: 0;
-  // }
-  // > div:nth-child(3){
-  //   // padding-left: 0;
-  // }
-  > div:last-child {
-    border-right: none;
+  > div div:only-child {
+  border-right: $pink solid 1px;
+  height: 100%;
   }
   li,
   p {
@@ -140,7 +111,6 @@ a:hover {
 .escolha {
   text-align: left;
   font-family: $bold;
-
   p {
     position: absolute;
     bottom: 0;
@@ -177,7 +147,7 @@ a:hover {
     bottom: 0px;
     left: 0px;
     overflow: auto;
-    // height: 132px;
+    height: 100%;
     width: 100%;
   }
 }
