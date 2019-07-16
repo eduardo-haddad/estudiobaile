@@ -3,7 +3,7 @@
 
 <div class="row" id="banner">
   <div class="col ban-w">
-    {{-- <img src="images/banner1.png"> --}}
+    <img src="images/banner1.png">
   </div>
 </div>
 <div class="row" id="main">
@@ -43,7 +43,7 @@
   </div>
   <div class="col-2">
       <div class="num">
-          3
+        3
       </div>
       <div class="mic-b">
         <ul class="lista" id="lista3">

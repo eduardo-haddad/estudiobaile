@@ -28,9 +28,16 @@ a:hover {
   padding: 0 0 10px; 
 }
 
+#geral > {
+  .row {
+    margin-left: 0;
+    margin-right: 0
+  }
+}
 
 .row {
   justify-content: center;
+;
 }
 
 #header {
@@ -87,9 +94,8 @@ a:hover {
 }
 
 .ban-w {
-  background: url('/images/banner1.png') no-repeat center center;
   height: 264px;
-  margin-right: 0;
+  @include img_cover();
 }
 
 #main, #main a, #corpo {

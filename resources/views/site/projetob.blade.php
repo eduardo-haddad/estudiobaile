@@ -41,7 +41,7 @@
   <div class="col-md-1"></div>
   <div class="col-md-5">
     <div class="row">
-      <div class="col-md-10 mini-col">
+      <div class="col-md-10">
         <div class="texto">
           <p>
             Atualmente no Brasil, temos a elaboração e a implementação de uma Base Nacional Comum Curricular para a educação artística nos níveis de Educação Infantil, Ensino Fundamental e Ensino Médio. A Base estabelece nove objetivos de aprendizagem para a Educação Infantil, ligados a traços, sons, cores e formas, e delineia para o Ensino Fundamental 61 objetivos, relacionados a artes visuais, teatro, música, dança e artes integradas.
@@ -63,7 +63,7 @@
       <div class="col-md-2"></div>
     </div>
     <div class="row">
-      <div class="col mini-col">
+      <div class="col">
         <div class="texto">
           <div class="subprojeto">
             <div class="portrait">
