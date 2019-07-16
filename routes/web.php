@@ -31,6 +31,9 @@ Route::group(['prefix' => 'site'], function() {
 
     Route::get('/projetob', ['uses' => 'SiteController@projetoViewB']);
 
+    Route::get('/projetoc', ['uses' => 'SiteController@projetoViewc']);
+
+
 
 });
 

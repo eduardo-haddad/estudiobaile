@@ -1,5 +1,5 @@
-@mixin red_border() {
-  border-top: $red solid 3px;
+@mixin border($color) {
+  border-top: $color solid 3px;
   display: block;
   padding: 14px 0 10px;
 }
@@ -30,6 +30,25 @@
   }
 }
 
+.externo {
+  div {
+    color: black;
+  }
+  .texto {
+    margin-bottom: 100px;
+  }
+  .texto, .ficha > div {
+    @include border(black);
+  }
+  .parceiros {
+    img {
+      width: 63px;
+      height: 63px;
+      filter: grayscale(100%);
+    }
+  }
+}
+
 .ficha {
   float: left;
   display: block;
@@ -37,7 +56,7 @@
   position: sticky;
   top: 135px;
   > div {
-    @include red_border();
+    @include border($red);
   }
 }
 
@@ -45,13 +64,19 @@
   line-height: 1.2em;
 }
 
+.logo-externo {
+  margin-top: 10px;
+  width: 73%;
+  @include img_cover();
+}
+
 .texto {
-  @include red_border();
+  @include border($red);
   padding-bottom: 45px;
 }
 
 .galeria {
-  @include red_border();
+  @include border($red);
   h2 {
     margin-bottom: 23px;
   }
@@ -74,7 +99,7 @@
 }
 
 .info {
-  line-height: 1em;
+  line-height: 1.2em;
   p {
     margin-bottom: 0px;
   }
