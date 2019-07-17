@@ -25,9 +25,14 @@
   font-size: 1em;
   h1 {
     font-family: $bold;
-    font-size: 2.2em;
+    font-size: 2em;
     line-height: 0.9em;
   }
+}
+
+.projetod .info a {
+  text-decoration: underline;
+  font-family: $bold;
 }
 
 .externo {
@@ -62,6 +67,10 @@
 
 .titulo {
   line-height: 1.2em;
+  sup {
+    font-size: 0.4em;
+    top: -1em;
+  }
 }
 
 .logo-externo {
@@ -139,11 +148,9 @@
   }
   .portrait {
     width: 49%;
-    // float: left;
   }
   .landscape {
     width: 51%;
-    // float: right;
   }
   .thumb {
     margin-right: 0;

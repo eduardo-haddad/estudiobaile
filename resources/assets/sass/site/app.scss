@@ -9,7 +9,7 @@
 // @import '~jquery-ui/themes/base/all.css';
 // @import '~/tipr/tipr/tipr.css';
 
-@import 'partials/projetoa';
+@import 'partials/projetos';
 
 body {
   font-family: $regular;
@@ -37,7 +37,6 @@ a:hover {
 
 .row {
   justify-content: center;
-;
 }
 
 #header {
@@ -73,12 +72,14 @@ a:hover {
 
   img {
     height: 100%;
-    margin-right: calc(#{$grid-gutter-width} / 2);
+    margin-right: calc(#{$grid-gutter-width});
   }
 
   p {
+    font-family: $medium;
     margin: 0;
-    font-size: 0.7em;
+    font-size: 0.8em;
+    align-self: center;
   }
 }
 
@@ -98,7 +99,7 @@ a:hover {
   @include img_cover();
 }
 
-#main, #main a, #corpo {
+#main, #main a, #corpo, .projetod .info a {
   color: $red;
 }
 

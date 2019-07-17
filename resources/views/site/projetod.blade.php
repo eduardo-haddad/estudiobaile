@@ -2,39 +2,62 @@
 @section('conteudo')
 
 <div class="row" id="carrousel">
-  <div class="col-md-8 car-w">
-    <img src="/images/projb.png" alt="">
+  <div class="col-8 car-w">
+    <img src="{{ asset('/images/galeria1/RM10.png') }}" alt="">
   </div>
 </div>
-<div class="row" id="corpo">
+<div class="row projetod" id="corpo">
   <div class="ficha col-md-2">
+    <div class="info">
+      <div class="campo">
+        <p>parte do projeto</p>
+        <a href="{{  url('/site/projetob') }}">Temporada de Dança Videobrasil</a>
+      </div>
+    </div>
     <div class="titulo">
       <h1>
-        Projeto B
+        1<sup>ª</sup> Temporada de Dança Videobrasil
       </h1>
-      <span class="med">Residências artísticas<br>
-      em contexto educativos</span>
     </div>
     <div class="info">
       <div class="campo">
-        <span class="bold">temporada 1</span>
         <p>
-          dezembro 2019
+            data 
         </p>
+        <span class="bold">dezembro 2019</span>
       </div>
       <div class="campo">
-        <span class="bold">temporada 2</span>
-        <p>janeiro 2020</p>
+        <p>onde</p>
+        <span class="bold">galeria veremelho, são paulo</span>
       </div>
-    </div>
-    <div class="info">
-      {{-- TODO line-height desse campo difere em A e B --}}
       <div class="campo">
         <p>assuntos</p>
         <span class="bold">educação<br>
           astronomia<br>
           dança<br>
         </span>
+      </div>
+    </div>
+    <div class="info">
+      <div class="campo">
+        <p>curadoria</p>
+        <span class="bold">nome sobrenome</span>
+      </div>
+      <div class="campo">
+        <p>montagem</p>
+        <span class="bold">nome sobrenome</span>
+      </div>
+      <div class="campo">
+        <p>função</p>
+        <span class="bold">nome sobrenome</span>
+      </div>
+      <div class="campo">
+        <p>função</p>
+        <span class="bold">nome sobrenome</span>
+      </div>
+      <div class="campo">
+        <p>função</p>
+        <span class="bold">nome sobrenome</span>
       </div>
     </div>
   </div>
@@ -55,37 +78,31 @@
           <p>
             Como a escritora inglesa Jeanette Winterson escreveu, “Observar quadros durante muito tempo é como ser abandonado numa cidade estrangeira: aos poucos, por vontade própria ou desespero, algumas palavras-chave, e depois certa sintaxe, abrem caminho em meio ao silêncio. A arte, qualquer arte, não apenas a pintura, é uma cidade estrangeira, e é engano pensar que ela nos é familiar. Ninguém se surpreende ao constatar que uma cidade estrangeira tem costumes e idioma próprios. Somente um insensível não levaria em conta esses fatores e culparia o lugar pela própria ignorância. É o que acontece com o artista e com a arte todos os dias. Temos de reconhecer que a linguagem da arte, de qualquer arte, não é nossa língua materna”.1
           </p>
-          <p>
-            Com objetivo de estreitar as relações entre artista, escola e comunidade, a equipe do Pousos realizará um aprofundado trabalho preparatório antes do início da residência. Nesse sentido buscamos entender juntos quais seriam os interesses da escola em ter um artista desenvolvendo sua prática in loco e chegarmos a uma dinâmica que seja interessante para a comunidade. O professor de artes da escola poderá ser muito valioso nesse processo, apontando questões de interesse pedagógico que podem ser valorizadas na experiência.
-          </p>
         </div>
       </div>
       <div class="col-md-2"></div>
     </div>
     <div class="row">
       <div class="col">
-        <div class="texto">
-          <div class="subprojeto">
-            <div class="portrait">
-              <h1 class="bold">Temporada 1</h1>
-              <span class="bold">2019</span>
-              <p>galeria vermelho,</p>
-              <p>são paulo</p>
-            </div>
-            <div class="thumb landscape">
-              <a href="{{ url('/site/projetod') }}"><img src="{{ asset('/images/galeria1/RM10.png') }}" alt=""></a>
-            </div>
+        <div class="galeria">
+          <h2 class="bold">galeria</h2>
+          <div class="thumb landscape">
+            <img src={{ asset('/images/galeria1/RM2.png') }}>
           </div>
-          <div class="subprojeto">
-            <div class="portrait">
-              <h1 class="bold">Temporada 2</h1>
-              <span class="bold">2020</span>
-              <p>galeria vermelho,</p>
-              <p>são paulo</p>
-            </div>
-            <div class="thumb landscape">
-              <img src="{{ asset('/images/galeria1/RM6.png') }}" alt="">
-            </div>
+          <div class="thumb portrait">
+            <img src={{ asset('/images/galeria1/RM1.png') }}>
+          </div>
+          <div class="thumb portrait">
+            <img src={{ asset('/images/galeria1/RM4.jpg') }}>
+          </div>
+          <div class="thumb landscape">
+            <img src={{ asset('/images/galeria1/RM5.jpg') }}>
+          </div>
+          <div class="thumb portrait">
+            <img src={{ asset('/images/galeria1/RM2.png') }}>
+          </div>
+          <div class="thumb landscape">
+            <img src={{ asset('/images/galeria1/RM1.png') }}>
           </div>
         </div>
       </div>
