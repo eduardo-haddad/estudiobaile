@@ -6,7 +6,7 @@
     <img src="{{ asset('/images/galeria1/RM10.png') }}" alt="">
   </div>
 </div>
-<div class="row projetod" id="corpo">
+<div class="row projeto tipo-d" id="corpo">
   <div class="ficha col-md-2">
     <div class="info">
       <div class="campo">
@@ -61,8 +61,7 @@
       </div>
     </div>
   </div>
-  <div class="col-md-1"></div>
-  <div class="col-md-5">
+  <div class="col-md-5 offset-md-1">
     <div class="row">
       <div class="col-md-10">
         <div class="texto">

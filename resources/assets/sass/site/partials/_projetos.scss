@@ -22,20 +22,23 @@
 }
 
 #corpo {
-  font-size: 1em;
-  h1 {
-    font-family: $bold;
-    font-size: 2em;
-    line-height: 0.9em;
+  .texto {
+    padding-bottom: 45px;
   }
 }
 
-.projetod .info a {
+.projeto {
+  .ficha {
+    position: sticky;
+  }
+}
+
+.tipo-d .info a {
   text-decoration: underline;
   font-family: $bold;
 }
 
-.externo {
+.tipo-c {
   div {
     color: black;
   }
@@ -58,7 +61,7 @@
   float: left;
   display: block;
   align-self: flex-start;
-  position: sticky;
+  font-size: $texto-geral-base;
   top: 135px;
   > div {
     @include border($red);
@@ -81,7 +84,8 @@
 
 .texto {
   @include border($red);
-  padding-bottom: 45px;
+  font-size: $texto-geral-base;
+  line-height: 1.4em;
 }
 
 .galeria {

@@ -35,6 +35,8 @@ Route::group(['prefix' => 'site'], function() {
 
     Route::get('/projetod', ['uses' => 'SiteController@projetoViewD']);
 
+    Route::get('/sobre', ['uses' => 'SiteController@sobre']);
+
 });
 
 

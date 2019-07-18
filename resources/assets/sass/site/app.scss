@@ -10,12 +10,26 @@
 // @import '~/tipr/tipr/tipr.css';
 
 @import 'partials/projetos';
+@import 'partials/sobre';
+
 
 body {
   font-family: $regular;
   font-size: 12pt;
   background-color: white;
   line-height: 18pt;
+    h1 {
+    font-family: $bold;
+    font-size: 2em;
+    line-height: 0.9em;
+  }
+  a:hover {
+    color: unset;
+  }
+}
+
+body, a {
+  color: $red;
 }
 
 a:hover {
@@ -46,6 +60,11 @@ a:hover {
   background-color: white;
   border-bottom: $pink solid 1px;
   padding-top: 30px;
+  color: $pink;
+  a, 
+  a:visited {
+    color: $pink;
+  }
 }
 
 #logo {
@@ -58,17 +77,12 @@ a:hover {
 
 .nave {
   border-top: $pink solid 3px;
-  a, 
-  a:visited {
-    color: $pink;
-  }
 }
 
 #redes {
   display: block;
   height: 20px;
   display: flex;
-  color: $pink;
 
   img {
     height: 100%;
@@ -96,11 +110,9 @@ a:hover {
 
 .ban-w {
   height: 264px;
+  padding-left: 0;
+  padding-right: 0;
   @include img_cover();
-}
-
-#main, #main a, #corpo, .projetod .info a {
-  color: $red;
 }
 
 #main {

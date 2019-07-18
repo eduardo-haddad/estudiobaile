@@ -3,7 +3,7 @@
 
 <div class="row" id="banner">
   <div class="col ban-w">
-    <img src="images/banner1.png">
+    <img src="{{ asset('images/banner1.png') }}">
   </div>
 </div>
 <div class="row" id="main">

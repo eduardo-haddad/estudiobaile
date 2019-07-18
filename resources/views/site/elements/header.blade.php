@@ -6,7 +6,7 @@
   </div>
   <div class="col-1">
     <div class="nave">
-      <a href="">sobre</a>
+      <a href="{{ url('/site/sobre') }}">sobre</a>
     </div>
   </div>
   <div class="col-1">
@@ -25,7 +25,7 @@
       <img src="/images/loc.png" data-toggle="tooltip" class="loc">
       <img src="/images/fb.png" alt="">
       <img src="/images/insta.png" alt="">
-      <p>PT / EN</p>
+      <p><a href="#">PT</a> / <a href="#">EN</a></p>
     </div>
   </div>
 </div>

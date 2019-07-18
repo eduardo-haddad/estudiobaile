@@ -1,0 +1,28 @@
+.logo-vertical {
+  padding: 0 $lateral-logo-vertical 50px $lateral-logo-vertical;
+  img {
+    width: 100%;
+  }
+}
+
+#sobre {
+  overflow: hidden;
+  > div {
+    margin-top: 80px;
+    overflow: scroll;
+  }
+  h1 {
+    margin-bottom: 25px;
+  }
+  .texto {
+    padding-bottom: 25px;
+  }
+  .info {
+    line-height: 1.4em;
+    font-size: 0.9em;
+  }
+}
+
+.smoll {
+  font-size: 0.86em;
+}

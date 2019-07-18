@@ -3,10 +3,10 @@
 
 <div class="row" id="carrousel">
   <div class="col-md-8 car-w">
-    <img src="/images/projc.png" alt="">
+    <img src="{{ asset('/images/projc.png') }}" alt="">
   </div>
 </div>
-<div class="row externo" id="corpo">
+<div class="row projeto tipo-c" id="corpo">
   <div class="ficha col-md-2">
     <div class="titulo">
       <h1>
@@ -48,7 +48,7 @@
       </div>
       <div class="campo">
         <p>onde</p>
-        <span class="bold">gakerua vermelho, são paulo</span>
+        <span class="bold">galeria vermelho, são paulo</span>
       </div>
       <div class="campo">
         <p>tags</p>
@@ -59,8 +59,7 @@
       </div>
     </div>
   </div>
-  <div class="col-md-1"></div>
-  <div class="col-md-5">
+  <div class="col-md-5 offset-md-1">
     <div class="row">
       <div class="col-md-10">
         <div class="texto">

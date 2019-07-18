@@ -3,10 +3,10 @@
 
 <div class="row" id="carrousel">
   <div class="col-md-8 car-w">
-    <img src="/images/projb.png" alt="">
+    <img src="{{ asset('/images/projb.png') }}" alt="">
   </div>
 </div>
-<div class="row" id="corpo">
+<div class="row projeto tipo-d" id="corpo">
   <div class="ficha col-md-2">
     <div class="titulo">
       <h1>
@@ -38,8 +38,7 @@
       </div>
     </div>
   </div>
-  <div class="col-md-1"></div>
-  <div class="col-md-5">
+  <div class="col-md-5 offset-md-1">
     <div class="row">
       <div class="col-md-10">
         <div class="texto">

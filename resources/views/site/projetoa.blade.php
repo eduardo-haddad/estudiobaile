@@ -2,11 +2,11 @@
 @section('conteudo')
 
 <div class="row" id="carrousel">
-  <div class="col-8 car-w">
+  <div class="col-md-8 car-w">
     <img src="{{ asset('/images/proja.png') }}" alt="">
   </div>
 </div>
-<div class="row" id="corpo">
+<div class="row projeto tipo-a" id="corpo">
   <div class="ficha col-md-2">
     <div class="titulo">
       <h1>
@@ -68,8 +68,7 @@
       </div>
     </div>
   </div>
-  <div class="col-md-1"></div>
-  <div class="col-md-5">
+  <div class="col-md-5 offset-md-1">
     <div class="row">
       <div class="col-md-10">
         <div class="texto">
