@@ -9,8 +9,7 @@
 // @import '~jquery-ui/themes/base/all.css';
 // @import '~/tipr/tipr/tipr.css';
 
-@import 'partials/projetos';
-@import 'partials/sobre';
+@import 'partials/mixins', 'partials/projetos-secao', 'partials/projetos-paginas','partials/sobre';
 
 
 body {
@@ -64,6 +63,9 @@ a:hover {
   a, 
   a:visited {
     color: $pink;
+  }
+  a:active {
+    font-family: $bold;
   }
 }
 

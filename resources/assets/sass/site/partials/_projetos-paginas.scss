@@ -1,16 +1,4 @@
-@mixin border($color) {
-  border-top: $color solid 3px;
-  display: block;
-  padding: 14px 0 10px;
-}
-
-@mixin img_cover() {
-  img {
-    object-fit: cover;
-    height: 100%;
-    width: 100%;
-  }
-}
+@import 'mixins';
 
 #carrousel {
   margin-bottom: 30px;

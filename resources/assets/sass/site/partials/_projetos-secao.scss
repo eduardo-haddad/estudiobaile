@@ -1,0 +1,66 @@
+@import 'mixins';
+
+#projetos {
+  font-size: 0.9em;
+  #legendas {
+    padding-top: 40px;
+    padding-bottom: 5px;
+    .leg-item {
+      display: inline-block;
+      height: 13px;
+      margin-right: 20px;
+      img {
+        height: 100%;
+      }
+    }
+  }
+// TODO tirar rebarba das bordas
+  #proj-gal {
+    width: 100%;
+    @include border($red, 27px);
+  }
+}
+
+.thu-projeto {
+  height: 130px;
+  margin-bottom: 20px;
+  cursor: pointer;
+  transition: all .3s linear;
+  img {
+    mix-blend-mode: screen;
+  }
+  @include img_cover;
+}
+
+.thu-projeto:hover {
+  background: black; 
+}
+
+.caption {
+  line-height: 1.2em;
+  p {
+    margin-bottom: 0px;
+  }
+  p + p {
+    margin-bottom: 1rem;
+  }
+}
+
+.cap-c {
+  color: black;
+}
+
+.passado {
+  background: $pink;
+}
+
+.presente {
+  background: $red;
+}
+
+.futuro {
+  background:  $orange;
+  & + .caption {
+    color: $orange;
+  }
+}

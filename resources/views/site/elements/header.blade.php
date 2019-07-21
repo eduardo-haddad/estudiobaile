@@ -4,14 +4,15 @@
       <a href='{!! url('/site'); !!}'><img src="/images/logo.png"></a>
     </div>
   </div>
-  <div class="col-1">
+  <div class="col-1"> 
+    {{-- TODO highlight item ativo no menu --}}
     <div class="nave">
       <a href="{{ url('/site/sobre') }}">sobre</a>
     </div>
   </div>
   <div class="col-1">
     <div class="nave">
-      <a href="">projetos</a>
+      <a href="{{ url('/site/projetos') }}">projetos</a>
     </div>
   </div>
   <div class="col-1">

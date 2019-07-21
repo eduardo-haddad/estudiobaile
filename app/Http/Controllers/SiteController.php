@@ -51,4 +51,9 @@ class SiteController extends Controller
         return view('site.sobre', compact('dados'));
     }
 
+    public function projetos(){
+        $dados = [];
+        return view('site.projetos', compact('dados'));
+    }
+
 }
