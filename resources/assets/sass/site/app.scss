@@ -39,18 +39,15 @@ a:hover {
   min-height: 100vh;
   height: 100%;
   padding: 0 0 10px; 
-}
-
-#geral > {
-  .row {
+  > .row {
     margin-left: 0;
     margin-right: 0
   }
 }
 
-.row {
-  justify-content: center;
-}
+// .row {
+//   justify-content: center;
+// }
 
 #header {
   position: sticky;
@@ -78,7 +75,7 @@ a:hover {
 }
 
 .nave {
-  border-top: $pink solid 3px;
+  border-top: $pink solid 2px;
 }
 
 #redes {
@@ -181,11 +178,11 @@ a:hover {
   margin-bottom: 47px;
 }
 
-@media (max-width: 768px) {
-  .nave {
-    display: none;
-  }
-  #redes {
-    display: none;
-  }
-}
+// @media (max-width: 768px) {
+//   .nave {
+//     display: none;
+//   }
+//   #redes {
+//     display: none;
+//   }
+// }

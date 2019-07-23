@@ -1,12 +1,12 @@
 @extends('site.layouts.base')
 @section('conteudo')
 
-<div class="row" id="carrousel">
+<div class="row justify-content-center" id="carrousel">
   <div class="col-8 car-w">
     <img src="{{ asset('/images/galeria1/RM10.png') }}" alt="">
   </div>
 </div>
-<div class="row projeto tipo-d" id="corpo">
+<div class="row projeto tipo-d justify-content-center" id="corpo">
   <div class="ficha col-md-2">
     <div class="info">
       <div class="campo">

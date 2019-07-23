@@ -1,7 +1,7 @@
 @extends('site.layouts.base')
 @section('conteudo')
 
-<div class="row" id="sobre">
+<div class="row justify-content-center" id="sobre">
   <div class="col-md-3">
     <div class="scroll">
       <div class="texto">

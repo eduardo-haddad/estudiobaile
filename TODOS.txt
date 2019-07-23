@@ -1,0 +1,4 @@
+TODO modularização antes de mobile
+TODO projeto-paginas e projeto-secao é intuitivo?
+TODO oq acha das classes landscape portrait? mto gambiarra?
+TODO margem dos thumbs na galeria. bootstrap ou css puro?

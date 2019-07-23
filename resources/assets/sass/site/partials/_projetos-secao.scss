@@ -1,16 +1,20 @@
 @import 'mixins';
 
 #projetos {
-  font-size: 0.9em;
+  font-size: 0.85em;
   #legendas {
     padding-top: 40px;
-    padding-bottom: 5px;
+    padding-bottom: 10px;
     .leg-item {
-      display: inline-block;
+      display: inline-flex;
       height: 13px;
       margin-right: 20px;
       img {
         height: 100%;
+      }
+      p {
+        // display: inline;
+        // align-self: baseline;
       }
     }
   }
@@ -22,14 +26,18 @@
 }
 
 .thu-projeto {
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   height: 130px;
-  margin-bottom: 20px;
+  margin-bottom: 14px;
   cursor: pointer;
   transition: all .3s linear;
   img {
     mix-blend-mode: screen;
   }
-  @include img_cover;
+  @include img_cover(164%);
 }
 
 .thu-projeto:hover {
@@ -42,7 +50,7 @@
     margin-bottom: 0px;
   }
   p + p {
-    margin-bottom: 1rem;
+    margin-bottom: 1.6rem;
   }
 }
 

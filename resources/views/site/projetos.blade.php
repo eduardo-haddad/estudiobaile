@@ -1,17 +1,19 @@
 @extends('site.layouts.base')
 @section('conteudo')
 
-<div class="row" id="projetos">
+<div class="row justify-content-center" id="projetos">
   <div class="col-md-8">
-    <div class="row">
+    <div class="row no-gutters">
       <div class="col-md-12" id="legendas">
         <div class="leg-item">
           <img src="{{ asset('/images/passado.png') }}" alt="">
-          passado 
+          <p>
+            passado
+          </p>
         </div>
         <div class="leg-item">
           <img src="{{ asset('/images/presente.png') }}" alt="">
-          presente 
+          presente
         </div>
         <div class="leg-item">
           <img src="{{ asset('/images/futuro.png') }}" alt="">
@@ -23,7 +25,7 @@
         </div>
       </div>
     </div>
-    <div class="row" id="proj-gal">
+    <div class="row no-gutters" id="proj-gal">
       <div class="col-md-3">
         <div class="thu-projeto futuro">
           <img src="{{ asset('images/galeria1/MissBaker.png') }}" alt="">

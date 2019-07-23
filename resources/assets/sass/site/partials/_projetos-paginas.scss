@@ -86,7 +86,7 @@
 
 .thumb {
   height: 200px;
-  margin: 0 1% 8px 0; //margem lateral em %, em concordancia com  o width dos containers
+  // margin: 0 1% 8px 0; //margem lateral em %, em concordancia com  o width dos containers
   display: inline-block;
   @include img_cover();
 }
@@ -116,6 +116,7 @@
 .parceiros {
   margin-top: 14px;
   img {
+    border-radius: 50%;
     width: 46px;
     height: 46px;
     // margin: 0 36px 0 0px; //usar caso mais parceiros na mesma linha
