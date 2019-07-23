@@ -1,27 +1,28 @@
 @import 'mixins';
 
-#projetos {
+.projetos {
   font-size: 0.85em;
   #legendas {
-    padding-top: 40px;
-    padding-bottom: 10px;
+    padding-top: 2.7rem;
+    padding-bottom: 1.7rem;
     .leg-item {
       display: inline-flex;
       height: 13px;
-      margin-right: 20px;
+      margin-right: 16px;
       img {
         height: 100%;
+        margin-right: 3px;
       }
       p {
-        // display: inline;
-        // align-self: baseline;
+        line-height: 1em;
       }
     }
   }
-// TODO tirar rebarba das bordas
-  #proj-gal {
-    width: 100%;
-    @include border($red, 27px);
+
+  hr {
+    margin-top: 0.6rem;
+    margin-bottom: 0;
+    border-top: $red solid 2px;
   }
 }
 
