@@ -24,7 +24,7 @@
   </div>
   <div class="col-1 d-none d-md-block">
     <div class="nave">
-      <a href="">agenda</a>
+      <a href="{{ url('/site/agenda') }}">agenda</a>
     </div>
   </div>
   <div class="col-1"></div>

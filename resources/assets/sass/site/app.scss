@@ -9,7 +9,7 @@
 // @import '~jquery-ui/themes/base/all.css';
 // @import '~/tipr/tipr/tipr.css';
 
-@import 'partials/mixins', 'partials/projetos-secao', 'partials/projetos-paginas','partials/sobre';
+@import 'partials/mixins', 'partials/projetos-secao', 'partials/projetos-paginas','partials/sobre', 'partials/agenda';
 
 
 body {
@@ -197,7 +197,7 @@ a:hover {
   margin-bottom: 47px;
 }
 
-@media (max-width: 768px) {
+@include media-breakpoint-down(sm) {
   body {
     padding: 30px;
   }

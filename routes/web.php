@@ -39,6 +39,7 @@ Route::group(['prefix' => 'site'], function() {
 
     Route::get('/projetos', ['uses' => 'SiteController@projetos']);
 
+    Route::get('/agenda', ['uses' => 'SiteController@agenda']);
 });
 
 

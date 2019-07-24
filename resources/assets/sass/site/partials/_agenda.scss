@@ -1,0 +1,60 @@
+.formArea {
+  background-color: $red;
+  p {
+    background-color: $orange;
+    font-size: 1.1em;
+    display: inline;
+  }
+}
+
+.interjeicao {
+  padding: 50% 0;
+}
+
+.formulario {
+  padding: 22px 0 16px;
+  width: 85%;
+  float: left;
+}
+
+form {
+  display: flex;
+  flex-flow: row wrap;
+  font-size: 1.1em;
+}
+
+label {
+  font-family: $bold;
+  color: $orange;
+  margin: 0 5px 0.3rem 0;
+}
+
+input {
+  background-color: $pink;
+  border: none;
+  flex: 1 0 auto;
+  height: 26px;
+}
+
+#ocup {
+  width: 30px;
+}
+
+#cidade {
+  width: 10px;
+}
+
+[type="submit"] {
+  color: red;
+  background-color: orange;
+  font-family: $bold;
+  font-size: 1.3rem;
+  padding: 0 4px;
+}
+
+.botao {
+  vertical-align: bottom;
+  bottom: 19px;
+  right: calc(#{$grid-gutter-width} / 2);
+  position: absolute;
+}

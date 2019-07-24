@@ -56,4 +56,9 @@ class SiteController extends Controller
         return view('site.projetos', compact('dados'));
     }
 
+    public function agenda(){
+        $dados = [];
+        return view('site.agenda', compact('dados'));
+    }
+
 }

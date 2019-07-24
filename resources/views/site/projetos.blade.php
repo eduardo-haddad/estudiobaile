@@ -1,7 +1,6 @@
 @extends('site.layouts.base')
 @section('conteudo')
 
-
   <div class="row justify-content-center projetos">
     <div class="col-md-8" id="legendas">
       <div class="leg-item">
@@ -167,8 +166,5 @@
       </div>
     </div>
   </div>
-  {{-- <div class="col-md-8">
-  </div> --}}
-
 
 @stop
