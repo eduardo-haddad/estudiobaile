@@ -74,6 +74,25 @@ a:hover {
   }
 }
 
+.menuMobile {
+  .hamburguer {
+      cursor: pointer;
+      float: right;
+      // padding: 10px 8px;
+      // background: white;
+      > .bar {
+        display: block;
+        width: 48px;
+        height: 4px;
+        background: $pink;
+        border-radius: 1px;
+        + .bar {
+          margin-top: 13px;
+      }
+    }
+  }
+}
+
 .nave {
   border-top: $pink solid 2px;
 }
@@ -178,11 +197,11 @@ a:hover {
   margin-bottom: 47px;
 }
 
-// @media (max-width: 768px) {
-//   .nave {
-//     display: none;
-//   }
-//   #redes {
-//     display: none;
-//   }
-// }
+@media (max-width: 768px) {
+  body {
+    padding: 30px;
+  }
+  #header {
+    padding-top: 0;
+  }
+}

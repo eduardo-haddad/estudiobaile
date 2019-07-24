@@ -1,12 +1,12 @@
 @extends('site.layouts.base')
 @section('conteudo')
 
-<div class="row" id="banner">
+<div class="row justify-content-center" id="banner">
   <div class="col ban-w">
     <img src="{{ asset('images/banner1.png') }}">
   </div>
 </div>
-<div class="row" id="main">
+<div class="row justify-content-center" id="main">
   <div class="col-2">
     <div class="escolha bordarosa">
       <p>

@@ -1,7 +1,14 @@
 <div class="row justify-content-center" id="header">
-  <div class="col-2">
+  <div class="col-6 col-md-2">
     <div id="logo">
       <a href='{!! url('/site'); !!}'><img src="/images/logo.png"></a>
+    </div>
+  </div>
+  <div class="col-6 d-md-none menuMobile">
+    <div class="hamburguer">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
     </div>
   </div>
   <div class="col-md-1 d-none d-md-block"> 
