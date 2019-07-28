@@ -2,27 +2,28 @@
 
 .projetos {
   font-size: 0.85em;
-  #legendas {
-    padding-top: 2.7rem;
-    padding-bottom: 1.7rem;
-    .leg-item {
-      display: inline-flex;
-      height: 13px;
-      margin-right: 16px;
-      img {
-        height: 100%;
-        margin-right: 3px;
-      }
-      p {
-        line-height: 1em;
-      }
-    }
-  }
-
+  
   hr {
     margin-top: 0.6rem;
     margin-bottom: 0;
     border-top: $red solid 2px;
+  }
+}
+
+.legendas {
+  padding-top: 2.7rem;
+  padding-bottom: 1.7rem;
+  .leg-item {
+    display: inline-flex;
+    height: 13px;
+    margin-right: 16px;
+    img {
+      height: 100%;
+      margin-right: 3px;
+    }
+    p {
+      line-height: 1em;
+    }
   }
 }
 

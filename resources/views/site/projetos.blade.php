@@ -2,7 +2,7 @@
 @section('conteudo')
 
   <div class="row justify-content-center projetos">
-    <div class="col-md-8" id="legendas">
+    <div class="col-md-8 legendas">
       <div class="leg-item">
         <img src="{{ asset('/images/passado.png') }}" alt="">
         <p>

@@ -8,53 +8,61 @@
 }
 
 .interjeicao {
-  padding: 50% 0;
+  padding: 50% 0 0;
+}
+
+.formWrap {
+  display: block;
+  width: 85%;
+  padding: 15px 0; 
 }
 
 .formulario {
-  padding: 22px 0 16px;
-  width: 85%;
-  float: left;
-}
-
-form {
+  width: 100%;
   display: flex;
-  flex-flow: row wrap;
-  font-size: 1.1em;
+  margin-top: 4px;
+
 }
 
-label {
-  font-family: $bold;
-  color: $orange;
-  margin: 0 5px 0.3rem 0;
+.item:first-child {
+  margin-right: 7px;
 }
 
-input {
+
+.item {
+    font-family: $bold;
+    color: $orange;
+    white-space: nowrap;
+    margin-bottom: 0;
+}
+
+.grow {
+  flex-grow: 1;
   background-color: $pink;
   border: none;
-  flex: 1 0 auto;
-  height: 26px;
-}
-
-#ocup {
-  width: 30px;
-}
-
-#cidade {
   width: 10px;
 }
 
-[type="submit"] {
-  color: red;
-  background-color: orange;
+button {
+  color: $red;
+  background-color: $orange;
   font-family: $bold;
   font-size: 1.3rem;
   padding: 0 4px;
+  border: none;
+  position: absolute;
+  bottom: 16px;
+  right: calc(#{$grid-gutter-width} / 2);
 }
 
-.botao {
-  vertical-align: bottom;
-  bottom: 19px;
-  right: calc(#{$grid-gutter-width} / 2);
-  position: absolute;
+.visualArea {
+  font-size: 0.85rem;
+  .legendas {
+    padding-bottom: 0.7rem;
+  }
+}
+
+.carouselAgenda {
+  // height: 500px;
+  background-color: $orange;
 }

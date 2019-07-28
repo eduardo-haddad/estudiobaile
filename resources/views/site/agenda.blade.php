@@ -7,33 +7,71 @@
       <p class="bold">
         fique <br>
         por dentro!
-      </p>
+        </p>
     </div>
   </div>
   <div class="col-md-3">
-    <div class="formulario">
-      <form action="">
-        <label for="nome">nome:</label>
-        <input type="text" id="nome" name="nome"><br>
-
-        <label for="email">email:</label>{{-- 
-    --}}<input type="text" id="email" name="email"><br>
-  
-        <label for="ocup">ocupação:</label>{{-- 
-    --}}<input type="text" id="ocup"  name="ocup"><br>
-  
-        <label for="cidade">cidade onde vive:</label>{{-- 
-    --}}<input type="text" id="cidade" name="cidade">
-  
-        <div class="botao">
-            <input type="submit" value="ok">
-        </div>
+    <div class="formWrap">
+      <form class="formulario">
+        <label class="item" >
+          nome:
+        </label>
+        <input class="grow">
+      </form>
+      <form class="formulario">
+        <label class="item">
+          email:
+        </label>
+        <input class="grow">
+      </form>
+      <form class="formulario">
+        <label class="item">
+          ocupação:
+        </label>
+        <input class="grow">
+      </form>
+      <form class="formulario">
+        <label class="item">
+          cidade onde vive:
+        </label>
+        <input class="grow">
       </form>
     </div>
+    <button type="submit">ok</button>
   </div>
 </div>
-<div class="row justify-content-center agenda">
-  agenda em si
+<div class="row justify-content-center agenda visualArea">
+  <div class="col-12 col-md-8">
+    <div class="legendas">
+      <div class="leg-item">
+        <img src="{{ asset('/images/passado.png') }}" alt="">
+        <p>
+          passado
+        </p>
+      </div>
+      <div class="leg-item">
+        <img src="{{ asset('/images/presente.png') }}" alt="">
+        <p>
+          presente
+        </p>
+      </div>
+      <div class="leg-item">
+        <img src="{{ asset('/images/futuro.png') }}" alt="">
+        <p>
+          futuros
+        </p>
+      </div>
+      <div class="leg-item cap-c">
+        <img src="{{ asset('/images/externo.png') }}" alt="">
+        <p>
+          projetos tipo c
+        </p>
+      </div>
+    </div>
+    <div class="carouselAgenda">
+      AGENDA
+    </div>
+  </div>
 </div>
 
 @stop
