@@ -3,11 +3,13 @@
 
 <div class="row justify-content-center agenda formArea">
   <div class="col-md-1">
-    <div class="interjeicao">
-      <p class="bold">
-        fique <br>
-        por dentro!
-        </p>
+    <div class="fique">
+      <div class="porDentro">
+        <p class="bold">
+          fique <br>
+          por dentro!
+          </p>
+      </div>
     </div>
   </div>
   <div class="col-md-3">

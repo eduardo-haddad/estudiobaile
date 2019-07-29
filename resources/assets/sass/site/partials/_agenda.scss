@@ -7,8 +7,16 @@
   }
 }
 
-.interjeicao {
-  padding: 50% 0 0;
+.fique {
+  height: 150px;
+  position: relative;
+}
+
+.porDentro {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 .formWrap {
@@ -63,6 +71,6 @@ button {
 }
 
 .carouselAgenda {
-  // height: 500px;
+  height: 500px;
   background-color: $orange;
 }
