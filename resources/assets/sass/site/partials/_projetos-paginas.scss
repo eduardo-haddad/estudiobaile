@@ -15,6 +15,16 @@
   }
 }
 
+.col-fix-9 {
+  flex-basis: 79% !important;
+  max-width: 79% !important;
+}
+
+.col-fix-3 {
+  flex-basis: 21% !important;
+  max-width: 21% !important;
+}
+
 .projeto {
   .ficha {
     position: sticky;
@@ -73,7 +83,20 @@
 .texto {
   @include border($red);
   font-size: $texto-geral-base;
-  line-height: 1.4em;
+  line-height: 1.7em;
+}
+
+.notas {
+  font-size: 0.87em;
+  position: absolute;
+  top: 100px;
+  p {
+    margin-bottom: 0;
+    line-height: 1.4em;
+    &:first-child {
+      margin-bottom: 6px;
+    }
+  }
 }
 
 .galeria {
