@@ -2,7 +2,7 @@
 @section('conteudo')
 
 @component('site.components.carousel')
-      {{ asset('/images/proja.png') }}
+      <img src="{{ asset('/images/proja.png') }}">
 @endcomponent
 <div class="row projeto tipo-a justify-content-center" id="corpo">
   <div class="ficha col-md-2">
