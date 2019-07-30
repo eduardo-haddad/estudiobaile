@@ -1,11 +1,9 @@
 @extends('site.layouts.base')
 @section('conteudo')
 
-<div class="row justify-content-center" id="carrousel">
-  <div class="col-md-8 car-w">
-    <img src="{{ asset('/images/proja.png') }}" alt="">
-  </div>
-</div>
+@component('site.components.carousel')
+      {{ asset('/images/proja.png') }}
+@endcomponent
 <div class="row projeto tipo-a justify-content-center" id="corpo">
   <div class="ficha col-md-2">
     <div class="titulo">
