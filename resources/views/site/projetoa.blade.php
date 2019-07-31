@@ -2,8 +2,38 @@
 @section('conteudo')
 
 @component('site.components.carousel')
-      <img src="{{ asset('/images/proja.png') }}">
+
+@php
+$imagens = [
+asset('/images/proja.png'),
+asset('/images/projb.png'),
+asset('/images/projc.png')
+];
+@endphp
+
+{{--      <img src="{{ asset('/images/proja.png') }}">--}}
+<div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+  <div class="carousel-inner">
+    @foreach($imagens as $i => $imagem)
+      <div class="carousel-item {{$i == 0 ? "active" : ""}}">
+        <img class="d-block w-100" src="{{ $imagem }}" alt="{{'slide'.$i}}">
+      </div>
+    @endforeach
+  </div>
+  <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>
 @endcomponent
+
+
+
+
 <div class="row projeto tipo-a justify-content-center" id="corpo">
   <div class="ficha col-md-2">
     <div class="titulo">

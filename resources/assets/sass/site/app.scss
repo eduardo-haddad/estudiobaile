@@ -9,8 +9,14 @@
 // @import '~jquery-ui/themes/base/all.css';
 // @import '~/tipr/tipr/tipr.css';
 
-@import 'partials/mixins', 'partials/projetos-secao', 'partials/projetos-paginas','partials/sobre', 'partials/agenda';
+// Tooltipster
+@import '~tooltipster/dist/css/tooltipster.bundle';
 
+// Carousel
+@import '~bootstrap/scss/carousel';
+
+// Partials
+@import 'partials/mixins', 'partials/projetos-secao', 'partials/projetos-paginas','partials/sobre', 'partials/agenda', 'partials/tooltipster';
 
 body {
   font-family: $regular;

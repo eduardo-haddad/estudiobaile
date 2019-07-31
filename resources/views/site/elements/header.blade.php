@@ -30,7 +30,15 @@
   <div class="col-1"></div>
   <div class="col-md-2 d-none d-md-block">
     <div id="redes">
-      <img src="/images/loc.png" data-toggle="tooltip" class="loc">
+      <img src="/images/loc.png" class="tooltipster loc" data-tooltip-content="#tooltip_content">
+      <div id="tooltip_templates">
+        <div id="tooltip_content">
+          <p class="">teste</p>
+          <p>teste</p>
+          <p>teste</p>
+          <p>teste</p>
+        </div>
+      </div>
       <img src="/images/fb.png" alt="">
       <img src="/images/insta.png" alt="">
       <p><a href="#">PT</a> / <a href="#">EN</a></p>

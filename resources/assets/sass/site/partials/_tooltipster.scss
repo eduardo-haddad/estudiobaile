@@ -1,0 +1,27 @@
+.tooltipster-sidetip.tooltipster-noir.tooltipster-noir-customized .tooltipster-box {
+  background: $orange;
+  border: none;
+  border-radius: 6px;
+  box-shadow: 5px 5px 2px 0 rgba(0,0,0,0.4);
+}
+
+.tooltipster-sidetip.tooltipster-noir.tooltipster-noir-customized .tooltipster-content {
+  //color: blue;
+  //padding: 8px;
+}
+
+.tooltipster-sidetip.tooltipster-noir.tooltipster-noir-customized .tooltipster-arrow-uncropped {
+  background-color: $orange;
+}
+
+#tooltip_templates {
+  display: none;
+}
+
+
+//<div class="tooltipster-arrow" style="left: 37px;">
+//  <div class="tooltipster-arrow-uncropped">
+//    <div class="tooltipster-arrow-border"></div>
+//    <div class="tooltipster-arrow-background"></div>
+//  </div>
+//</div>
