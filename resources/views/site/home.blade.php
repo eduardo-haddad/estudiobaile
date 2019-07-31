@@ -1,8 +1,8 @@
 @extends('site.layouts.base')
 @section('conteudo')
 
-<div class="row justify-content-center" id="banner">
-  <div class="col ban-w">
+<div class="row justify-content-center" id="carouselHome">
+  <div class="col carouselHomeWrap">
     <img src="{{ asset('images/banner1.png') }}">
   </div>
 </div>
