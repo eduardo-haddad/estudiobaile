@@ -1,12 +1,19 @@
 @import 'mixins';
 
-#carrousel {
+#carouselProjeto {
   margin-bottom: 30px;
 }
 
-.car-w {
+#carouselProjetoWrap {
+  overflow: hidden;
   height: 344px;
-  @include img_cover();
+  .carousel-control-prev, .carousel-control-next {
+    width: 6%;
+  }
+  div {
+    height: inherit;
+  }
+  @include img_cover;
 }
 
 #corpo {
