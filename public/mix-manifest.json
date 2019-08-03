@@ -1,8 +1,8 @@
 {
     "/js/site.js": "/js/site.js",
     "/css/app.css": "/css/app.css",
+    "/css/site/app.css": "/css/site/app.css",
     "/js/site.js.map": "/js/site.js.map",
     "/css/app.css.map": "/css/app.css.map",
-    "/css/site/app.css": "/css/site/app.css",
     "/css/site/app.css.map": "/css/site/app.css.map"
 }
