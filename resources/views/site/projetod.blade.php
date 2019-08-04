@@ -2,8 +2,8 @@
 @section('conteudo')
 
 @component('site.components.carousel')
-
 @endcomponent
+
 <div class="row projeto tipo-d justify-content-center" id="corpo">
   <div class="ficha col-md-2">
     <div class="info">
@@ -61,7 +61,7 @@
   </div>
   <div class="col-md-5 offset-md-1">
     <div class="row">
-      <div class="col-md-10">
+      <div class="col-md-9 col-fix-9">
         <div class="texto">
           <p>
             Atualmente no Brasil, temos a elaboração e a implementação de uma Base Nacional Comum Curricular para a educação artística nos níveis de Educação Infantil, Ensino Fundamental e Ensino Médio. A Base estabelece nove objetivos de aprendizagem para a Educação Infantil, ligados a traços, sons, cores e formas, e delineia para o Ensino Fundamental 61 objetivos, relacionados a artes visuais, teatro, música, dança e artes integradas.
@@ -77,33 +77,11 @@
           </p>
         </div>
       </div>
-      <div class="col-md-2"></div>
+      <div class="col-md-3 col-fix-3"></div>
     </div>
-    <div class="row">
-      <div class="col">
-        <div class="galeria">
-          <h2 class="bold">galeria</h2>
-          <div class="thumb landscape">
-            <img src={{ asset('/images/galeria1/RM2.png') }}>
-          </div>
-          <div class="thumb portrait">
-            <img src={{ asset('/images/galeria1/RM1.png') }}>
-          </div>
-          <div class="thumb portrait">
-            <img src={{ asset('/images/galeria1/RM4.jpg') }}>
-          </div>
-          <div class="thumb landscape">
-            <img src={{ asset('/images/galeria1/RM5.jpg') }}>
-          </div>
-          <div class="thumb portrait">
-            <img src={{ asset('/images/galeria1/RM2.png') }}>
-          </div>
-          <div class="thumb landscape">
-            <img src={{ asset('/images/galeria1/RM1.png') }}>
-          </div>
-        </div>
-      </div>
-    </div>
+    @component('site.components.galeria')
+        
+    @endcomponent
   </div>
 </div>
 
