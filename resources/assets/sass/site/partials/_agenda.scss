@@ -1,5 +1,6 @@
 .formArea {
   background-color: $red;
+  max-width: unset !important;
   p {
     background-color: $orange;
     font-size: 1.1em;

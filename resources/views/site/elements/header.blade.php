@@ -40,8 +40,8 @@
               <p>teste</p>
             </div>
           </div>
-          <img src="/images/fb.png" alt="">
-          <img src="/images/insta.png" alt="">
+          <a href="https://www.facebook.com/baile.estudio/" target="_blank"><img src="/images/fb.png" alt=""></a>
+          <a href="https://www.instagram.com/estudio_baile/" target="_blank"><img src="/images/insta.png" alt=""></a>
           <p><a href="#">PT</a> / <a href="#">EN</a></p>
         </div>
       </div>

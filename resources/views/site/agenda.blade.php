@@ -13,33 +13,35 @@
     </div>
   </div>
   <div class="col-md-3">
-    <div class="formWrap">
-      <form class="formulario">
-        <label class="item" >
-          nome:
-        </label>
-        <input class="grow">
-      </form>
-      <form class="formulario">
-        <label class="item">
-          email:
-        </label>
-        <input class="grow">
-      </form>
-      <form class="formulario">
-        <label class="item">
-          ocupação:
-        </label>
-        <input class="grow">
-      </form>
-      <form class="formulario">
-        <label class="item">
-          cidade onde vive:
-        </label>
-        <input class="grow">
-      </form>
-    </div>
-    <button type="submit">ok</button>
+    <form action="">
+      <div class="formWrap">
+        <div class="formulario">
+          <label class="item" >
+            nome:
+          </label>
+          <input class="grow">
+        </div>
+        <div class="formulario">
+          <label class="item">
+            email:
+          </label>
+          <input class="grow">
+        </div>
+        <div class="formulario">
+          <label class="item">
+            ocupação:
+          </label>
+          <input class="grow">
+        </div>
+        <div class="formulario">
+          <label class="item">
+            cidade onde vive:
+          </label>
+          <input class="grow">
+        </div>
+      </div>
+      <button type="submit">ok</button>
+    </form>
   </div>
 </div>
 <div class="row justify-content-center agenda visualArea">
