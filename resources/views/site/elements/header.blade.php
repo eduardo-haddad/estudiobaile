@@ -31,17 +31,27 @@
       <div class="col-1"></div>
       <div class="col-md-2 d-none d-md-block">
         <div id="redes">
-          <img src="/images/loc.png" class="tooltipster loc" data-tooltip-content="#tooltip_content">
+          <div class="tooltipster icon loc" data-tooltip-content="#tooltip_content"></div>
           <div id="tooltip_templates">
             <div id="tooltip_content">
-              <p class="">teste</p>
-              <p>teste</p>
-              <p>teste</p>
-              <p>teste</p>
+              <div class="localizacao">
+                <a href="mailto:estudio@estudiobaile.org">estudio@estudiobaile.org</a>
+                <p>rua cônego eugênio leite, 920</p>
+                <p>piniheiros, são paulo</p>
+                <p>+55 11 2306 8679</p>
+              </div>
             </div>
           </div>
-          <a href="https://www.facebook.com/baile.estudio/" target="_blank"><img src="/images/fb.png" alt=""></a>
-          <a href="https://www.instagram.com/estudio_baile/" target="_blank"><img src="/images/insta.png" alt=""></a>
+          <div class="icon">
+            <a href="https://www.facebook.com/baile.estudio/" target="_blank">
+              <img src="/images/fb.png" alt="">
+            </a>
+          </div>
+          <div class="icon">
+            <a href="https://www.instagram.com/estudio_baile/" target="_blank">
+              <img src="/images/insta.png" alt="">
+            </a>
+          </div>
           <p><a href="#">PT</a> / <a href="#">EN</a></p>
         </div>
       </div>

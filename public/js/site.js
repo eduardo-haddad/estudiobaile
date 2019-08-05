@@ -10477,11 +10477,12 @@ $(document).ready(function () {
     // Tooltipster
     var tt = $('#tooltip_content');
 
-    $('.tooltipster').tooltipster({
-        theme: ['tooltipster-noir', 'tooltipster-noir-customized'],
-        contentAsHTML: true,
-        content: tt
-        // animationDuration: 100000,
+    $(".tooltipster").tooltipster({
+        theme: "tooltipster-noir",
+        content: tt,
+        interactive: true,
+        delay: [100, 400],
+        distance: 0
     });
 });
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(0), __webpack_require__(0)))

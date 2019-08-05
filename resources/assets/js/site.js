@@ -22,11 +22,12 @@ $(document).ready(function(){
     // Tooltipster
     let tt = $('#tooltip_content');
 
-    $('.tooltipster').tooltipster({
-        theme: ['tooltipster-noir', 'tooltipster-noir-customized'],
-        contentAsHTML: true,
-        content: tt,
-        // animationDuration: 100000,
+    $(".tooltipster").tooltipster({
+      theme: "tooltipster-noir",
+      content: tt,
+      interactive: true,
+      delay: [100, 400],
+      distance: 0,
     });
 
 });
