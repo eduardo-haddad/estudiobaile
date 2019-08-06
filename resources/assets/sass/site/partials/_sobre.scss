@@ -7,34 +7,39 @@
 
 #sobre {
   overflow: hidden;
-  // padding-top: 40px;
   height: calc(100vh - 115px);
   > div {
     height: 100%;
-    // width: 100%;
     overflow: hidden;
+    // z-index: $zindex-dropdown;
   }
   h1 {
     margin-bottom: 25px;
   }
   .scroll {
-    overflow: hidden;
     height: 100%;
     width: 100%;
-    // padding-right: 0;
-    // box-sizing: content-box;
-
-    > div:first-of-type {
+    overflow: auto;
+    padding-right: 5px;
+    box-sizing: content-box;
       margin-top: 5.5vh;
-    }
-  }
 
+
+    &::-webkit-scrollbar {
+      width: 0.2em;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: $red;
+      outline: 1px solid $red;
+    }
+
+    // > div {
+    //   z-index: $zindex-modal;
+    // }
+  }
   .texto {
     padding-bottom: 25px;
-    width: 100%;
-    overflow: auto;
-    padding-right: 0px;
-    box-sizing: content-box;
   }
   .info {
     line-height: 1.4em;

@@ -23,7 +23,7 @@
   </div>
   <div class="col-md-2 offset-md-1">
     <div class="scroll">
-      <div class="texto" id="dentro">
+      <div class="texto">
         <div class="info">
           <a class="bold" href="mailto:estudio@estudiobaile.org">estudio@estudiobaile.org</a>
           <p>

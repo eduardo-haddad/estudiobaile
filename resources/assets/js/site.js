@@ -30,10 +30,6 @@ $(document).ready(function(){
       distance: 0,
     });
 
-    //esconder scrollbar
-    let child = document.getElementById("dentro");
-    child.style.paddingRight = child.offsetWidth - child.clientWidth + "px";
-
     // Tooltip hover image
     $(document).on({
         mouseenter: function(){

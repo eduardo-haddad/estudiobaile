@@ -10481,13 +10481,23 @@ $(document).ready(function () {
         theme: "tooltipster-noir",
         content: tt,
         interactive: true,
-        delay: [100, 400],
+        delay: [100, 5],
         distance: 0
     });
 
-    //esconder scrollbar
-    var child = document.getElementById("dentro");
-    child.style.paddingRight = child.offsetWidth - child.clientWidth + "px";
+    // Tooltip hover image
+    $(document).on({
+        mouseenter: function mouseenter() {
+            $('.loc').css({ 'background-image': 'url("/images/loc_hov.png")' });
+        },
+        mouseleave: function mouseleave() {
+            $('.loc').css({ 'background-image': 'url("/images/loc.png")' });
+        }
+    }, '.loc, .tooltipster-base');
+    // Force show original image
+    $('html').not('.loc, .tooltipster-base').mouseenter(function () {
+        $('.loc').css({ 'background-image': 'url("/images/loc.png")' });
+    });
 });
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(0), __webpack_require__(0)))
 
