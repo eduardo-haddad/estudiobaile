@@ -2,7 +2,7 @@
 webpack.mix.js
 app.css
 app.css.map
-/public/js/app.js
+/public/js/*
 app.js.map
 /public/hot
 /public/storage

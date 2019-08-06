@@ -26,8 +26,21 @@ $(document).ready(function(){
       theme: "tooltipster-noir",
       content: tt,
       interactive: true,
-      delay: [100, 400],
+      delay: [100, 5],
       distance: 0,
     });
 
+    // Tooltip hover image
+    $(document).on({
+        mouseenter: function(){
+            $('.loc').css({'background-image': 'url("/images/loc_hov.png")'});
+        },
+        mouseleave: function(){
+            $('.loc').css({'background-image': 'url("/images/loc.png")'});
+        }
+    }, '.loc, .tooltipster-base');
+    // Force show original image
+    $('html').not('.loc, .tooltipster-base').mouseenter(function(){
+        $('.loc').css({'background-image': 'url("/images/loc.png")'});
+    });
 });
