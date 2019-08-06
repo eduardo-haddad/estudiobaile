@@ -8,7 +8,7 @@
 #sobre {
   overflow: hidden;
   // padding-top: 40px;
-  height: calc(100vh - 114px);
+  height: calc(100vh - 115px);
   > div {
     height: 100%;
     // width: 100%;
@@ -18,19 +18,23 @@
     margin-bottom: 25px;
   }
   .scroll {
-    overflow-y: auto;
+    overflow: hidden;
     height: 100%;
     width: 100%;
-    padding-right: 18px;
-    box-sizing: content-box;
+    // padding-right: 0;
+    // box-sizing: content-box;
 
     > div:first-of-type {
-      margin-top: 6.5vh;
+      margin-top: 5.5vh;
     }
   }
-  // TODO issue no width das divs internas a scroll.
+
   .texto {
     padding-bottom: 25px;
+    width: 100%;
+    overflow: auto;
+    padding-right: 0px;
+    box-sizing: content-box;
   }
   .info {
     line-height: 1.4em;
