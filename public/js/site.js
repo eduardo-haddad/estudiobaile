@@ -10484,6 +10484,10 @@ $(document).ready(function () {
         delay: [100, 400],
         distance: 0
     });
+
+    //esconder scrollbar
+    var child = document.getElementById("dentro");
+    child.style.paddingRight = child.offsetWidth - child.clientWidth + "px";
 });
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(0), __webpack_require__(0)))
 
