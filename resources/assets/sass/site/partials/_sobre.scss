@@ -22,8 +22,9 @@
     overflow: auto;
     padding-right: 5px;
     box-sizing: content-box;
-      margin-top: 5.5vh;
-
+    margin-top: 5.5vh;
+    scrollbar-width: thin;
+    scrollbar-color: $red transparent;
 
     &::-webkit-scrollbar {
       width: 0.2em;
