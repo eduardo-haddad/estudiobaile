@@ -18,8 +18,9 @@
 // Partials
 @import 'partials/mixins', 'partials/projetos-lista', 'partials/projetos-paginas','partials/sobre', 'partials/agenda', 'partials/tooltipster';
 
+//scrollbar vermelha firefox
 * {
-    scrollbar-width: thin;
+  scrollbar-width: thin;
   scrollbar-color: $red rgb(219, 219, 219);
 }
 
@@ -29,6 +30,7 @@ body {
   background-color: white;
   line-height: 18pt;
 
+  //scrollbar vermelha webkit
   &::-webkit-scrollbar {
     width: 0.5em;
   }
@@ -189,19 +191,28 @@ a:hover {
   }
 }
 
-#carouselHome {
+#carouselHomeArea {
   max-width: unset !important;
 }
 
-#carouselHome, #main {
+#carouselHomeArea, #main {
   margin-bottom: 50px;
+  > .col {
+    padding-left: 0;
+    padding-right: 0;
+  }
 }
 
-.carouselHomeWrap {
+#carouselHome {
+  overflow: hidden;
   height: 264px;
-  padding-left: 0;
-  padding-right: 0;
-  @include img_cover();
+  .carousel-control-prev, .carousel-control-next {
+    width: 3%;
+  }
+  div {
+    height: inherit;
+  }
+  @include img_cover;
 }
 
 #main {

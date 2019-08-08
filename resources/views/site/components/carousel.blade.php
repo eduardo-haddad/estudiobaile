@@ -10,7 +10,6 @@
       @endphp
 
       <div id="carouselProjeto" class="carousel slide" data-ride="carousel">
-
         <div class="carousel-inner">
           @foreach($imagens as $i => $imagem)
             <div class="carousel-item {{$i == 0 ? "active" : ""}}">
@@ -27,7 +26,7 @@
           <span class="carousel-control-next-icon" aria-hidden="true"></span>
           <span class="sr-only">Next</span>
         </a>
-        
-    </div>
+      </div>
+
   </div>
 </div>

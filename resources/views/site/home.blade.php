@@ -1,11 +1,39 @@
 @extends('site.layouts.base')
 @section('conteudo')
 
-<div class="row justify-content-center" id="carouselHome">
-  <div class="col carouselHomeWrap">
-    <img src="{{ asset('images/banner1.png') }}">
+<div class="row justify-content-center" id="carouselHomeArea">
+  <div class="col">
+
+    @php
+      $imagens = [
+      asset('/images/banner1.png'),
+      asset('/images/banner2.png'),  
+      asset('/images/banner3.png')
+      ];
+    @endphp
+
+    <div id="carouselHome" class="carousel slide" data-ride="carousel">
+      <div class="carousel-inner">
+        @foreach($imagens as $i => $imagem)
+          <div class="carousel-item {{$i == 0 ? "active" : ""}}">
+            <img class="d-block w-100" src="{{ $imagem }}" alt="{{'slide'.$i}}">
+          </div>
+        @endforeach
+      </div>
+
+      {{-- <a class="carousel-control-prev" href="#carouselHome" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="carousel-control-next" href="#carouselHome" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a> --}}
+    </div>
+
   </div>
 </div>
+
 <div class="row justify-content-center" id="main">
   <div class="col-2">
     <div class="escolha bordarosa">
