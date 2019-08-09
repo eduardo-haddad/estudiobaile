@@ -1,0 +1,127 @@
+#header {
+  position: sticky;
+  top: 0;
+  z-index: $zindex-popover;
+  background-color: white;
+  border-bottom: $pink solid 1px;
+  padding-top: 30px;
+  color: $pink;
+  a, 
+  a:visited {
+    color: $pink;
+  }
+  a:active {
+    font-family: $bold;
+  }
+  .row {
+    max-width: 1280px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+#logo {
+  width: 135px;
+  padding: 0 0 18px;
+  img {
+    width: 100%;
+  }
+}
+
+#menuMobileArea {
+  .hamburguer {
+      cursor: pointer;
+      float: right;
+      // padding: 10px 8px;
+      // background: white;
+      > .bar {
+        display: block;
+        width: 48px;
+        height: 4px;
+        background: $pink;
+        border-radius: 1px;
+        + .bar {
+          margin-top: 13px;
+      }
+    }
+  }
+  #menuMobile {
+    background: $pink;
+    color: $orange;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vh;
+    height: 100vh;
+  }
+}
+
+.nave {
+  border-top: $pink solid 2px;
+}
+
+#redes {
+  // display: block;
+  height: 22.1px;
+  display: flex;
+
+  img {
+    height: 100%;
+    vertical-align: unset;
+  }
+  
+  p {
+    font-family: $medium;
+    margin: 0;
+    font-size: 0.8em;
+  }
+
+  .loc {
+    background: url("/images/loc.png") no-repeat;
+    background-size: cover;
+    &:hover {
+      background-image: url("/images/loc_hov.png");
+    }
+  }
+
+  .icon {
+    margin-right: calc(#{$grid-gutter-width});
+    width: 22.1px;
+    
+    a {
+      width: 100%;
+    }
+    
+    img {
+      width: 100%;
+    }
+  }
+}
+
+.localizacao {
+  border-top: 2px solid $pink;
+  margin: 20px;
+  padding-top: 12px;
+  a {
+    font-family: $bold;
+    color: $pink;
+  }
+  p {
+    margin-bottom: 3px;
+    font-size: 0.98em;
+    &:first-of-type {
+      margin-top: 18px;
+    }
+    &:last-of-type {
+      font-size: 0.8em;
+    }
+  }
+}
+
+@include media-breakpoint-down(sm) {
+  #header {
+    position: static;
+    padding: 30px 30px 0;
+    border: none;
+  }
+}
