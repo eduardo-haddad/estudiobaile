@@ -35,19 +35,19 @@
 </div>
 
 <div class="row justify-content-center" id="main">
-  <div class="col-2">
+  <div class="col-md-2">
     <div class="escolha bordarosa">
       <p>
         escolha por onde começar a busca de <a href="#">projetos</a>
       </p>
     </div>
   </div>
-  <div class="col-2">
+  <div class="col-md-2 col-12">
     <div class="bordarosa">
       <div class="num">
           1
       </div>
-      <div class="mic-b">
+      <div class="microBloco">
         <ul class="lista" id="lista1">
           <li><a>assunto</a></li>
           <li><a>lugar</a></li>
@@ -57,23 +57,23 @@
       </div>
     </div>
   </div>
-  <div class="col-2">
+  <div class="col-md-2 col-12">
     <div class="bordarosa">
       <div class="num">
           2
       </div>
-      <div class="mic-b">
+      <div class="microBloco">
         <ul class="lista" id="lista2">
           {{-- Assunto / Lugar / Parceria / Pessoa --}}
         </ul>
       </div>
     </div>
   </div>
-  <div class="col-2">
+  <div class="col-md-2 col-12">
       <div class="num">
         3
       </div>
-      <div class="mic-b">
+      <div class="microBloco">
         <ul class="lista" id="lista3">
           {{-- Projetos --}}
         </ul>

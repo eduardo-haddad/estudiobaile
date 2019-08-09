@@ -5,11 +5,14 @@
           <a href='{!! url('/site'); !!}'><img src="/images/logo.png"></a>
         </div>
       </div>
-      <div class="col-6 d-md-none menuMobile">
+      <div class="col-6 d-md-none" id="menuMobileArea">
         <div class="hamburguer">
           <span class="bar"></span>
           <span class="bar"></span>
           <span class="bar"></span>
+        </div>
+        <div id="menuMobile" class="d-none">
+          menu mobile
         </div>
       </div>
       <div class="col-md-1 d-none d-md-block"> 

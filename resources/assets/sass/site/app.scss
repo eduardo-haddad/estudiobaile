@@ -16,7 +16,7 @@
 @import '~bootstrap/scss/carousel';
 
 // Partials
-@import 'partials/mixins', 'partials/projetos-lista', 'partials/projetos-paginas','partials/sobre', 'partials/agenda', 'partials/tooltipster';
+@import 'partials/mixins', 'partials/tooltipster', 'partials/header', 'partials/sobre','partials/projetos-lista', 'partials/agenda', 'partials/projetos-paginas';
 
 //scrollbar vermelha firefox
 * {
@@ -60,7 +60,6 @@ body, a {
   color: $red;
 }
 
-
 a:hover {
   text-decoration: none;
 }
@@ -77,117 +76,6 @@ a:hover {
     margin-left: auto;
     margin-right: auto;
     max-width: 1280px;
-  }
-}
-
-#header {
-  position: sticky;
-  top: 0;
-  z-index: $zindex-popover;
-  background-color: white;
-  border-bottom: $pink solid 1px;
-  padding-top: 30px;
-  color: $pink;
-  a, 
-  a:visited {
-    color: $pink;
-  }
-  a:active {
-    font-family: $bold;
-  }
-  .row {
-    max-width: 1280px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-}
-
-#logo {
-  width: 135px;
-  padding: 0 0 18px;
-  img {
-    width: 100%;
-  }
-}
-
-.menuMobile {
-  .hamburguer {
-      cursor: pointer;
-      float: right;
-      // padding: 10px 8px;
-      // background: white;
-      > .bar {
-        display: block;
-        width: 48px;
-        height: 4px;
-        background: $pink;
-        border-radius: 1px;
-        + .bar {
-          margin-top: 13px;
-      }
-    }
-  }
-}
-
-.nave {
-  border-top: $pink solid 2px;
-}
-
-#redes {
-  // display: block;
-  height: 22.1px;
-  display: flex;
-
-  img {
-    height: 100%;
-    vertical-align: unset;
-  }
-  
-  p {
-    font-family: $medium;
-    margin: 0;
-    font-size: 0.8em;
-  }
-
-  .loc {
-    background: url("/images/loc.png") no-repeat;
-    background-size: cover;
-    &:hover {
-      background-image: url("/images/loc_hov.png");
-    }
-  }
-
-  .icon {
-    margin-right: calc(#{$grid-gutter-width});
-    width: 22.1px;
-    
-    a {
-      width: 100%;
-    }
-    
-    img {
-      width: 100%;
-    }
-  }
-}
-
-.localizacao {
-  border-top: 2px solid $pink;
-  margin: 20px;
-  padding-top: 12px;
-  a {
-    font-family: $bold;
-    color: $pink;
-  }
-  p {
-    margin-bottom: 3px;
-    font-size: 0.98em;
-    &:first-of-type {
-      margin-top: 18px;
-    }
-    &:last-of-type {
-      font-size: 0.8em;
-    }
   }
 }
 
@@ -216,14 +104,13 @@ a:hover {
 }
 
 #main {
-  > div div:only-child {
+  .bordarosa {
   border-right: $pink solid 1px;
   height: 100%;
   }
-  li,
-  p {
+  li {
     font-size: 1.5em;
-  line-height: 1.1em;
+    line-height: 1.1em;
   }
 }
 
@@ -231,6 +118,8 @@ a:hover {
   text-align: left;
   font-family: $bold;
   p {
+    font-size: 1.5em;
+    line-height: 1.1em;
     position: absolute;
     bottom: 0;
     max-width: 77%;
@@ -241,7 +130,7 @@ a:hover {
   }
 }
 
-.mic-b {
+.microBloco {
   font-family: 'Walsheim Pro Medium';
   height: 150px;
   display: flex;
@@ -283,10 +172,47 @@ a:hover {
 }
 
 @include media-breakpoint-down(sm) {
-  body {
-    padding: 30px;
+  #carouselHomeArea {
+    margin-bottom: 0px;
   }
-  #header {
-    padding-top: 0;
+  #carouselHome {
+    height: 360px;
+  }
+  #main {
+    padding: 0 30px;
+    color: $pink;
+    
+    a {
+    color: $pink;
+    }
+
+    .bordarosa {
+      border-right: none;
+      border-bottom: $pink solid 1px;
+      height: 100%;
+    }
+    > div[class*="col-"] {
+      margin-top: 30px;
+    }
+  }
+  .escolha {
+    padding-bottom: 25px;
+    p {
+      font-size: 1.4em;
+      position: static;
+      max-width: unset;
+    }
+  }
+  .num {
+    min-width: 108px;
+    vertical-align: text-bottom;
+    margin: 0 50px 20px 0;
+    float: left;
+  }
+  .microBloco {
+    .lista {
+      left: unset;
+      right: 0px;
+    }
   }
 }
