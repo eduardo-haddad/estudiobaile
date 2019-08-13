@@ -11,9 +11,9 @@
           <span class="bar"></span>
           <span class="bar"></span>
         </div>
-        <div id="menuMobile" class="d-none">
-          menu mobile
-        </div>
+
+        @include('site.elements.menuMobile')
+        
       </div>
       <div class="col-md-1 d-none d-md-block"> 
         {{-- TODO highlight item ativo no menu --}}

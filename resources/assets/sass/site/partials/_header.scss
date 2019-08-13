@@ -1,7 +1,7 @@
 #header {
   position: sticky;
   top: 0;
-  z-index: $zindex-popover;
+  z-index: $zindex-modal;
   background-color: white;
   border-bottom: $pink solid 1px;
   padding-top: 30px;
@@ -28,47 +28,12 @@
   }
 }
 
-#menuMobileArea {
-  .hamburguer {
-      cursor: pointer;
-      float: right;
-      // padding: 10px 8px;
-      // background: white;
-      > .bar {
-        display: block;
-        width: 48px;
-        height: 4px;
-        background: $pink;
-        border-radius: 1px;
-        + .bar {
-          margin-top: 13px;
-      }
-    }
-  }
-  #menuMobile {
-    background: $pink;
-    color: $orange;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vh;
-    height: 100vh;
-  }
-}
-
 .nave {
   border-top: $pink solid 2px;
 }
 
 #redes {
-  // display: block;
-  height: 22.1px;
   display: flex;
-
-  img {
-    height: 100%;
-    vertical-align: unset;
-  }
   
   p {
     font-family: $medium;
@@ -83,18 +48,24 @@
       background-image: url("/images/loc_hov.png");
     }
   }
+}
 
-  .icon {
-    margin-right: calc(#{$grid-gutter-width});
-    width: 22.1px;
-    
-    a {
-      width: 100%;
-    }
-    
-    img {
-      width: 100%;
-    }
+.icon {
+  margin-right: calc(#{$grid-gutter-width});
+  width: 22.1px;
+  height: 22.1px;
+  
+  img {
+    height: 100%;
+    vertical-align: unset;
+  }
+
+  a {
+    width: 100%;
+  }
+  
+  img {
+    width: 100%;
   }
 }
 
@@ -118,10 +89,81 @@
   }
 }
 
+#menuMobileArea {
+  .hamburguer {
+      cursor: pointer;
+      float: right;
+      // padding: 10px 8px;
+      // background: white;
+      > .bar {
+        display: block;
+        width: 48px;
+        height: 4px;
+        background: $pink;
+        border-radius: 1px;
+        + .bar {
+          margin-top: 13px;
+      }
+    }
+  }
+}
+
+#menuMobile {
+  padding: 30px;
+  background: $pink;
+  color: $orange;
+  font-size: 1.1rem;
+  position: fixed;
+  z-index: $zindex-popover;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  color: $orange;
+
+  a, 
+  a:visited {
+    font-family: $medium;
+    color: $orange;
+  }
+
+  a:active {
+    font-family: $bold;
+  }
+
+  .redesMobile {
+    display: flex;
+
+    .loc {
+      background: url("/images/mobile/loc.png") no-repeat;
+      background-size: cover;
+    }
+  }
+  > div:first-child {
+    margin-bottom: 70px;
+  }
+}
+
+.naveMobile {
+  border-top: $orange solid 2px;
+  margin-bottom: 19px;
+  font-size: 1.2rem;
+}
+
 @include media-breakpoint-down(sm) {
   #header {
     position: static;
     padding: 30px 30px 0;
     border: none;
+  }
+  
+  .icon {
+    margin-right: 8px;
+    width: 1.6rem;
+    height: 1.6rem;
+    &:last-child {
+      position: absolute;
+      right: 0;
+    }
   }
 }

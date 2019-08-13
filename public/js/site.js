@@ -10498,6 +10498,8 @@ $(document).ready(function () {
     $('html').not('.loc, .tooltipster-base').mouseenter(function () {
         $('.loc').css({ 'background-image': 'url("/images/loc.png")' });
     });
+
+    // Menu Mobile
 });
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(0), __webpack_require__(0)))
 

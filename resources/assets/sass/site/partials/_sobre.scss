@@ -11,7 +11,6 @@
   > div {
     height: 100%;
     overflow: hidden;
-    // z-index: $zindex-dropdown;
   }
   h1 {
     margin-bottom: 25px;
@@ -35,9 +34,6 @@
       outline: 1px solid $red;
     }
 
-    // > div {
-    //   z-index: $zindex-modal;
-    // }
   }
   .texto {
     padding-bottom: 25px;

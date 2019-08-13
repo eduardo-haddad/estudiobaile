@@ -43,4 +43,6 @@ $(document).ready(function(){
     $('html').not('.loc, .tooltipster-base').mouseenter(function(){
         $('.loc').css({'background-image': 'url("/images/loc.png")'});
     });
+
+    // Menu Mobile
 });
