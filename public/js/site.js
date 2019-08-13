@@ -10455,9 +10455,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_bootstrap_js_dist_carousel___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_bootstrap_js_dist_carousel__);
 //jQuery
 try {
-    window.$ = __webpack_provided_window_dot_jQuery = __webpack_require__(0);
+  window.$ = __webpack_provided_window_dot_jQuery = __webpack_require__(0);
 } catch (error) {
-    console.log(error);
+  console.log(error);
 }
 
 //Tooltipster
@@ -10470,36 +10470,60 @@ window.carousel = __WEBPACK_IMPORTED_MODULE_1_bootstrap_js_dist_carousel___defau
 
 $(document).ready(function () {
 
-    $('.carousel').carousel({
-        interval: 5000
-    });
+  $('.carousel').carousel({
+    interval: 5000
+  });
 
-    // Tooltipster
-    var tt = $('#tooltip_content');
+  // Tooltipster
+  var tt = $('#tooltip_content');
 
-    $(".tooltipster").tooltipster({
-        theme: "tooltipster-noir",
-        content: tt,
-        interactive: true,
-        delay: [100, 5],
-        distance: 0
-    });
+  $(".tooltipster").tooltipster({
+    theme: "tooltipster-noir",
+    content: tt,
+    interactive: true,
+    delay: [100, 5],
+    distance: 0,
+    contentCloning: true
+  });
 
-    // Tooltip hover image
-    $(document).on({
-        mouseenter: function mouseenter() {
-            $('.loc').css({ 'background-image': 'url("/images/loc_hov.png")' });
-        },
-        mouseleave: function mouseleave() {
-            $('.loc').css({ 'background-image': 'url("/images/loc.png")' });
-        }
-    }, '.loc, .tooltipster-base');
-    // Force show original image
-    $('html').not('.loc, .tooltipster-base').mouseenter(function () {
-        $('.loc').css({ 'background-image': 'url("/images/loc.png")' });
-    });
+  // Tooltip hover image
 
-    // Menu Mobile
+  if (window.width < 768) {
+    var imgLoc = '/images/mobile/loc.png';
+  } else {
+    var imgLoc = '/images/loc.png';
+  }
+
+  console.log(imgLoc);
+
+  $(document).on({
+    mouseenter: function mouseenter() {
+      $('.loc').css({ 'background-image': 'url("/images/loc_hov.png")' });
+    },
+    mouseleave: function mouseleave() {
+      $(".loc").css({
+        "background-image": 'url(\'' + imgLoc + '\')'
+      });
+    }
+  }, '.loc, .tooltipster-base');
+  // Force show original image
+  // $('html').not('.loc, .tooltipster-base').mouseenter(function(){
+  //     $(".loc").css({ "background-image": `url('${imgLoc}')` });
+  // });
+
+  // Menu Mobile
+  var menu_aberto = false;
+
+  $(".toggleMenu").click(function () {
+
+    if (menu_aberto == false) {
+      $('#menuMobile').removeClass('d-none');
+      menu_aberto = true;
+    } else {
+      $('#menuMobile').addClass('d-none');
+      menu_aberto = false;
+    }
+  });
 });
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(0), __webpack_require__(0)))
 

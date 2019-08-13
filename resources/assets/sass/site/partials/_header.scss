@@ -133,11 +133,6 @@
 
   .redesMobile {
     display: flex;
-
-    .loc {
-      background: url("/images/mobile/loc.png") no-repeat;
-      background-size: cover;
-    }
   }
   > div:first-child {
     margin-bottom: 70px;
@@ -165,5 +160,9 @@
       position: absolute;
       right: 0;
     }
+  }
+  #menuMobile .loc {
+    background: url("/images/mobile/loc.png") no-repeat;
+    background-size: cover;
   }
 }

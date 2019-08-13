@@ -6,7 +6,7 @@
         </div>
       </div>
       <div class="col-6 d-md-none" id="menuMobileArea">
-        <div class="hamburguer">
+        <div class="hamburguer toggleMenu">
           <span class="bar"></span>
           <span class="bar"></span>
           <span class="bar"></span>
@@ -38,7 +38,7 @@
           <div id="tooltip_templates">
             <div id="tooltip_content">
               <div class="localizacao">
-                <a href="mailto:estudio@estudiobaile.org">estudio@estudiobaile.org</a>
+                <a href="mailto:estudio@estudiobaile.org" target="_blank">estudio@estudiobaile.org</a>
                 <p>rua cônego eugênio leite, 920</p>
                 <p>piniheiros, são paulo</p>
                 <p>+55 11 2306 8679</p>
