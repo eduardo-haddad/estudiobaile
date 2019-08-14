@@ -23,6 +23,7 @@ $(document).ready(function(){
     var ttTrigger = 'hover';
   }
   
+  console.log(imgLoc);
   console.log(ttTrigger);
 
   $('.carousel').carousel({

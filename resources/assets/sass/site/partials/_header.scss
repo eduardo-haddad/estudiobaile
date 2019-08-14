@@ -22,7 +22,7 @@
 
 #logo {
   width: 135px;
-  padding: 0 0 18px;
+  padding-bottom: 18px;
   img {
     width: 100%;
   }
@@ -109,10 +109,10 @@
 }
 
 #menuMobile {
-  padding: 30px;
+  padding: $mobileMargin;
   background: $pink;
   color: $orange;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   position: fixed;
   z-index: $zindex-popover;
   top: 0;
@@ -131,16 +131,20 @@
     font-family: $bold;
   }
 
+  p {
+    margin-bottom: 0;
+  }
+
   .redesMobile {
     display: flex;
   }
   > div:first-child {
-    margin-bottom: 70px;
+    margin-bottom: 75px;
   }
 }
 
 .naveMobile {
-  border-top: $orange solid 2px;
+  border-top: $orange solid 3px;
   margin-bottom: 19px;
   font-size: 1.2rem;
 }
@@ -153,16 +157,18 @@
   }
 
   #logo {
-    width: 102px;
+    width: 90px;
+    padding-bottom: 11px;
   }
   
   .icon {
     margin-right: 8px;
-    width: 1.6rem;
-    height: 1.6rem;
+    width: 1.7rem;
+    height: 1.7rem;
     &:last-child {
       position: absolute;
       right: 0;
+      margin-right: 0;
     }
   }
   #menuMobile .loc {
