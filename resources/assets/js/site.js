@@ -14,6 +14,16 @@ import carousel from 'bootstrap/js/dist/carousel';
 window.carousel = carousel;
 
 $(document).ready(function(){
+  
+  if ($(window).width() < 768) {
+    var imgLoc = '/images/mobile/loc.png';
+    var ttTrigger = 'click'
+  } else {
+    var imgLoc = '/images/loc.png';
+    var ttTrigger = 'hover';
+  }
+  
+  console.log(ttTrigger);
 
   $('.carousel').carousel({
     interval: 5000
@@ -29,32 +39,25 @@ $(document).ready(function(){
     delay: [100, 5],
     distance: 0,
     contentCloning: true,
+    trigger: ttTrigger,
   });
 
   // Tooltip hover image
-  
-  if (window.width < 768) {
-    var imgLoc = '/images/mobile/loc.png';
-  } else {
-    var imgLoc = '/images/loc.png';
-  }
-
-  console.log(imgLoc);
 
   $(document).on({
-      mouseenter: function(){
-          $('.loc').css({'background-image': 'url("/images/loc_hov.png")'});
-      },
-      mouseleave: function(){
-          $(".loc").css({
-            "background-image": `url('${imgLoc}')`
-          });
-      }
+    mouseenter: function(){
+        $('.loc').css({'background-image': 'url("/images/loc_hov.png")'});
+    },
+    mouseleave: function(){
+        $(".loc").css({
+          "background-image": `url('${imgLoc}')`
+        });
+    }
   }, '.loc, .tooltipster-base');
   // Force show original image
-  // $('html').not('.loc, .tooltipster-base').mouseenter(function(){
-  //     $(".loc").css({ "background-image": `url('${imgLoc}')` });
-  // });
+  $('html').not('.loc, .tooltipster-base').mouseenter(function(){
+      $(".loc").css({ "background-image": `url('${imgLoc}')` });
+  });
 
   // Menu Mobile
   var menu_aberto = false;

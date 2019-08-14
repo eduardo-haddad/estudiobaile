@@ -179,7 +179,7 @@ a:hover {
     height: 360px;
   }
   #main {
-    padding: 0 30px;
+    padding: 0 $mobileMargin;
     color: $pink;
     
     a {
@@ -192,11 +192,14 @@ a:hover {
       height: 100%;
     }
     > div[class*="col-"] {
-      margin-top: 30px;
+      margin-top: 36px;
+      &:first-child {
+        margin-top: 0;
+      }
     }
   }
   .escolha {
-    padding-bottom: 25px;
+    padding: 25px 0;
     p {
       font-size: 1.4em;
       position: static;

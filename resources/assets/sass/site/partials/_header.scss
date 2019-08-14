@@ -97,12 +97,12 @@
       // background: white;
       > .bar {
         display: block;
-        width: 48px;
-        height: 4px;
+        width: 36px;
+        height: 3px;
         background: $pink;
         border-radius: 1px;
         + .bar {
-          margin-top: 13px;
+          margin-top: 9px;
       }
     }
   }
@@ -148,8 +148,12 @@
 @include media-breakpoint-down(sm) {
   #header {
     position: static;
-    padding: 30px 30px 0;
+    padding: $mobileMargin $mobileMargin 0;
     border: none;
+  }
+
+  #logo {
+    width: 102px;
   }
   
   .icon {
