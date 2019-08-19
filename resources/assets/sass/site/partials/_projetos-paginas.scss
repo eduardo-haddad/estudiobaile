@@ -8,11 +8,22 @@
   overflow: hidden;
   height: 344px;
   .carousel-control-prev, .carousel-control-next {
-    width: 6%;
+    width: 3%;
+  }
+  .carousel-control-prev-icon, .carousel-control-next-icon {
+    width: 8px;
+    height: 16px;
+  }
+  .carousel-control-prev-icon {
+    background-image: url('/images/arrowLeft.png');
+  }
+  .carousel-control-next-icon {
+    background-image: url('/images/arrowRight.png');
   }
   div {
     height: inherit;
   }
+
   @include img_cover;
 }
 
@@ -190,6 +201,35 @@
 
 @media (max-width: 768px) {
   .ficha {
+    position: static;
+  }
+}
+
+@include media-breakpoint-down(sm) {
+  #carouselProjetoArea {
+    margin-bottom: 0;
+    > div {
+      padding: 0;
+    }
+  }
+
+  #carouselProjeto {
+    height: 200px;
+    .carousel-control-prev, .carousel-control-next {
+      width: 20%;
+      opacity: 1;
+    }
+    .carousel-control-prev-icon, .carousel-control-next-icon {
+      width: 13px;
+      height: 27px;
+    }
+  }
+
+  #corpo {
+    padding: $mobileMargin;
+  }
+
+  .projeto .ficha {
     position: static;
   }
 }
