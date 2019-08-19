@@ -10478,9 +10478,6 @@ $(document).ready(function () {
     var ttTrigger = 'hover';
   }
 
-  console.log(imgLoc);
-  console.log(ttTrigger);
-
   $('.carousel').carousel({
     interval: 5000
   });
@@ -10528,6 +10525,13 @@ $(document).ready(function () {
       menu_aberto = false;
     }
   });
+
+  //removeClass mobile
+  if ($(window).width() < 768) {
+    $(".col-fix-9").removeClass('col-fix-9');
+    $(".col-fix-3").removeClass("col-fix-3");
+    console.log("etc");
+  }
 });
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(0), __webpack_require__(0)))
 

@@ -23,9 +23,6 @@ $(document).ready(function(){
     var ttTrigger = 'hover';
   }
   
-  console.log(imgLoc);
-  console.log(ttTrigger);
-
   $('.carousel').carousel({
     interval: 5000
   });
@@ -74,5 +71,13 @@ $(document).ready(function(){
     }
 
   });
+
+  //removeClass mobile
+  if ($(window).width() < 768) {
+    $(".col-fix-9").removeClass('col-fix-9');
+    $(".col-fix-3").removeClass("col-fix-3");
+    console.log("etc")
+  }
+
 
 });
