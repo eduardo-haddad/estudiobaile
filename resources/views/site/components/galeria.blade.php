@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col">
+  <div class="col {{ $display }}">
     <div class="galeria">
       <h2 class="bold">galeria</h2>
       <div class="thumb landscape pr-1 pb-2">

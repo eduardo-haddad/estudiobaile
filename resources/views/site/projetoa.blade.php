@@ -69,16 +69,19 @@
   </div>
   <div class="col-md-5 offset-md-1">
     <div class="row">
-        @component('site.components.texto')
+        @texto
             
-        @endcomponent
-        @notas
+        @endtexto
+        @notas(['display' => 'd-md-block'])
             
         @endnotas
     </div>
-    @component('site.components.galeria')
+    @galeria(['display' => 'd-none d-md-block'])
         
-    @endcomponent
+    @endgaleria
+    @galeriaMobile(['display' => 'd-block d-md-none'])
+
+    @endgaleriaMobile
   </div>
 </div>
 

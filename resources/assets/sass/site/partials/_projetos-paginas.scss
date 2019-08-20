@@ -4,27 +4,34 @@
   margin-bottom: 30px;
 }
 
-#carouselProjeto {
+.carousel {
+  @include img_cover;
   overflow: hidden;
-  height: 344px;
-  .carousel-control-prev, .carousel-control-next {
-    width: 3%;
-  }
-  .carousel-control-prev-icon, .carousel-control-next-icon {
-    width: 8px;
-    height: 16px;
-  }
-  .carousel-control-prev-icon {
-    background-image: url('/images/arrowLeft.png');
-  }
-  .carousel-control-next-icon {
-    background-image: url('/images/arrowRight.png');
-  }
+  
   div {
     height: inherit;
   }
 
-  @include img_cover;
+  .carousel-control-prev, .carousel-control-next {
+    width: 3%;
+  }
+
+  .carousel-control-prev-icon, .carousel-control-next-icon {
+    width: 8px;
+    height: 16px;
+  }
+
+  .carousel-control-prev-icon {
+    background-image: url('/images/arrowLeft.png');
+  }
+
+  .carousel-control-next-icon {
+    background-image: url('/images/arrowRight.png');
+  }
+}
+
+#carouselProjeto {
+  height: 344px;
 }
 
 #corpo {
@@ -213,23 +220,53 @@
     }
   }
 
-  #carouselProjeto {
-    height: 200px;
+  .carousel {
     .carousel-control-prev, .carousel-control-next {
       width: 20%;
       opacity: 1;
     }
+
     .carousel-control-prev-icon, .carousel-control-next-icon {
       width: 13px;
       height: 27px;
     }
   }
 
+  #carouselProjeto {
+    height: 200px;
+  }
+  
+
   #corpo {
     padding: $mobileMargin;
+    .texto {
+      padding-bottom: 0px;
+    }
   }
 
   .projeto .ficha {
     position: static;
+  }
+
+  .notas {
+    @include border($red);
+    position: static;
+    top: unset;
+  }
+
+  #carouselGaleriaArea {
+    @include border($red);    
+  }
+  
+  #carouselGaleriaMobile {
+    height: 180px;
+    
+    .carousel-control-prev-icon {
+      background-image: url('/images/arrowLeftRed.png');
+    }
+
+    .carousel-control-next-icon {
+      background-image: url('/images/arrowRightRed.png');
+    }
   }
 }

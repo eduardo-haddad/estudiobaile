@@ -14,6 +14,7 @@
   </div>
   <div class="col-md-3">
     <form action="">
+      @csrf
       <div class="formWrap">
         <div class="formulario">
           <label class="item" >
