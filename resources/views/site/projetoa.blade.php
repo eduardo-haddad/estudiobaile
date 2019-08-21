@@ -1,8 +1,8 @@
 @extends('site.layouts.base')
 @section('conteudo')
 
-@component('site.components.carousel')
-@endcomponent
+@carousel(['ibagens' => "/images/proja.png"])
+@endcarousel
 
 <div class="row projeto tipo-a justify-content-center" id="corpo">
   <div class="ficha col-md-2">
@@ -69,19 +69,19 @@
   </div>
   <div class="col-md-5 offset-md-1">
     <div class="row">
-        @texto
-            
-        @endtexto
-        @notas(['display' => 'd-md-block'])
-            
-        @endnotas
+      @texto
+          
+      @endtexto
+      @notas(['display' => 'd-md-block'])
+          
+      @endnotas
     </div>
-    @galeria(['display' => 'd-none d-md-block'])
-        
-    @endgaleria
-    @galeriaMobile(['display' => 'd-block d-md-none'])
+      @galeria(['display' => 'd-none d-md-block'])
+          
+      @endgaleria
+      @galeriaMobile(['display' => 'd-block d-md-none'])
 
-    @endgaleriaMobile
+      @endgaleriaMobile
   </div>
 </div>
 
