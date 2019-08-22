@@ -11,7 +11,7 @@
       @php
         $imagens = [ $ibagens ];
       @endphp
-
+      {{-- TODO como receber array via dados do component --}}
       <div id="carouselProjeto" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">
           @foreach($imagens as $i => $imagem)

@@ -255,7 +255,7 @@
   }
 
   #carouselGaleriaArea {
-    @include border($red);    
+    @include border($red, 14px, 20px);    
   }
   
   #carouselGaleriaMobile {

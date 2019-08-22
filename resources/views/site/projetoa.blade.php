@@ -33,39 +33,12 @@
         </span>
       </div>
     </div>
-    <div class="info d-none d-md-block">
-      <div class="campo">
-        <p>curadoria</p>
-        <span class="bold">nome sobrenome</span>
-      </div>
-      <div class="campo">
-        <p>montagem</p>
-        <span class="bold">nome sobrenome</span>
-      </div>
-      <div class="campo">
-        <p>função</p>
-        <span class="bold">nome sobrenome</span>
-      </div>
-      <div class="campo">
-        <p>função</p>
-        <span class="bold">nome sobrenome</span>
-      </div>
-      <div class="campo">
-        <p>função</p>
-        <span class="bold">nome sobrenome</span>
-      </div>
-    </div>
-    <div class="info d-none d-md-block">
-      parceiros
-      <div class="parceiros">
-        <img src="{{ asset('/images/parceiros.png') }}" alt="">
-        <img src="{{ asset('/images/parceiros.png') }}" alt="">
-      </div>
-      <div class="parceiros">
-        <img src="{{ asset('/images/parceiros.png') }}" alt="">
-        <img src="{{ asset('/images/parceiros.png') }}" alt="">
-      </div>
-    </div>
+    @fichaTecnica(['display' => 'd-none d-md-block'])
+        
+    @endfichaTecnica
+    @parceiros(['display' => 'd-none d-md-block'])
+
+    @endparceiros
   </div>
   <div class="col-md-5 offset-md-1">
     <div class="row">
@@ -75,13 +48,21 @@
       @notas(['display' => 'd-md-block'])
           
       @endnotas
-    </div>
       @galeria(['display' => 'd-none d-md-block'])
-          
+      
       @endgaleria
-      @galeriaMobile(['display' => 'd-block d-md-none'])
-
-      @endgaleriaMobile
+      <div class="col ficha">
+        @galeriaMobile(['display' => 'd-block d-md-none'])
+  
+        @endgaleriaMobile
+        @fichaTecnica(['display' => 'd-block d-md-none'])
+          
+        @endfichaTecnica
+        @parceiros(['display' => 'd-block d-md-none'])
+  
+        @endparceiros
+      </div>
+    </div>
   </div>
 </div>
 

@@ -1,8 +1,8 @@
-@mixin border($color, $pad-top: 14px) {
+@mixin border($color, $padTop: 14px, $padBot: 10px) {
   border-top: $color solid 2px;
   // display: block;
-  padding-top: $pad-top;
-  padding-bottom: 10px;
+  padding-top: $padTop;
+  padding-bottom: $padBot;
 }
 
 @mixin img_cover($height: 100%) {
