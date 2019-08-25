@@ -1,6 +1,5 @@
 @mixin border($color, $padTop: 14px, $padBot: 10px) {
   border-top: $color solid 2px;
-  // display: block;
   padding-top: $padTop;
   padding-bottom: $padBot;
 }

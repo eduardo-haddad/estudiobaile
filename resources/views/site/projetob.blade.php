@@ -1,7 +1,12 @@
 @extends('site.layouts.base')
 @section('conteudo')
 
-@carousel(['ibagens' => "/images/projb.png"])
+
+@carousel(['ibagens' => [
+  "/images/proja.png",
+  "/images/projb.png",
+  "/images/projc.png"
+]])
 @endcarousel
 
 <div class="row projeto tipo-d justify-content-center" id="corpo">
@@ -10,10 +15,12 @@
       <h1>
         Projeto B
       </h1>
-      <span class="med">Residências artísticas<br>
-      em contexto educativos</span>
+      <span class="med">
+        Residências artísticas<br>
+        em contexto educativos
+      </span>
     </div>
-    <div class="info">
+    <div class="info d-none d-md-block">
       <div class="campo">
         <span class="bold">temporada 1</span>
         <p>
@@ -28,7 +35,7 @@
     <div class="info">
       {{-- TODO line-height desse campo difere em A e B --}}
       <div class="campo">
-        <p>assuntos</p>
+        <p class="d-none d-md-block">assuntos</p>
         <span class="bold">educação<br>
           astronomia<br>
           dança<br>

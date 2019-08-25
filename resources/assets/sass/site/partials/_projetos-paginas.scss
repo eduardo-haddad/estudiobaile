@@ -176,18 +176,24 @@
     // }
   }
 }
-// TODO barra vermelha na segunda iteração
+
 .subprojeto { 
   display: flex;
   line-height: 1.1em;
   margin-top: 7px;
   &:first-child {
     margin-top: 0px;
+    .portrait {
+      border-top: none;
+      padding: unset;
+    }
   }
   p {
     margin-bottom: 0;
   }
   .portrait {
+    @include border($red);
+    margin-right: 2%;
     width: 49%;
   }
   .landscape {
@@ -267,6 +273,14 @@
 
     .carousel-control-next-icon {
       background-image: url('/images/arrowRightRed.png');
+    }
+  }
+
+  .subprojeto {
+    flex-wrap: wrap;
+    .portrait, .landscape {
+      display: block !important;
+      width: 100% !important;
     }
   }
 }

@@ -1,7 +1,7 @@
 @extends('site.layouts.base')
 @section('conteudo')
 
-@carousel(['ibagens' => "/images/galeria1/RM10.png"])
+@carousel(['ibagens' => ["/images/galeria1/RM10.png"]])
 @endcarousel
 
 <div class="row projeto tipo-d justify-content-center" id="corpo">

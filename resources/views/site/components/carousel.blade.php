@@ -1,20 +1,9 @@
 <div class="row justify-content-center" id="carouselProjetoArea">
   <div class="col-md-8">
 
-      {{-- @php
-        $imagens = [
-        asset('/images/proja.png'),
-        asset('/images/projb.png'),  
-        asset('/images/projc.png')
-        ];
-      @endphp --}}
-      @php
-        $imagens = [ $ibagens ];
-      @endphp
-      {{-- TODO como receber array via dados do component --}}
       <div id="carouselProjeto" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">
-          @foreach($imagens as $i => $imagem)
+          @foreach($ibagens as $i => $imagem)
             <div class="carousel-item {{$i == 0 ? "active" : ""}}">
               <img class="d-block w-100" src="{{ $imagem }}" alt="{{'slide'.$i}}">
             </div>

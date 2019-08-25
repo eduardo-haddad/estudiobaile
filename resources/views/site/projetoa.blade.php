@@ -1,7 +1,11 @@
 @extends('site.layouts.base')
 @section('conteudo')
 
-@carousel(['ibagens' => "/images/proja.png"])
+@carousel(['ibagens' => [
+  "/images/proja.png",
+  "/images/projb.png",
+  "/images/projc.png"
+]])
 @endcarousel
 
 <div class="row projeto tipo-a justify-content-center" id="corpo">
@@ -14,7 +18,6 @@
       em contexto educativos</span>
     </div>
     <div class="info">
-      {{-- TODO complicado : diagramação diferente no mobile --}}
       <div class="campo">
         <p>
             data 
