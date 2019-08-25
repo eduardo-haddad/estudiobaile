@@ -73,9 +73,10 @@
         </p>
       </div>
     </div>
-    <div class="carouselAgenda">
-      AGENDA
-    </div>
+    @carouselAgenda
+
+    @endcarouselAgenda
+
   </div>
 </div>
 

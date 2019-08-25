@@ -13,6 +13,11 @@ window.tooltipster = tooltipster;
 import carousel from 'bootstrap/js/dist/carousel';
 window.carousel = carousel;
 
+//Axios
+import axios from 'axios';
+window.axios = axios;
+window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+
 $(document).ready(function(){
   
   if ($(window).width() < 768) {
