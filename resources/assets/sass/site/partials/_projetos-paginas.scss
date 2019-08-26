@@ -81,7 +81,6 @@
 }
 
 .ficha {
-  // float: left;
   display: block;
   align-self: flex-start;
   font-size: $texto-geral-base;
@@ -250,12 +249,17 @@
     }
   }
 
-  .projeto .ficha {
-    position: static;
+  .projeto { 
+      .ficha {
+      position: static;
+        > div {
+          @include border($red, 18px, 14px);
+      }
+    }
   }
 
   .notas {
-    @include border($red);
+    @include border($red, 17px, 16px);
     position: static;
     top: unset;
   }

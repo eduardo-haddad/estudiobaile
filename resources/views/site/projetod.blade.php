@@ -36,28 +36,9 @@
         </span>
       </div>
     </div>
-    <div class="info">
-      <div class="campo">
-        <p>curadoria</p>
-        <span class="bold">nome sobrenome</span>
-      </div>
-      <div class="campo">
-        <p>montagem</p>
-        <span class="bold">nome sobrenome</span>
-      </div>
-      <div class="campo">
-        <p>função</p>
-        <span class="bold">nome sobrenome</span>
-      </div>
-      <div class="campo">
-        <p>função</p>
-        <span class="bold">nome sobrenome</span>
-      </div>
-      <div class="campo">
-        <p>função</p>
-        <span class="bold">nome sobrenome</span>
-      </div>
-    </div>
+    @fichaTecnica(['display' => 'd-none d-md-block'])
+        
+    @endfichaTecnica
   </div>
   <div class="col-md-5 offset-md-1">
     <div class="row">
@@ -67,13 +48,21 @@
       @notas(['display' => 'd-md-block'])
           
       @endnotas
-    </div>
       @galeria(['display' => 'd-none d-md-block'])
           
       @endgaleria
+    </div>
+    <div class="col ficha d-md-none">
       @galeriaMobile(['display' => 'd-block d-md-none'])
-
+  
       @endgaleriaMobile
+      @fichaTecnica(['display' => 'd-block d-md-none'])
+        
+      @endfichaTecnica
+      @parceiros(['display' => 'd-block d-md-none'])
+  
+      @endparceiros
+    </div>
   </div>
 </div>
 

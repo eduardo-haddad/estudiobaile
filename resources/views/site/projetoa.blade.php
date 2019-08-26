@@ -54,7 +54,7 @@
       @galeria(['display' => 'd-none d-md-block'])
       
       @endgaleria
-      <div class="col ficha">
+      <div class="col ficha d-md-none">
         @galeriaMobile(['display' => 'd-block d-md-none'])
   
         @endgaleriaMobile
