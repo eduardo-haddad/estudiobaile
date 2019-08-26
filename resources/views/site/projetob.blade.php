@@ -57,7 +57,7 @@
         <div class="texto">
           <div class="subprojeto">
             <div class="portrait">
-              <h1 class="bold">Temporada 1</h1>
+              <a href="{{ url('/site/projetod') }}"><h1 class="bold">Temporada 1</h1></a>
               <span class="bold">2019</span>
               <p>galeria vermelho,</p>
               <p>são paulo</p>
@@ -68,13 +68,13 @@
           </div>
           <div class="subprojeto">
             <div class="portrait">
-              <h1 class="bold">Temporada 2</h1>
+              <a href="#"><h1 class="bold">Temporada 2</h1></a>
               <span class="bold">2020</span>
               <p>galeria vermelho,</p>
               <p>são paulo</p>
             </div>
             <div class="thumb landscape">
-              <img src="{{ asset('/images/galeria1/RM6.png') }}" alt="">
+              <a href="#"><img src="{{ asset('/images/galeria1/RM6.png') }}" alt=""></a>
             </div>
           </div>
         </div>

@@ -180,7 +180,7 @@
 .subprojeto { 
   display: flex;
   line-height: 1.1em;
-  margin-top: 7px;
+  margin-top: 13px;
   &:first-child {
     margin-top: 0px;
     .portrait {
@@ -192,7 +192,7 @@
     margin-bottom: 0;
   }
   .portrait {
-    @include border($red);
+    @include border($red, 14px, unset);
     margin-right: 2%;
     width: 49%;
   }
@@ -278,9 +278,17 @@
 
   .subprojeto {
     flex-wrap: wrap;
+    margin-top: 18px;
+    &:first-child {
+      margin-top: 0;
+    }
     .portrait, .landscape {
-      display: block !important;
-      width: 100% !important;
+      width: 100%;
+      margin-right: unset;
+    }
+
+    .thumb {
+      margin: 21px 0 0;
     }
   }
 }
