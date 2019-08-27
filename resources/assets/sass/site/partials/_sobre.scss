@@ -51,3 +51,14 @@
 .smoll {
   font-size: 0.86em;
 }
+
+@include media-breakpoint-down(sm) { 
+  #sobre {
+    height: unset;
+    padding: 0 20px;
+  }
+
+  .logo-vertical {
+    padding: 0 0 20px;
+  }
+}

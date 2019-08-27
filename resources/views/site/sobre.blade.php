@@ -2,7 +2,7 @@
 @section('conteudo')
 
 <div class="row justify-content-center" id="sobre">
-  <div class="col-md-3">
+  <div class="col-md-3 order-md-1 order-2">
     <div class="scroll">
       <div class="texto">
         <h1>
@@ -21,7 +21,7 @@
       </div>
     </div>
   </div>
-  <div class="col-md-2 offset-md-1">
+  <div class="col-md-2 offset-md-1 order-md-2 order-3">
     <div class="scroll">
       <div class="texto">
         <div class="info">
@@ -44,7 +44,7 @@
     </div>
   </div>
   <div class="col-md-2">
-    <div class="scroll">
+    <div class="scroll order-md-3 order-1">
       <div class="logo-vertical">
         <img src="{{ asset('images/logo-vertical.png') }}" alt="">
       </div>
