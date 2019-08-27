@@ -65,9 +65,9 @@
   div {
     color: black;
   }
-  .texto {
-    margin-bottom: 100px;
-  }
+  // .texto {
+  //   margin-bottom: 100px;
+  // }
   .texto, .ficha > div {
     @include border(black);
   }
@@ -258,10 +258,26 @@
     }
   }
 
+  .tipo-c {
+    .texto, .ficha > div {
+      @include border(black);
+    }
+  }
+
+  .logo-externo {
+    width: 44%;
+  }
+
   .notas {
     @include border($red, 17px, 16px);
     position: static;
     top: unset;
+  }
+
+  .tipo-c {
+    .notas {
+      @include border(black, 17px, 16px);
+    }
   }
 
   #carouselGaleriaArea {
