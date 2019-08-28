@@ -2,17 +2,17 @@
 @section('conteudo')
 
 <div class="row justify-content-center agenda formArea">
-  <div class="col-md-1">
+  <div class="col-md-1 col-12">
     <div class="fique">
       <div class="porDentro">
         <p class="bold">
-          fique <br>
+          fique <br class="d-none d-md-block">
           por dentro!
           </p>
       </div>
     </div>
   </div>
-  <div class="col-md-3">
+  <div class="col-md-3 col-12">
     <form action="">
       @csrf
       <div class="formWrap">

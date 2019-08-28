@@ -52,7 +52,7 @@
   width: 10px;
 }
 
-button {
+.formArea button {
   color: $red;
   background-color: $orange;
   font-family: $bold;
@@ -65,7 +65,7 @@ button {
 }
 
 .visualArea {
-  font-size: 0.85rem;
+  font-size: 0.85em;
   .legendas {
     padding-bottom: 0.7rem;
   }
@@ -74,4 +74,32 @@ button {
 .carouselAgenda {
   height: 380px;
   background-color: $orange;
+}
+
+@include media-breakpoint-down(sm) {
+  .agenda {
+    padding: 0 $mobileMargin;
+  }
+
+  .fique {
+    height: 80px;
+    p {
+      font-size: 1.3em; 
+    }
+  }
+
+  .formWrap {
+    padding: 0;
+    width: unset;
+  }
+
+  .formArea button {
+    position: unset;
+    float: right;
+    margin: 23px 0;
+  }
+
+  .visualArea .legendas {
+    border-bottom: 2px $red solid;
+  }
 }

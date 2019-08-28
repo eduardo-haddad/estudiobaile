@@ -32,7 +32,7 @@
   </div>
   <div class="row justify-content-center projetos">
     <div class="col-md-2">
-      <div class="thu-projeto futuro">
+      <div class="thumbProjeto futuro">
         <a href="{{ url('/site/projetoa') }}"><img src="{{ asset('images/galeria1/MissBaker.png') }}" alt=""></a>
       </div>
       <div class="caption">
@@ -43,7 +43,7 @@
       </div>
     </div>
     <div class="col-md-2">
-      <div class="thu-projeto presente">
+      <div class="thumbProjeto presente">
         <a href="{{ url('/site/projetob') }}"><img src="{{ asset('images/galeria1/MissBaker.png') }}" alt=""></a>
       </div>
       <div class="caption cap-c">
@@ -54,7 +54,7 @@
       </div>
     </div>
     <div class="col-md-2">
-      <div class="thu-projeto passado">
+      <div class="thumbProjeto passado">
         <a href="{{ url('/site/projetod') }}"><img src="{{ asset('images/galeria1/MissBaker.png') }}" alt=""></a>
       </div>
       <div class="caption">
@@ -65,7 +65,7 @@
       </div>
     </div>
     <div class="col-md-2">
-      <div class="thu-projeto passado">
+      <div class="thumbProjeto passado">
         <a href="{{ url('/site/projetoc') }}"><img src="{{ asset('images/galeria1/MissBaker.png') }}" alt=""></a>
       </div>
       <div class="caption">
@@ -77,7 +77,7 @@
     </div>
     <div class="w-100"></div>
     <div class="col-md-2">
-      <div class="thu-projeto presente">
+      <div class="thumbProjeto presente">
         <img src="{{ asset('images/galeria1/MissBaker.png') }}" alt="">
       </div>
       <div class="caption">
@@ -88,7 +88,7 @@
       </div>
     </div>
     <div class="col-md-2">
-      <div class="thu-projeto presente">
+      <div class="thumbProjeto presente">
         <img src="{{ asset('images/galeria1/MissBaker.png') }}" alt="">
       </div>
       <div class="caption">
@@ -99,7 +99,7 @@
       </div>
     </div>
     <div class="col-md-2">
-      <div class="thu-projeto futuro">
+      <div class="thumbProjeto futuro">
         <img src="{{ asset('images/galeria1/MissBaker.png') }}" alt="">
       </div>
       <div class="caption">
@@ -110,7 +110,7 @@
       </div>
     </div>
     <div class="col-md-2">
-      <div class="thu-projeto passado">
+      <div class="thumbProjeto passado">
         <img src="{{ asset('images/galeria1/MissBaker.png') }}" alt="">
       </div>
       <div class="caption">
@@ -122,7 +122,7 @@
     </div>
     <div class="w-100"></div>
     <div class="col-md-2">
-      <div class="thu-projeto passado">
+      <div class="thumbProjeto passado">
         <img src="{{ asset('images/galeria1/MissBaker.png') }}" alt="">
       </div>
       <div class="caption">
@@ -133,7 +133,7 @@
       </div>
     </div>
     <div class="col-md-2">
-      <div class="thu-projeto passado">
+      <div class="thumbProjeto passado">
         <img src="{{ asset('images/galeria1/MissBaker.png') }}" alt="">
       </div>
       <div class="caption">
@@ -144,7 +144,7 @@
       </div>
     </div>
     <div class="col-md-2">
-      <div class="thu-projeto passado">
+      <div class="thumbProjeto passado">
         <img src="{{ asset('images/galeria1/MissBaker.png') }}" alt="">
       </div>
       <div class="caption">
@@ -155,7 +155,7 @@
       </div>
     </div>
     <div class="col-md-2">
-      <div class="thu-projeto futuro">
+      <div class="thumbProjeto futuro">
         <img src="{{ asset('images/galeria1/MissBaker.png') }}" alt="">
       </div>
       <div class="caption">
