@@ -154,6 +154,40 @@ class Tag extends Model
         ");
     }
 
+    public static function removeDuplicadas($pessoa_id, $tag_id, $tipo){
+
+        if(strtolower($tipo) == "pf"){
+            $pf = $pessoa_id;
+            $pj = 0;
+            $coluna = "pessoa_fisica_id";
+        } else {
+            $pf = 0;
+            $pj = $pessoa_id;
+            $coluna = "pessoa_juridica_id";
+        }
+
+        $query = \DB::Select("
+            SELECT count(*) as count FROM `pessoa_tag` where $coluna = $pessoa_id and tag_id = $tag_id
+        ");
+
+        if(!empty($query[0]->count)){
+            $count = $query[0]->count;
+        } else {
+            return false;
+        }
+
+        if(intval($count) > 1){
+            \DB::Select("
+                DELETE FROM `pessoa_tag` where $coluna = $pessoa_id and tag_id = $tag_id
+            ");
+            \DB::Select("
+                INSERT INTO `pessoa_tag` (pessoa_fisica_id, pessoa_juridica_id, tag_id) VALUES ($pf, $pj, $tag_id)
+            ");
+            return true;
+        }
+        return false;
+    }
+
     public static function criaTags($tags, $tipo){
 
         $tags_ids = array();
