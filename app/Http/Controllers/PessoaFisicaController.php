@@ -93,8 +93,6 @@ class PessoaFisicaController extends Controller
         //Projetos
         $projetos = $this->ajaxGetProjetosChancelasPorId($id);
 
-        dd($projetos);
-
         //Preview
         if(!empty($pessoa_fisica->dt_nascimento)) {
             $dt_nascimento['dia'] = date("d", strtotime($pessoa_fisica->dt_nascimento));
