@@ -21,12 +21,12 @@
     </div>
   </div>
   <div class="row justify-content-center">
-    <div class="col naveMobile"><a href="{{ url ('/site/sobre') }}" class="toggleMenu">sobre</a></div>
+    <div class="col naveMobile"><a href="{{ url ('/site/sobre') }}" class="toggleMenu"><p>sobre</p></a></div>
   </div>
   <div class="row justify-content-center">
-    <div class="col naveMobile"><a href="{{ url ('/site/projetos') }}" class="toggleMenu">projetos</a></div>
+    <div class="col naveMobile"><a href="{{ url ('/site/projetos') }}" class="toggleMenu"><p>projetos</p></a></div>
   </div>
   <div class="row justify-content-center">
-    <div class="col naveMobile"><a href="{{ url ('/site/agenda') }}" class="toggleMenu">agenda</a></div>
+    <div class="col naveMobile"><a href="{{ url ('/site/agenda') }}" class="toggleMenu"><p>agenda</p></a></div>
   </div>
 </div>

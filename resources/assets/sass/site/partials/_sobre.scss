@@ -55,7 +55,7 @@
 @include media-breakpoint-down(sm) { 
   #sobre {
     height: unset;
-    padding: 0 20px;
+    padding: 0 $mobileMargin;
 
     .scroll {
       margin-top: unset;
@@ -73,7 +73,7 @@
   .rodaPe {
     background-color: $pink;
     color: white;
-    padding: 40px 20px;
+    padding: 40px $mobileMargin;
 
     a {
       color: white;
