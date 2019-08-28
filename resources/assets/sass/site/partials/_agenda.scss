@@ -71,9 +71,77 @@
   }
 }
 
+#carouselAgendaArea {
+  height: 450px;
+  margin-bottom: 100px;
+}
+
 .carouselAgenda {
-  height: 380px;
-  background-color: $orange;
+  height: 100%;
+  div {
+    height: 100%;
+  }
+  
+  .slide {
+    max-width: 93%;
+    
+    .imagemAgenda {   
+      overflow: hidden;
+      transition: all .3s linear;
+      height: 80%;
+
+      img {
+        mix-blend-mode: screen;
+      }
+
+      &:hover {
+        background: black; 
+      }
+      @include img_cover(114%);
+    }
+
+    p {
+      margin: 0;
+      line-height: 1rem;
+      font-size: 0.9rem;
+    }
+
+    .data {
+      text-decoration: underline;
+      margin: 10px 0;
+    }
+  }
+}
+
+.slick-prev, .slick-next {
+  font-size: 0;
+  line-height: 0;
+  position: absolute;
+  top: 50%;
+  display: block;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  transform: translate(0, -50%);
+  cursor: pointer;
+  color: transparent;
+  border: none;
+  outline: none;
+  background: transparent;
+}
+
+.slick-prev {
+  left: -45px;
+  &::before {
+    content: url('/images/arrowLeftRed.png');
+  }
+}
+
+.slick-next {
+  right: -25px;  
+  &::before {
+    content: url('/images/arrowRightRed.png');
+  }
 }
 
 @include media-breakpoint-down(sm) {
@@ -102,4 +170,23 @@
   .visualArea .legendas {
     border-bottom: 2px $red solid;
   }
+
+  #carouselAgendaArea {
+    margin-top: 20px;
+
+    .slide {
+      max-width: unset;
+      margin-top: $mobileMargin;
+      height: unset;
+      
+      .imagemAgenda {
+        height: calc(380px/1.5);
+      }
+
+      &:last-child {
+        margin-bottom: $mobileMargin; 
+      }
+    }
+  }
+
 }

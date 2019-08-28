@@ -40,10 +40,10 @@
     mix-blend-mode: screen;
   }
   @include img_cover(164%);
-}
-
-.thu-projeto:hover {
-  background: black; 
+  
+  &:hover {
+    background: black; 
+  }
 }
 
 .caption {

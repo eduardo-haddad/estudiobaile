@@ -24,8 +24,11 @@
         "vue-router": "^3.0.1"
     },
     "dependencies": {
+        "ajv": "^6.10.2",
+        "imagemin": "^7.0.0",
         "lightbox2": "^2.10.0",
         "quill": "^1.3.6",
+        "slick-carousel": "^1.8.1",
         "tooltipster": "^4.2.6",
         "vue-the-mask": "^0.11.1"
     }

@@ -6,7 +6,7 @@ try {
 }
 
 //Tooltipster
-import tooltipster from 'tooltipster'
+import tooltipster from 'tooltipster';
 window.tooltipster = tooltipster;
 
 // Bootstrap - carousel
@@ -18,8 +18,13 @@ import axios from 'axios';
 window.axios = axios;
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
+//slick - carousel
+import slick from 'slick-carousel';
+window.slick = slick;
+
 $(document).ready(function(){
   
+  //icone de localização mobile/desktop
   if ($(window).width() < 768) {
     var imgLoc = '/images/mobile/loc.png';
     var ttTrigger = 'click'
@@ -28,9 +33,23 @@ $(document).ready(function(){
     var ttTrigger = 'hover';
   }
   
+  //carousel bootstrap
   $('.carousel').carousel({
     interval: 5000
   });
+
+  //carousel slick
+    $(".carouselAgenda").slick({
+      centerMode: true,
+      centerPadding: "100px",
+      slidesToShow: 3,
+      responsive: [
+        {
+          breakpoint: 768,
+          settings: "unslick"
+        }
+      ]
+    });
 
   // Tooltipster
   let tt = $('#tooltip_content');

@@ -33,7 +33,7 @@
   <div class="row justify-content-center projetos">
     <div class="col-md-2">
       <div class="thumbProjeto futuro">
-        <a href="{{ url('/site/projetoa') }}"><img src="{{ asset('images/galeria1/MissBaker.png') }}" alt=""></a>
+        <a href="{{ url('/site/projetoa') }}"><img src="{{ asset('images/galeria1/RM10.png') }}" alt=""></a>
       </div>
       <div class="caption">
         <p class="bold">

@@ -76,7 +76,6 @@
     @carouselAgenda
 
     @endcarouselAgenda
-
   </div>
 </div>
 

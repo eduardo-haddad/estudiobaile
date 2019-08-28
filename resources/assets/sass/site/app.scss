@@ -15,6 +15,9 @@
 // Carousel
 @import '~bootstrap/scss/carousel';
 
+// Slick 
+@import '~slick-carousel/slick/slick';
+
 // Partials
 @import 'partials/mixins', 'partials/tooltipster', 'partials/header', 'partials/sobre','partials/projetos-lista', 'partials/agenda', 'partials/projetos-paginas';
 

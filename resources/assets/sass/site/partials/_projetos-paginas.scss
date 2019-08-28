@@ -65,9 +65,6 @@
   div {
     color: black;
   }
-  // .texto {
-  //   margin-bottom: 100px;
-  // }
   .texto, .ficha > div {
     @include border(black);
   }
