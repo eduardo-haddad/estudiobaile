@@ -142,7 +142,7 @@ class PessoaFisica extends Model
             FROM projetos Projeto
                 INNER JOIN pf_projeto PfProjeto
                 ON PfProjeto.projeto_id = Projeto.id AND PfProjeto.pessoa_fisica_id = $pessoa_fisica_id
-                LEFT JOIN tags Tag
+                INNER JOIN tags Tag
                 ON Tag.id = PfProjeto.tag_id
             ORDER BY Projeto.dt_inicio DESC, chancela
         ");
