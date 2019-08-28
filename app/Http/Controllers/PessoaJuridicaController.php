@@ -57,7 +57,10 @@ class PessoaJuridicaController extends Controller
         //Dados Bancários
         $dados_bancarios = $pessoa_juridica->dados_bancarios()->get();
         foreach($dados_bancarios as &$dado){
-            $dado['tipo_conta'] = TipoContaBancaria::find($dado['tipo_conta_id'])->valor;
+            $valor = TipoContaBancaria::find($dado['tipo_conta_id']);
+            if(!empty($valor->valor)){
+                $dado['tipo_conta'] = $valor->valor;
+            }
         }
 
         //Tags
