@@ -57,7 +57,10 @@ class PessoaJuridicaController extends Controller
         //Dados Bancários
         $dados_bancarios = $pessoa_juridica->dados_bancarios()->get();
         foreach($dados_bancarios as &$dado){
-            $dado['tipo_conta'] = TipoContaBancaria::find($dado['tipo_conta_id'])->valor;
+            $valor = TipoContaBancaria::find($dado['tipo_conta_id']);
+            if(!empty($valor->valor)){
+                $dado['tipo_conta'] = $valor->valor;
+            }
         }
 
         //Tags
@@ -165,9 +168,14 @@ class PessoaJuridicaController extends Controller
             $pessoa_juridica->tags()->detach();
         } else {
 
-            $tags_ids = array();
+            // Remove tags duplicadas
+            $tags = array_unique($request['tags']);
+            foreach($tags as $t){
+                Tag::removeDuplicadas($request['pessoa']['id'], $t, "pj");
+            }
 
-            foreach ($request['tags'] as $tag)
+            $tags_ids = array();
+            foreach ($tags as $tag)
             {
                 if (substr($tag, 0, 4) == 'new:')
                 {

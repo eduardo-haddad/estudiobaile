@@ -104,7 +104,7 @@ class PessoaJuridica extends Model
             FROM projetos Projeto
                 INNER JOIN pj_projeto PfProjeto
                 ON PfProjeto.projeto_id = Projeto.id AND PfProjeto.pessoa_juridica_id = $pessoa_juridica_id
-                LEFT JOIN tags Tag
+                INNER JOIN tags Tag
                 ON Tag.id = PfProjeto.tag_id
             ORDER BY Projeto.dt_inicio DESC, chancela
         ");

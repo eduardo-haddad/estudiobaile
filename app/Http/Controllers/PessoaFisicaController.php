@@ -68,7 +68,10 @@ class PessoaFisicaController extends Controller
         //Dados Bancários
         $dados_bancarios = $pessoa_fisica->dados_bancarios()->get();
         foreach($dados_bancarios as &$dado){
-            $dado['tipo_conta'] = TipoContaBancaria::find($dado['tipo_conta_id'])->valor;
+            $valor = TipoContaBancaria::find($dado['tipo_conta_id']);
+            if(!empty($valor->valor)){
+                $dado['tipo_conta'] = $valor->valor;
+            }
         }
 
         //Tags
@@ -210,7 +213,12 @@ class PessoaFisicaController extends Controller
         if(empty($request['tags'])) {
             $pessoa_fisica->tags()->detach();
         } else {
-            $pessoa_fisica->tags()->sync(Tag::criaTags($request['tags'], 'tag'));
+            // Remove tags duplicadas
+            $tags = array_unique($request['tags']);
+            foreach($tags as $tag){
+                Tag::removeDuplicadas($request['pessoa']['id'], $tag, "pf");
+            }
+            $pessoa_fisica->tags()->sync(Tag::criaTags($tags, 'tag'));
         }
         //Deleta tags não atribuídas a ninguém
         Tag::removeTagsNaoAtribuidas();
