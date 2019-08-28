@@ -172,6 +172,10 @@ a:hover {
 }
 
 @include media-breakpoint-down(sm) {
+  body {
+    font-size: 14pt;
+  }
+
   #carouselHomeArea {
     margin-bottom: 0px;
   }

@@ -56,9 +56,29 @@
   #sobre {
     height: unset;
     padding: 0 20px;
+
+    .scroll {
+      margin-top: unset;
+    }
+
+    .texto {
+      padding-bottom: unset;
+    }
   }
 
   .logo-vertical {
-    padding: 0 0 20px;
+    padding: 24px 0;
+  }
+
+  .rodaPe {
+    background-color: $pink;
+    color: white;
+    padding: 40px 20px;
+
+    a {
+      color: white;
+      margin-bottom: 9px;
+      display: block
+    }
   }
 }

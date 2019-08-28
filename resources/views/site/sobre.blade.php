@@ -23,9 +23,9 @@
   </div>
   <div class="col-md-2 offset-md-1 order-md-2 order-3">
     <div class="scroll">
-      <div class="texto">
+      <div class="texto d-none d-md-block">
         <div class="info">
-          <a class="bold" href="mailto:estudio@estudiobaile.org">estudio@estudiobaile.org</a>
+          <a class="bold" href="mailto:estudio@estudiobaile.org" target="_blank">estudio@estudiobaile.org</a>
           <p>
             rua cônego eugênio leite, 920
           </p>
@@ -42,13 +42,43 @@
         </p>
       </div>
     </div>
+    <div class="ficha d-block d-md-none">
+      <div class="info">
+        <div class="campo">
+          <span class="bold">
+            João Simões
+          </span>
+          <p>coordenação de projetos</p>
+        </div>
+        <div class="campo">
+          <span class="bold">
+            Marcos Reis
+          </span>
+          <p>coordenação administrativa</p>
+        </div>
+        <div class="campo">
+          <span class="bold">
+            Mariana Dupas
+          </span>
+          <p>função</p>
+        </div>
+        <div class="campo">
+          <span class="bold">Nichollas Além</span>
+          <p>consultoria jurídica</p>
+        </div>
+        <div class="campo">
+          <span class="bold">Nina Farkas</span>
+          <p>identidade visual</p>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="col-md-2">
-    <div class="scroll order-md-3 order-1">
+  <div class="col-md-2 order-md-3 order-1">
+    <div class="scroll ">
       <div class="logo-vertical">
         <img src="{{ asset('images/logo-vertical.png') }}" alt="">
       </div>
-      <div class="ficha">
+      <div class="ficha d-none d-md-block">
         <div class="info">
           <div class="campo">
             <span class="bold">
@@ -56,30 +86,42 @@
             </span>
             <p>coordenação de projetos</p>
           </div>
-            <div class="campo">
-              <span class="bold">
-                Marcos Reis
-              </span>
-              <p>coordenação administrativa</p>
-            </div>
-            <div class="campo">
-              <span class="bold">
-                Mariana Dupas
-              </span>
-              <p>função</p>
-            </div>
-            <div class="campo">
-              <span class="bold">Nichollas Além</span>
-              <p>consultoria jurídica</p>
-            </div>
-            <div class="campo">
-              <span class="bold">Nina Farkas</span>
-              <p>identidade visual</p>
-            </div>
+          <div class="campo">
+            <span class="bold">
+              Marcos Reis
+            </span>
+            <p>coordenação administrativa</p>
+          </div>
+          <div class="campo">
+            <span class="bold">
+              Mariana Dupas
+            </span>
+            <p>função</p>
+          </div>
+          <div class="campo">
+            <span class="bold">Nichollas Além</span>
+            <p>consultoria jurídica</p>
+          </div>
+          <div class="campo">
+            <span class="bold">Nina Farkas</span>
+            <p>identidade visual</p>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </div>
+      <div class="footer rodaPe">
+        <div class="text d-block d-md-none">
+          <div class="info">
+            <a class="bold" href="mailto:estudio@estudiobaile.org" target="_blank">estudio@estudiobaile.org</a>
+            <p>
+              rua cônego eugênio leite, 920
+            </p>
+            <p>pinheiros, são paulo</p>
+            <p class="smoll">+55 11 23068579</p>
+          </div>
+        </div>
+      </div>
 
 @stop
