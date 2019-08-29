@@ -119,29 +119,26 @@
   position: absolute;
   top: 50%;
   display: block;
-  width: 20px;
-  height: 20px;
+  width: 8px;
+  height: 16px;
   padding: 0;
-  transform: translate(0, -50%);
+  transform: translate(0, -375%);
   cursor: pointer;
   color: transparent;
   border: none;
   outline: none;
   background: transparent;
+  background-size: 100% 100%;
 }
 
 .slick-prev {
-  left: -45px;
-  &::before {
-    content: url('/images/arrowLeftRed.png');
-  }
+  left: -18px;
+  background-image: url('/images/arrowLeftRed.png');
 }
 
 .slick-next {
-  right: -25px;  
-  &::before {
-    content: url('/images/arrowRightRed.png');
-  }
+  right: -18px;
+  background-image: url('/images/arrowRightRed.png');
 }
 
 @include media-breakpoint-down(sm) {
