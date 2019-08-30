@@ -36,6 +36,12 @@ body {
   background-color: white;
   line-height: 18pt;
 
+  //preload chique
+  &::after {
+    position:absolute; width:0; height:0; overflow:hidden; z-index:-1;
+    content:url("/images/mobile/loc.png");
+  }
+
   //scrollbar vermelha webkit
   &::-webkit-scrollbar {
     width: 0.5em;
