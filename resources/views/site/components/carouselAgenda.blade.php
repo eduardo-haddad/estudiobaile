@@ -12,7 +12,8 @@
       // numero randomico especifico para atribuir "projeto tipo c"
       $randomC = rand(0, 4);
       $tipoC = ($randomC == 0 ? "cap-c" : ""); 
-
+      
+      // condicionais para teste
       if ($numeroRandonia == 0) {
         $epocaProjeto = "passado";
         $dataProjeto = "agosto 2019";
@@ -37,6 +38,7 @@
         <p>{{ $tag }} / {{ $tag }}</p>
       </div>
     </div>
+
   @endforeach
       
   </div>

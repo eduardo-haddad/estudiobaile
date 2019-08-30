@@ -18,9 +18,13 @@ import axios from 'axios';
 window.axios = axios;
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
-//slick - carousel
+//Slick
 import slick from 'slick-carousel';
 window.slick = slick;
+
+//Swipebox
+import swipebox from 'swipebox';
+// window.swipebox = swipebox;
 
 $(document).ready(function(){
   
@@ -63,6 +67,9 @@ $(document).ready(function(){
     contentCloning: true,
     trigger: ttTrigger,
   });
+
+  //Swipebox
+  $('.swipebox').swipebox();
 
   // Tooltip hover image
 
