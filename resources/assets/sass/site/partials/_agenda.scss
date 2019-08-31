@@ -79,7 +79,7 @@
 .carouselAgenda {
   height: 100%;
   div {
-    height: 100%;
+    height: inherit;
   }
   
   .slide {
@@ -141,6 +141,10 @@
   background-image: url('/images/arrowRightRed.png');
 }
 
+.captionMobile {
+  display: none;
+}
+
 @include media-breakpoint-down(sm) {
   .agenda {
     padding: 0 $mobileMargin;
@@ -171,19 +175,68 @@
   #carouselAgendaArea {
     margin-top: 20px;
 
+    .carouselAgenda div {
+      height: unset;
+    }
+
     .slide {
       max-width: unset;
       margin-top: $mobileMargin;
-      height: unset;
+      display: flex;
       
       .imagemAgenda {
         height: calc(380px/1.5);
+        padding: 12.5%;
       }
 
       &:last-child {
         margin-bottom: $mobileMargin; 
       }
+      
+      .caption {
+        display: none;
+      }
+      
+      img {
+        display: none;
+      }
     }
   }
+  
+  .captionMobile {
+    // position: absolute;
+    // top: 50%;
+    // left: 50%;
+    // width: 80%;
+    // height: 80%;
+    // transform: translate(-50%, -50%);
+    display: block;
+    color: white;
 
+    h1 {
+      font-size: 2.8rem;
+      cursor: pointer;
+    }
+
+    p {
+      font-size: 1.1rem !important;
+    }  
+  }
+
+  .carouselAgenda .slide .data {
+    text-transform: uppercase;
+    margin: 16px 0 18px;
+  }
+
+  .passado:hover {
+    background: $pink !important;
+  }
+
+  .presente:hover {
+    background: $red !important;
+  }
+
+  .futuro:hover {
+    background:  $orange !important;
+  }
 }

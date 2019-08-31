@@ -8,7 +8,7 @@
         <p class="bold">
           fique <br class="d-none d-md-block">
           por dentro!
-          </p>
+        </p>
       </div>
     </div>
   </div>
@@ -73,21 +73,26 @@
         </p>
       </div>
     </div>
-    @carouselAgenda(['ibagens' => [
-      "/images/galeria1/MissBaker.png",
-      "/images/galeria1/RM1.png",
-      "/images/galeria1/RM4.jpg",
-      "/images/galeria1/RM5.jpg",
-      "/images/galeria1/RM6.png",
-      "/images/galeria1/RM10.png",
-      "/images/galeria1/MissBaker.png",
-      "/images/galeria1/RM1.png",
-      "/images/galeria1/RM4.jpg",
-      "/images/galeria1/RM5.jpg",
-      "/images/galeria1/RM6.png",
-      "/images/galeria1/RM10.png"
+    @carouselAgenda([
+      
+      'ibagens' => [
+        "/images/galeria1/MissBaker.png",
+        "/images/galeria1/RM1.png",
+        "/images/galeria1/RM4.jpg",
+        "/images/galeria1/RM5.jpg",
+        "/images/galeria1/RM6.png",
+        "/images/galeria1/RM10.png",
+        "/images/galeria1/MissBaker.png",
+        "/images/galeria1/RM1.png",
+        "/images/galeria1/RM4.jpg",
+        "/images/galeria1/RM5.jpg",
+        "/images/galeria1/RM6.png",
+        "/images/galeria1/RM10.png"
+      ],
 
-    ]])
+      'display' => 'd-none d-md-block'
+
+    ])
 
     @endcarouselAgenda
   </div>

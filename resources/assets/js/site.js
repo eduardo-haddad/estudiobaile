@@ -113,5 +113,9 @@ $(document).ready(function(){
   $(".hoverThumb").hover(function() {
     $(this).toggleClass("transparente");
   });
+
+  $('.data').click(function(){
+    $('.eventoMobile').toggleClass('d-none');
+  });
   
 });

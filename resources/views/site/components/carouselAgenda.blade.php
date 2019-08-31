@@ -31,7 +31,27 @@
     @endphp
 
     <div class="slide">
-      <div class="imagemAgenda {{ $epocaProjeto }}"><img src="{{ $imagem }}" alt=""></div>
+      <div class="imagemAgenda {{ $epocaProjeto }}">
+        <div class="captionMobile {{ $tipoC }}">
+          <p>
+            tipo
+          </p>
+          <h1 class="data">
+            {{ $nomeProjeto }}
+          </h1>
+          <p class="bold">
+            data
+          </p>
+          <p>local</p>
+          <p class="eventoMobile d-none">
+            com <span class="bold">fulano de tal</span> "$data"
+          </p>
+          <p class="eventoMobile d-none">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt similique necessitatibus odit repudiandae mollitia est amet velit deserunt fugiat unde laudantium suscipit animi sapiente, iste delectus beatae hic modi consequatur?
+          </p>
+        </div>
+        <img src="{{ $imagem }}" alt="">
+      </div>
       <div class="caption {{ $tipoC }}">
         <p class="data">{{  $dataProjeto }}</p>
         <p class="bold">{{ $nomeProjeto }}</p>

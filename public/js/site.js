@@ -12341,6 +12341,10 @@ $(document).ready(function () {
   $(".hoverThumb").hover(function () {
     $(this).toggleClass("transparente");
   });
+
+  $('.data').click(function () {
+    $('.eventoMobile').toggleClass('d-none');
+  });
 });
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(3), __webpack_require__(3)))
 

@@ -17,7 +17,7 @@
             //   $orientacao = "portrait";
             // }
 
-            // orientação randomica (2 thumbs por iteração)
+            // TODO orientação randomica (2 thumbs por iteração)
             
             $randOrient = rand(0, 1);
 
