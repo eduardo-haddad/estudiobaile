@@ -27,13 +27,9 @@
       </div>
     </div>
     <div class="info">
-      <div class="campo">
-        <p>assuntos</p>
-        <span class="bold">educação<br>
-          astronomia<br>
-          dança<br>
-        </span>
-      </div>
+      @assuntos(['tags' => ['educação', 'astronomia', 'dança']])
+  
+      @endassuntos
     </div>
     <div class="info">
       <div class="campo">
@@ -45,6 +41,7 @@
         <span class="bold">galeria vermelho, são paulo</span>
       </div>
       <div class="campo">
+        {{-- TODO não percebi a diferença entre esse cambo e o cambo 'assuntos' --}}
         <p>tags</p>
         <span class="bold">educação <br>
         astronomia <br>

@@ -28,13 +28,9 @@
         <p>onde</p>
         <span class="bold">galeria veremelho, são paulo</span>
       </div>
-      <div class="campo">
-        <p>assuntos</p>
-        <span class="bold">educação<br>
-          astronomia<br>
-          dança<br>
-        </span>
-      </div>
+      @assuntos(['tags' => ['educação', 'astronomia', 'dança', 'arts', 'camadas de som']])
+  
+      @endassuntos
     </div>
     @fichaTecnica(['display' => 'd-none d-md-block'])
         

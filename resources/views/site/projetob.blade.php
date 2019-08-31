@@ -34,13 +34,9 @@
     </div>
     <div class="info">
       {{-- TODO line-height desse campo difere em A e B --}}
-      <div class="campo">
-        <p class="d-none d-md-block">assuntos</p>
-        <span class="bold">educação<br>
-          astronomia<br>
-          dança<br>
-        </span>
-      </div>
+      @assuntos(['tags' => ['educação', 'astronomia', 'dança', 'NOISE']])
+  
+      @endassuntos
     </div>
   </div>
   <div class="col-md-5 offset-md-1">
