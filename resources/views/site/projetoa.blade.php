@@ -39,8 +39,8 @@
     @fichaTecnica(['display' => 'd-none d-md-block'])
         
     @endfichaTecnica
-    @parceiros(['display' => 'd-none d-md-block'])
-
+    @parceiros(['display' => 'd-none d-md-block', 'titulo' => 'parceiros'])
+      
     @endparceiros
   </div>
   <div class="col-md-5 offset-md-1">
@@ -73,7 +73,7 @@
         @fichaTecnica(['display' => 'd-block d-md-none'])
           
         @endfichaTecnica
-        @parceiros(['display' => 'd-block d-md-none'])
+        @parceiros(['display' => 'd-block d-md-none', 'titulo' => 'parceiros'])
   
         @endparceiros
       </div>

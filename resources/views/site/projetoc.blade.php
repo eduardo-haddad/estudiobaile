@@ -15,13 +15,9 @@
     </div>
     <div class="info">
       <div class="campo">
-        <p>
-          realização
-        </p>
-        <div class="parceiros">
-          <img src="{{ asset('/images/parceiros.png') }}" alt="">
-          <img src="{{ asset('/images/parceiros.png') }}" alt="">
-        </div>
+        @parceiros(['display' => '', 'titulo' => 'realização'])
+        
+        @endparceiros
       </div>
       <div class="campo">
         <p>organização</p>

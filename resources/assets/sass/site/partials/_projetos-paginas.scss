@@ -65,15 +65,22 @@
   div {
     color: black;
   }
+
   .texto, .ficha > div {
     @include border(black);
   }
-  .parceiros {
-    img {
-      width: 63px;
-      height: 63px;
-      filter: grayscale(100%);
-    }
+
+  .parceiros img {
+    margin-right: $marginParceiros;
+    width: 63px;
+    height: 63px;
+    filter: grayscale(100%);
+    // &:nth-child(3n + 1) {
+    //   margin-right: $marginParceiros;
+    // }
+    // &:nth-child(2n + 1) {
+    //   margin-right: unset;
+    // }
   }
 }
 
@@ -204,17 +211,14 @@
 }
 
 .parceiros {
-  margin-top: 14px;
   img {
+    margin-top: 14px;
     border-radius: 50%;
     width: 46px;
     height: 46px;
-    // margin: 0 36px 0 0px; //usar caso mais parceiros na mesma linha
-    &:first-child {
-      margin-right: 32px;
-    }
-    // &:last-child { // idem
-    //   margin-right: 0;
+    margin-right: 18px;
+    // &:nth-child(3n + 1) {
+    //   margin-right: unset;
     // }
   }
 }
@@ -305,6 +309,14 @@
     .texto, .ficha > div {
       @include border(black);
     }
+    .notas {
+      @include border(black, 17px, 16px);
+    }
+    // .parceiros img {
+    //   &:nth-child(2n + 1) {
+    //     margin-right: $marginParceiros;
+    //   }
+    // }
   }
 
   .logo-externo {
@@ -317,10 +329,11 @@
     top: unset;
   }
 
-  .tipo-c {
-    .notas {
-      @include border(black, 17px, 16px);
-    }
+  .parceiros img {
+    width: 66px;
+    height: 66px;
+    margin-top: 20px;
+    margin-right: $marginParceiros;
   }
 
   #carouselGaleriaArea {
