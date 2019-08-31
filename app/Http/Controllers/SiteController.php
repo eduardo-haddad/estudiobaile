@@ -28,22 +28,26 @@ class SiteController extends Controller
      */
     public function projetoViewA(){
         $dados = [];
-        return view('site.projetoa', compact('dados'));
+        $titulo = 'Projeto A'; //TODO como faz isso?
+        return view('site.projetoa', ['titulo' => $titulo], compact('dados'));
     }
 
     public function projetoViewB(){
         $dados = [];
-        return view('site.projetob', compact('dados'));
+        $titulo = 'Projeto B';
+        return view('site.projetob', ['titulo' => $titulo], compact('dados'));
     }
 
     public function projetoViewC(){
         $dados = [];
-        return view('site.projetoc', compact('dados'));
+        $titulo = 'Projeto C';
+        return view('site.projetoc', ['titulo' => $titulo], compact('dados'));
     }
 
     public function projetoViewD(){
         $dados = [];
-        return view('site.projetod', compact('dados'));
+        $titulo = '1ª Temporada de Dança Videobrasil';
+        return view('site.projetod', ['titulo' => $titulo], compact('dados'));
     }
 
     public function sobre(){

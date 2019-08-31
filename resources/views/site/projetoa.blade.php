@@ -12,7 +12,7 @@
   <div class="ficha col-md-2">
     <div class="titulo">
       <h1>
-        Projeto A
+        {{ $titulo }}
       </h1>
       <span class="med">Residências artísticas<br>
       em contexto educativos</span>

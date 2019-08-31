@@ -14,7 +14,7 @@
     </div>
     <div class="titulo">
       <h1>
-        1<sup>ª</sup> Temporada de Dança Videobrasil
+        {{ $titulo }}
       </h1>
     </div>
     <div class="info">
