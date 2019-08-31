@@ -122,25 +122,71 @@
 
 .galeria {
   @include border($red);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
   h2 {
     margin-bottom: 23px;
+    flex-basis: 100%;
   }
   margin-bottom: 100px;
 }
 
 .thumb {
   height: 200px;
-  // margin: 0 1% 8px 0; //margem lateral em %, em concordancia com  o width dos containers
+  margin-bottom: 0.5rem;
   display: inline-block;
   @include img_cover();
+  position: relative;
+
+  // &:nth-child(odd) {
+  //   width: 57%;
+  // }
+
+  // &:nth-child(even) {
+  //   width: 41%;
+  // }
+  
 }
+
 
 .landscape {
   width: 57%;
 }
 
 .portrait {
-  width: 40%;
+  width: 41%;
+}
+
+.hoverThumb { 
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: $pink;
+  
+}
+
+.transparente {
+  opacity: 0;
+}
+
+.captionGaleria {
+  color: white;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  p {
+    line-height: 1em;
+    font-size: 1rem;
+
+    &:first-child {
+      font-family: $bold;
+      margin-bottom: 3px;
+    }
+  }
 }
 
 .info {

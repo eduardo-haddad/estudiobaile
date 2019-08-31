@@ -24,9 +24,12 @@ window.slick = slick;
 
 //Swipebox
 import swipebox from 'swipebox';
-// window.swipebox = swipebox;
+window.swipebox = swipebox;
 
 $(document).ready(function(){
+  
+  //Swipebox
+  // $(document).swipebox({ selector: ".swipebox" });
   
   //icone de localização mobile/desktop
   if ($(window).width() < 768) {
@@ -35,6 +38,12 @@ $(document).ready(function(){
   } else {
     var imgLoc = '/images/loc.png';
     var ttTrigger = 'hover';
+  }
+
+  //removeClass mobile
+  if ($(window).width() < 768) {
+    $(".col-fix-9").removeClass('col-fix-9');
+    $(".col-fix-3").removeClass("col-fix-3");
   }
   
   //carousel bootstrap
@@ -68,9 +77,6 @@ $(document).ready(function(){
     trigger: ttTrigger,
   });
 
-  //Swipebox
-  $('.swipebox').swipebox();
-
   // Tooltip hover image
 
   $(document).on({
@@ -103,12 +109,9 @@ $(document).ready(function(){
 
   });
 
-  //removeClass mobile
-  if ($(window).width() < 768) {
-    $(".col-fix-9").removeClass('col-fix-9');
-    $(".col-fix-3").removeClass("col-fix-3");
-    console.log("etc")
-  }
-
-
+  //hover galeria
+  $(".hoverThumb").hover(function() {
+    $(this).toggleClass("transparente");
+  });
+  
 });

@@ -12209,8 +12209,8 @@ module.exports = function spread(callback) {
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(39);
-__webpack_require__(44);
-module.exports = __webpack_require__(45);
+__webpack_require__(45);
+module.exports = __webpack_require__(46);
 
 
 /***/ }),
@@ -12227,7 +12227,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_axios__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_slick_carousel__ = __webpack_require__(43);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_slick_carousel___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_slick_carousel__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_swipebox__ = __webpack_require__(128);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_swipebox__ = __webpack_require__(44);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_swipebox___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_swipebox__);
 //jQuery
 try {
@@ -12255,9 +12255,12 @@ window.slick = __WEBPACK_IMPORTED_MODULE_3_slick_carousel___default.a;
 
 //Swipebox
 
-// window.swipebox = swipebox;
+window.swipebox = __WEBPACK_IMPORTED_MODULE_4_swipebox___default.a;
 
 $(document).ready(function () {
+
+  //Swipebox
+  // $(document).swipebox({ selector: ".swipebox" });
 
   //icone de localização mobile/desktop
   if ($(window).width() < 768) {
@@ -12266,6 +12269,12 @@ $(document).ready(function () {
   } else {
     var imgLoc = '/images/loc.png';
     var ttTrigger = 'hover';
+  }
+
+  //removeClass mobile
+  if ($(window).width() < 768) {
+    $(".col-fix-9").removeClass('col-fix-9');
+    $(".col-fix-3").removeClass("col-fix-3");
   }
 
   //carousel bootstrap
@@ -12296,9 +12305,6 @@ $(document).ready(function () {
     contentCloning: true,
     trigger: ttTrigger
   });
-
-  //Swipebox
-  $('.swipebox').swipebox();
 
   // Tooltip hover image
 
@@ -12331,12 +12337,10 @@ $(document).ready(function () {
     }
   });
 
-  //removeClass mobile
-  if ($(window).width() < 768) {
-    $(".col-fix-9").removeClass('col-fix-9');
-    $(".col-fix-3").removeClass("col-fix-3");
-    console.log("etc");
-  }
+  //hover galeria
+  $(".hoverThumb").hover(function () {
+    $(this).toggleClass("transparente");
+  });
 });
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(3), __webpack_require__(3)))
 
@@ -16216,100 +16220,6 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 /***/ }),
 /* 44 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 45 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 46 */,
-/* 47 */,
-/* 48 */,
-/* 49 */,
-/* 50 */,
-/* 51 */,
-/* 52 */,
-/* 53 */,
-/* 54 */,
-/* 55 */,
-/* 56 */,
-/* 57 */,
-/* 58 */,
-/* 59 */,
-/* 60 */,
-/* 61 */,
-/* 62 */,
-/* 63 */,
-/* 64 */,
-/* 65 */,
-/* 66 */,
-/* 67 */,
-/* 68 */,
-/* 69 */,
-/* 70 */,
-/* 71 */,
-/* 72 */,
-/* 73 */,
-/* 74 */,
-/* 75 */,
-/* 76 */,
-/* 77 */,
-/* 78 */,
-/* 79 */,
-/* 80 */,
-/* 81 */,
-/* 82 */,
-/* 83 */,
-/* 84 */,
-/* 85 */,
-/* 86 */,
-/* 87 */,
-/* 88 */,
-/* 89 */,
-/* 90 */,
-/* 91 */,
-/* 92 */,
-/* 93 */,
-/* 94 */,
-/* 95 */,
-/* 96 */,
-/* 97 */,
-/* 98 */,
-/* 99 */,
-/* 100 */,
-/* 101 */,
-/* 102 */,
-/* 103 */,
-/* 104 */,
-/* 105 */,
-/* 106 */,
-/* 107 */,
-/* 108 */,
-/* 109 */,
-/* 110 */,
-/* 111 */,
-/* 112 */,
-/* 113 */,
-/* 114 */,
-/* 115 */,
-/* 116 */,
-/* 117 */,
-/* 118 */,
-/* 119 */,
-/* 120 */,
-/* 121 */,
-/* 122 */,
-/* 123 */,
-/* 124 */,
-/* 125 */,
-/* 126 */,
-/* 127 */,
-/* 128 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(jQuery) {/*! Swipebox v1.4.4 | Constantin Saguin csag.co | MIT License | github.com/brutaldesign/swipebox */
@@ -17276,6 +17186,18 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 }( window, document, jQuery ) );
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+
+/***/ }),
+/* 45 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 46 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ })
 /******/ ]);
