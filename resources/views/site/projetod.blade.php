@@ -18,16 +18,9 @@
       </h1>
     </div>
     <div class="info">
-      <div class="campo">
-        <p>
-            data 
-        </p>
-        <span class="bold">dezembro 2019</span>
-      </div>
-      <div class="campo">
-        <p>onde</p>
-        <span class="bold">galeria veremelho, são paulo</span>
-      </div>
+      @dataELocal(['data' => 'dezembro 2019', 'local' => 'galeria vermelho, são paulo'])
+        
+      @enddataELocal
       @assuntos(['tags' => ['educação', 'astronomia', 'dança', 'algo ambient']])
   
       @endassuntos

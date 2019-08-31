@@ -32,16 +32,11 @@
       @endassuntos
     </div>
     <div class="info">
+      @dataELocal(['data' => 'dezembro 2019', 'local' => 'galeria vermelho, são paulo'])
+        
+      @enddataELocal
       <div class="campo">
-        <p>data</p>
-        <span class="bold">dezembro 2019</span>
-      </div>
-      <div class="campo">
-        <p>onde</p>
-        <span class="bold">galeria vermelho, são paulo</span>
-      </div>
-      <div class="campo">
-        {{-- TODO não percebi a diferença entre esse cambo e o cambo 'assuntos' --}}
+        {{-- TODO não percebi a diferença entre esse campo e o campo 'assuntos' --}}
         <p>tags</p>
         <span class="bold">educação <br>
         astronomia <br>
