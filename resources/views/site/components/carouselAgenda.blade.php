@@ -34,21 +34,35 @@
       <div class="imagemAgenda {{ $epocaProjeto }}">
         <div class="captionMobile {{ $tipoC }}">
           <p>
-            tipo
-          </p>
-          <h1 class="data">
             {{ $nomeProjeto }}
+          </p>
+          <h1 class="atividade data">
+            Atividade do projeto
           </h1>
-          <p class="bold">
-            data
+          <p class="bold mb-0 eventoMobile">
+            {{ $dataProjeto }}
           </p>
-          <p>local</p>
-          <p class="eventoMobile d-none">
-            com <span class="bold">fulano de tal</span> "$data"
-          </p>
-          <p class="eventoMobile d-none">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt similique necessitatibus odit repudiandae mollitia est amet velit deserunt fugiat unde laudantium suscipit animi sapiente, iste delectus beatae hic modi consequatur?
-          </p>
+          <p class="eventoMobile">local</p>
+          <div class="eventoMobile d-none">
+            <p class="mb-0">
+              com <span class="bold">fulano de tal</span>
+            </p>
+            <p class="mb-0">
+              {{ $dataProjeto }}
+            </p>
+            <p>
+              <a href="#">inscrições aqui</a>
+            </p>
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt similique necessitatibus odit repudiandae mollitia est amet velit deserunt fugiat unde laudantium suscipit animi sapiente, iste delectus beatae hic modi consequatur?
+            </p>
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt similique necessitatibus odit repudiandae mollitia est amet velit deserunt fugiat unde laudantium suscipit animi sapiente, iste delectus beatae hic modi consequatur?
+            </p>
+            <div class="fechar">
+              {{-- <img src="{{ asset('images/mobile/fecharAgenda.png') }}" alt=""> --}}
+            </div>
+          </div>
         </div>
         <img src="{{ $imagem }}" alt="">
       </div>

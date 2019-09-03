@@ -173,7 +173,9 @@
   }
 
   #carouselAgendaArea {
+    margin-bottom: unset;
     margin-top: 20px;
+    height: unset;
 
     .carouselAgenda div {
       height: unset;
@@ -185,7 +187,6 @@
       display: flex;
       
       .imagemAgenda {
-        height: calc(380px/1.5);
         padding: 12.5%;
       }
 
@@ -200,16 +201,30 @@
       img {
         display: none;
       }
+
+      p {
+        margin-bottom: 1rem;
+        font-size: 1em;
+        line-height: 1.2rem;
+      }
+
+      .fechar {
+        cursor: pointer;
+        float: right;
+        bottom: 20px;
+        right: 20px;
+        height: 20px;
+        width: 20px;
+        background: url('/images/mobile/fecharAgenda.png') no-repeat;
+        background-size: cover;
+        img {
+          display: block;
+        }
+      }
     }
   }
   
   .captionMobile {
-    // position: absolute;
-    // top: 50%;
-    // left: 50%;
-    // width: 80%;
-    // height: 80%;
-    // transform: translate(-50%, -50%);
     display: block;
     color: white;
 
@@ -218,12 +233,17 @@
       cursor: pointer;
     }
 
-    p {
+    p span {
       font-size: 1.1rem !important;
-    }  
+    } 
+    
+    a {
+      color: white;
+      text-decoration: underline;
+    }
   }
 
-  .carouselAgenda .slide .data {
+  .carouselAgenda .slide .atividade {
     text-transform: uppercase;
     margin: 16px 0 18px;
   }
@@ -239,4 +259,9 @@
   .futuro:hover {
     background:  $orange !important;
   }
+
+  // .eventMobile {
+  //   position: relative;
+  // }
+
 }

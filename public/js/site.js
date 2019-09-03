@@ -12342,9 +12342,16 @@ $(document).ready(function () {
     $(this).toggleClass("transparente");
   });
 
-  //
-  $('.data').click(function () {
+  //toggle slide da agenda mobile
+  $('.atividade').click(function () {
+    $(this).toggleClass('data');
     $(this).siblings('.eventoMobile').toggleClass('d-none');
+  });
+
+  //botão fechar da slide da agenda mobile
+  $(".fechar").click(function () {
+    $(this).parent(".eventoMobile").toggleClass("d-none");
+    $(this).parent().siblings('.atividade').toggleClass("data");
   });
 });
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(3), __webpack_require__(3)))
