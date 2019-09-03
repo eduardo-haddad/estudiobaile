@@ -125,6 +125,10 @@ $(document).ready(function(){
     $(this).parent(".eventoMobile").toggleClass("d-none");
     $(this)
       .parent()
+      .siblings('.eventoMobile')
+      .toggleClass("d-none");
+    $(this)
+      .parent()
       .siblings('.atividade')
       .toggleClass("data");
 

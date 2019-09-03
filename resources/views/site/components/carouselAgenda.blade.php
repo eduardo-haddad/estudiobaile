@@ -47,7 +47,9 @@
           <p class="bold mb-0 eventoMobile">
             {{ $dataAgenda }}
           </p>
-          <p class="eventoMobile">{{ $localAgenda }}</p>
+          <p class="eventoMobile">
+            {{ $localAgenda }}
+          </p>
           <div class="eventoMobile d-none">
             <p class="mb-0">
               com <span class="bold">{{ $autorAgenda }}</span>
