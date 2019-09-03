@@ -33,7 +33,6 @@
       </div>
     </div>
     <div class="info">
-      {{-- TODO line-height desse campo difere em A e B --}}
       @assuntos(['tags' => ['educação', 'astronomia', 'dança', 'NOISE']])
   
       @endassuntos

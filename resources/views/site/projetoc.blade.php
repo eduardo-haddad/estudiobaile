@@ -36,7 +36,7 @@
         
       @enddataELocal
       <div class="campo">
-        {{-- TODO não percebi a diferença entre esse campo e o campo 'assuntos' --}}
+        {{-- TODO não percebi a diferença entre esse campo 'tags' e o campo 'assuntos' --}}
         <p>tags</p>
         <span class="bold">educação <br>
         astronomia <br>

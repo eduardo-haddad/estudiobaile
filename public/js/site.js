@@ -12351,6 +12351,7 @@ $(document).ready(function () {
   //botão fechar da slide da agenda mobile
   $(".fechar").click(function () {
     $(this).parent(".eventoMobile").toggleClass("d-none");
+    $(this).parent().siblings('.eventoMobile').toggleClass("d-none");
     $(this).parent().siblings('.atividade').toggleClass("data");
   });
 });

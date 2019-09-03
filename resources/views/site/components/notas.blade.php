@@ -1,6 +1,5 @@
 <div class="col-md-3 col-fix-3 col-12 {{ $display }}">
   <div class="notas">
-    {{-- TODO complicado: diagramação mobile difere muito --}}
     <p class="bold">
       1
     </p>
