@@ -7,48 +7,53 @@
     @php
       // randomizar valores gerais
       $numeroRandonia = rand(0, 2);
-      $nomeProjeto = "Nome do projeto";
-
+      
       // numero randomico especifico para atribuir "projeto tipo c"
       $randomC = rand(0, 4);
       $tipoC = ($randomC == 0 ? "cap-c" : ""); 
       
       // condicionais para teste
       if ($numeroRandonia == 0) {
-        $epocaProjeto = "passado";
-        $dataProjeto = "agosto 2019";
+        $epocaAgenda = "passado";
+        $dataAgenda = "agosto 2019";
         $tag = "tag1";
       } else if ($numeroRandonia == 1) {
-          $epocaProjeto = "presente";
-          $dataProjeto = "setembro 2019";
-          $tag = "tag2";
+        $epocaAgenda = "presente";
+        $dataAgenda = "setembro 2019";
+        $tag = "tag2";
       } else {
-        $epocaProjeto = "futuro";
-        $dataProjeto = "janeiro 2020";
+        $epocaAgenda = "futuro";
+        $dataAgenda = "janeiro 2020";
         $tag = "tag3";
       }
 
+      //variaveis hardcoded
+      $tituloAgenda = "Nome do projeto";
+      $autorAgenda = "fulano de tal";
+      $localAgenda = "local";
+      $atividadeAgenda = "Atividade do projeto";
+      
     @endphp
 
     <div class="slide">
-      <div class="imagemAgenda {{ $epocaProjeto }}">
+      <div class="imagemAgenda {{ $epocaAgenda }}">
         <div class="captionMobile {{ $tipoC }}">
           <p>
-            {{ $nomeProjeto }}
+            {{ $tituloAgenda }}
           </p>
           <h1 class="atividade data">
-            Atividade do projeto
+            {{ $atividadeAgenda }}
           </h1>
           <p class="bold mb-0 eventoMobile">
-            {{ $dataProjeto }}
+            {{ $dataAgenda }}
           </p>
-          <p class="eventoMobile">local</p>
+          <p class="eventoMobile">{{ $localAgenda }}</p>
           <div class="eventoMobile d-none">
             <p class="mb-0">
-              com <span class="bold">fulano de tal</span>
+              com <span class="bold">{{ $autorAgenda }}</span>
             </p>
             <p class="mb-0">
-              {{ $dataProjeto }}
+              {{ $dataAgenda }}
             </p>
             <p>
               <a href="#">inscrições aqui</a>
@@ -59,16 +64,14 @@
             <p>
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt similique necessitatibus odit repudiandae mollitia est amet velit deserunt fugiat unde laudantium suscipit animi sapiente, iste delectus beatae hic modi consequatur?
             </p>
-            <div class="fechar">
-              {{-- <img src="{{ asset('images/mobile/fecharAgenda.png') }}" alt=""> --}}
-            </div>
+            <div class="fechar"></div>
           </div>
         </div>
         <img src="{{ $imagem }}" alt="">
       </div>
       <div class="caption {{ $tipoC }}">
-        <p class="data">{{  $dataProjeto }}</p>
-        <p class="bold">{{ $nomeProjeto }}</p>
+        <p class="data">{{  $dataAgenda }}</p>
+        <p class="bold">{{ $tituloAgenda }}</p>
         <p>{{ $tag }} / {{ $tag }}</p>
       </div>
     </div>
