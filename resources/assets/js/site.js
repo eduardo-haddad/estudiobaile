@@ -114,8 +114,9 @@ $(document).ready(function(){
     $(this).toggleClass("transparente");
   });
 
+  //
   $('.data').click(function(){
-    $('.eventoMobile').toggleClass('d-none');
+    $(this).siblings('.eventoMobile').toggleClass('d-none');
   });
   
 });
