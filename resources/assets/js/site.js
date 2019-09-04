@@ -114,6 +114,21 @@ $(document).ready(function(){
     $(this).toggleClass("transparente");
   });
 
+  //abrir cartela pop-up da agenda
+  $(".abrir").click(function() {
+    $(this)
+      .parent()
+      .siblings('.conteudo')
+      .addClass('d-md-block')
+  });
+
+  //fechar cartela pop-up da agenda
+  $(".fechar").click(function() {
+    $(this)
+      .parent(".conteudo")
+      .removeClass('d-md-block');
+  });
+
   //toggle slide da agenda mobile
   $('.atividade').click(function(){
     $(this).toggleClass('data');
@@ -121,13 +136,15 @@ $(document).ready(function(){
   });
 
   //botão fechar da slide da agenda mobile
-  $(".fechar").click(function() {
-    $(this).parent(".eventoMobile").toggleClass("d-none");
-    $(this)
+  $(".fecharMob").click(function() {
+    $(this) // 
+      .parent(".eventoMobile")
+      .toggleClass("d-none");
+    $(this)  // 
       .parent()
       .siblings('.eventoMobile')
       .toggleClass("d-none");
-    $(this)
+    $(this) // alterna sublinhado do texto
       .parent()
       .siblings('.atividade')
       .toggleClass("data");

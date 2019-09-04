@@ -74,6 +74,7 @@
 #carouselAgendaArea {
   height: 450px;
   margin-bottom: 100px;
+  position: relative;
 }
 
 .carouselAgenda {
@@ -111,6 +112,28 @@
       margin: 10px 0;
     }
   }
+
+  .conteudo {
+    padding: 20px;
+    margin: .4%;
+    z-index: $zindex-fixed;
+    position: absolute;
+    align-self: center;
+    top: 0;
+    width: 400px;
+    height: 90%;
+    color: white;
+    font-size: 1rem;
+    transition: all .3s linear;
+    filter: drop-shadow(0 0 0.75rem black);
+    a {
+      color: white;
+      text-decoration: underline;
+    }
+    p {
+      margin-bottom: 1rem;
+    }
+  }
 }
 
 .slick-prev, .slick-next {
@@ -141,8 +164,22 @@
   background-image: url('/images/arrowRightRed.png');
 }
 
-.captionMobile {
+
+.conteudoMobile {
   display: none;
+}
+
+.carouselAgenda .fechar, .fecharMob {
+  cursor: pointer;
+  float: right;
+  // margin: 15px 15px 0;
+  height: 20px;
+  width: 20px;
+  background: url('/images/mobile/fecharAgenda.png') no-repeat;
+  background-size: cover;
+  img {
+    display: block;
+  }
 }
 
 @include media-breakpoint-down(sm) {
@@ -208,23 +245,13 @@
         line-height: 1.2rem;
       }
 
-      .fechar {
-        cursor: pointer;
-        float: right;
-        bottom: 20px;
-        right: 20px;
+      .fecharMob {
         height: 20px;
-        width: 20px;
-        background: url('/images/mobile/fecharAgenda.png') no-repeat;
-        background-size: cover;
-        img {
-          display: block;
-        }
       }
     }
   }
   
-  .captionMobile {
+  .conteudoMobile {
     display: block;
     color: white;
 
@@ -259,9 +286,5 @@
   .futuro:hover {
     background:  $orange !important;
   }
-
-  // .eventMobile {
-  //   position: relative;
-  // }
 
 }
