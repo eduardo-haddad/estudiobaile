@@ -12344,7 +12344,7 @@ $(document).ready(function () {
 
   //abrir cartela pop-up da agenda
   $(".abrir").click(function () {
-    $(this).parent().siblings('.conteudo').addClass('d-md-block');
+    $(this).parents().siblings('.conteudo').addClass('d-md-block');
   });
 
   //fechar cartela pop-up da agenda

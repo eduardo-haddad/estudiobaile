@@ -81,33 +81,33 @@ EOT;
         <p class="bold">{{ $tituloAgenda }}</p>
         <p>{{ $tag }} / {{ $tag }}</p>
       </div>
-      <div class="conteudo d-none {{ $epocaAgenda }} {{ $tipoC }}">
-        <div class="fechar"></div>
-        <p>
-          {{ $tituloAgenda }}
-        </p>
-        <h1>
-          {{ $atividadeAgenda }}
-        </h1>
-        <p class="bold mb-0 eventoMobile">
-          {{ $dataAgenda }}
-        </p>
-        <p class="eventoMobile">
-          {{ $localAgenda }}
-        </p>
-    
-        <p class="mb-0">
-          com <span class="bold">{{ $autorAgenda }}</span>
-        </p>
-        <p>
-          <a href="#">inscrições aqui</a>
-        </p>
-          {!! $textoAgenda !!}
-    
-      </div>
     </div>
     
     @endforeach
     
+  </div>
+  
+  <div class="conteudo d-none {{ $epocaAgenda }} {{ $tipoC }}">
+    <div class="fechar"></div>
+    <p>
+      {{ $tituloAgenda }}
+    </p>
+    <h1>
+      {{ $atividadeAgenda }}
+    </h1>
+    <p class="bold mb-0 eventoMobile">
+      {{ $dataAgenda }}
+    </p>
+    <p class="eventoMobile">
+      {{ $localAgenda }}
+    </p>
+
+    <p class="mb-0">
+      com <span class="bold">{{ $autorAgenda }}</span>
+    </p>
+    <p>
+      <a href="#">inscrições aqui</a>
+    </p>
+      {!! $textoAgenda !!}
   </div>
 </div>
