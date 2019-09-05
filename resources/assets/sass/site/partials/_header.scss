@@ -21,7 +21,8 @@
 }
 
 #logo {
-  width: 135px;
+  max-width: 135px;
+  width: 100%;
   padding-bottom: 18px;
   img {
     width: 100%;
@@ -34,6 +35,8 @@
 
 #redes {
   display: flex;
+  max-width: 137px;
+  justify-content: space-between;
   
   p {
     font-family: $medium;
@@ -51,20 +54,16 @@
 }
 
 .icon {
-  margin-right: calc(#{$grid-gutter-width});
   width: 22.1px;
   height: 22.1px;
   
   img {
-    height: 100%;
+    width: 100%;
+    height: auto;
     vertical-align: unset;
   }
 
   a {
-    width: 100%;
-  }
-  
-  img {
     width: 100%;
   }
 }
