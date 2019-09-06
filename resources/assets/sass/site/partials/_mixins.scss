@@ -4,10 +4,10 @@
   padding-bottom: $padBot;
 }
 
-@mixin img_cover($height: 100%) {
+@mixin img_cover($width: 100%) {
   img {
     object-fit: cover;
-    height: $height;
-    width: 100%;
+    height: 100%;
+    width: $width;
   }
 }

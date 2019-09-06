@@ -10,9 +10,11 @@
   a:visited {
     color: $pink;
   }
-  a:active {
+
+  .itemAtivo {
     font-family: $bold;
   }
+  
   .row {
     max-width: 1280px;
     margin-left: auto;

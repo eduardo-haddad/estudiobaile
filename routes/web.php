@@ -35,11 +35,11 @@ Route::group(['prefix' => 'site'], function() {
 
     Route::get('/projetod', ['uses' => 'SiteController@projetoViewD']);
 
-    Route::get('/sobre', ['uses' => 'SiteController@sobre']);
+    Route::get('/sobre', ['uses' => 'SiteController@sobre'])->name('sobre');
 
-    Route::get('/projetos', ['uses' => 'SiteController@projetos']);
+    Route::get('/projetos', ['uses' => 'SiteController@projetos'])->name('projetos');
 
-    Route::get('/agenda', ['uses' => 'SiteController@agenda']);
+    Route::get('/agenda', ['uses' => 'SiteController@agenda'])->name('agenda');
 });
 
 

@@ -16,19 +16,27 @@
         
       </div>
       <div class="col-md-1 d-none d-md-block"> 
-        {{-- TODO highlight item ativo no menu --}}
         <div class="nave">
-          <a href="{{ url('/site/sobre') }}">sobre</a>
+          <a href="{{ route('sobre') }}" 
+          @if(Route::currentRouteName() === 'sobre') class="itemAtivo" @endif>
+            sobre
+          </a>
         </div>
       </div>
       <div class="col-1 d-none d-md-block">
         <div class="nave">
-          <a href="{{ url('/site/projetos') }}">projetos</a>
+          <a href="{{ route('projetos') }}" 
+          @if (Route::currentRouteName() === 'projetos') class="itemAtivo" @endif>
+            projetos
+          </a>
         </div>
       </div>
       <div class="col-1 d-none d-md-block">
         <div class="nave">
-          <a href="{{ url('/site/agenda') }}">agenda</a>
+          <a href="{{ route('agenda') }}" 
+          @if(Route::currentRouteName() === 'agenda') class="itemAtivo" @endif>
+            agenda
+          </a>
         </div>
       </div>
       <div class="col-1"></div>
