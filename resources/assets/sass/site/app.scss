@@ -171,7 +171,17 @@ a:hover {
     left: 0px;
     overflow: auto;
     height: 100%;
-    width: 100%;
+    width: 97%;
+    scrollbar-color: $red transparent;
+
+    &::-webkit-scrollbar {
+      width: 0.2em;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: $red;
+      outline: 1px solid $red;
+    } 
   }
 }
 
