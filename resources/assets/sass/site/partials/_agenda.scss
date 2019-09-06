@@ -1,6 +1,8 @@
-.formArea {
+.backRed {
   background-color: $red;
-  max-width: unset !important;
+}
+
+.formArea {
   p {
     background-color: $orange;
     font-size: 1.1em;
@@ -181,6 +183,18 @@
   }
 }
 
+@media (max-width: 1024px){
+  .formWrap {
+    width: unset;
+  }
+
+  .formArea button {
+    position: unset;
+    float: right;
+    margin: 0 0 15px;
+  }
+}
+
 @include media-breakpoint-down(sm) {
   .agenda {
     padding: 0 $mobileMargin;
@@ -195,12 +209,9 @@
 
   .formWrap {
     padding: 0;
-    width: unset;
   }
 
   .formArea button {
-    position: unset;
-    float: right;
     margin: 23px 0;
   }
 

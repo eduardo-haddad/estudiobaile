@@ -1,48 +1,50 @@
 @extends('site.layouts.base')
 @section('conteudo')
 
-<div class="row justify-content-center agenda formArea">
-  <div class="col-md-1 col-12">
-    <div class="fique">
-      <div class="porDentro">
-        <p class="bold">
-          fique <br class="d-none d-md-block">
-          por dentro!
-        </p>
+<div class="backRed">
+  <div class="row justify-content-center maxWidth agenda formArea">
+    <div class="col-md-1 col-12">
+      <div class="fique">
+        <div class="porDentro">
+          <p class="bold">
+            fique <br class="d-none d-md-block">
+            por dentro!
+          </p>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="col-md-3 col-12">
-    <form action="">
-      @csrf
-      <div class="formWrap">
-        <div class="formulario">
-          <label class="item" >
-            nome:
-          </label>
-          <input class="grow">
+    <div class="col-md-3 col-12">
+      <form action="">
+        @csrf
+        <div class="formWrap">
+          <div class="formulario">
+            <label class="item" >
+              nome:
+            </label>
+            <input class="grow">
+          </div>
+          <div class="formulario">
+            <label class="item">
+              email:
+            </label>
+            <input class="grow">
+          </div>
+          <div class="formulario">
+            <label class="item">
+              ocupação:
+            </label>
+            <input class="grow">
+          </div>
+          <div class="formulario">
+            <label class="item">
+              cidade onde vive:
+            </label>
+            <input class="grow">
+          </div>
         </div>
-        <div class="formulario">
-          <label class="item">
-            email:
-          </label>
-          <input class="grow">
-        </div>
-        <div class="formulario">
-          <label class="item">
-            ocupação:
-          </label>
-          <input class="grow">
-        </div>
-        <div class="formulario">
-          <label class="item">
-            cidade onde vive:
-          </label>
-          <input class="grow">
-        </div>
-      </div>
-      <button type="submit">ok</button>
-    </form>
+        <button type="submit">ok</button>
+      </form>
+    </div>
   </div>
 </div>
 <div class="row justify-content-center agenda visualArea">
