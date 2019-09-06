@@ -5,14 +5,13 @@
   @foreach($ibagens as $imagem)
 
     @php
-      // randomizar valores gerais
-      $numeroRandonia = mt_rand(0, 2);
       
       // numero randomico especifico para atribuir "projeto tipo c"
       $randomC = mt_rand(0, 4);
       $tipoC = ($randomC == 0 ? "cap-c" : ""); 
       
-      // condicionais para teste
+      // randomizar epoca para teste
+      $numeroRandonia = mt_rand(0, 2);
       if ($numeroRandonia == 0) {
         $epocaAgenda = "passado";
         $dataAgenda = "agosto 2019";

@@ -31,140 +31,52 @@
     </div>
   </div>
   <div class="row justify-content-center projetos">
-    <div class="col-md-2">
-      <div class="thumbProjeto futuro">
-        <a href="{{ url('/site/projetoa') }}"><img src="{{ asset('images/galeria1/RM10.png') }}" alt=""></a>
-      </div>
-      <div class="caption">
-        <p class="bold">
-          Nome do Projeto
-        </p>
-        <p>tag + tag</p>
-      </div>
-    </div>
-    <div class="col-md-2">
-      <div class="thumbProjeto presente">
-        <a href="{{ url('/site/projetob') }}"><img src="{{ asset('images/galeria1/MissBaker.png') }}" alt=""></a>
-      </div>
-      <div class="caption cap-c">
-        <p class="bold">
-          Nome do Projeto
-        </p>
-        <p>tag</p>
-      </div>
-    </div>
-    <div class="col-md-2">
-      <div class="thumbProjeto passado">
-        <a href="{{ url('/site/projetod') }}"><img src="{{ asset('images/galeria1/MissBaker.png') }}" alt=""></a>
-      </div>
-      <div class="caption">
-        <p class="bold">
-          Nome do Projeto
-        </p>
-        <p>tag + tag + tag</p>
-      </div>
-    </div>
-    <div class="col-md-2">
-      <div class="thumbProjeto passado">
-        <a href="{{ url('/site/projetoc') }}"><img src="{{ asset('images/galeria1/MissBaker.png') }}" alt=""></a>
-      </div>
-      <div class="caption">
-        <p class="bold">
-          Nome do Projeto
-        </p>
-        <p>tag + tag + tag</p>
-      </div>
-    </div>
-    <div class="w-100"></div>
-    <div class="col-md-2">
-      <div class="thumbProjeto presente">
-        <img src="{{ asset('images/galeria1/MissBaker.png') }}" alt="">
-      </div>
-      <div class="caption">
-        <p class="bold">
-          Nome do Projeto
-        </p>
-        <p>tag</p>
+    
+    <div class="col-md-8">
+      <div class="row">
+        @foreach ($imagens as $i => $imagem)
+
+        @php
+
+          // numero randomico especifico para atribuir "projeto tipo c"
+          $randomC = mt_rand(0, 4);
+          $tipoC = ($randomC == 0 ? "cap-c" : "");
+          
+          // randomizar epoca para teste
+          $numeroRandonia = mt_rand(0, 2);
+          if ($numeroRandonia == 0) {
+            $epocaProjeto = "passado";
+            $tag = "tag1";
+          } else if ($numeroRandonia == 1) {
+            $epocaProjeto = "presente";
+            $tag = "tag2";
+          } else {
+            $epocaProjeto = "futuro";
+            $tag = "tag3";
+          }
+
+          //
+          $tituloProjeto = "Nome do projeto";
+          $urlProjeto = "#"
+
+        @endphp
+            
+          <div class="col-md-3">
+            <div class="thumbProjeto {{ $epocaProjeto }}">
+              <a href="{{ $urlProjeto }}"><img src="{{ $imagem }}" alt=""></a>
+            </div>
+            <div class="caption {{ $tipoC }}">
+              <p class="bold">
+                {{ $tituloProjeto }}
+              </p>
+              <p>{{ $tag }} + {{ $tag }}</p>
+            </div>
+          </div>
+    
+        @endforeach
       </div>
     </div>
-    <div class="col-md-2">
-      <div class="thumbProjeto presente">
-        <img src="{{ asset('images/galeria1/MissBaker.png') }}" alt="">
-      </div>
-      <div class="caption">
-        <p class="bold">
-          Nome do Projeto
-        </p>
-        <p>tag</p>
-      </div>
-    </div>
-    <div class="col-md-2">
-      <div class="thumbProjeto futuro">
-        <img src="{{ asset('images/galeria1/MissBaker.png') }}" alt="">
-      </div>
-      <div class="caption">
-        <p class="bold">
-          Nome do Projeto
-        </p>
-        <p>tag + tag</p>
-      </div>
-    </div>
-    <div class="col-md-2">
-      <div class="thumbProjeto passado">
-        <img src="{{ asset('images/galeria1/MissBaker.png') }}" alt="">
-      </div>
-      <div class="caption">
-        <p class="bold">
-          Nome do Projeto
-        </p>
-        <p>tag + tag + tag</p>
-      </div>
-    </div>
-    <div class="w-100"></div>
-    <div class="col-md-2">
-      <div class="thumbProjeto passado">
-        <img src="{{ asset('images/galeria1/MissBaker.png') }}" alt="">
-      </div>
-      <div class="caption">
-        <p class="bold">
-          Nome do Projeto
-        </p>
-        <p>tag + tag + tag</p>
-      </div>
-    </div>
-    <div class="col-md-2">
-      <div class="thumbProjeto passado">
-        <img src="{{ asset('images/galeria1/MissBaker.png') }}" alt="">
-      </div>
-      <div class="caption">
-        <p class="bold">
-          Nome do Projeto
-        </p>
-        <p>tag + tag + tag</p>
-      </div>
-    </div>
-    <div class="col-md-2">
-      <div class="thumbProjeto passado">
-        <img src="{{ asset('images/galeria1/MissBaker.png') }}" alt="">
-      </div>
-      <div class="caption">
-        <p class="bold">
-          Nome do Projeto
-        </p>
-        <p>tag + tag + tag</p>
-      </div>
-    </div>
-    <div class="col-md-2">
-      <div class="thumbProjeto futuro">
-        <img src="{{ asset('images/galeria1/MissBaker.png') }}" alt="">
-      </div>
-      <div class="caption">
-        <p class="bold">
-          Nome do Projeto
-        </p>
-        <p>tag</p>
-      </div>
-    </div>
+    
   </div>
 
 @stop

@@ -53,8 +53,17 @@ class SiteController extends Controller
     }
 
     public function projetos(){
-        $dados = [];
-        return view('site.projetos', compact('dados'));
+        $dados = [
+          'imagens' => [ 
+            "/images/galeria1/MissBaker.png",
+            "/images/galeria1/RM1.png",
+            "/images/galeria1/RM4.jpg",
+            "/images/galeria1/RM5.jpg",
+            "/images/galeria1/RM6.png",
+            "/images/galeria1/RM4.jpg",
+            "/images/galeria1/MissBaker.png",            
+            "/images/galeria1/RM10.png" ]];
+        return view('site.projetos', $dados);
     }
 
     public function agenda(){
