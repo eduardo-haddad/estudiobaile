@@ -12347,9 +12347,17 @@ $(document).ready(function () {
     $(this).parents().siblings('.conteudo').addClass('d-md-block');
   });
 
-  //fechar cartela pop-up da agenda
+  //fechar cartela pop-up da agenda com clique
   $(".fechar").click(function () {
     $(this).parent(".conteudo").removeClass('d-md-block');
+  });
+
+  //fechar com ESC
+  $(document).keyup(function (e) {
+    if (e.key === "Escape") {
+      // escape key maps to keycode `27`
+      $(".conteudo").removeClass('d-md-block');
+    }
   });
 
   //toggle slide da agenda mobile
