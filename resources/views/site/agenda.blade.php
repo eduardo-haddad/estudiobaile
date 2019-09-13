@@ -1,4 +1,5 @@
 @extends('site.layouts.base')
+@section('title', 'agenda')
 @section('conteudo')
 
 <div class="backRed">

@@ -1,4 +1,5 @@
 @extends('site.layouts.base')
+@section('title', 'sobre')    
 @section('conteudo')
 
 <div class="row justify-content-center" id="sobre">
