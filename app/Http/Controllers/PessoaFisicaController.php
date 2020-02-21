@@ -208,7 +208,6 @@ class PessoaFisicaController extends Controller
             $arquivo_atual->save();
         endforeach;
 
-
         //Tags
         if(empty($request['tags'])) {
             $pessoa_fisica->tags()->detach();
@@ -216,7 +215,9 @@ class PessoaFisicaController extends Controller
             // Remove tags duplicadas
             $tags = array_unique($request['tags']);
             foreach($tags as $tag){
-                Tag::removeDuplicadas($request['pessoa']['id'], $tag, "pf");
+                if(substr($tag, 0, 4) != 'new:'){
+                    Tag::removeDuplicadas($request['pessoa']['id'], $tag, "pf");
+                }
             }
             $pessoa_fisica->tags()->sync(Tag::criaTags($tags, 'tag'));
         }

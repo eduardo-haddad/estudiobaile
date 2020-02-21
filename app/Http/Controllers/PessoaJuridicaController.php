@@ -167,11 +167,12 @@ class PessoaJuridicaController extends Controller
         if(empty($request['tags'])) {
             $pessoa_juridica->tags()->detach();
         } else {
-
             // Remove tags duplicadas
             $tags = array_unique($request['tags']);
-            foreach($tags as $t){
-                Tag::removeDuplicadas($request['pessoa']['id'], $t, "pj");
+            foreach($tags as $tag){
+                if(substr($tag, 0, 4) != 'new:'){
+                    Tag::removeDuplicadas($request['pessoa']['id'], $tag, "pj");
+                }
             }
 
             $tags_ids = array();
